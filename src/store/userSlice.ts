@@ -21,7 +21,18 @@ interface UserState {
 }
 
 const initialState: UserState = {
-    user: null,
+    user: {
+        email: 'a@a.u',
+        name: 'Иван Иванов',
+        password: '123',
+        age: 12,
+        address: 'pushkina',
+        phone: '12123',
+        score: 23,
+        posts: ['string'],
+        contests: [4,5],
+        image: 'dsd'
+    },
     status: 'idle',
     error: null,
 };

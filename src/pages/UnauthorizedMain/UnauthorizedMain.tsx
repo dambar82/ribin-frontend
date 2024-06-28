@@ -10,6 +10,7 @@ import {fetchNews} from "../../store/newsSlice";
 import {Contest, News} from "../../types";
 import {formatDate} from "../../App";
 import {fetchContests} from "../../store/contestSlice";
+import rubyStore from '../../images/ruby_store.jpg';
 
 const UnauthorizedMain: React.FC = () => {
 
@@ -124,27 +125,27 @@ const UnauthorizedMain: React.FC = () => {
                                 <div className={styles.contestZone_card_leftPart}>
                                     <div className={styles.contestZone_card_text}>
                                         <h2>
-                                            {contestsFetched[0]?.name}
+                                            {contestsFetched[0].name}
                                         </h2>
                                         <p>
-                                            {contestsFetched[0]?.short_description}
+                                            {contestsFetched[0].short_description}
                                         </p>
                                     </div>
                                     <div className='justify_content_SB gap-20'>
                                         <div className='start_button start_button-green'>
                                             <span>Старт</span>
                                             <div>
-                                                {formatDate(contestsFetched[0]?.start_date)}
+                                                {formatDate(contestsFetched[0].start_date)}
                                             </div>
                                         </div>
                                         <div className='start_button start_button-red'>
                                             <span>Конец</span>
                                             <div>
-                                                {formatDate(contestsFetched[0]?.end_date)}
+                                                {formatDate(contestsFetched[0].end_date)}
                                             </div>
                                         </div>
                                     </div>
-                                    <Link to={`/contests/${contestsFetched[0].id}`}>
+                                    <Link to={`/contests/${contestsFetched[0].id}`} style={{marginTop: 'auto'}}>
                                         <div className='action_button' style={{marginTop: 'auto'}}>
                                             Участвовать
                                             <img src={buttonArrow} alt=""/>
@@ -158,6 +159,37 @@ const UnauthorizedMain: React.FC = () => {
                         </div>
                     )
                 }
+            </div>
+            <div className={styles.blogZone}>
+                <div className={styles.orangeZone_content}>
+                    <div className={styles.orangeZone_content_header}>
+                        <Link to='/blogs'>
+                            <div className={`white_button_little`}>
+                                Показать все
+                            </div>
+                        </Link>
+                    </div>
+                </div>
+            </div>
+            <div className={styles.contestZone}>
+                <div className={styles.rubyStore}>
+                    <div className={styles.rubyStore_leftPart}>
+                        <div className={styles.rubyStore_leftPart_content}>
+                            <h2>
+                                Новинки магазина клуба “Рубин”
+                            </h2>
+                            <Link to='/store'>
+                                <div className='action_button'>
+                                    Перейти
+                                    <img src={buttonArrow} alt=""/>
+                                </div>
+                            </Link>
+                        </div>
+                    </div>
+                    <div className={styles.rubyStore_rightPart}>
+                        <img src={rubyStore} alt=""/>
+                    </div>
+                </div>
             </div>
         </div>
     );
