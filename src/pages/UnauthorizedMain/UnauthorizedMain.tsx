@@ -7,19 +7,21 @@ import {Link} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {AppDispatch, RootState} from "../../store/store";
 import {fetchNews} from "../../store/newsSlice";
-import {News} from "../../types";
+import {Contest, News} from "../../types";
 import {formatDate} from "../../App";
+import {fetchContests} from "../../store/contestSlice";
 
 const UnauthorizedMain: React.FC = () => {
 
     const dispatch = useDispatch<AppDispatch>();
     const { status, news } = useSelector((state: RootState) => state.news);
+    const { contestStatus, contests } = useSelector((state: RootState) => state.contests)
 
     const [currentNewsIndex, setCurrentNewsIndex] = useState<number>(0);
     const [newsFetched, setNewsFetched] = useState<News[]>([]);
+    const [contestsFetched, setContestsFetched] = useState<Contest[]>([])
 
     const handleNext = (): void => {
-        // Проверяем, не достигли ли мы конца массива
         const nextIndex = currentNewsIndex + 3 < newsFetched.length ? currentNewsIndex + 3 : 0;
         setCurrentNewsIndex(nextIndex);
     };
@@ -33,6 +35,16 @@ const UnauthorizedMain: React.FC = () => {
     useEffect(() => {
         setNewsFetched(news);
     }, [news])
+
+    useEffect(() => {
+        if (contestStatus === 'idle') {
+            dispatch(fetchContests());
+        }
+    }, [contestStatus, dispatch])
+
+    useEffect(() => {
+        setContestsFetched(contests);
+    }, [contests])
 
     const displayNews = newsFetched.slice(currentNewsIndex, currentNewsIndex + 3);
 
@@ -69,10 +81,9 @@ const UnauthorizedMain: React.FC = () => {
                     </div>
                     <div className={styles.orangeZone_content_flex}>
                         {displayNews.map((item: News) => (
-                            <Link to='/news'>
+                            <Link to='/news' key={item.id}>
                                 <div
                                     className={`newsBlock`}
-                                    key={item.id}
                                     style={{ backgroundImage: `url(${item.images[0]})` }}
                                 >
                                     <div className={`newsBlock_header`}>
@@ -106,11 +117,47 @@ const UnauthorizedMain: React.FC = () => {
                         </div>
                     </Link>
                 </div>
-                <div className={styles.contestZone_content}>
-                    <div className={styles.contestZone_card}>
-
-                    </div>
-                </div>
+                {
+                    contestsFetched[0] && (
+                        <div className={styles.contestZone_content}>
+                            <div className={styles.contestZone_card}>
+                                <div className={styles.contestZone_card_leftPart}>
+                                    <div className={styles.contestZone_card_text}>
+                                        <h2>
+                                            {contestsFetched[0]?.name}
+                                        </h2>
+                                        <p>
+                                            {contestsFetched[0]?.short_description}
+                                        </p>
+                                    </div>
+                                    <div className='justify_content_SB gap-20'>
+                                        <div className='start_button start_button-green'>
+                                            <span>Старт</span>
+                                            <div>
+                                                {formatDate(contestsFetched[0]?.start_date)}
+                                            </div>
+                                        </div>
+                                        <div className='start_button start_button-red'>
+                                            <span>Конец</span>
+                                            <div>
+                                                {formatDate(contestsFetched[0]?.end_date)}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <Link to={`/contests/${contestsFetched[0].id}`}>
+                                        <div className='action_button' style={{marginTop: 'auto'}}>
+                                            Участвовать
+                                            <img src={buttonArrow} alt=""/>
+                                        </div>
+                                    </Link>
+                                </div>
+                                <div className={styles.contestZone_card_rightPart}>
+                                    <img src={contestsFetched[0]?.source} alt=""/>
+                                </div>
+                            </div>
+                        </div>
+                    )
+                }
             </div>
         </div>
     );

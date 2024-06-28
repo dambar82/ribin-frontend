@@ -4,13 +4,13 @@ import { Contest } from '../types';
 
 interface ContestState {
     contests: Contest[];
-    status: 'idle' | 'loading' | 'succeeded' | 'failed';
+    contestStatus: 'idle' | 'loading' | 'succeeded' | 'failed';
     error: string | null;
 }
 
 const initialState: ContestState = {
     contests: [],
-    status: 'idle',
+    contestStatus: 'idle',
     error: null,
 };
 
@@ -26,15 +26,15 @@ const contestSlice = createSlice({
     extraReducers: (builder) => {
         builder
             .addCase(fetchContests.pending, (state) => {
-                state.status = 'loading';
+                state.contestStatus = 'loading';
             })
             .addCase(fetchContests.fulfilled, (state, action: PayloadAction<Contest[]>) => {
                 state.contests = action.payload;
-                state.status = 'succeeded';
+                state.contestStatus = 'succeeded';
                 state.error = null;
             })
             .addCase(fetchContests.rejected, (state, action) => {
-                state.status = 'failed';
+                state.contestStatus = 'failed';
                 state.error = action.error.message || null;
             });
     },

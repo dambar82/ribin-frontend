@@ -44,7 +44,7 @@ const faqs: IFaq[] = [
 const Contests = () => {
 
     const dispatch = useDispatch<AppDispatch>();
-    const { contests, status, error } = useSelector((state: RootState) => state.contests);
+    const { contests, contestStatus, error } = useSelector((state: RootState) => state.contests);
 
     const [openQuestions, setOpenQuestions] = useState<Record<number, boolean>>({});
 
@@ -53,16 +53,16 @@ const Contests = () => {
     };
 
     useEffect(() => {
-        if (status === 'idle') {
+        if (contestStatus === 'idle') {
             dispatch(fetchContests());
         }
-    }, [status, dispatch]);
+    }, [contestStatus, dispatch]);
 
-    if (status === 'loading') {
+    if (contestStatus === 'loading') {
         return <p>Loading...</p>;
     }
 
-    if (status === 'failed') {
+    if (contestStatus === 'failed') {
         return <p>{error}</p>;
     }
 

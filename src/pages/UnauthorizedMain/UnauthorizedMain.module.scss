@@ -98,4 +98,40 @@
   padding: 50px;
   border-radius: 35px;
   height: 100%;
+  display: flex;
+  column-gap: 50px;
+}
+
+.contestZone_card_leftPart {
+  width: 60%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  row-gap: 50px;
+}
+
+.contestZone_card_rightPart {
+  width: 40%;
+  border-radius: 20px;
+  img {
+    border-radius: 20px;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.contestZone_card_text {
+  display: flex;
+  flex-direction: column;
+  row-gap: 20px;
+  h2 {
+    font-size: 32px;
+    line-height: 38px;
+  }
+  p {
+    font-size: 24px;
+    line-height: 28px;
+  }
 }

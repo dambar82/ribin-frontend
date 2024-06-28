@@ -15,22 +15,22 @@ const ContestPage = () => {
 
     const { contestId } = useParams();
 
-    const { contests, status, error } = useSelector((state: RootState) => state.contests);
+    const { contests, contestStatus, error } = useSelector((state: RootState) => state.contests);
 
     const contest: Contest | undefined = contests.find(contest => contest.id.toString() === contestId);
 
 
     useEffect(() => {
-        if (status === 'idle') {
+        if (contestStatus === 'idle') {
             dispatch(fetchContests());
         }
-    }, [status, dispatch]);
+    }, [contestStatus, dispatch]);
 
-    if (status === 'loading') {
+    if (contestStatus === 'loading') {
         return <p>Loading...</p>;
     }
 
-    if (status === 'failed') {
+    if (contestStatus === 'failed') {
         return <p>{error}</p>;
     }
 
