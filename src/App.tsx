@@ -1,25 +1,191 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import {BrowserRouter, Navigate, Route, Routes} from "react-router-dom";
+import Contests from "./pages/Contests/Contests";
+import {useSelector} from "react-redux";
+import {RootState} from "./store/store";
+import AuthLayout from "./components/layouts/AuthLayout";
+import UnauthLayout from "./components/layouts/UnauthLayout";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import PrivateRoute from "./components/layouts/PrivateRoute";
+import Restore from "./pages/Restore";
+import RestoreLayout from "./components/layouts/RestoreLayout";
+import NewPassword from "./pages/NewPassword";
+import ContestPage from "./pages/ContestPage/ContestPage";
+import ContestForm from "./pages/ContestForm/ContestForm";
+import MainUnauthorizedLayout from "./components/layouts/MainUnauthorizedLayout";
+import UnauthorizedMain from "./pages/UnauthorizedMain/UnauthorizedMain";
+
+
+export const formatDate = (dateStr: string) => {
+    const [year, month, day] = dateStr.split('-');
+    const months = {
+        "01": "января",
+        "02": "февраля",
+        "03": "марта",
+        "04": "апреля",
+        "05": "мая",
+        "06": "июня",
+        "07": "июля",
+        "08": "августа",
+        "09": "сентября",
+        "10": "октября",
+        "11": "ноября",
+        "12": "декабря"
+    };
+    //@ts-ignore
+    return `${parseInt(day)} ${months[month]} ${year}`;
+};
 
 function App() {
+
+    const { user } = useSelector((state: RootState) => state.user);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+      <BrowserRouter>
+          <Routes>
+              <Route
+                  path="/login"
+                  element={
+                      <UnauthLayout>
+                          <Login />
+                      </UnauthLayout>
+                  }
+              />
+              <Route
+                  path="/register"
+                  element={
+                      <UnauthLayout>
+                          <Register />
+                      </UnauthLayout>
+                  }
+              />
+              <Route
+                path='/restore'
+                element={
+                  <RestoreLayout>
+                      <Restore />
+                  </RestoreLayout>
+                }
+              >
+              </Route>
+              <Route
+                path='/restore/password'
+                element={
+                  <RestoreLayout>
+                      <NewPassword></NewPassword>
+                  </RestoreLayout>
+                }
+              >
+              </Route>
+              <Route
+                path='/'
+                element={
+                  user ? (
+                      <AuthLayout>
+                          dfdf
+                      </AuthLayout>
+                      ) : (
+                      <MainUnauthorizedLayout>
+                          <UnauthorizedMain></UnauthorizedMain>
+                      </MainUnauthorizedLayout>
+                  )
+                }
+              >
+
+              </Route>
+              <Route element={<PrivateRoute />}>
+                  <Route
+                      path="/contests"
+                      element={
+                          <AuthLayout>
+                              <Contests />
+                          </AuthLayout>
+                      }
+                  />
+                  <Route
+                      path="/contests/:contestId"
+                      element={
+                          <AuthLayout>
+                              <ContestPage />
+                          </AuthLayout>
+                      }
+                  />
+                  <Route
+                      path="/contests/:contestId/form"
+                      element={
+                          <AuthLayout>
+                              <ContestForm />
+                          </AuthLayout>
+                      }
+                  />
+              </Route>
+              <Route element={<PrivateRoute />}>
+                  <Route
+                      path="/people"
+                      element={
+                          <AuthLayout>
+                          </AuthLayout>
+                      }
+                  />
+              </Route>
+              <Route element={<PrivateRoute />}>
+                  <Route
+                      path="/"
+                      element={
+                          <AuthLayout>
+                          </AuthLayout>
+                      }
+                  />
+              </Route>
+              <Route element={<PrivateRoute />}>
+                  <Route
+                      path="/news"
+                      element={
+                          <AuthLayout>
+                          </AuthLayout>
+                      }
+                  />
+              </Route>
+              <Route element={<PrivateRoute />}>
+                  <Route
+                      path="/blog"
+                      element={
+                          <AuthLayout>
+                          </AuthLayout>
+                      }
+                  />
+              </Route>
+              <Route element={<PrivateRoute />}>
+                  <Route
+                      path="/clubs"
+                      element={
+                          <AuthLayout>
+                          </AuthLayout>
+                      }
+                  />
+              </Route>
+              <Route element={<PrivateRoute />}>
+                  <Route
+                      path="/sport"
+                      element={
+                          <AuthLayout>
+                          </AuthLayout>
+                      }
+                  />
+              </Route>
+              <Route element={<PrivateRoute />}>
+                  <Route
+                      path="/sportslife"
+                      element={
+                          <AuthLayout>
+                          </AuthLayout>
+                      }
+                  />
+              </Route>
+              <Route path="*" element={<Navigate to={user ? "/" : "/login"} />} />
+          </Routes>
+      </BrowserRouter>
   );
 }
 

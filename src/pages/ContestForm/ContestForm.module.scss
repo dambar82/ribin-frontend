@@ -1,0 +1,83 @@
+.contestForm {
+  margin-top: 60px;
+  & > h2 {
+    font-size: 40px;
+    font-weight: 500;
+    line-height: 48px;
+    text-align: left;
+  }
+}
+
+.form {
+  box-shadow: 0px 0px 8px 0px #0000001F;
+  border-radius: 50px;
+  margin-top: 46px;
+}
+
+.whitePart {
+  padding: 70px;
+}
+
+.grayPart {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 46px;
+  padding-bottom: 46px;
+  background-color: #F8F8F8;
+  border-radius: 0 0 50px 50px;
+}
+
+.filesDropzone {
+  border: 4px dashed #48903A;
+  border-radius: 35px;
+  padding: 80px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.filesDropzone_column {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  row-gap: 32px;
+}
+
+.filesDropzone_cloud {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  p {
+    text-align: center;
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 24px;
+  }
+}
+
+.description {
+  margin-top: 50px;
+  & > h3 {
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 28px;
+  }
+}
+
+.description_input {
+  border-radius: 35px;
+  padding: 30px;
+  margin-top: 22px;
+  resize: none;
+  width: 100%;
+  background-color: #F8F8F8;
+  border: none;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 22px;
+  color: #A0A0A0;
+  height: 235px;
+}
