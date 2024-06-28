@@ -166,6 +166,18 @@ a {
   text-align: center;
 }
 
+.black_button_little {
+  cursor: pointer;
+  background: black;
+  padding: 12px 30px;
+  border-radius: 50px;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 24px;
+  text-align: center;
+  color: white;
+}
+
 .orange_button {
   background-color: #FF9900;
   color: white;

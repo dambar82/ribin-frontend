@@ -95,6 +95,23 @@ const UnauthorizedMain: React.FC = () => {
                     </div>
                 </div>
             </div>
+            <div className={styles.contestZone}>
+                <div className={styles.contestZone_header}>
+                    <h2>
+                        Конкурсы
+                    </h2>
+                    <Link to='/contests'>
+                        <div className={`black_button_little`}>
+                            Показать все
+                        </div>
+                    </Link>
+                </div>
+                <div className={styles.contestZone_content}>
+                    <div className={styles.contestZone_card}>
+
+                    </div>
+                </div>
+            </div>
         </div>
     );
 };
