@@ -42,3 +42,15 @@ export interface News {
     likes_count: number;
     comments: string[]
 }
+
+export interface Clubs {
+    name: string;
+    caption: string;
+    short_description: string;
+    age: number;
+    description: string;
+    source: string[];
+    clients_count: number;
+    clients: any[];
+    events: any[];
+}

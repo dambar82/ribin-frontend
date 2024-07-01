@@ -16,6 +16,7 @@ import ContestForm from "./pages/ContestForm/ContestForm";
 import MainUnauthorizedLayout from "./components/layouts/MainUnauthorizedLayout";
 import UnauthorizedMain from "./pages/UnauthorizedMain/UnauthorizedMain";
 import Clubs from "./pages/Clubs/Clubs";
+import NewsPage from "./pages/NewsPage/NewsPage";
 
 
 export const formatDate = (dateStr: string) => {
@@ -144,6 +145,7 @@ function App() {
                       path="/news"
                       element={
                           <AuthLayout>
+                              <NewsPage></NewsPage>
                           </AuthLayout>
                       }
                   />

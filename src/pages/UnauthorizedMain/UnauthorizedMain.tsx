@@ -7,6 +7,7 @@ import {Link} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {AppDispatch, RootState} from "../../store/store";
 import {fetchNews} from "../../store/newsSlice";
+import NewsCard from '../../components/NewsCard/NewsCard';
 import {Contest, News} from "../../types";
 import {formatDate} from "../../App";
 import {fetchContests} from "../../store/contestSlice";
@@ -96,6 +97,7 @@ const UnauthorizedMain: React.FC = () => {
                                         {item.title}
                                     </div>
                                 </div>
+                                {/*<NewsCard></NewsCard>*/}
                             </Link>
                         ))}
                     </div>
