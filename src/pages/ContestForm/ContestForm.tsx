@@ -26,6 +26,26 @@ const ContestForm = () => {
             </h2>
             <form action="" className={styles.form}>
                 <div className={styles.whitePart}>
+                    <div className={styles.description}>
+                        <div className={styles.description_inputZone}>
+                            <h3>
+                                Описание работы
+                            </h3>
+                            <textarea
+                                placeholder='Поделитесь своими мыслями и чувствами по поводу работы'
+                                className={styles.description_input}
+                            />
+                        </div>
+                        <div className={styles.description_inputZone}>
+                            <h3>
+                                URL видео
+                            </h3>
+                            <input
+                                placeholder='Поделитесь своими мыслями и чувствами по поводу работы'
+                                className={`${styles.description_input} ${styles.description_inputLittle}`}
+                            />
+                        </div>
+                    </div>
                     <div className={styles.filesDropzone}
                          onDrop={onFileDrop}
                          onDragOver={(event) => event.preventDefault()}
@@ -46,15 +66,6 @@ const ContestForm = () => {
                                 Выбрать файл(-ы)
                             </div>
                         </div>
-                    </div>
-                    <div className={styles.description}>
-                        <h3>
-                            Описание работы
-                        </h3>
-                        <textarea
-                            placeholder='Поделитесь своими мыслями и чувствами по поводу работы'
-                            className={styles.description_input}
-                        />
                     </div>
                 </div>
                 <div className={styles.grayPart}>

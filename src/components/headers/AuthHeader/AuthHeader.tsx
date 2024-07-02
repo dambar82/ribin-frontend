@@ -4,9 +4,11 @@ import rubyLogo from '../../../images/rubyLogo.svg';
 import profilePic from '../../../images/svg/profilePic.svg';
 import buttonArrowDown from '../../../images/svg/button_arrow_down.svg';
 import {useSelector} from "react-redux";
+import {useAppDispatch} from "../../../store/hooks";
 import {RootState} from "../../../store/store";
 import {Link} from "react-router-dom";
 import loupePic from '../../../images/svg/loupe.svg';
+import { logout } from '../../../store/userSlice';
 
 interface IMenuLink {
     title: string;
@@ -19,7 +21,7 @@ const menuLinks: IMenuLink[] = [
         link: '/'
     },
     {
-        title: 'Люди',
+        title: 'Пользователи',
         link: '/people'
     },
     {
@@ -40,7 +42,7 @@ const menuLinks: IMenuLink[] = [
     },
     {
         title: 'Жизнь “Рубина”',
-        link: '/sport'
+        link: '/rubylife'
     },
     {
         title: 'Активности клуба',
@@ -49,18 +51,25 @@ const menuLinks: IMenuLink[] = [
 ]
 
 const AuthHeader = () => {
-
+    const dispatch = useAppDispatch();
     const { user } = useSelector((state: RootState) => state.user);
+
+    const handleLogout = () => {
+        dispatch(logout());
+    };
+
 
     return (
         <div className={styles.authHeader}>
             <div className={`justify_content_SB ${styles.authHeader_up}`}>
                 <img src={rubyLogo} alt=""/>
-                <div className='profile_button'>
-                    <img src={profilePic} alt=""/>
-                    <span>{user?.name}</span>
-                    <img src={buttonArrowDown} alt=""/>
-                </div>
+                {user && (
+                    <div className='profile_button'>
+                        <img src={user.image} alt=""/>
+                        <span>{user.name}</span>
+                        <img src={buttonArrowDown} style={{border: '1px solid red'}} alt="" onClick={handleLogout}/>
+                    </div>
+                )}
             </div>
             <div className={styles.authHeader_menu}>
                 {

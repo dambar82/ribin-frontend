@@ -585,6 +585,12 @@ input:-webkit-autofill {
   text-align: left;
 }
 
+.shadowBlock {
+  padding: 70px;
+  border-radius: 50px;
+  box-shadow: 0px 0px 8px 0px #0000001F;
+}
+
 @media screen and (max-width: 1600px) {
   .image {
     height: 500px;

@@ -31,6 +31,25 @@ export interface Contest {
     clients: Client[];
 }
 
+export interface ContestPivot {
+    contest_id: number;
+    client_id: number;
+}
+
+export interface ContestUser {
+    id: number;
+    name: string;
+    start_date: string;
+    announce_results_date: string;
+    short_description: string;
+    description: string;
+    prizes: any[];
+    source: string;
+    created_at: string;
+    updated_at: string;
+    pivot: ContestPivot;
+}
+
 export interface News {
     id: number;
     caption: string;
@@ -53,4 +72,15 @@ export interface Clubs {
     clients_count: number;
     clients: any[];
     events: any[];
+}
+
+export interface Post {
+    id: number;
+    title: string;
+    description: string;
+    source: string[];
+    clients_id: number;
+    created_at: string;
+    updated_at: string;
+    likes_count: number;
 }

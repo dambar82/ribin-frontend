@@ -3,13 +3,15 @@ import userReducer from './userSlice';
 import contestReducer from './contestSlice';
 import newsReducer from './newsSlice';
 import clubsReducer from './clubsSlice';
+import peopleReducer from './peopleSlice';
 
 export const store = configureStore({
     reducer: {
         user: userReducer,
         contests: contestReducer,
         news: newsReducer,
-        clubs: clubsReducer
+        clubs: clubsReducer,
+        people: peopleReducer
     },
 });
 

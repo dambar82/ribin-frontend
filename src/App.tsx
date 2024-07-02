@@ -1,5 +1,5 @@
-import React from 'react';
-import {BrowserRouter, Navigate, Route, Routes} from "react-router-dom";
+import React, {useEffect} from 'react';
+import { BrowserRouter, Navigate, Route, Routes, useNavigate } from "react-router-dom";
 import Contests from "./pages/Contests/Contests";
 import {useSelector} from "react-redux";
 import {RootState} from "./store/store";
@@ -17,6 +17,8 @@ import MainUnauthorizedLayout from "./components/layouts/MainUnauthorizedLayout"
 import UnauthorizedMain from "./pages/UnauthorizedMain/UnauthorizedMain";
 import Clubs from "./pages/Clubs/Clubs";
 import NewsPage from "./pages/NewsPage/NewsPage";
+import UsersFilter from "./pages/UsersFilter/UsersFilter";
+import RubyLife from "./pages/RubyLife/RubyLife";
 
 
 export const formatDate = (dateStr: string) => {
@@ -127,6 +129,7 @@ function App() {
                       path="/people"
                       element={
                           <AuthLayout>
+                              <UsersFilter></UsersFilter>
                           </AuthLayout>
                       }
                   />
@@ -171,9 +174,10 @@ function App() {
               </Route>
               <Route element={<PrivateRoute />}>
                   <Route
-                      path="/sport"
+                      path="/rubylife"
                       element={
                           <AuthLayout>
+                              <RubyLife></RubyLife>
                           </AuthLayout>
                       }
                   />

@@ -1,11 +1,13 @@
-import React, {useState} from 'react';
-import { useDispatch } from 'react-redux';
+import React, {useEffect, useState} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
 import {loginUser} from "../store/userSlice";
 import {useAppDispatch} from "../store/hooks";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
+import {RootState} from "../store/store";
 
 const Login = () => {
 
+    const { user } = useSelector((state: RootState) => state.user);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const dispatch = useAppDispatch();
@@ -13,8 +15,16 @@ const Login = () => {
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         dispatch(loginUser({ email, password }));
+        console.log(user)
     };
 
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (user) {
+            navigate('/');
+        }
+    }, [user, navigate])
 
     return (
         <div className='authBlock'>

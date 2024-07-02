@@ -38,7 +38,7 @@ const menuLinks: IMenuLink[] = [
     },
     {
         title: 'Жизнь “Рубина”',
-        link: '/sport'
+        link: '/rubylife'
     },
     {
         title: 'Активности клуба',

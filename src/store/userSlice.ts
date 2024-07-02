@@ -1,7 +1,9 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
+import {ContestUser, Post} from "../types";
 
-interface User {
+export interface User {
+    id: number;
     email: string;
     name: string;
     password: string;
@@ -9,9 +11,11 @@ interface User {
     address: string | null;
     phone: string | null;
     score: number | null;
-    posts: any[]; // Define more specific types if needed
-    contests: any[]; // Define more specific types if needed
-    image: string | null;
+    posts: Post[]; // Define more specific types if needed
+    contests: ContestUser[]; // Define more specific types if needed
+    image: string;
+    clubs: any[];
+    events: any[];
 }
 
 interface UserState {
@@ -21,28 +25,17 @@ interface UserState {
 }
 
 const initialState: UserState = {
-    user: null,
+    user: JSON.parse(localStorage.getItem('user') || '{}') as User | null,
     status: 'idle',
     error: null,
 };
 
-// {
-//     email: 'a@a.u',
-//         name: 'Иван Иванов',
-//     password: '123',
-//     age: 12,
-//     address: 'pushkina',
-//     phone: '12123',
-//     score: 23,
-//     posts: ['string'],
-//     contests: [4,5],
-//     image: 'dsd'
-// }
 
 export const loginUser = createAsyncThunk('user/loginUser', async ({ email, password }: { email: string; password: string }) => {
     console.log(email, password);
+    console.log(`https://api-rubin.multfilm.tatar/api/login?email=${email}&password=${password}`);
     const response = await axios.post(`https://api-rubin.multfilm.tatar/api/login?email=${email}&password=${password}`);
-    return response.data.data as User;
+    return response.data as User;
 });
 
 export const registerUser = createAsyncThunk('user/registerUser', async ({ email, password, name, surname }: { email: string; password: string; name: string, surname: string }) => {
@@ -58,7 +51,16 @@ const userSlice = createSlice({
             state.user = null;
             state.status = 'idle';
             state.error = null;
+            localStorage.removeItem('user');
         },
+        setUser: (state, action: PayloadAction<User>) => {
+            state.user = action.payload;
+            localStorage.setItem('user', JSON.stringify(action.payload)); // Сохранение пользователя в localStorage
+        },
+        clearUser: (state) => {
+            state.user = null;
+            localStorage.removeItem('user'); // Удаление пользователя из localStorage
+        }
     },
     extraReducers: (builder) => {
         builder
@@ -68,7 +70,7 @@ const userSlice = createSlice({
             .addCase(loginUser.fulfilled, (state, action: PayloadAction<User>) => {
                 state.user = action.payload;
                 state.status = 'succeeded';
-                console.log('action', action.payload);
+                localStorage.setItem('user', JSON.stringify(action.payload));
                 state.error = null;
             })
             .addCase(loginUser.rejected, (state, action) => {
@@ -92,5 +94,5 @@ const userSlice = createSlice({
     },
 });
 
-export const { logout } = userSlice.actions;
+export const { logout, setUser, clearUser } = userSlice.actions;
 export default userSlice.reducer;
