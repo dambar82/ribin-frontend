@@ -12,6 +12,9 @@ import {Contest, News} from "../../types";
 import {formatDate} from "../../App";
 import {fetchContests} from "../../store/contestSlice";
 import rubyStore from '../../images/ruby_store.jpg';
+import ActiveUserCard from "../../components/ActiveUserCard/ActiveUserCard";
+import pacan from '../../images/pacan.jpg';
+import sponsor from '../../images/svg/sponsor.svg'
 
 const UnauthorizedMain: React.FC = () => {
 
@@ -190,6 +193,75 @@ const UnauthorizedMain: React.FC = () => {
                     </div>
                     <div className={styles.rubyStore_rightPart}>
                         <img src={rubyStore} alt=""/>
+                    </div>
+                </div>
+            </div>
+            <div className={styles.activeUsersZone}>
+                <div className={styles.orangeZone_content}>
+                    <div className={styles.orangeZone_content_header}>
+                        <Link to='/blogs'>
+                            <div className={`white_button_little`}>
+                                Показать все
+                            </div>
+                        </Link>
+                    </div>
+                    <div className={styles.flexZone}>
+                        <ActiveUserCard image={pacan} name={'Дмитрий Иванов'} level={25} points={2000}/>
+                        <ActiveUserCard image={pacan} name={'Дмитрий Иванов'} level={25} points={2000}/>
+                        <ActiveUserCard image={pacan} name={'Дмитрий Иванов'} level={25} points={2000}/>
+                    </div>
+                </div>
+            </div>
+            <div className={styles.contestZone}>
+                <div className={styles.contestZone_header}>
+                    <h2>
+                        Спортивное сообщество
+                    </h2>
+                </div>
+                <div className={styles.sportsCommunity}>
+                    <div className={styles.sportsCommunity_block}>
+                        <img src='images/drakonball.png' alt=""/>
+                        <div>
+                            Жизнь спортивного клуба
+                        </div>
+                    </div>
+                    <div className={styles.sportsCommunity_block}>
+                        <img src='images/drakonskameika.png' alt=""/>
+                        <div>
+                            Спорт для школьников
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div className={styles.clubZone}>
+                <div className={styles.orangeZone_content}>
+                    <div className={styles.orangeZone_content_header}>
+                        <Link to='/clubs'>
+                            <div className={`white_button_little`}>
+                                Показать все
+                            </div>
+                        </Link>
+                    </div>
+                </div>
+            </div>
+            <div className={styles.contestZone}>
+                <div className={styles.contestZone_header}>
+                    <h2>
+                        Наши спонсоры
+                    </h2>
+                </div>
+                <div className={styles.sponsorsGrid}>
+                    <div className={styles.sponsorBlock}>
+                        <img src={sponsor} alt=""/>
+                    </div>
+                    <div className={styles.sponsorBlock}>
+                        <img src={sponsor} alt=""/>
+                    </div>
+                    <div className={styles.sponsorBlock}>
+                        <img src={sponsor} alt=""/>
+                    </div>
+                    <div className={styles.sponsorBlock}>
+                        <img src={sponsor} alt=""/>
                     </div>
                 </div>
             </div>

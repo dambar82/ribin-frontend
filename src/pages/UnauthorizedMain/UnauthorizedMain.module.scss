@@ -180,3 +180,67 @@
     border-radius: 0 50px 50px 0;
   }
 }
+
+.activeUsersZone {
+  padding: 160px 5%;
+  height: 1000px;
+  background: url("../../images/activeUsers-bg.svg");
+  .flexZone {
+    margin-top: 46px;
+    background: #FFD25DCC;
+    border-radius: 50px;
+    padding: 80px 140px;
+    display: flex;
+    column-gap: 20px;
+  }
+}
+
+.sportsCommunity {
+  width: 100%;
+  margin-top: 38px;
+  background: url("../../images/sportsCommunity-bg.svg") no-repeat;
+  border-radius: 50px;
+  height: 670px;
+  display: flex;
+  justify-content: center;
+  column-gap: 50px;
+  padding: 70px 0;
+}
+
+.sportsCommunity_block {
+  padding: 32px;
+  background-color: white;
+  border-radius: 35px;
+  text-align: center;
+  div {
+    margin-top: 24px;
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 24px;
+    text-align: center;
+
+  }
+}
+
+.clubZone {
+  padding: 160px 5%;
+  height: 1000px;
+  background: url("../../images/clubs-bg.svg");
+}
+
+.sponsorsGrid {
+  width: 100%;
+  margin-top: 46px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  column-gap: 20px;
+}
+
+.sponsorBlock {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+  border-radius: 35px;
+  background-color: #761022;
+}

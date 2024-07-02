@@ -1,7 +1,6 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
-import {Clubs, News} from "../types";
-import {fetchNews} from "./newsSlice";
+import {Clubs} from "../types";
 
 interface ClubsState {
     clubs: Clubs[];
