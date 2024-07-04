@@ -82,8 +82,8 @@ const ContestPage = () => {
     }
 
     return (
-        <>
-        <div className={styles.contestPage}>
+        <div className={`page`}>
+        <div className={`${styles.contestPage}`}>
             <div className={styles.whitePart}>
                 <div className={styles.card}>
                     <div className={styles.card__image}>
@@ -227,7 +227,7 @@ const ContestPage = () => {
                 </div>
             </>
         )}
-        </>
+        </div>
     );
 };
 
