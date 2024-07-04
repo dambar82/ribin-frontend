@@ -94,7 +94,7 @@ button {
 .grid {
   &__list {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(auto-fill, minmax(calc(540px - 20px), 1fr));
     gap: 20px;
     &:not(:last-child) {
       margin: 0 0 100px;
@@ -278,6 +278,18 @@ button {
   background-color: #91172C;
   border-radius: 50px;
   padding: 6px 20px 6px 6px;
+}
+
+.profile_button_avatar {
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+  }
 }
 
 .cabinet_button {

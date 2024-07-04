@@ -32,8 +32,6 @@ const initialState: UserState = {
 
 
 export const loginUser = createAsyncThunk('user/loginUser', async ({ email, password }: { email: string; password: string }) => {
-    console.log(email, password);
-    console.log(`https://api-rubin.multfilm.tatar/api/login?email=${email}&password=${password}`);
     const response = await axios.post(`https://api-rubin.multfilm.tatar/api/login?email=${email}&password=${password}`);
     return response.data as User;
 });

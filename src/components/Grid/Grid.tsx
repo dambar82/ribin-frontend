@@ -1,13 +1,12 @@
 import { useState } from "react"
 
 import buttonArrow from "../../images/svg/button_arrow.svg";
-import NewsCard from "../NewsCard/NewsCard";
 
 interface GridProps {
-    elements: any[];
+    children: React.ReactNode;
 }
 
-const Grid = ({elements}: GridProps) => {
+const Grid = ({ children }: GridProps) => {
     const [currentPage, setCurrentPage] = useState(0)
     const totalPage = 10
 
@@ -31,9 +30,7 @@ const Grid = ({elements}: GridProps) => {
     return (
         <div className='gird'>
             <div className='grid__list'>
-                {elements.map((item) => (
-                    <NewsCard key={item.id} {...item} />
-                ))}
+                {children}
             </div>
             <div className="grid__controls">
                 <nav className="grid__pagination pagination">
@@ -80,4 +77,4 @@ const Grid = ({elements}: GridProps) => {
     )
 }
 
-export default Grid;
+export default Grid

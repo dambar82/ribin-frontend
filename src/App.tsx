@@ -21,25 +21,38 @@ import UsersFilter from "./pages/UsersFilter/UsersFilter";
 import RubyLife from "./pages/RubyLife/RubyLife";
 
 
-export const formatDate = (dateStr: string) => {
-    const [year, month, day] = dateStr.split('-');
-    const months = {
-        "01": "января",
-        "02": "февраля",
-        "03": "марта",
-        "04": "апреля",
-        "05": "мая",
-        "06": "июня",
-        "07": "июля",
-        "08": "августа",
-        "09": "сентября",
-        "10": "октября",
-        "11": "ноября",
-        "12": "декабря"
-    };
-    //@ts-ignore
-    return `${parseInt(day)} ${months[month]} ${year}`;
-};
+export function parseAndFormatDate(input) {
+    // Разбиваем строку на части
+    const parts = input.match(/(\d{2})\.(\d{2})\.(\d{4}) (\d{2}):(\d{2}):(\d{2})/);
+    if (parts) {
+        // Перестраиваем в формат, совместимый с Date
+        const isoString = `${parts[3]}-${parts[2]}-${parts[1]}T${parts[4]}:${parts[5]}:${parts[6]}.000Z`;
+        return new Date(isoString);
+    } else {
+        throw new Error('Неверный формат даты');
+    }
+}
+
+// Функция для форматирования даты в желаемый вид
+export function formatDate(date) {
+    // Форматируем дату в формат 'dd.mm.yyyy hh:mm:ss'
+    return date.toLocaleString('ru-RU', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: false
+    });
+}
+
+export function formatDateToDayMonth(date) {
+    return date.toLocaleString('ru-RU', {
+        day: 'numeric',
+        month: 'long'
+    });
+}
 
 function App() {
 

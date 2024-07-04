@@ -15,8 +15,15 @@ const initialState: NewsState = {
 };
 
 export const fetchNews = createAsyncThunk('news/fetchNews', async () => {
-    const response = await axios.get('https://api-rubin.multfilm.tatar/api/news');
-    return response.data.data as News[];
+    const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
+    const targetUrl = 'https://loyalfans.rubin-kazan.ru/api/v1/bitrix/news';
+    const response = await axios.get(proxyUrl + targetUrl, {
+        headers: {
+            'Origin': 'http://localhost:3000'
+        }
+    });
+    console.log(response.data)
+    return response.data as News[];
 });
 
 const newsSlice = createSlice({

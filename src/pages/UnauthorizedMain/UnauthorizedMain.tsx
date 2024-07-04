@@ -7,7 +7,7 @@ import {Link} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {AppDispatch, RootState} from "../../store/store";
 import {fetchNews} from "../../store/newsSlice";
-import NewsCard from '../../components/NewsCard/NewsCard';
+import NewsCard from "../../components/NewsCard/NewsCard";
 import {Contest, News} from "../../types";
 import {formatDate} from "../../App";
 import {fetchContests} from "../../store/contestSlice";
@@ -87,20 +87,7 @@ const UnauthorizedMain: React.FC = () => {
                     <div className={styles.orangeZone_content_flex}>
                         {displayNews.map((item: News) => (
                             <Link to='/news' key={item.id}>
-                                <div
-                                    className={`newsBlock`}
-                                    style={{ backgroundImage: `url(${item.images[0]})` }}
-                                >
-                                    <div className={`newsBlock_header`}>
-                                        <div className={`newsBlock_date`}>
-                                            {formatDate(item.date).replace(/\d{4}$/, '')}
-                                        </div>
-                                    </div>
-                                    <div className={`newsBlock_footer`}>
-                                        {item.title}
-                                    </div>
-                                </div>
-                                {/*<NewsCard></NewsCard>*/}
+                                <NewsCard date={item.publishDate} image={item.imagePreviewResized} title={item.title}/>
                             </Link>
                         ))}
                     </div>

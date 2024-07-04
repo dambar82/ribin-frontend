@@ -65,7 +65,9 @@ const AuthHeader = () => {
                 <img src={rubyLogo} alt=""/>
                 {user && (
                     <div className='profile_button'>
-                        <img src={user.image} alt=""/>
+                        <div className={`profile_button_avatar`}>
+                            <img src={user.image} alt=""/>
+                        </div>
                         <span>{user.name}</span>
                         <img src={buttonArrowDown} style={{border: '1px solid red'}} alt="" onClick={handleLogout}/>
                     </div>

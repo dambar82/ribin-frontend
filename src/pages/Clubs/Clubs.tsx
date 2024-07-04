@@ -1,40 +1,38 @@
-import { useState } from 'react';
-import clubsImg from "../../images/svg/clubsImg.svg";
-import buttonArrow from "../../images/svg/button_arrow.svg";
-import articleBg from '../../images/article-bg.svg';
-
-// @ts-ignore
-import Grid from '../../components/Grid/Grid'
-// @ts-ignore
-import ClubCard from '../../components/ClubCard/ClubCard';
+import { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState, AppDispatch } from '../../store/store';
 
 import styles from './Clubs.module.scss';
 
+import Grid from '../../../../../Documents/ruby/src/components/Grid/Grid'
+import ClubCard from '../../components/ClubCard/ClubCard';
+
+import { fetchClubs } from '../../store/clubsSlice';
+
 const Clubs = () => {
-    const [currentPage, setCurrentPage] = useState(0)
-    const totalPage = 10
+    const dispatch = useDispatch<AppDispatch>()
+    const { clubs, status, error } = useSelector((state: RootState) => state.clubs);
 
-    const changeToPrevPage = () => {
-        setCurrentPage(prevPage => {
-            if (prevPage === 6) {
-                return prevPage - 2
-            }
-            return prevPage - 1
-        })
+    useEffect(() => {
+        if (status === 'idle') {
+            dispatch(fetchClubs());
+        }
+    }, [status, dispatch]);
+
+    if (status === 'loading') {
+        return <p>Loading...</p>;
     }
 
-    const changeToNextPage = () => {
-        setCurrentPage(prevPage => {
-            if (prevPage === 4) {
-                return prevPage + 2
-            }
-            return prevPage + 1
-        })
+    if (status === 'failed') {
+        return <p>{error}</p>;
     }
+
     return (
         <div className='page'>
-            <div className='image'>
-                <img src={clubsImg} alt=""/>
+            <div className={`${styles.hero} hero`}>
+                <img src="images/hero-clubs-bg.png" className={`${styles.hero__bg} hero__bg`} alt="" />
+                <img src="images/hero-clubs-ruby.png" className={`${styles.hero__ruby} hero__ruby`}alt="" />
+                <h1 className={`${styles.hero__title} hero__title`}>Клубы</h1>
             </div>
             <div className={`section ${styles.clubs}`}>
                 <div className='section__header'>
@@ -42,14 +40,20 @@ const Clubs = () => {
                 </div>
                 <div className='section__body'>
                     <div className={styles.clubs__row}>
-                        {[1, 2, 3].map((item) => {
-                            return <ClubCard key={item}/>
-                        })}
+                        {clubs.slice(0, 3).map((club, index) => (
+                            <ClubCard
+                                key={club.name + index}
+                                name={club.name}
+                                image={club.caption}
+                                desc={club.short_description}
+                                participants={club.clients_count}
+                            />
+                        ))}
                     </div>
                 </div>
             </div>
             <article className={styles.article}>
-                {/*<img src={articleBg} alt="" />*/}
+                <img src="images/article-bg.png" alt="" />
                 <div className={styles.article__content}>
                     <h3 className={styles.article__slogan}>Создай клуб своей мечты! Преврати свои идеи в реальность и объединяй людей с такими же интересами.</h3>
                     <button className={`${styles.article__button} button button--white`} type='button'>
@@ -63,55 +67,17 @@ const Clubs = () => {
                     <div className='section__counter'>2303</div>
                 </div>
                 <div className='section__body'>
-                    {/*<Grid card={<ClubCard />} />*/}
-                    {/* <div className='clubs__grid gird'>
-                        <div className='grid__list'>
-                            {[1, 2, 3, 4, 5, 6].map((item) => {
-                                return <ClubCard key={item}/>
-                            })}
-                        </div>
-                        <div className="grid__controls">
-                            <nav className="grid__pagination pagination">
-                                <ul className="pagination__list">
-                                    {[1, 2, 3, 4, 5, 6, 7].map((item, index) => {
-                                        if (item < 6)
-                                            return (
-                                                <li key={item + index} className="pagination__item">
-                                                    <button className={`pagination__button ${currentPage === index ? "pagination__button--active" : ""}`} onClick={() => setCurrentPage(index)} type="button"><span>{item}</span></button>
-                                                </li>
-                                            )
-                                        if (item === 6) {
-                                            return (
-                                                <li key={item + index} className="pagination__item">
-                                                    <button className="pagination__button pagination__button--ellipsis" type="button"><span>...</span></button>
-                                                </li>
-                                            )
-                                        }
-                                        return (
-                                            <li key={item + index} className="pagination__item">
-                                                <button className={`pagination__button ${currentPage === index ? "pagination__button--active" : ""}`} type="button" onClick={() => setCurrentPage(index)}><span>10</span></button>
-                                            </li>
-                                        )
-
-                                    })}
-                                </ul>
-                            </nav>
-                            <div className='grid__buttons'>
-                                { currentPage !== 0 && (
-                                    <button className='grid__button grid__button--prev button button--black' type='button' onClick={changeToPrevPage}>
-                                        <img src={buttonArrow} alt="" />
-                                        <span>Предыдущие</span>
-                                    </button>
-                                )}
-                                { currentPage !== totalPage - 4 && (
-                                    <button className='grid__button grid__button--next button button--black' type='button' onClick={changeToNextPage}>
-                                        <span>Показать ещё</span>
-                                        <img src={buttonArrow} alt="" />
-                                    </button>
-                                )}
-                            </div>
-                        </div>
-                    </div> */}
+                    <Grid>
+                        {clubs.map((club, index) => (
+                            <ClubCard
+                                key={club.name + index}
+                                name={club.name}
+                                image={club.caption}
+                                desc={club.short_description}
+                                participants={club.clients_count}
+                            />
+                        ))}
+                    </Grid>
                 </div>
             </div>
         </div>

@@ -113,3 +113,52 @@
 
   }
 }
+
+.results {
+  margin-top: 160px;
+}
+
+.results_content {
+  display: flex;
+  justify-content: space-between;
+  column-gap: 4vw;
+}
+
+.results_content_leftPart {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 60%;
+  h1 {
+    font-size: 64px;
+    font-weight: 600;
+    line-height: 76px;
+    text-align: left;
+    color: #3E3E3E;
+  }
+}
+
+.timerBlock {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  row-gap: 32px;
+  h2 {
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 28px;
+    text-align: center;
+    color: #BE233A;
+  }
+}
+
+.timerBlock_timer {
+
+}
+
+.results_content_rightPart {
+}
+
+.participants {
+  margin-top: 160px;
+}

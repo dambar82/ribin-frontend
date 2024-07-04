@@ -52,14 +52,13 @@ export interface ContestUser {
 
 export interface News {
     id: number;
-    caption: string;
+    sectionName: string;
     title: string;
-    short_description: string;
-    full_content: string;
-    date: string;
-    images: string[];
-    likes_count: number;
-    comments: string[]
+    imagePreviewResized: string;
+    createdAt: string;
+    publishDate: string;
+    tags: string;
+    url: string;
 }
 
 export interface Clubs {

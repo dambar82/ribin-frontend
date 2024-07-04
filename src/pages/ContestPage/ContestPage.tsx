@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import styles from './ContestPage.module.scss';
 import {Link, useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
@@ -8,6 +8,7 @@ import {Contest} from "../../types";
 import {formatDate} from "../../App";
 import info from '../../images/svg/akar-icons_info-fill.svg';
 import trophy from '../../images/svg/healthicons_award-trophy.svg';
+import resultsDragon from '../../images/resultsDragon.svg';
 
 const ContestPage = () => {
 
@@ -16,9 +17,18 @@ const ContestPage = () => {
     const { contestId } = useParams();
 
     const { contests, contestStatus, error } = useSelector((state: RootState) => state.contests);
+    const { user } = useSelector((state: RootState) => state.user);
+
+    const [participating, setParticipating] = useState(false);
 
     const contest: Contest | undefined = contests.find(contest => contest.id.toString() === contestId);
 
+    useEffect(() => {
+        if (user.contests.find(item => item.id === Number(contestId))) {
+            setParticipating(true);
+            console.log('participating', participating)
+        }
+    }, [user, contest])
 
     useEffect(() => {
         if (contestStatus === 'idle') {
@@ -35,6 +45,7 @@ const ContestPage = () => {
     }
 
     return (
+        <>
         <div className={styles.contestPage}>
             <div className={styles.whitePart}>
                 <div className={styles.card}>
@@ -105,7 +116,7 @@ const ContestPage = () => {
                             {
                                 contest?.prizes && (
                                     contest.prizes.map((prize: string) => (
-                                        <p>
+                                        <p key={prize}>
                                             {prize}
                                         </p>
                                     ))
@@ -115,14 +126,54 @@ const ContestPage = () => {
                     </div>
                 </div>
             </div>
-            <div className={styles.grayPart}>
-                <Link to={`/contests/${contestId}/form`}>
-                    <div className='action_button'>
-                        Принять участие
-                    </div>
-                </Link>
-            </div>
+            {!participating && (
+                <div className={styles.grayPart}>
+                    <Link to={`/contests/${contestId}/form`}>
+                        <div className='action_button'>
+                            Принять участие
+                        </div>
+                    </Link>
+                </div>
+            )}
         </div>
+        {participating && (
+            <>
+                <div className={`section ${styles.results}`}>
+                    <div className='section__header'>
+                        <div className='section__title'>Результаты</div>
+                    </div>
+                    <div className='section_body'>
+                        <div className={`shadowBlock ${styles.results_content}`}>
+                            <div className={`${styles.results_content_leftPart}`}>
+                                <h1>
+                                    Поздравляем, ты стал (а) участником конкурса!
+                                </h1>
+                                <div className={styles.timerBlock}>
+                                    <h2>
+                                        Осталось времени до оглашения результатов
+                                    </h2>
+                                    <div className={styles.timerBlock_timer}>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div className={styles.results_content_rightPart}>
+                                <img src={resultsDragon} alt=""/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div className={`section ${styles.participants}`}>
+                    <div className='section__header'>
+                        <div className='section__title'>Участники</div>
+                    </div>
+                    <div className='section__body'>
+
+                    </div>
+                </div>
+            </>
+        )}
+        </>
     );
 };
 

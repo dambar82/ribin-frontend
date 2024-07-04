@@ -17,8 +17,6 @@ const NewsPage = () => {
 
     const maxButtons = 6;
     const { status, news } = useSelector((state: RootState) => state.news);
-    const [newsFetched, setNewsFetched] = useState<News[]>([]);
-    const [currentPage, setCurrentPage] = useState(0)
 
     useEffect(() => {
         if (status === 'idle') {
@@ -26,9 +24,6 @@ const NewsPage = () => {
         }
     }, [status, dispatch]);
 
-    useEffect(() => {
-        setNewsFetched(news);
-    }, [news])
 
     return (
         <div className="page">
@@ -43,67 +38,18 @@ const NewsPage = () => {
                     <div className='section__counter'>2303</div>
                 </div>
                 <div className='section__body'>
-                    <Grid elements={newsFetched}/>
-                    {/* <div className='grid'>
-                        <div className='grid__list'>
-                            {[1,2,3,4,5,6].map(() => {
-                                return <NewsCard />
-                            })}
-                        </div>
-                        <div className="grid__controls">
-                            <nav className="grid__pagination pagination">
-                                <ul className="pagination__list">
-                                    {[1, 2, 3, 4, 5, 6, 7].map(( item, index, arr) => {
-                                        if (arr.length <= 6) {
-                                            return (
-                                                <li key = { index } className="pagination__item">
-                                                    <button className={`pagination__button ${currentPage === index ? "pagination__button--active" : ""}`} type="button"><span>{item}</span></button>
-                                                </li>
-                                            )
-                                        }
-
-                                        if (currentPage < maxButtons - 3) {
-                                            if (index < maxButtons - 1) {
-                                                return (
-                                                    <li key = { index } className="pagination__item">
-                                                        <button className={`pagination__button ${currentPage === index ? "pagination__button--active" : ""}`} type="button"><span>{item}</span></button>
-                                                    </li>
-                                                )
-                                            } else if (index < maxButtons) {
-                                                return (
-                                                    <li key = { index } className="pagination__item">
-                                                        <button className={`pagination__button ${currentPage === index ? "pagination__button--active" : ""}`} type="button"><span>...</span></button>
-                                                    </li>
-                                                )
-                                            } else if (index === arr.length - 1) {
-                                                return (
-                                                    <li key = { index } className="pagination__item">
-                                                        <button className={`pagination__button ${currentPage === index ? "pagination__button--active" : ""}`} type="button"><span>{item}</span></button>
-                                                    </li>
-                                                )
-                                            }
-                                        }
-                                        return (
-                                            <li key = { index } className="pagination__item">
-                                                <button className={`pagination__button ${currentPage === index ? "pagination__button--active" : ""}`} type="button"><span>{item}</span></button>
-                                            </li>
-                                        )
-                                    })}
-
-                                </ul>
-                            </nav>
-                            <div className='grid__buttons'>
-                                <button className='grid__button grid__button--prev button button--black' type='button'>
-                                    <img src={buttonArrow} alt="" />
-                                    <span>Предыдущие</span>
-                                </button>
-                                <button className='grid__button grid__button--next button button--black' type='button'>
-                                    <span>Показать ещё</span>
-                                    <img src={buttonArrow} alt="" />
-                                </button>
-                            </div>
-                        </div>
-                    </div> */}
+                    <Grid>
+                        {news.map((newsItem) => (
+                            <Link to={newsItem.url}>
+                                <NewsCard
+                                    key={newsItem.id}
+                                    title={newsItem.title}
+                                    date={newsItem.publishDate}
+                                    image={newsItem.imagePreviewResized}
+                                />
+                            </Link>
+                        ))}
+                    </Grid>
                 </div>
             </div>
         </div>

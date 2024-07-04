@@ -19,6 +19,51 @@ export const fetchContests = createAsyncThunk('contests/fetchContests', async ()
     return response.data.data as Contest[];
 });
 
+export const sendWorkForContest = createAsyncThunk('contests/sendWorkForContest',
+    async ({description, source, video, contest_id, client_id}: {description?: string, source: File[], video: string, contest_id: number, client_id: number}) => {
+        try {
+            const formData = new FormData();
+            formData.append('description', description);
+            source.forEach((file, index) => {
+                formData.append(`source[${index}]`, file);
+            });
+            formData.append('video', video);
+            formData.append('contest_id', contest_id.toString());
+            formData.append('client_id', client_id.toString());
+
+            const response = await axios.post(`https://api-rubin.multfilm.tatar/api/contest`, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
+        } catch (error) {
+            if (error.response) {
+                // Сервер ответил с кодом состояния, который выходит за пределы диапазона 2xx
+                console.error('Ошибка при отправке формы: ', error.response.data);
+                // Здесь вы можете добавить дополнительную логику обработки ошибки
+            } else if (error.request) {
+                // Запрос был сделан, но ответ не был получен
+                console.error('Ошибка при отправке формы: ', error.request);
+            } else {
+                // Что-то пошло не так при настройке запроса
+                console.error('Ошибка: ', error.message);
+            }
+        }
+    });
+
+//old version
+// export const sendWorkForContest = createAsyncThunk('contests/sendWorkForContest',
+//     async ({description, source, video, contest_id, client_id}: {description?: string, source: File, video: string, contest_id: number, client_id: number}) => {
+//         const response = await axios.post('https://api-rubin.multfilm.tatar/api/contest', {
+//         description: description,
+//             source: source,
+//             video: video,
+//             contest_id: contest_id,
+//             client_id: client_id
+//     })
+// console.log(response.data);
+// })
+
 const contestSlice = createSlice({
     name: 'contests',
     initialState,

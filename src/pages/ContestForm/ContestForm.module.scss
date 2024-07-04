@@ -40,6 +40,10 @@
   align-items: center;
 }
 
+.filesDropzone.dragOver {
+  background-color: #f0f0f0;
+}
+
 .filesDropzone_column {
   display: flex;
   flex-direction: column;

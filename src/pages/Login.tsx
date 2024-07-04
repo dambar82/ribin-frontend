@@ -15,7 +15,6 @@ const Login = () => {
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         dispatch(loginUser({ email, password }));
-        console.log(user)
     };
 
     const navigate = useNavigate();
