@@ -7,6 +7,9 @@ import {useSelector} from "react-redux";
 import {RootState} from "../../store/store";
 import {useAppDispatch} from "../../store/hooks";
 import {fetchPeople} from "../../store/peopleSlice";
+import Grid from "../../components/Grid/Grid";
+import {User} from "../../store/userSlice";
+import FoundUserCard from "../../components/FoundUserCard/FoundUserCard";
 
 const UsersFilter = () => {
 
@@ -15,6 +18,7 @@ const UsersFilter = () => {
     const { people, status } = useSelector((state: RootState) => state.people)
     const [searchTerm, setSearchTerm] = useState('');
     const [schoolId, setSchoolId] = useState('');
+    const [filteredPeople, setFilteredPeople] = useState<User[]>([]);
 
     React.useEffect(() => {
         dispatch(fetchPeople());
@@ -28,21 +32,21 @@ const UsersFilter = () => {
         setSchoolId(e.target.value);
     };
 
-    const handleFilter = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        // Фильтрация пользователей по имени и номеру школы
         const filteredPeople = people.filter((user) => {
             return user.name.toLowerCase().includes(searchTerm.toLowerCase())
-                // user.school.toString() === schoolId
+            // user.school.toString() === schoolId
         });
-        console.log(filteredPeople);
-        // Здесь вы можете обновить состояние с отфильтрованными пользователями
-    };
+        console.log(filteredPeople)
+        setFilteredPeople(filteredPeople);
+    }
 
+    // @ts-ignore
     return (
         <div className={`page`}>
             <div className={`section shadowBlock ${styles.filterBlock}`}>
-                <form className={styles.form}>
+                <form className={styles.form} onSubmit={handleSubmit}>
                     <h2>
                         Поиск пользователей
                     </h2>
@@ -51,7 +55,7 @@ const UsersFilter = () => {
                             <label htmlFor="searchFilter">Поиск</label>
                             <div className={styles.searchBar}>
                                 <img src={loupe} alt=""/>
-                                <input type="text" id='searchFilter' placeholder='Введите имя и фамилию, чтобы найти пользователя'/>
+                                <input type="text" id='searchFilter' value={searchTerm} onChange={handleSearchChange} placeholder='Введите имя и фамилию, чтобы найти пользователя'/>
                             </div>
                         </div>
                     </div>
@@ -69,11 +73,11 @@ const UsersFilter = () => {
                             <label htmlFor="schoolFilter">Школа</label>
                             <div className={styles.searchBar}>
                                 <img src={loupe} alt=""/>
-                                <input type="number" id='schoolFilter' placeholder='Номер школы'/>
+                                <input type="number" id='schoolFilter' value={schoolId} onChange={handleSchoolChange} placeholder='Номер школы'/>
                             </div>
                         </div>
                     </div>
-                    <button className={`action_button ${styles.actionButton}`}>
+                    <button className={`action_button ${styles.actionButton}`} type='submit'>
                         Показать результат
                         <img src={buttonArrow} alt=""/>
                     </button>
@@ -86,6 +90,13 @@ const UsersFilter = () => {
                 <div className='section__header'>
                     <div className='section__title'>Результатов</div>
                     <div className='section__counter'>2303</div>
+                </div>
+                <div className={`section__body`}>
+                    <Grid>
+                        {filteredPeople && filteredPeople.map((user: User) => (
+                            <FoundUserCard image={user.image} name={user.name} age={user.age} level={14} desc={'Обожаю играть в футбол и всегда рад новым друзьям. Давай играть вместе и достигать новых вершин вместе!'}/>
+                        ))}
+                    </Grid>
                 </div>
             </div>
         </div>
