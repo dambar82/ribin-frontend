@@ -162,3 +162,13 @@
 .participants {
   margin-top: 160px;
 }
+
+.participants_content {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  gap: 20px;
+  height: 1000px;
+  border-radius: 50px;
+  padding: 80px 5%;
+  background: url("../../images/activeUsers-bg.svg");
+}

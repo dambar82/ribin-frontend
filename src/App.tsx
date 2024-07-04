@@ -19,6 +19,8 @@ import Clubs from "./pages/Clubs/Clubs";
 import NewsPage from "./pages/NewsPage/NewsPage";
 import UsersFilter from "./pages/UsersFilter/UsersFilter";
 import RubyLife from "./pages/RubyLife/RubyLife";
+import AuthorizedMain from "./pages/AuthorizedMain/AuthorizedMain";
+import MainAuthorizedLayout from "./components/layouts/MainAuthorizedLayout";
 
 
 export function parseAndFormatDate(input) {
@@ -105,9 +107,9 @@ function App() {
                 path='/'
                 element={
                   user ? (
-                      <AuthLayout>
-                          dfdf
-                      </AuthLayout>
+                      <MainAuthorizedLayout>
+                          <AuthorizedMain></AuthorizedMain>
+                      </MainAuthorizedLayout>
                       ) : (
                       <MainUnauthorizedLayout>
                           <UnauthorizedMain></UnauthorizedMain>

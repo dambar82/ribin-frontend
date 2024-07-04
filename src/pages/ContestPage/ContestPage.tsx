@@ -9,6 +9,19 @@ import {formatDate} from "../../App";
 import info from '../../images/svg/akar-icons_info-fill.svg';
 import trophy from '../../images/svg/healthicons_award-trophy.svg';
 import resultsDragon from '../../images/resultsDragon.svg';
+import ActiveUserCard from "../../components/ActiveUserCard/ActiveUserCard";
+
+type TimeLeft = {
+    days: number;
+    hours: number;
+    minutes: number;
+};
+
+const defaultTimeLeft: TimeLeft = {
+    days: 0,
+    hours: 0,
+    minutes: 0
+};
 
 const ContestPage = () => {
 
@@ -20,13 +33,37 @@ const ContestPage = () => {
     const { user } = useSelector((state: RootState) => state.user);
 
     const [participating, setParticipating] = useState(false);
+    const [timeLeft, setTimeLeft] = useState<TimeLeft>(defaultTimeLeft);
 
-    const contest: Contest | undefined = contests.find(contest => contest.id.toString() === contestId);
+    const contest: Contest = contests.find(contest => contest.id.toString() === contestId);
+
+    const calculateTimeLeft = (): TimeLeft => {
+        if (!contest) {
+            return defaultTimeLeft;
+        }
+
+        const difference = +new Date(contest.end_date) - +new Date();
+        if (difference > 0) {
+            return {
+                days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+                hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
+                minutes: Math.floor((difference / 1000 / 60) % 60),
+            };
+        }
+        return defaultTimeLeft;
+    };
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setTimeLeft(calculateTimeLeft());
+        }, 1000);
+
+        return () => clearInterval(interval);
+    }, [contest]);
 
     useEffect(() => {
         if (user.contests.find(item => item.id === Number(contestId))) {
             setParticipating(true);
-            console.log('participating', participating)
         }
     }, [user, contest])
 
@@ -153,7 +190,11 @@ const ContestPage = () => {
                                         Осталось времени до оглашения результатов
                                     </h2>
                                     <div className={styles.timerBlock_timer}>
-
+                                        <div>
+                                            {timeLeft.days} дней
+                                            {timeLeft.hours} часов
+                                            {timeLeft.minutes} минут
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -166,9 +207,22 @@ const ContestPage = () => {
                 <div className={`section ${styles.participants}`}>
                     <div className='section__header'>
                         <div className='section__title'>Участники</div>
+                        <div className='section__counter'>23</div>
                     </div>
                     <div className='section__body'>
-
+                        <div className={styles.participants_content}>
+                            {contest && contest.participants
+                                .slice(0, 20) // Ограничиваем массив до первых 20 элементов
+                                .map(participant => (
+                                    <ActiveUserCard
+                                        image={participant.client.image}
+                                        name={participant.client.name}
+                                        level={20}
+                                        points={2000}
+                                        key={participant.id}></ActiveUserCard>
+                                ))
+                            }
+                        </div>
                     </div>
                 </div>
             </>

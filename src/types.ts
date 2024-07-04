@@ -18,17 +18,22 @@ export interface Client {
 }
 
 export interface Contest {
+    announce_results_date: string;
+    description: string;
+    end_date: string;
     id: number;
     name: string;
-    start_date: string;
-    end_date: string;
-    announce_results_date: string;
-    short_description: string;
-    description: string;
+    participants: any[];
     prizes: string[];
-    status: string;
+    short_description: string;
     source: string;
-    clients: Client[];
+    start_date: string;
+    status: string;
+}
+
+export interface Participant {
+    id: number;
+
 }
 
 export interface ContestPivot {
