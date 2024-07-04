@@ -6,9 +6,27 @@ interface GridProps {
     children: React.ReactNode;
 }
 
+const getPages = (currentPage, totalElements, totalPages) => {
+    let array = []
+    for (let i = 1; i <= totalPages; i++) {
+        if (i == 1 || i == totalPages || 
+            (currentPage < totalElements - 2 && i <= totalElements - 2) ||
+            (i >= currentPage - 1 && i <= currentPage + 1) ||
+            (totalPages - currentPage < 4 && totalPages - i <= 4) || 
+            totalElements === totalPages
+        ) {
+            array.push(i)
+        } else if (array[array.length - 1] !== "...") {
+            array.push("...")
+        }
+    }
+    return array
+}
+
 const Grid = ({ children }: GridProps) => {
-    const [currentPage, setCurrentPage] = useState(0)
-    const totalPage = 10
+    const [currentPage, setCurrentPage] = useState(1)
+    const totalPages = 10
+    const totalElements = 7
 
     const changeToPrevPage = () => {
         setCurrentPage(prevPage => {
@@ -27,6 +45,12 @@ const Grid = ({ children }: GridProps) => {
             return prevPage + 1
         })
     }
+
+
+
+    let paginationArray = getPages(currentPage, totalElements, totalPages)
+    // for (let i = 0; i < totalPages; i++) {
+    // } 
     return (
         <div className='gird'>
             <div className='grid__list'>
@@ -35,37 +59,33 @@ const Grid = ({ children }: GridProps) => {
             <div className="grid__controls">
                 <nav className="grid__pagination pagination">
                     <ul className="pagination__list">
-                        {[1, 2, 3, 4, 5, 6, 7].map((item, index) => {
-                            if (item < 6)
-                                return (
-                                    <li key={item + index} className="pagination__item">
-                                        <button className={`pagination__button ${currentPage === index ? "pagination__button--active" : ""}`} onClick={() => setCurrentPage(index)} type="button"><span>{item}</span></button>
-                                    </li>
-                                )
-                            if (item === 6) {
-                                return (
-                                    <li key={item + index} className="pagination__item">
-                                        <button className="pagination__button pagination__button--ellipsis" type="button"><span>...</span></button>
-                                    </li>
-                                )
-                            }
-                            return (
-                                <li key={item + index} className="pagination__item">
-                                    <button className={`pagination__button ${currentPage === index ? "pagination__button--active" : ""}`} type="button" onClick={() => setCurrentPage(index)}><span>10</span></button>
-                                </li>
-                            )
 
-                        })}
+                        {
+                            paginationArray.map((item, index) => {
+                                if (item !== "...") {
+                                    return (
+                                    <li key={index} className="pagination__item">
+                                        <button className={`pagination__button ${currentPage === item ? "pagination__button--active" : ""}`} onClick={() => setCurrentPage(item)} type="button"><span>{item}</span></button>
+                                    </li>
+                                    )
+                                }
+                                return (
+                                    <li key={index} className="pagination__item">
+                                        <button className="pagination__button pagination__button--ellipsis" type="button"><span>{item}</span></button>
+                                    </li>
+                                )
+                            })
+                        }
                     </ul>
                 </nav>
                 <div className='grid__buttons'>
-                    { currentPage !== 0 && (
+                    { currentPage !== 1 && (
                         <button className='grid__button grid__button--prev button button--black' type='button' onClick={changeToPrevPage}>
                             <img src={buttonArrow} alt="" />
                             <span>Предыдущие</span>
                         </button>
                     )}
-                    { currentPage !== totalPage - 4 && (
+                    { currentPage !== totalPages && (
                         <button className='grid__button grid__button--next button button--black' type='button' onClick={changeToNextPage}>
                             <span>Показать ещё</span>
                             <img src={buttonArrow} alt="" />

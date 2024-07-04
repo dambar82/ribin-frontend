@@ -4,7 +4,7 @@ import { RootState, AppDispatch } from '../../store/store';
 
 import styles from './Clubs.module.scss';
 
-import Grid from '../../../../../Documents/ruby/src/components/Grid/Grid'
+import Grid from '../../components/Grid/Grid'
 import ClubCard from '../../components/ClubCard/ClubCard';
 
 import { fetchClubs } from '../../store/clubsSlice';
