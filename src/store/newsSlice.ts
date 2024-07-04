@@ -1,9 +1,9 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
-import {News} from '../types';
+import {News, NewsBack} from '../types';
 
 interface NewsState {
-    news: News[];
+    news: (News | NewsBack)[];
     status: 'idle' | 'loading' | 'succeeded' | 'failed';
     error: string | null;
 }
@@ -14,16 +14,27 @@ const initialState: NewsState = {
     error: null,
 };
 
-export const fetchNews = createAsyncThunk('news/fetchNews', async () => {
+export const fetchNewsAndNewsBack = createAsyncThunk('news/fetchNewsAndNewsBack', async () => {
     const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
-    const targetUrl = 'https://loyalfans.rubin-kazan.ru/api/v1/bitrix/news';
-    const response = await axios.get(proxyUrl + targetUrl, {
-        headers: {
-            'Origin': 'http://localhost:3000'
-        }
-    });
-    console.log(response.data)
-    return response.data as News[];
+    const newsBackUrl = 'https://api-rubin.multfilm.tatar/api/news';
+    const newsUrl = `${proxyUrl}https://loyalfans.rubin-kazan.ru/api/v1/bitrix/news?isTop=true`;
+
+    // Выполняем оба запроса одновременно
+    const [newsBackResponse, newsResponse] = await Promise.all([
+        axios.get(newsBackUrl),
+        axios.get(newsUrl, {
+            headers: {
+                'Origin': 'http://localhost:3000'
+            }
+        })
+    ]);
+
+    // Преобразуем данные в нужные типы
+    const newsBackData = newsBackResponse.data.data as NewsBack[];
+    const newsData = newsResponse.data as News[];
+
+    // Объединяем массивы
+    return [...newsData, ...newsBackData];
 });
 
 const newsSlice = createSlice({
@@ -32,15 +43,15 @@ const newsSlice = createSlice({
     reducers: {},
     extraReducers: (builder) => {
         builder
-            .addCase(fetchNews.pending, (state) => {
+            .addCase(fetchNewsAndNewsBack.pending, (state) => {
                 state.status = 'loading';
             })
-            .addCase(fetchNews.fulfilled, (state, action: PayloadAction<News[]>) => {
+            .addCase(fetchNewsAndNewsBack.fulfilled, (state, action: PayloadAction<(News | NewsBack)[]>) => {
                 state.news = action.payload;
                 state.status = 'succeeded';
                 state.error = null;
             })
-            .addCase(fetchNews.rejected, (state, action) => {
+            .addCase(fetchNewsAndNewsBack.rejected, (state, action) => {
                 state.status = 'failed';
                 state.error = action.error.message || null;
             });

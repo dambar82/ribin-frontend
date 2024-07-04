@@ -10,7 +10,7 @@ import NewsCard from '../../components/NewsCard/NewsCard';
 
 import buttonArrow from "../../images/svg/button_arrow.svg";
 import {News} from "../../types";
-import {fetchNews} from "../../store/newsSlice";
+import {fetchNewsAndNewsBack} from "../../store/newsSlice";
 
 const NewsPage = () => {
     const dispatch = useDispatch<AppDispatch>();
@@ -20,7 +20,7 @@ const NewsPage = () => {
 
     useEffect(() => {
         if (status === 'idle') {
-            dispatch(fetchNews());
+            dispatch(fetchNewsAndNewsBack());
         }
     }, [status, dispatch]);
 
@@ -39,16 +39,35 @@ const NewsPage = () => {
                 </div>
                 <div className='section__body'>
                     <Grid>
-                        {news.map((newsItem) => (
-                            <Link to={newsItem.url}>
-                                <NewsCard
-                                    key={newsItem.id}
-                                    title={newsItem.title}
-                                    date={newsItem.publishDate}
-                                    image={newsItem.imagePreviewResized}
-                                />
-                            </Link>
-                        ))}
+                        {
+                            news.map((newsItem) => {
+                                // Проверяем, есть ли у newsItem свойство imagePreviewResized
+                                if ('imagePreviewResized' in newsItem) {
+                                    // Теперь TypeScript знает, что newsItem имеет тип News
+                                    return (
+                                        <Link key={newsItem.id} to={newsItem.url} target="_blank" rel="noopener noreferrer">
+                                            <NewsCard
+                                                title={newsItem.title}
+                                                date={newsItem.publishDate}
+                                                image={newsItem.imagePreviewResized}
+                                                newsBack={false}
+                                            />
+                                        </Link>
+                                    );
+                                } else {
+                                    // Здесь newsItem обрабатывается как NewsBack
+                                    return (
+                                        <NewsCard
+                                            date={newsItem.date}
+                                            image={newsItem.images[0]}
+                                            title={newsItem.title}
+                                            key={newsItem.id}
+                                            newsBack={true}
+                                        />
+                                    );
+                                }
+                            })
+                        }
                     </Grid>
                 </div>
             </div>

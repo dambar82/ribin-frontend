@@ -6,10 +6,10 @@ import buttonArrow from '../../images/svg/button_arrow.svg';
 import {Link} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {AppDispatch, RootState} from "../../store/store";
-import {fetchNews} from "../../store/newsSlice";
+import {fetchNewsAndNewsBack} from "../../store/newsSlice";
 import NewsCard from "../../components/NewsCard/NewsCard";
-import {Contest, News} from "../../types";
-import {formatDate} from "../../App";
+import {Contest, News, NewsBack} from "../../types";
+import {formatDate, formatDateToDayMonth, parseAndFormatDate} from "../../App";
 import {fetchContests} from "../../store/contestSlice";
 import rubyStore from '../../images/ruby_store.jpg';
 import ActiveUserCard from "../../components/ActiveUserCard/ActiveUserCard";
@@ -23,7 +23,7 @@ const UnauthorizedMain: React.FC = () => {
     const { contestStatus, contests } = useSelector((state: RootState) => state.contests)
 
     const [currentNewsIndex, setCurrentNewsIndex] = useState<number>(0);
-    const [newsFetched, setNewsFetched] = useState<News[]>([]);
+    const [newsFetched, setNewsFetched] = useState<(News | NewsBack)[]>([]);
     const [contestsFetched, setContestsFetched] = useState<Contest[]>([])
 
     const handleNext = (): void => {
@@ -33,7 +33,7 @@ const UnauthorizedMain: React.FC = () => {
 
     useEffect(() => {
         if (status === 'idle') {
-            dispatch(fetchNews());
+            dispatch(fetchNewsAndNewsBack());
         }
     }, [status, dispatch]);
 
@@ -85,11 +85,48 @@ const UnauthorizedMain: React.FC = () => {
                         </Link>
                     </div>
                     <div className={styles.orangeZone_content_flex}>
-                        {displayNews.map((item: News) => (
-                            <Link to='/news' key={item.id}>
-                                <NewsCard date={item.publishDate} image={item.imagePreviewResized} title={item.title}/>
-                            </Link>
-                        ))}
+                        {
+                            displayNews.map((newsItem) => {
+                                // Проверяем, есть ли у newsItem свойство imagePreviewResized
+                                if ('imagePreviewResized' in newsItem) {
+                                    // Теперь TypeScript знает, что newsItem имеет тип News
+                                    return (
+                                        <Link key={newsItem.id} to={newsItem.url} target="_blank" rel="noopener noreferrer">
+                                            <div
+                                                className={`newsBlock`}
+                                                style={{ backgroundImage: `url(${newsItem.imagePreviewResized})` }}
+                                            >
+                                                <div className={`newsBlock_header`}>
+                                                    <div className={`newsBlock_date`}>
+                                                        {formatDateToDayMonth(parseAndFormatDate(newsItem.publishDate))}
+                                                    </div>
+                                                </div>
+                                                <div className={`newsBlock_footer`}>
+                                                    {newsItem.title}
+                                                </div>
+                                            </div>
+                                        </Link>
+                                    );
+                                } else {
+                                    // Здесь newsItem обрабатывается как NewsBack
+                                    return (
+                                        <div
+                                            className={`newsBlock`}
+                                            style={{ backgroundImage: `url(${newsItem.images[0]})` }}
+                                        >
+                                            <div className={`newsBlock_header`}>
+                                                <div className={`newsBlock_date`}>
+                                                    {formatDate(newsItem.date)}
+                                                </div>
+                                            </div>
+                                            <div className={`newsBlock_footer`}>
+                                                {newsItem.title}
+                                            </div>
+                                        </div>
+                                    );
+                                }
+                            })
+                        }
                     </div>
                     <div className={styles.orangeZone_content_header}>
                         <div className='action_button' onClick={handleNext}>

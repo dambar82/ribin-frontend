@@ -61,6 +61,18 @@ export interface News {
     url: string;
 }
 
+export interface NewsBack {
+    id: number;
+    caption: string;
+    title: string;
+    short_description: string;
+    full_content: string;
+    date: string;
+    images: string[];
+    likes_count: number;
+    comments: string[]
+}
+
 export interface Clubs {
     name: string;
     caption: string;

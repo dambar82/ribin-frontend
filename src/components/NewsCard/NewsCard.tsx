@@ -5,17 +5,21 @@ interface INewsCard {
     title: string,
     date: string,
     image: string,
+    newsBack: boolean
 }
 
-const NewsCard = ({title, image, date}: INewsCard) => {
-    console.log(formatDateToDayMonth(parseAndFormatDate(date)));
+const NewsCard = ({title, image, date, newsBack}: INewsCard) => {
     return (
         <div className={styles.card}>
             { image && <img src={image} alt="" className={styles.card__image} /> }
             <div className={styles.card__date}>
-                {formatDateToDayMonth(parseAndFormatDate(date))}
+                {
+                    newsBack ?
+                        formatDate(date)
+                         :
+                        formatDateToDayMonth(parseAndFormatDate(date))
+                }
             </div>
-            {/*{formatDate(date).replace(/\d{4}$/, '')}*/}
             <div className={styles.card__title}>{title}</div>
         </div>
     )
