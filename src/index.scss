@@ -287,6 +287,7 @@ button {
 }
 
 .profile_button {
+  position: relative;
   cursor: pointer;
   color: white;
   display: flex;
@@ -306,6 +307,32 @@ button {
     height: 100%;
     object-fit: cover;
     border-radius: 50%;
+  }
+}
+
+.profile_button_subMenu {
+  width: 397px;
+  box-shadow: 0px 0px 8px 0px #0000001F;
+  top: 70px;
+  right: 0px;
+  z-index: 10;
+  background-color: white;
+  position: absolute;
+  border-radius: 35px;
+  li {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    column-gap: 12px;
+    padding: 19px 30px;
+  }
+  span {
+    white-space: nowrap;
+    color: black;
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 24px;
+    text-align: left;
   }
 }
 
