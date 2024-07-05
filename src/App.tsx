@@ -21,6 +21,8 @@ import UsersFilter from "./pages/UsersFilter/UsersFilter";
 import RubyLife from "./pages/RubyLife/RubyLife";
 import AuthorizedMain from "./pages/AuthorizedMain/AuthorizedMain";
 import MainAuthorizedLayout from "./components/layouts/MainAuthorizedLayout";
+import StudentsPage from './pages/StudentsPage/StudentsPage';
+
 
 
 export function parseAndFormatDate(input) {
@@ -169,7 +171,7 @@ function App() {
                       path="/news"
                       element={
                           <AuthLayout>
-                              <NewsPage></NewsPage>
+                                <NewsPage />
                           </AuthLayout>
                       }
                   />
@@ -188,7 +190,7 @@ function App() {
                       path="/clubs"
                       element={
                           <AuthLayout>
-                              <Clubs></Clubs>
+                              <Clubs />
                           </AuthLayout>
                       }
                   />
@@ -208,6 +210,16 @@ function App() {
                       path="/sportslife"
                       element={
                           <AuthLayout>
+                          </AuthLayout>
+                      }
+                  />
+              </Route>
+              <Route element={<PrivateRoute />}>
+                  <Route
+                      path="/students"
+                      element={
+                          <AuthLayout>
+                            <StudentsPage />
                           </AuthLayout>
                       }
                   />

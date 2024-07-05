@@ -90,6 +90,12 @@ export interface Clubs {
     events: any[];
 }
 
+export interface Student {
+    id: number,
+    title: string;
+    imagePreviewResized: string;
+}
+
 export interface Post {
     id: number;
     title: string;
