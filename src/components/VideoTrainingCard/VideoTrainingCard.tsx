@@ -1,6 +1,6 @@
 import styles from './VideoTrainingCard.module.scss';
 
-import playIcon from '../../../../../Desktop/ribin/src/images/svg/play-button.svg';
+import playIcon from '../../images/svg/play-button.svg';
 
 interface IVideoTrainingCard {
     title: string;

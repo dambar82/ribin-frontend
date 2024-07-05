@@ -1,60 +1,45 @@
-import { useState } from "react"
+import React, { useState } from "react"
 
 import buttonArrow from "../../images/svg/button_arrow.svg";
 
 interface GridProps {
     children: React.ReactNode;
+    totalItems: number;
 }
 
-const getPages = (currentPage, totalElements, totalPages) => {
-    let array = []
+const ITEMS_PER_PAGE = 6;
+
+const getPages = (currentPage, totalItems, totalPages) => {
+    const delta = 2; // Количество страниц вокруг текущей страницы
+    let array = [];
+
     for (let i = 1; i <= totalPages; i++) {
-        if (i == 1 || i == totalPages || 
-            (currentPage < totalElements - 2 && i <= totalElements - 2) ||
-            (i >= currentPage - 1 && i <= currentPage + 1) ||
-            (totalPages - currentPage < 4 && totalPages - i <= 4) || 
-            totalElements === totalPages
-        ) {
-            array.push(i)
-        } else if (array[array.length - 1] !== "...") {
-            array.push("...")
+        if (i === 1 || i === totalPages || (i >= currentPage - delta && i <= currentPage + delta)) {
+            array.push(i);
+        } else if (i === currentPage - delta - 1 || i === currentPage + delta + 1) {
+            array.push('...');
         }
     }
-    return array
+
+    return array;
 }
 
-const Grid = ({ children }: GridProps) => {
+const Grid = ({ children, totalItems }: GridProps) => {
     const [currentPage, setCurrentPage] = useState(1)
-    const totalPages = 10
-    const totalElements = 7
+    const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE);
 
-    const changeToPrevPage = () => {
-        setCurrentPage(prevPage => {
-            if (prevPage === 6) {
-                return prevPage - 2
-            }
-            return prevPage - 1
-        })
-    }
+    const changePage = (newPage) => {
+        setCurrentPage(newPage);
+    };
 
-    const changeToNextPage = () => {
-        setCurrentPage(prevPage => {
-            if (prevPage === 4) {
-                return prevPage + 2
-            }
-            return prevPage + 1
-        })
-    }
+    let paginationArray = getPages(currentPage, totalItems, totalPages);
 
+    const childrenArray = React.Children.toArray(children);
 
-
-    let paginationArray = getPages(currentPage, totalElements, totalPages)
-    // for (let i = 0; i < totalPages; i++) {
-    // } 
     return (
         <div className='gird'>
             <div className='grid__list'>
-                {children}
+                {childrenArray.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE)}
             </div>
             <div className="grid__controls">
                 <nav className="grid__pagination pagination">
@@ -64,8 +49,8 @@ const Grid = ({ children }: GridProps) => {
                             paginationArray.map((item, index) => {
                                 if (item !== "...") {
                                     return (
-                                    <li key={index} className="pagination__item">
-                                        <button className={`pagination__button ${currentPage === item ? "pagination__button--active" : ""}`} onClick={() => setCurrentPage(item)} type="button"><span>{item}</span></button>
+                                    <li key={index} className={`pagination__item ${item === '...' ? 'pagination__item--ellipsis' : ''}`}>
+                                        <button className={`pagination__button ${currentPage === item ? "pagination__button--active" : ""}`} onClick={() => item !== '...' && changePage(item)} type="button"><span>{item}</span></button>
                                     </li>
                                     )
                                 }
@@ -79,14 +64,14 @@ const Grid = ({ children }: GridProps) => {
                     </ul>
                 </nav>
                 <div className='grid__buttons'>
-                    { currentPage !== 1 && (
-                        <button className='grid__button grid__button--prev button button--black' type='button' onClick={changeToPrevPage}>
+                    { currentPage > 1 && (
+                        <button className='grid__button grid__button--prev button button--black' type='button' onClick={() => changePage(currentPage - 1)}>
                             <img src={buttonArrow} alt="" />
                             <span>Предыдущие</span>
                         </button>
                     )}
                     { currentPage !== totalPages && (
-                        <button className='grid__button grid__button--next button button--black' type='button' onClick={changeToNextPage}>
+                        <button className='grid__button grid__button--next button button--black' type='button' onClick={() => changePage(currentPage + 1)}>
                             <span>Показать ещё</span>
                             <img src={buttonArrow} alt="" />
                         </button>

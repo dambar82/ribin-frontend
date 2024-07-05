@@ -21,6 +21,7 @@ import UsersFilter from "./pages/UsersFilter/UsersFilter";
 import RubyLife from "./pages/RubyLife/RubyLife";
 import AuthorizedMain from "./pages/AuthorizedMain/AuthorizedMain";
 import MainAuthorizedLayout from "./components/layouts/MainAuthorizedLayout";
+import SportPage from "./pages/SportPage/SportPage";
 
 
 export function parseAndFormatDate(input) {
@@ -208,6 +209,7 @@ function App() {
                       path="/sportslife"
                       element={
                           <AuthLayout>
+                              <SportPage></SportPage>
                           </AuthLayout>
                       }
                   />
