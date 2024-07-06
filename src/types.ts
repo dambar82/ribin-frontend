@@ -112,3 +112,14 @@ export interface Post {
     updated_at: string;
     likes_count: number;
 }
+
+export interface PhotoGallery {
+    id: number;
+    sectionName: string;
+    title: string;
+    imagePreviewResized: string;
+    createdAt: "string";
+    publishDate: "string";
+    tags: "string";
+    photos: String[];
+}

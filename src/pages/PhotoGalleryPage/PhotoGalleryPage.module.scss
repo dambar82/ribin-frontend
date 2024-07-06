@@ -1,0 +1,16 @@
+.photogallery {
+    &__filter {
+        z-index: 10;
+    }
+    &__grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 32px 20px;
+        & > div {
+            flex: 0 0 calc((100% - 2 * 20px) / 3)
+        }
+        &:not(:first-child) {
+            margin: 100px 0 0;
+        }
+    }
+}

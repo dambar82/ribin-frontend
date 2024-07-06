@@ -9,7 +9,7 @@ interface GridProps {
 
 const ITEMS_PER_PAGE = 6;
 
-const getPages = (currentPage, totalItems, totalPages) => {
+const getPages = (currentPage, totalPages) => {
     const delta = 2; // Количество страниц вокруг текущей страницы
     let array = [];
 
@@ -32,7 +32,7 @@ const Grid = ({ children, totalItems }: GridProps) => {
         setCurrentPage(newPage);
     };
 
-    let paginationArray = getPages(currentPage, totalItems, totalPages);
+    let paginationArray = getPages(currentPage, totalPages);
 
     const childrenArray = React.Children.toArray(children);
 
@@ -41,43 +41,46 @@ const Grid = ({ children, totalItems }: GridProps) => {
             <div className='grid__list'>
                 {childrenArray.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE)}
             </div>
-            <div className="grid__controls">
-                <nav className="grid__pagination pagination">
-                    <ul className="pagination__list">
+            { totalPages > 1 && (
+                <div className="grid__controls">
+                    <nav className="grid__pagination pagination">
+                        <ul className="pagination__list">
 
-                        {
-                            paginationArray.map((item, index) => {
-                                if (item !== "...") {
+                            {
+                                paginationArray.map((item, index) => {
+                                    if (item !== "...") {
+                                        return (
+                                        <li key={index} className={`pagination__item ${item === '...' ? 'pagination__item--ellipsis' : ''}`}>
+                                            <button className={`pagination__button ${currentPage === item ? "pagination__button--active" : ""}`} onClick={() => item !== '...' && changePage(item)} type="button"><span>{item}</span></button>
+                                        </li>
+                                        )
+                                    }
                                     return (
-                                    <li key={index} className={`pagination__item ${item === '...' ? 'pagination__item--ellipsis' : ''}`}>
-                                        <button className={`pagination__button ${currentPage === item ? "pagination__button--active" : ""}`} onClick={() => item !== '...' && changePage(item)} type="button"><span>{item}</span></button>
-                                    </li>
+                                        <li key={index} className="pagination__item">
+                                            <button className="pagination__button pagination__button--ellipsis" type="button"><span>{item}</span></button>
+                                        </li>
                                     )
-                                }
-                                return (
-                                    <li key={index} className="pagination__item">
-                                        <button className="pagination__button pagination__button--ellipsis" type="button"><span>{item}</span></button>
-                                    </li>
-                                )
-                            })
-                        }
-                    </ul>
-                </nav>
-                <div className='grid__buttons'>
-                    { currentPage > 1 && (
-                        <button className='grid__button grid__button--prev button button--black' type='button' onClick={() => changePage(currentPage - 1)}>
-                            <img src={buttonArrow} alt="" />
-                            <span>Предыдущие</span>
-                        </button>
-                    )}
-                    { currentPage !== totalPages && (
-                        <button className='grid__button grid__button--next button button--black' type='button' onClick={() => changePage(currentPage + 1)}>
-                            <span>Показать ещё</span>
-                            <img src={buttonArrow} alt="" />
-                        </button>
-                    )}
+                                })
+                            }
+                        </ul>
+                    </nav>
+                    <div className='grid__buttons'>
+                        { currentPage > 1 && (
+                            <button className='grid__button grid__button--prev button button--black' type='button' onClick={() => changePage(currentPage - 1)}>
+                                <img src={buttonArrow} alt="" />
+                                <span>Предыдущие</span>
+                            </button>
+                        )}
+                        { currentPage !== totalPages && (
+                            <button className='grid__button grid__button--next button button--black' type='button' onClick={() => changePage(currentPage + 1)}>
+                                <span>Показать ещё</span>
+                                <img src={buttonArrow} alt="" />
+                            </button>
+                        )}
+                    </div>
                 </div>
-            </div>
+            )
+            }
         </div>
     )
 }

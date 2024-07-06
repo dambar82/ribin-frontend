@@ -24,7 +24,7 @@ import MainAuthorizedLayout from "./components/layouts/MainAuthorizedLayout";
 import SportPage from "./pages/SportPage/SportPage";
 import StudentsPage from './pages/StudentsPage/StudentsPage';
 import CoachesPage from './pages/CoachesPage/CoachesPage';
-
+import PhotoGalleryPage from './pages/PhotoGalleryPage/PhotoGalleryPage';
 
 export function parseAndFormatDate(input) {
     // Разбиваем строку на части
@@ -235,6 +235,17 @@ function App() {
                       }
                   />
               </Route>
+              <Route element={<PrivateRoute />}>
+                  <Route
+                      path="/photogallery"
+                      element={
+                          <AuthLayout>
+                            <PhotoGalleryPage />
+                          </AuthLayout>
+                      }
+                  />
+              </Route>
+              
               <Route path="*" element={<Navigate to={user ? "/" : "/login"} />} />
           </Routes>
       </BrowserRouter>

@@ -6,6 +6,7 @@ import clubsReducer from './clubsSlice';
 import peopleReducer from './peopleSlice';
 import studentsReducer from './studentsSlice';
 import coachesReducer from './coachesSlice';
+import photoGalleryReducer from './photoGallerySlice';
 
 export const store = configureStore({
     reducer: {
@@ -16,6 +17,7 @@ export const store = configureStore({
         people: peopleReducer,
         students: studentsReducer,
         coaches: coachesReducer,
+        photoGallery: photoGalleryReducer,
     },
 });
 

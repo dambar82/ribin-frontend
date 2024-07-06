@@ -8,14 +8,12 @@ import {fetchContests} from "../../store/contestSlice";
 import Grid from '../../components/Grid/Grid';
 import NewsCard from '../../components/NewsCard/NewsCard';
 
-import buttonArrow from "../../images/svg/button_arrow.svg";
 import {News} from "../../types";
 import {fetchNewsAndNewsBack} from "../../store/newsSlice";
 
 const NewsPage = () => {
     const dispatch = useDispatch<AppDispatch>();
 
-    const maxButtons = 6;
     const { status, news } = useSelector((state: RootState) => state.news);
 
     useEffect(() => {
