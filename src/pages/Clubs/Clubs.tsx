@@ -67,7 +67,7 @@ const Clubs = () => {
                     <div className='section__counter'>2303</div>
                 </div>
                 <div className='section__body'>
-                    <Grid>
+                    <Grid totalItems={clubs.length}>
                         {clubs.map((club, index) => (
                             <ClubCard
                                 key={club.name + index}

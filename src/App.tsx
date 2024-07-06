@@ -21,6 +21,7 @@ import UsersFilter from "./pages/UsersFilter/UsersFilter";
 import RubyLife from "./pages/RubyLife/RubyLife";
 import AuthorizedMain from "./pages/AuthorizedMain/AuthorizedMain";
 import MainAuthorizedLayout from "./components/layouts/MainAuthorizedLayout";
+import SportPage from "./pages/SportPage/SportPage";
 import StudentsPage from './pages/StudentsPage/StudentsPage';
 import CoachesPage from './pages/CoachesPage/CoachesPage';
 

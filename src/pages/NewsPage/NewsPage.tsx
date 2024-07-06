@@ -38,7 +38,7 @@ const NewsPage = () => {
                     <div className='section__counter'>2303</div>
                 </div>
                 <div className='section__body'>
-                    <Grid>
+                    <Grid totalItems={news.length}>
                         {
                             news.map((newsItem) => {
                                 // Проверяем, есть ли у newsItem свойство imagePreviewResized
