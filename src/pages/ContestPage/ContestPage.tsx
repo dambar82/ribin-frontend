@@ -32,7 +32,7 @@ const ContestPage = () => {
     const { contests, contestStatus, error } = useSelector((state: RootState) => state.contests);
     const { user } = useSelector((state: RootState) => state.user);
 
-    const [participating, setParticipating] = useState(false);
+    const [participating, setParticipating] = useState(true);
     const [timeLeft, setTimeLeft] = useState<TimeLeft>(defaultTimeLeft);
 
     const contest: Contest = contests.find(contest => contest.id.toString() === contestId);
@@ -52,6 +52,13 @@ const ContestPage = () => {
         }
         return defaultTimeLeft;
     };
+
+    const timeMap = {
+        'days': 'дней',
+        'hours': 'часов',
+        'minutes': 'минут'
+      }
+
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -190,11 +197,24 @@ const ContestPage = () => {
                                         Осталось времени до оглашения результатов
                                     </h2>
                                     <div className={styles.timerBlock_timer}>
-                                        <div>
-                                            {timeLeft.days} дней
-                                            {timeLeft.hours} часов
-                                            {timeLeft.minutes} минут
-                                        </div>
+                                        {Object.keys(timeLeft).map((timeItem, index, arr) => {
+                                            if (index !== arr.length - 1) 
+                                                return (
+                                                    <>
+                                                    <div key={timeItem} className={styles.timerItem}>
+                                                        <div className={styles.timerItem_value}>{timeLeft[timeItem]}</div>
+                                                        <div className={styles.timerItem_label}>{timeMap[timeItem]}</div>
+                                                    </div>
+                                                    <div className={styles.timerSeparator}></div>
+                                                    </>
+                                            )
+                                            return (
+                                                <div key={timeItem} className={styles.timerItem}>
+                                                    <div className={styles.timerItem_value}>{timeLeft[timeItem]}</div>
+                                                    <div className={styles.timerItem_label}>{timeMap[timeItem]}</div>
+                                                </div>
+                                            )
+                                        })}
                                     </div>
                                 </div>
                             </div>

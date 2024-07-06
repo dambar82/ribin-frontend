@@ -29,24 +29,6 @@ const CoachesPage = () => {
             title="Тренеры клуба"
             persons={coaches}
         />
-        // <div className="page">
-        //     <section className="section">
-        //         <div className="section__header">
-        //             <h1 className="section__title">Активисты</h1>
-        //         </div>
-        //         <div className="section__body">
-        //             <div style={{
-        //                 display: "flex", 
-        //                 flexWrap: "wrap",
-        //                 gap: "20px"
-        //             }}>
-        //                 { students.map(student => (
-        //                     <PersonCard key={student.id} name={student.title} imageUrl={student.imagePreviewResized}/>
-        //                 ))}
-        //             </div>
-        //         </div>
-        //     </section>
-        // </div>
     )
 }
 
