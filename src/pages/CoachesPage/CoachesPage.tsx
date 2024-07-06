@@ -4,30 +4,30 @@ import { RootState, AppDispatch } from '../../store/store';
 
 import PersonsPageTemplate from '../../components/PersonsPageTemplate/PersonsPageTemplate';
 
-import { fetchStudents } from '../../store/studentsSlice';
+import { fetchCoaches } from '../../store/coachesSlice';
 
-const StudentsPage = () => {
+const CoachesPage = () => {
     const dispatch = useDispatch<AppDispatch>()
-    const { students, status, error } = useSelector((state: RootState) => state.students);
+    const { coaches, status, error } = useSelector((state: RootState) => state.coaches);
 
-    // useEffect(() => {
-    //     if (status === 'idle') {
-    //         dispatch(fetchStudents());
-    //     }
-    // }, [status, dispatch]);
+    useEffect(() => {
+        if (status === 'idle') {
+            dispatch(fetchCoaches());
+        }
+    }, [status, dispatch]);
 
-    // if (status === 'loading') {
-    //     return <p>Loading...</p>;
-    // }
+    if (status === 'loading') {
+        return <p>Loading...</p>;
+    }
 
-    // if (status === 'failed') {
-    //     return <p>{error}</p>;
-    // }
+    if (status === 'failed') {
+        return <p>{error}</p>;
+    }
 
     return (
         <PersonsPageTemplate
-            title="Активисты"
-            persons={students}
+            title="Тренеры клуба"
+            persons={coaches}
         />
         // <div className="page">
         //     <section className="section">
@@ -50,4 +50,4 @@ const StudentsPage = () => {
     )
 }
 
-export default StudentsPage
+export default CoachesPage

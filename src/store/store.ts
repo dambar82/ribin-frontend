@@ -4,7 +4,8 @@ import contestReducer from './contestSlice';
 import newsReducer from './newsSlice';
 import clubsReducer from './clubsSlice';
 import peopleReducer from './peopleSlice';
-import studensSlice from './studensSlice';
+import studentsReducer from './studentsSlice';
+import coachesReducer from './coachesSlice';
 
 export const store = configureStore({
     reducer: {
@@ -13,7 +14,8 @@ export const store = configureStore({
         news: newsReducer,
         clubs: clubsReducer,
         people: peopleReducer,
-        students: studensSlice
+        students: studentsReducer,
+        coaches: coachesReducer,
     },
 });
 

@@ -22,7 +22,7 @@ import RubyLife from "./pages/RubyLife/RubyLife";
 import AuthorizedMain from "./pages/AuthorizedMain/AuthorizedMain";
 import MainAuthorizedLayout from "./components/layouts/MainAuthorizedLayout";
 import StudentsPage from './pages/StudentsPage/StudentsPage';
-
+import CoachesPage from './pages/CoachesPage/CoachesPage';
 
 
 export function parseAndFormatDate(input) {
@@ -220,6 +220,16 @@ function App() {
                       element={
                           <AuthLayout>
                             <StudentsPage />
+                          </AuthLayout>
+                      }
+                  />
+              </Route>
+              <Route element={<PrivateRoute />}>
+                  <Route
+                      path="/academy-coaches"
+                      element={
+                          <AuthLayout>
+                            <CoachesPage />
                           </AuthLayout>
                       }
                   />

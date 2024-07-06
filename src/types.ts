@@ -96,6 +96,12 @@ export interface Student {
     imagePreviewResized: string;
 }
 
+export interface Coach {
+    id: number,
+    title: string;
+    imagePreviewResized: string;
+}
+
 export interface Post {
     id: number;
     title: string;

@@ -183,6 +183,17 @@ button {
   }
 }
 
+.persons {
+  &__grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    & > div {
+      width: calc((100% - 3 * 20px) / 4);
+    }
+  }
+}
+
 .content {
   margin: 0 auto;
   max-width: 90%;
