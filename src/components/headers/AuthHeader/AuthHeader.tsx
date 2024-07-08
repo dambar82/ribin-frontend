@@ -13,6 +13,8 @@ import { logout } from '../../../store/userSlice';
 import myProfile from '../../../images/svg/myProfile.svg';
 import messages from '../../../images/svg/messages.svg';
 import options from '../../../images/svg/options.svg';
+import blackArrowDown from '../../../images/svg/blackArrowDown.svg';
+import blackArrowUp from '../../../images/svg/blackArrowUp.svg';
 
 interface IMenuLink {
     title: string;
@@ -26,44 +28,44 @@ const menuLinks: IMenuLink[] = [
     { title: 'Новости', link: '/news' },
     { title: 'Блог', link: '/blog' },
     { title: 'Клубы', link: '/clubs' },
-    { title: 'Жизнь “Рубина”', link: '/rubylife' },
-    { title: 'Активности клуба', link: '/sportslife' },
 ];
 
 const AuthHeader = () => {
     const dispatch = useAppDispatch();
     const { user } = useSelector((state: RootState) => state.user);
-    const [subMenu, setShowSubmenu] = useState<boolean>(false);
-    const subMenuRef = useRef<HTMLDivElement>(null);
+    const [activeSubMenu, setActiveSubMenu] = useState(null);
+    const profileSubMenuRef = useRef(null);
+    const rubinLifeSubMenuRef = useRef(null);
+    const clubActivitiesSubMenuRef = useRef(null);
 
     const handleLogout = () => {
         dispatch(logout());
     };
 
-    const onShowSubMenu = (event: React.MouseEvent) => {
+    const toggleSubMenu = (menuName: string, event: React.MouseEvent) => {
         event.stopPropagation();
-        setShowSubmenu(!subMenu);
+        setActiveSubMenu((prevMenuName) => (prevMenuName === menuName ? null : menuName));
     };
 
-    const handleClickOutside = (event: MouseEvent) => {
-        if (subMenuRef.current && !subMenuRef.current.contains(event.target as Node)) {
-            setShowSubmenu(false);
+    const handleClickOutside = (event) => {
+        if (activeSubMenu &&
+            (!profileSubMenuRef.current || !profileSubMenuRef.current.contains(event.target)) &&
+            (!rubinLifeSubMenuRef.current || !rubinLifeSubMenuRef.current.contains(event.target)) &&
+            (!clubActivitiesSubMenuRef.current || !clubActivitiesSubMenuRef.current.contains(event.target))) {
+            setActiveSubMenu(null);
         }
     };
 
     useEffect(() => {
-        if (subMenu) {
-            document.addEventListener('click', handleClickOutside);
-        } else {
-            document.removeEventListener('click', handleClickOutside);
-        }
+        document.addEventListener('mousedown', handleClickOutside);
         return () => {
-            document.removeEventListener('click', handleClickOutside);
+            document.removeEventListener('mousedown', handleClickOutside);
         };
-    }, [subMenu]);
+    }, [activeSubMenu]);
 
     const handleSubMenuClick = (event: React.MouseEvent) => {
         event.stopPropagation();
+        setActiveSubMenu(null);
     };
 
     return (
@@ -71,18 +73,18 @@ const AuthHeader = () => {
             <div className={`justify_content_SB ${styles.authHeader_up}`}>
                 <img src={rubyLogo} alt=""/>
                 {user && (
-                    <div className='profile_button' onClick={onShowSubMenu}>
+                    <div className='profile_button' onClick={(event) => toggleSubMenu('profile', event)}>
                         <div className={`profile_button_avatar`}>
                             <img src={user.image} alt=""/>
                         </div>
                         <span>{user.name}</span>
-                        {subMenu ? (
+                        {activeSubMenu === 'profile' ? (
                             <img src={buttonArrowUp} alt=""/>
                         ) : (
                             <img src={buttonArrowDown} alt=""/>
                         )}
-                        {subMenu && (
-                            <div className='profile_button_subMenu' ref={subMenuRef} onClick={handleSubMenuClick}>
+                        {activeSubMenu === 'profile' && (
+                            <div className='profile_button_subMenu' ref={profileSubMenuRef} onClick={handleSubMenuClick}>
                                 <ul>
                                     <li>
                                         <img src={myProfile} alt=""/>
@@ -122,6 +124,58 @@ const AuthHeader = () => {
                         </div>
                     </Link>
                 ))}
+                <div className={styles.menuLink} onClick={(event) => toggleSubMenu('rubinLife', event)}>
+                    Жизнь “Рубина”
+                    {activeSubMenu === 'rubinLife' ? <img src={blackArrowUp} alt=""/> : <img src={blackArrowDown} alt=""/>}
+                    {activeSubMenu === 'rubinLife' && (
+                        <div className='submenu' ref={rubinLifeSubMenuRef} onClick={handleSubMenuClick}>
+                            <ul>
+                                <Link to='/students'>
+                                    <li>
+                                        Активисты клуба
+                                    </li>
+                                </Link>
+                                <Link to='/academy-coaches'>
+                                    <li>
+                                        Тренерский состав
+                                    </li>
+                                </Link>
+                                <li>
+                                    Программы и предложения клуба
+                                </li>
+                                <li>
+                                    Достижения
+                                </li>
+                                <Link to='/photogallery'>
+                                    <li>
+                                        Фотогалерея
+                                    </li>
+                                </Link>
+                            </ul>
+                        </div>
+                    )}
+                </div>
+                <div className={styles.menuLink} onClick={(event) => toggleSubMenu('clubActivities', event)}>
+                    Активности клуба
+                    {activeSubMenu === 'clubActivities' ? <img src={blackArrowUp} alt=""/> : <img src={blackArrowDown} alt=""/>}
+                    {activeSubMenu === 'clubActivities' && (
+                        <div className='submenu' ref={clubActivitiesSubMenuRef} onClick={handleSubMenuClick}>
+                            <ul>
+                                <Link to='/sportslife'>
+                                    <li>
+                                        Спорт для школьников
+                                    </li>
+                                </Link>
+                                <li>
+                                    Викторины
+                                </li>
+                                <li>
+                                    Мероприятия
+                                </li>
+                            </ul>
+                        </div>
+                    )}
+                </div>
                 <div className={styles.menuSearchbar}>
                     <input type="text" placeholder="Поиск"/>
                     <img src={loupePic} alt=""/>

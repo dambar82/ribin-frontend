@@ -211,6 +211,7 @@ function App() {
                       path="/sportslife"
                       element={
                           <AuthLayout>
+                              <SportPage></SportPage>
                           </AuthLayout>
                       }
                   />
