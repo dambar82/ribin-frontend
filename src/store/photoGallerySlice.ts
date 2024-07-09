@@ -62,7 +62,7 @@ const photoGallerySlice = createSlice({
             })
             .addCase(fetchPhotoGalleryById.fulfilled, (state, action: PayloadAction<PhotoGallery>) => {
                 state.photoGallery.map(gallery => {
-                    if (gallery.id = action.payload.id) {
+                    if (gallery.id === action.payload.id) {
                         gallery.photos = action.payload.photos
                     }
                 })

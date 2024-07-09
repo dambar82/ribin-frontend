@@ -39,10 +39,6 @@ const GalleryCard = ({ id, name, image, category, date }: IPhotoGalleryCard) => 
     // const { photoGallery } = useSelector((state: RootState) => state.photoGallery);
     let formatedDate = formatDate(date)
 
-    // useEffect(() => {
-    //     dispatch(fetchPhotoGalleryById(id));
-    // }, []);
-
     return (
         <div className={styles.card}>
             <div className={styles.card__date}>{formatedDate[0]} <span>{formatedDate[1]}</span> {formatedDate[2]}</div>
@@ -50,14 +46,11 @@ const GalleryCard = ({ id, name, image, category, date }: IPhotoGalleryCard) => 
                 { image && <img src={image} alt=''/>}
             </div>
             <div className={styles.card__content}>
-                <div className={styles.card__amount}>
-                    <div className={styles.card__amountIcon}>
-                        <img src={photoIcon} />
-                    </div>
-                    <div className={styles.card__amountLabel}>
-                        <span>{0}</span> фотографий
-                    </div>
-                </div>
+                {/*<div className={styles.card__amount}>*/}
+                {/*    <div className={styles.card__amountIcon}>*/}
+                {/*        <img src={photoIcon} />*/}
+                {/*    </div>*/}
+                {/*</div>*/}
                 <h3 className={styles.card__title}>{ name }</h3>
                 <p className={styles.card__category}>{ category }</p>
             </div>

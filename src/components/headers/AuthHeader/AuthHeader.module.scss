@@ -24,6 +24,11 @@
 }
 
 .menuLink {
+  display: flex;
+  align-items: center;
+  column-gap: 20px;
+  position: relative;
+  cursor: pointer;
   padding: 12px 24px;
   font-size: 18px;
   line-height: 22px;

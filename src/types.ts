@@ -1,3 +1,5 @@
+import exp from "constants";
+
 export interface Client {
     id: number;
     name: string;
@@ -88,6 +90,31 @@ export interface Clubs {
     clients_count: number;
     clients: any[];
     events: any[];
+}
+
+export interface TrainingVideo {
+    id: number;
+    name: string;
+    source: string;
+    description: string;
+    created_at: string;
+    updated_at: string
+}
+
+export interface TrainingImage {
+    id: number;
+    name: string;
+    type: number;
+    source: string;
+    description: string;
+    created_at: string;
+    updated_at: string
+}
+
+export interface Sport {
+    training_videos: TrainingVideo[];
+    healthy_eating_video: TrainingVideo[];
+    healthy_eating_img: TrainingImage[];
 }
 
 export interface Student {
