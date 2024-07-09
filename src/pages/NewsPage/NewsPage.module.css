@@ -1,0 +1,21 @@
+.hero {
+  background-color: #FFB800;
+}
+.hero__title {
+  background-color: #FF7A00;
+  top: 15.8928571429%;
+  left: 2.7710843373%;
+  transform: rotate(-14deg);
+  transform-origin: center;
+}
+.hero__bg {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  mix-blend-mode: screen;
+}
+.hero__ruby {
+  right: 4.8192771084%;
+  bottom: -30px;
+}/*# sourceMappingURL=NewsPage.module.css.map */
