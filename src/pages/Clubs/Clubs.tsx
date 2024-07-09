@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState, AppDispatch } from '../../store/store';
 
+import { Link } from 'react-router-dom';
+
 import styles from './Clubs.module.scss';
 
 import Grid from '../../components/Grid/Grid'
@@ -41,13 +43,14 @@ const Clubs = () => {
                 <div className='section__body'>
                     <div className={styles.clubs__row}>
                         {clubs.slice(0, 3).map((club, index) => (
-                            <ClubCard
-                                key={club.name + index}
-                                name={club.name}
-                                image={club.caption}
-                                desc={club.short_description}
-                                participants={club.clients_count}
-                            />
+                            <Link to={`/clubs/${index}`} key={club.name + index}>
+                                <ClubCard
+                                    name={club.name}
+                                    image={club.caption}
+                                    desc={club.short_description}
+                                    participants={club.clients_count}
+                                />
+                            </Link>
                         ))}
                     </div>
                 </div>

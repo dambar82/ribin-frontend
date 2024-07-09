@@ -10,17 +10,27 @@ a {
   color: inherit;
 }
 
+img {
+  vertical-align: top;
+}
+
+button {
+  background-color: transparent;
+  border: none;
+  outline: none;
+}
+
 button[type="button"] {
   cursor: pointer;
 }
 
-li {
-  list-style: none;
-}
-
-button {
+input, textarea {
   border: none;
   outline: none;
+}
+
+li {
+  list-style: none;
 }
 
 .flex-column {
@@ -93,8 +103,19 @@ button {
     background-color: #FFFFFF;
     color: #2A2A2A;
   }
+  &--main {
+    background-color: #91172C;
+    color: #FFFFFF;
+  }
 }
 
+.row {
+  display: flex;
+  gap: 20px;
+  & > div {
+    flex: 0 0 calc((100% - 2 * 20px) / 3);
+  }
+}
 .grid {
   &__list {
     display: grid;

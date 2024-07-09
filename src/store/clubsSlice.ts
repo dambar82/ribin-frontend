@@ -14,7 +14,7 @@ const initialState: ClubsState = {
     error: null,
 };
 
-export const fetchClubs = createAsyncThunk('news/fetchClubs', async () => {
+export const fetchClubs = createAsyncThunk('clubs/fetchClubs', async () => {
     const response = await axios.get('https://api-rubin.multfilm.tatar/api/club');
     return response.data.data as Clubs[];
 });

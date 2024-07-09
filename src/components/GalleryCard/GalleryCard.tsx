@@ -35,13 +35,13 @@ const formatDate = (dateStr: string) => {
 }
 
 const GalleryCard = ({ id, name, image, category, date }: IPhotoGalleryCard) => {
-    const dispatch = useDispatch<AppDispatch>()
-    const { photoGallery } = useSelector((state: RootState) => state.photoGallery);
+    // const dispatch = useDispatch<AppDispatch>()
+    // const { photoGallery } = useSelector((state: RootState) => state.photoGallery);
     let formatedDate = formatDate(date)
 
-    useEffect(() => {
-        dispatch(fetchPhotoGalleryById(id));
-    }, []);
+    // useEffect(() => {
+    //     dispatch(fetchPhotoGalleryById(id));
+    // }, []);
 
     return (
         <div className={styles.card}>
