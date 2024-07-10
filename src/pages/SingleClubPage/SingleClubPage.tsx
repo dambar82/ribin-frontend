@@ -4,6 +4,7 @@ import styles from './SingleClubPage.module.scss';
 import loupeIcon from '../../images/svg/loupe.svg'
 import geoIcon from '../../images/svg/geo.svg'
 
+import Row from '../../components/Row/Row';
 import Card from '../../components/Card/Card';
 import Post from '../../components/Post/Post';
 
@@ -69,7 +70,8 @@ const SingleClubPage = () => {
                     <div className='section__counter'>3</div>
                 </div>
                 <div className='section__body'>
-                    <div className='row'>
+                    <Row>
+                        {/* <div className='row'> */}
                         {[ "Тренировка", "Дружеский матч", "Мастер-класс от профессионального тренера"].map((name, index) => (
                             <Card
                                 key={index}
@@ -80,7 +82,8 @@ const SingleClubPage = () => {
                                 tagLabel='Cтадион "Рубин", улица Спортивная, 15'
                             />
                         ))}
-                    </div>
+                        {/* </div> */}
+                    </Row>
                 </div>
             </section>
             <section className={`section ${styles.feed}`}>
