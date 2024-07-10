@@ -1,26 +1,34 @@
-import { useState } from 'react'
-import styles from './SportPage.module.scss';
+import { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState, AppDispatch } from '../../store/store';
 
+import styles from './SportPage.module.scss';
 
 import Grid from '../../components/Grid/Grid';
 import VideoTrainingCard from '../../components/VideoTrainingCard/VideoTrainingCard';
 
+import { fetchSport } from '../../store/sportSlice';
+
 const SportPage = () => {
+    const dispatch = useDispatch<AppDispatch>();
     const [tabPage, setTabPage] = useState(0)
 
-    const trainingPrograms = [
-        { title: "Основы футбольной тренировки", desc: "Узнайте основные упражнения и техники, которые помогут вам стать лучше на футбольном поле.", imgSrc: "training-image-1.png" },
-        { title: "Разминка перед тренировкой", desc: "Важные упражнения для правильной разминки перед тренировкой или игрой.", imgSrc: "training-image-2.png" },
-        { title: "Кардиотренировка для школьников", desc: "Увлекательная кардиотренировка, которая поможет улучшить выносливость и здоровье сердца.", imgSrc: "training-image-3.png" }
-    ]
+    const { sports, status, error } = useSelector((state: RootState) => state.sport);
 
-    // const changeTabPage = (page: number) => {
-    //     setTabPage(currentPage=> {
-    //         if (currentPage !== page)
-    //             return page
-    //     })
-    // }
+    useEffect(() => {
+        if (status === 'idle') {
+            dispatch(fetchSport());
+        }
+    }, [status, dispatch]);
 
+    if (status === 'loading') {
+        return <p>Loading...</p>;
+    }
+
+    if (status === 'failed') {
+        return <p>{error}</p>;
+    }
+    
     return (
         <div className="page">
             <div className={`${styles.hero} hero`}>
@@ -43,12 +51,14 @@ const SportPage = () => {
                         {
                             tabPage === 0 && 
                             <div className='tab-page'>
-                                <Grid totalItems={trainingPrograms.length}>
-                                    { trainingPrograms.map(({title, desc, imgSrc }, index) => (
-                                        <VideoTrainingCard key={title + index} title={title} short_description={desc} image={imgSrc} />
-                                    ))}
-                                    { trainingPrograms.map(({title, desc, imgSrc }, index) => (
-                                        <VideoTrainingCard key={title + index} title={title} short_description={desc} image={imgSrc} />
+                                <Grid totalItems={sports["training_videos"]?.length}>
+                                    {sports["training_videos"]?.map(video => (
+                                        <VideoTrainingCard 
+                                            key={video.id}
+                                            title={video.name}
+                                            description={video.description}
+                                            image={video.source}
+                                        />
                                     ))}
                                 </Grid>          
                             </div>
@@ -56,10 +66,18 @@ const SportPage = () => {
                         {
                             tabPage === 1 && 
                             <div className='tab-page'>
-                                <Grid totalItems={trainingPrograms.length}>
-                                    { trainingPrograms.map(({title, desc, imgSrc }, index) => (
-                                        <VideoTrainingCard key={title + index} title={title} short_description={desc} image={imgSrc} />
+                                <Grid totalItems={sports["healthy_eating_img"]?.length}>
+                                    {sports["healthy_eating_img"]?.map(video => (
+                                        <VideoTrainingCard 
+                                            key={video.id}
+                                            title={video.name}
+                                            description={video.description}
+                                            image={video.source}
+                                        />
                                     ))}
+                                    {/* { trainingPrograms.map(({title, desc, imgSrc }, index) => (
+                                        <VideoTrainingCard key={title + index} title={title} description={desc} image={imgSrc} />
+                                    ))} */}
                                 </Grid>          
                             </div>
                         }

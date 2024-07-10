@@ -5,15 +5,15 @@ import playIcon from '../../images/svg/play-button.svg';
 interface IVideoTrainingCard {
     title: string;
     image: string;
-    short_description: string;
+    description: string;
 }
 
-const VideoTrainingCard = ({title, image, short_description}: IVideoTrainingCard) => {
+const VideoTrainingCard = ({title, image, description}: IVideoTrainingCard) => {
 
     return (
         <div className={styles.card}>
             <div className={styles.card__video + " " + styles.video}>
-                <img src={`images/${image}`} alt="" className={styles.video__poster}/>
+                { image && <img src={`https://api-rubin.multfilm.tatar/storage/${image}`} alt="" className={styles.video__poster}/>}
                 <div className={styles.video__playbutton}>
                     <img src={playIcon} alt="" />
                 </div>
@@ -21,7 +21,7 @@ const VideoTrainingCard = ({title, image, short_description}: IVideoTrainingCard
             </div>
             <div className={styles.card__content}>
                 <h3 className={styles.card__title}>{title}</h3>
-                <p className={styles.card__desc}>{short_description}</p>
+                <p className={styles.card__desc}>{description}</p>
             </div>
         </div>
     );

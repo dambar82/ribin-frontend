@@ -1,4 +1,4 @@
-import {Clubs, Sport} from "../types";
+import {Sport} from "../types";
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 import axios from "axios";
 
