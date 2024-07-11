@@ -26,6 +26,7 @@ import StudentsPage from './pages/StudentsPage/StudentsPage';
 import CoachesPage from './pages/CoachesPage/CoachesPage';
 import PhotoGalleryPage from './pages/PhotoGalleryPage/PhotoGalleryPage';
 import SingleClubPage from './pages/SingleClubPage/SingleClubPage';
+import PostsPage from './pages/PostsPage/PostsPage';
 
 export function parseAndFormatDate(input) {
     // Разбиваем строку на части
@@ -257,7 +258,16 @@ function App() {
                       }
                   />
               </Route>
-              
+              <Route element={<PrivateRoute />}>
+                  <Route
+                      path="/posts"
+                      element={
+                          <AuthLayout>
+                            <PostsPage />
+                          </AuthLayout>
+                      }
+                  />
+              </Route>
               <Route path="*" element={<Navigate to={user ? "/" : "/login"} />} />
           </Routes>
       </BrowserRouter>

@@ -15,19 +15,23 @@ type Comment = {
 
 interface ICard {
     name: string;
-    image: string;
-    tags: string;
-    comments: Comment[]
+    avatar?: string;
+    image?: string;
+    tags?: string;
+    comments?: Comment[]
     children: React.ReactNode;
 }
 
-const Post = ({ name, image, tags, comments, children }: ICard) => {
+const Post = ({ name, avatar, image, tags, comments, children }: ICard) => {
     return (
         <article className={styles.post}>
             <div className={styles.post__header}>
                 <div className={styles.post__mainInfo}>
                     <div className={styles.post__avatar}>
-                        <img src="/images/club-image.png" alt="" />
+                        {avatar ?
+                            <img src={avatar} alt="" /> :
+                            <img src="/images/club-image.png" alt="" />
+                        }
                     </div>
                     <div className={styles.post__title}>{name}</div>
                     <div className={styles.post__createdAt}>13.03.2024 I 17:31</div>

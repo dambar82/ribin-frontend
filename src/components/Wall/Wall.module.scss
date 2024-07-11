@@ -1,0 +1,267 @@
+.wall {
+    background-color: #F8F8F8;
+    border-radius: 50px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 46px 60px;
+    padding: 70px;
+    position: relative;
+    &__nav {
+        flex-basis: 100%;
+        display: flex;
+        gap: 46px;
+    }
+    &__navButton {
+        color: #9D9D9D;
+        font-size: 20px;
+        font-weight: 500;
+        line-height: calc(24 / 20);
+        padding: 0 0 20px;
+        position: relative;
+        &::after {
+            background-color: #91172C;
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            height: 2px;
+            width: 0;
+        }
+    }
+    &__navButtonActive {
+        color: #91172C;
+        &::after {
+            width: 100%;
+        }
+    }
+    &__content {
+        flex-basis: calc(100% - 460px - 60px);
+        & > p {
+            font-size: 20px;
+            font-weight: 500;
+            line-height: calc(24 / 20);
+        }
+    }
+    &__feed {
+        & > * {
+            &:not(:last-child) {
+                margin: 0 0 20px;
+            }
+        }
+    }
+    &__feedForm {
+        background-color: #FFFFFF;
+        border: 1px solid #F2F2F2;
+        border-radius: 35px;
+        padding: 32px;
+        textarea {
+            background-color: #F8F8F8;
+            border: 2px solid #F2F2F2;
+            border-radius: 25px;
+            color: #6F6F6F;
+            font-size: 20px;
+            font-weight: 500;
+            line-height: calc(24 / 20);
+            padding: 32px 30px;
+            width: 100%;
+            height: 220px;
+            resize: none;
+        }
+        & > div {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            &:last-child {
+                margin: 20px 0 0;
+            }
+        }
+    }
+    &__feedFormFile {
+
+    }
+    &__feedFormFileField {
+        background-color: #91172C;
+        border-radius: 50%;
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 50px;
+        height: 50px;
+        input[type="file"] {
+            appearance: none;
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            overflow: hidden;
+            clip: rect(0 0 0 0);
+        }
+    }
+    &__feedFormFileDoc {
+        background-color: #91172C;
+        border-radius: 35px;
+        display: flex;
+        gap: 6px;
+        align-items: center;
+        color: #FFFFFF;
+        font-size: 20px;
+        font-weight: 500;
+        line-height: calc(24 / 20);
+        padding: 8px 16px;
+        max-width: 320px;
+        span {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        button {
+            flex-shrink: 0;
+            position: relative;
+            width: 20px;
+            height: 20px;
+            &::before, &::after {
+                background-color: #FFFFFf;
+                content: "";
+                position: absolute;
+                top: calc(50% - 1px);
+                left: 0;
+                width: 100%;
+                height: 2px;
+            }
+            &::before {
+                transform: rotate(45deg);
+            }
+            &::after {
+                transform: rotate(-45deg);
+            }
+        }
+    }
+    &__aside {
+        align-self: flex-start;
+        flex: 0 0 460px;
+        &_sticky {
+            position: sticky;
+            top: 50px;
+        }
+    }
+    &__asideBlock {
+        border-radius: 35px;
+        background-color: #FFFFFF;
+        padding: 32px;
+        & > * {
+            &:not(:last-child) {
+                margin: 0 0 32px;
+            }
+        }
+        &:not(:last-child) {
+            margin: 0 0 20px;
+        }
+    }
+    &__form {
+        background-color: #F8F8F8;
+        border-radius: 50px;
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        padding: 18px 24px;
+        input {
+            background-color: transparent;
+            border: none;
+            outline: none;
+            color: #6F6F6F;
+            font-size: 20px;
+            font-weight: 500;
+            line-height: calc(24 / 20);
+        }
+        button {
+            background-color: transparent;
+        }
+    }   
+    &__filter {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+    &__filterItem {
+        background-color: #F8F8F8;
+        border-radius: 50px;
+        font-size: 20px;
+        font-weight: 500;
+        line-height: calc(24 / 20);
+        padding: 18px 60px;
+        text-align: center;
+    }
+    &__filterItemActive {
+        background-color: #91172C;
+        color: #FFFFFF;
+    }
+    &__users {
+
+    }
+    &__usersTitle {
+        border-bottom: 2px solid #F8F8F8;
+        font-size: 24px;
+        font-weight: 500;
+        line-height: calc(28 / 24);
+        padding: 0 0 20px;
+        &:not(:last-child) {
+            margin: 0 0 20px;
+        }
+    }
+    &__usersList {
+        li {
+            width: fit-content;
+            &:not(:last-child) {
+                margin: 0 0 20px;
+            }
+        }
+    }
+}
+
+.user {
+    display: grid;
+    gap: 6px 14px;
+    &__avatar {
+        background-color: #E1193A;
+        border-radius: 50%;
+        grid-column: 1 / 2;
+        grid-row: 1 / 3;
+        width: 62px;
+        height: 62px;
+        overflow: hidden;
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    }
+    &__name {
+        align-self: end;
+        grid-column: 2 / 3;
+        grid-row: 1 / 2;
+        font-size: 20px;
+        font-weight: 500;
+        line-height: calc(24 / 20);
+    }
+    &__level {
+        background-color: #FF9900;
+        border-radius: 30px;
+        display: flex;
+        justify-content: center;
+        gap: 6px;
+        grid-column: 2 / 3;
+        grid-row: 2 / 3;
+        align-self: start;
+        color: #FFFFFF;
+        font-size: 16px;
+        font-weight: 500;
+        line-height: calc(20 / 16);
+        padding: 6px 13px;
+        span {
+            &:last-child {
+                font-family: "Saira", "sans-serif";
+            }
+        }
+    }
+}
