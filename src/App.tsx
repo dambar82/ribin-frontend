@@ -27,7 +27,7 @@ import CoachesPage from './pages/CoachesPage/CoachesPage';
 import PhotoGalleryPage from './pages/PhotoGalleryPage/PhotoGalleryPage';
 import SingleClubPage from './pages/SingleClubPage/SingleClubPage';
 import PostsPage from './pages/PostsPage/PostsPage';
-import AchievementsPage from './pages/AchievementsPage/AchievementsPage';
+import AwardsPage from './pages/AwardsPage/AwardsPage';
 
 
 export function parseAndFormatDate(input) {
@@ -272,10 +272,10 @@ function App() {
               </Route>
               <Route element={<PrivateRoute />}>
                   <Route
-                      path="/achievements"
+                      path="/awards"
                       element={
                           <AuthLayout>
-                            <AchievementsPage />
+                            <AwardsPage />
                           </AuthLayout>
                       }
                   />
