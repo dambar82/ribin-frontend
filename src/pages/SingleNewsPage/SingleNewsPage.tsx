@@ -1,0 +1,119 @@
+import {useEffect} from 'react'
+import {useDispatch, useSelector} from "react-redux";
+import { Link } from 'react-router-dom';
+import {AppDispatch, RootState} from "../../store/store";
+
+import styles from "./SingleNewsPage.module.scss"
+
+import Tag from "../../components/Tag/Tag"
+
+import likeIcon from "../../images/svg/likes.svg";
+import sharedIcon from "../../images/svg/shared.svg"
+import viewIcon from "../../images/svg/views.svg"
+import calendarIcon from "../../images/svg/calendar.svg"
+import favoriteIcon from "../../images/svg/favorite.svg"
+import shareIcon from "../../images/svg/share.svg"
+import buttonArrow from "../../images/svg/button_arrow.svg"
+
+import NewsCard from "../../components/NewsCard/NewsCard";
+
+import {fetchNewsAndNewsBack} from "../../store/newsSlice";
+
+const SingleNewsPage = () => {
+    const dispatch = useDispatch<AppDispatch>();
+
+    const { status, news } = useSelector((state: RootState) => state.news);
+
+    useEffect(() => {
+        if (status === 'idle') {
+            dispatch(fetchNewsAndNewsBack());
+        }
+    }, [status, dispatch]);
+
+    return (
+        <div className="page">
+            <div className={styles.news}>
+                <div className={styles.news__cover}>
+                    <img src="/images/news-cover.png" alt="" />
+                </div>
+                <div className={styles.news__innerWrapper}>
+                    <div className={styles.news__info}>
+                        <h1 className={styles.news__title}>Подготовка к Сезону: Тренировки в Полном Разгаре!</h1>
+                        <div className={styles.news__subheader}>
+                            <Tag icon={calendarIcon} count={"16.03.2024"}/>
+                            <Tag icon={viewIcon} count={122}/>
+                        </div>
+                        <div className={styles.news__text}>
+                            <p>Наши юные футболисты полны энергии и решимости, активно готовясь к новому сезону. Тренировки проходят ежедневно под чутким руководством опытных тренеров. Команда усердно работает над техникой, тактикой и физической подготовкой, оттачивая каждый элемент игры до совершенства.</p>
+                            <p>Каждое утро начинается с разминки, направленной на развитие гибкости и координации. Затем следуют интенсивные упражнения на выносливость, включающие бег, прыжки и разнообразные спортивные игры. Тренеры уделяют особое внимание командной работе, разрабатывая различные тактические схемы и стратегии. Футболисты отрабатывают точность передач, удары по воротам и защитные действия.</p>
+                            <p>Кроме того, особое внимание уделяется развитию личностных качеств спортсменов, таких как дисциплина, ответственность и умение работать в команде. Мы верим, что формирование сильного духа и позитивного отношения к тренировкам играет ключевую роль в достижении высоких результатов.</p>
+                            <p>Тренировки проходят на лучших спортивных площадках, оснащённых современным оборудованием. Атмосфера на занятиях всегда дружелюбная и поддерживающая, что позволяет каждому футболисту раскрывать свой потенциал. Родители и болельщики могут быть уверены, что наши спортсмены выкладываются на полную, чтобы показать лучшие результаты в предстоящих матчах.</p>
+                            <p>С каждым днём команда становится сильнее и сплочённее, что вселяет уверенность в успешном сезоне. Впереди нас ждут увлекательные игры и множество ярких моментов. Мы гордимся их настойчивостью и энтузиазмом, ведь именно в таких тренировках закладывается фундамент будущих побед. Спасибо за вашу поддержку, вместе мы добьёмся больших высот!</p>
+                        </div>
+                        <div className={styles.news__footer}>
+                            <Tag icon={likeIcon} count={12} />
+                            <Tag icon={sharedIcon} count={12} />
+                            <div className={styles.news__author}>
+                                <div className={styles.news__authorAvatar}>
+                                    <img src="/images/news-author.png" alt="" />
+                                </div>
+                                <div className={styles.news__authorPosition}>Автор</div>
+                                <div className={styles.news__authorName}>Алия Газизова</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className={styles.news__actions}>
+                        <button className={styles.news__favorite} type="button">
+                            <img src={favoriteIcon} alt="" />
+                        </button>
+                        <button className={styles.news__share} type="button">
+                            <img src={shareIcon} alt="" />
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <section className={`section ${styles.moreNews}`}>
+                <div className="section__header">
+                    <h2 className="section__title">Читать также</h2>
+                </div>
+                <div className={`section__body ${styles.moreNews__body}`}>
+                    <div className={styles.moreNews__row}>
+                        {news.map((newsItem, index) => {
+                            // Проверяем, есть ли у newsItem свойство imagePreviewResized
+                            if ('imagePreviewResized' in newsItem) {
+                                // Теперь TypeScript знает, что newsItem имеет тип News
+                                return (
+                                    <Link key={newsItem.id} to={newsItem.url} target="_blank" rel="noopener noreferrer">
+                                        <NewsCard
+                                            title={newsItem.title}
+                                            date={newsItem.publishDate}
+                                            image={newsItem.imagePreviewResized}
+                                            newsBack={false}
+                                        />
+                                    </Link>
+                                );
+                            } else {
+                                // Здесь newsItem обрабатывается как NewsBack
+                                return (
+                                    <NewsCard
+                                        date={newsItem.date}
+                                        image={newsItem.images[0]}
+                                        title={newsItem.title}
+                                        key={newsItem.id}
+                                        newsBack={true}
+                                    />
+                                );
+                            }
+                        })}
+                    </div>
+                    <button className={`button  button--black ${styles.moreNews__more}`} type="button">
+                        <span>Показать ещё</span>
+                        <img src={buttonArrow} alt="" />
+                    </button>
+                </div>
+            </section>
+        </div>
+    )
+}
+
+export default SingleNewsPage

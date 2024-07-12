@@ -17,6 +17,7 @@ import MainUnauthorizedLayout from "./components/layouts/MainUnauthorizedLayout"
 import UnauthorizedMain from "./pages/UnauthorizedMain/UnauthorizedMain";
 import Clubs from "./pages/Clubs/Clubs";
 import NewsPage from "./pages/NewsPage/NewsPage";
+import SingleNewsPage from './pages/SingleNewsPage/SingleNewsPage';
 import UsersFilter from "./pages/UsersFilter/UsersFilter";
 import RubyLife from "./pages/RubyLife/RubyLife";
 import AuthorizedMain from "./pages/AuthorizedMain/AuthorizedMain";
@@ -179,7 +180,17 @@ function App() {
                                 <NewsPage />
                           </AuthLayout>
                       }
-                  />
+                    />
+              </Route>
+              <Route element={<PrivateRoute />}>
+                    <Route
+                        path="/news/:id"
+                        element={
+                            <AuthLayout>
+                                <SingleNewsPage />
+                            </AuthLayout>
+                        }
+                    />
               </Route>
               <Route element={<PrivateRoute />}>
                   <Route
