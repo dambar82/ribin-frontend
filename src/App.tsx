@@ -31,7 +31,7 @@ import PostsPage from './pages/PostsPage/PostsPage';
 import AwardsPage from './pages/AwardsPage/AwardsPage';
 import ClubProgramsPage from './pages/ClubProgramsPage/ClubProgramsPage';
 import QuizzesPage from './pages/QuizzesPage/QuizzesPage';
-
+import SingleQuizPage from './pages/SingleQuizPage/SingleQuizPage';
 
 export function parseAndFormatDate(input) {
     // Разбиваем строку на части
@@ -171,6 +171,16 @@ function App() {
                       element={
                           <AuthLayout>
                             <QuizzesPage />
+                          </AuthLayout>
+                      }
+                  />
+              </Route>
+              <Route element={<PrivateRoute />}>
+                  <Route
+                      path="/quizzes/:id"
+                      element={
+                          <AuthLayout>
+                            <SingleQuizPage />
                           </AuthLayout>
                       }
                   />
