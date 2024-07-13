@@ -90,6 +90,7 @@ li {
   align-items: center;
   gap: 12px;
   padding: 18px 60px;
+  white-space: nowrap;
   span {
     font-size: 20px;
     font-weight: 500;
@@ -102,6 +103,10 @@ li {
   &--white {
     background-color: #FFFFFF;
     color: #2A2A2A;
+  }
+  &--green {
+    background-color: #48903A;
+    color: #FFFFFF
   }
   &--main {
     background-color: #91172C;
@@ -722,6 +727,14 @@ input:-webkit-autofill {
 .page {
   margin-top: 60px;
   margin-bottom: 160px;
+  &__title {
+    font-size: 40px;
+    font-weight: 500;
+    line-height: calc(48 / 40);
+    &:not(:last-child) {
+        margin: 0 0 46px;
+    }
+}
 }
 
 .image {
