@@ -1,19 +1,21 @@
 import styles from './Card.module.scss';
 
 interface IClubCard {
+    date?: string;
     name: string;
     image: string;
-    desc: string;
+    desc?: string;
     tagIcon: string;
     tagLabel: string,
+    buttonLabel?: string;
     // participants: number;
 }
 
 
-const Card = ({ name, image, desc, tagIcon, tagLabel }: IClubCard) => {
+const Card = ({ date, name, image, desc, tagIcon, tagLabel, buttonLabel }: IClubCard) => {
     return (
         <div className={styles.card}>
-            <div className={styles.card__date}>12.07.2024, 16:00</div>
+            { date && <div className={styles.card__date}>{date}</div>}
             <div className={styles.card__image}>
                 { image && <img src={image} alt=''/>}
             </div>
@@ -25,7 +27,10 @@ const Card = ({ name, image, desc, tagIcon, tagLabel }: IClubCard) => {
                     <div className={styles.card__tagLabel}>{tagLabel}</div>
                 </div>
                 <h3 className={styles.card__title}>{ name }</h3>
-                <p className={styles.card__desc}>{ desc }</p>
+                { desc && <p className={styles.card__desc}>{ desc }</p>}
+                { buttonLabel && <button className={`${styles.card__button} button button--black`} type="button">
+                    <span>{buttonLabel}</span>
+                </button>}
             </div>
         </div>
     );
