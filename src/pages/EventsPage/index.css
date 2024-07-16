@@ -47,6 +47,23 @@
 .react-datepicker__day--selected {
     background-color: #91172C;
 }
+
+.react-datepicker__day--selected:hover {
+    background-color: #91172C;
+}
+
+.react-datepicker__input-time-container {
+    margin-bottom: 20px;
+}
+
+.react-datepicker-time__caption {
+    font-size: 20px;
+}
+
+.react-datepicker-time__input {
+    font-size: 20px;
+}
+
 .react-datepicker__children-container {
     margin: 20px auto 0;
     width: fit-content;
