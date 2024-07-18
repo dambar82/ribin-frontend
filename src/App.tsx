@@ -33,7 +33,7 @@ import ClubProgramsPage from './pages/ClubProgramsPage/ClubProgramsPage';
 import QuizzesPage from './pages/QuizzesPage/QuizzesPage';
 import SingleQuizPage from './pages/SingleQuizPage/SingleQuizPage';
 import CreateEventPage from './pages/EventsPage/CreateEventPage';
-
+import EventsPage from './pages/EventsPage/EventsPage';
 
 export function parseAndFormatDate(input) {
     // Разбиваем строку на части
@@ -312,6 +312,16 @@ function App() {
                       element={
                           <AuthLayout>
                             < ClubProgramsPage />
+                          </AuthLayout>
+                      }
+                  />
+              </Route>
+              <Route element={<PrivateRoute />}>
+                  <Route
+                      path="/clubs/:id/events"
+                      element={
+                          <AuthLayout>
+                            < EventsPage />
                           </AuthLayout>
                       }
                   />
