@@ -5,7 +5,6 @@ import {AppDispatch, RootState} from "../../store/store";
 
 import styles from "./SingleNewsPage.module.scss"
 
-import Tag from "../../components/Tag/Tag"
 
 import likeIcon from "../../images/svg/likes.svg";
 import sharedIcon from "../../images/svg/shared.svg"
@@ -16,10 +15,18 @@ import shareIcon from "../../images/svg/share.svg"
 import buttonArrow from "../../images/svg/button_arrow.svg"
 
 import NewsCard from "../../components/NewsCard/NewsCard";
+import Tag from "../../components/Tag/Tag"
+
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation } from 'swiper/modules'
+import 'swiper/css';
+import 'swiper/css/navigation';
 
 import {fetchNewsAndNewsBack} from "../../store/newsSlice";
+import { fetchPhotoGalleryById } from '../../store/photoGallerySlice';
 
 const SingleNewsPage = () => {
+
     const dispatch = useDispatch<AppDispatch>();
 
     const { status, news } = useSelector((state: RootState) => state.news);
@@ -77,39 +84,67 @@ const SingleNewsPage = () => {
                     <h2 className="section__title">Читать также</h2>
                 </div>
                 <div className={`section__body ${styles.moreNews__body}`}>
-                    <div className={styles.moreNews__row}>
-                        {news.map((newsItem, index) => {
-                            // Проверяем, есть ли у newsItem свойство imagePreviewResized
-                            if ('imagePreviewResized' in newsItem) {
-                                // Теперь TypeScript знает, что newsItem имеет тип News
-                                return (
-                                    <Link key={newsItem.id} to={newsItem.url} target="_blank" rel="noopener noreferrer">
-                                        <NewsCard
-                                            title={newsItem.title}
-                                            date={newsItem.publishDate}
-                                            image={newsItem.imagePreviewResized}
-                                            newsBack={false}
-                                        />
-                                    </Link>
-                                );
-                            } else {
-                                // Здесь newsItem обрабатывается как NewsBack
-                                return (
-                                    <NewsCard
-                                        date={newsItem.date}
-                                        image={newsItem.images[0]}
-                                        title={newsItem.title}
-                                        key={newsItem.id}
-                                        newsBack={true}
-                                    />
-                                );
-                            }
-                        })}
-                    </div>
-                    <button className={`button  button--black ${styles.moreNews__more}`} type="button">
-                        <span>Показать ещё</span>
-                        <img src={buttonArrow} alt="" />
-                    </button>
+                {
+                    news.length
+                    ? (
+                        <>
+                            <Swiper
+                                spaceBetween={20}
+                                slidesPerView={3}
+                                modules={[Navigation]}
+                                navigation={{
+                                    prevEl: '.button--prev',
+                                    nextEl: '.button--next'
+                                }}
+                                style={{
+                                    minWidth: 0,
+                                    width: "100%"
+                                }}
+                            >
+                                {news.map((newsItem, index) => {
+                                    // Проверяем, есть ли у newsItem свойство imagePreviewResized
+                                    if ('imagePreviewResized' in newsItem) {
+                                        // Теперь TypeScript знает, что newsItem имеет тип News
+                                        return (
+                                            <SwiperSlide key={newsItem.id}>
+                                                <Link to={newsItem.url} target="_blank" rel="noopener noreferrer">
+                                                    <NewsCard
+                                                        title={newsItem.title}
+                                                        date={newsItem.publishDate}
+                                                        image={newsItem.imagePreviewResized}
+                                                        newsBack={false}
+                                                    />
+                                                </Link>
+                                            </SwiperSlide>
+                                        );
+                                    } else {
+                                        // Здесь newsItem обрабатывается как NewsBack
+                                        return (
+                                            <SwiperSlide key={newsItem.id}>
+                                                <NewsCard
+                                                    date={newsItem.date}
+                                                    image={newsItem.images[0]}
+                                                    title={newsItem.title} 
+                                                    newsBack={true}
+                                                />
+                                            </SwiperSlide>
+                                        );
+                                    }
+                                })}
+                            </Swiper>
+                            <div className={styles.moreNews__controls}>
+                                <button className={`button button--black button--prev ${styles.moreNews__more}`} type="button">
+                                    <span>Предыдущие</span>
+                                    <img src={buttonArrow} alt="" />
+                                </button>
+                                <button className={`button button--black button--next ${styles.moreNews__more}`} type="button">
+                                    <span>Показать ещё</span>
+                                    <img src={buttonArrow} alt="" />
+                                </button>
+                            </div>
+                        </>
+                    ) : null
+                }
                 </div>
             </section>
         </div>

@@ -102,15 +102,6 @@
 }
 
 .feed {
-    &__body {
-        background-color: #F8F8F8;
-        border-radius: 50px;
-        display: flex;
-        flex-wrap: wrap;
-        gap: 46px 60px;
-        padding: 70px;
-        position: relative;
-    }
     &__nav {
         flex-basis: 100%;
         display: flex;

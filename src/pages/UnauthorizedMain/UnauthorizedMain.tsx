@@ -7,7 +7,6 @@ import {Link} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {AppDispatch, RootState} from "../../store/store";
 import {fetchNewsAndNewsBack} from "../../store/newsSlice";
-import NewsCard from "../../components/NewsCard/NewsCard";
 import {Contest, News, NewsBack} from "../../types";
 import {formatDate, formatDateToDayMonth, parseAndFormatDate} from "../../App";
 import {fetchContests} from "../../store/contestSlice";
@@ -15,6 +14,14 @@ import rubyStore from '../../images/ruby_store.jpg';
 import ActiveUserCard from "../../components/ActiveUserCard/ActiveUserCard";
 import pacan from '../../images/pacan.jpg';
 import sponsor from '../../images/svg/sponsor.svg'
+
+
+import { Swiper, SwiperSlide, useSwiper } from 'swiper/react';
+import { Navigation } from 'swiper/modules'
+import 'swiper/css';
+import 'swiper/css/navigation';
+
+import NewsCard from "../../components/NewsCard/NewsCard";
 
 const UnauthorizedMain: React.FC = () => {
 
@@ -60,10 +67,10 @@ const UnauthorizedMain: React.FC = () => {
                     <div className={styles.greenZone_leftPart}>
                         <div className={styles.greenZone_text}>
                             <h1>
-                                Добро пожаловать  в команду!
+                                Добро пожаловать в команду!
                             </h1>
                             <p>
-                                Наш клуб — место, где каждый ребёнок находит игру, друзей  и развивает свои таланты.
+                                Наш клуб — место, где каждый ребёнок находит игру, друзей и развивает свои таланты.
                             </p>
                         </div>
                         <div className='white_button'>
@@ -75,15 +82,73 @@ const UnauthorizedMain: React.FC = () => {
                     </div>
                 </div>
             </div>
-            <div className={styles.orangeZone}>
-                <div className={styles.orangeZone_content}>
-                    <div className={styles.orangeZone_content_header}>
-                        <Link to='/news'>
-                            <div className={`white_button_little`}>
-                                Показать все
+            <section className={`section section--big ${styles.orangeZone}`}>
+                <div className='section__header'>
+                    <h2>Новости</h2>
+                    <Link to="/news">
+                        <div className="button button--white">Показать все</div>
+                    </Link>
+                </div>
+                <div className="section__body">
+                {
+                    news.length
+                    ? (
+                        <>
+                            <Swiper
+                                spaceBetween={20}
+                                slidesPerView={3}
+                                modules={[Navigation]}
+                                navigation={{
+                                    prevEl: '.button--prev',
+                                    nextEl: '.button--next'
+                                }}
+                                style={{
+                                    minWidth: 0,
+                                    width: "100%"
+                                }}
+                            >
+                                {news.map((newsItem, index) => {
+                                    // Проверяем, есть ли у newsItem свойство imagePreviewResized
+                                    if ('imagePreviewResized' in newsItem) {
+                                        // Теперь TypeScript знает, что newsItem имеет тип News
+                                        return (
+                                            <SwiperSlide key={newsItem.id}>
+                                                <Link to={newsItem.url} target="_blank" rel="noopener noreferrer">
+                                                    <NewsCard
+                                                        title={newsItem.title}
+                                                        date={newsItem.publishDate}
+                                                        image={newsItem.imagePreviewResized}
+                                                        newsBack={false}
+                                                    />
+                                                </Link>
+                                            </SwiperSlide>
+                                        );
+                                    } else {
+                                        // Здесь newsItem обрабатывается как NewsBack
+                                        return (
+                                            <SwiperSlide key={newsItem.id}>
+                                                <NewsCard
+                                                    date={newsItem.date}
+                                                    image={newsItem.images[0]}
+                                                    title={newsItem.title} 
+                                                    newsBack={true}
+                                                />
+                                            </SwiperSlide>
+                                        );
+                                    }
+                                })}
+                            </Swiper>
+                            <div className={""}>
+                                <button className={`button button--black button--next`} type="button">
+                                    <span>Вперед</span>
+                                    <img src={buttonArrow} alt="" />
+                                </button>
                             </div>
-                        </Link>
-                    </div>
+                        </>
+                    ) : null
+                    }
+                </div>
+                {/* <div className={styles.orangeZone_content}>
                     <div className={styles.orangeZone_content_flex}>
                         {
                             displayNews.map((newsItem) => {
@@ -134,8 +199,8 @@ const UnauthorizedMain: React.FC = () => {
                             <img src={buttonArrow} alt=""/>
                         </div>
                     </div>
-                </div>
-            </div>
+                </div> */}
+            </section>
             <div className={styles.contestZone}>
                 <div className={styles.contestZone_header}>
                     <h2>

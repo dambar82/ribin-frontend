@@ -43,7 +43,8 @@ const NewsPage = () => {
                                 if ('imagePreviewResized' in newsItem) {
                                     // Теперь TypeScript знает, что newsItem имеет тип News
                                     return (
-                                        <Link key={newsItem.id} to={newsItem.url} target="_blank" rel="noopener noreferrer">
+                                        // to={newsItem.url}
+                                        <Link key={newsItem.id} to={`/news/${newsItem.id}`} rel="noopener noreferrer">
                                             <NewsCard
                                                 title={newsItem.title}
                                                 date={newsItem.publishDate}

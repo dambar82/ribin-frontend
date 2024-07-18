@@ -1,13 +1,11 @@
 import { useState } from 'react'
 import styles from './SingleClubPage.module.scss';
 
-import loupeIcon from '../../images/svg/loupe.svg'
 import geoIcon from '../../images/svg/geo.svg'
 
 import Wall from '../../components/Wall/Wall';
 import Row from '../../components/Row/Row';
 import Card from '../../components/Card/Card';
-import Post from '../../components/Post/Post';
 
 const SingleClubPage = () => {
     const [feedType, setFeedType] = useState(0)
@@ -93,7 +91,7 @@ const SingleClubPage = () => {
                     <h2 className="section__title">Лента клуба</h2>
                     <div className="section__counter">5</div>
                 </div>
-                <div className={`${styles.feed__body} section__body`}>
+                <div className={`section__body`}>
                     <Wall
                         type="club"
                         posts={[

@@ -122,13 +122,29 @@
         gap: 46px;
     }
     &__row {
-        & > div {
-            display: flex;
-            gap: 20px;
-            & > div {
-                flex: 0 0 calc((100% - 3 * 20px) / 4);
+        display: flex;
+        gap: 20px;
+        & > * {
+            flex: 0 0 calc((100% - 3 * 20px) / 4);
+        }
+    }
+    &__controls {
+        display: flex;
+        justify-content: flex-end;
+        gap: 20px;
+        & > * {
+            &:disabled {
+                background-color: rgba(180, 180, 180, 0.65);
+                cursor: auto;
+            }
+            &:first-child {
+                flex-direction: row-reverse;
+                & > img {
+                    transform: rotate(-180deg);
+                }
             }
         }
+        
     }
     &__more {
         align-self: flex-end;

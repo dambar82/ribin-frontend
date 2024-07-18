@@ -26,7 +26,7 @@ const menuLinks: IMenuLink[] = [
     { title: 'Пользователи', link: '/people' },
     { title: 'Конкурсы', link: '/contests' },
     { title: 'Новости', link: '/news' },
-    { title: 'Блог', link: '/blog' },
+    { title: 'Записи', link: '/posts' },
     { title: 'Клубы', link: '/clubs' },
 ];
 
@@ -141,10 +141,14 @@ const AuthHeader = () => {
                                     </li>
                                 </Link>
                                 <li>
-                                    Программы и предложения клуба
+                                    <Link to='/programs'>
+                                        Программы и предложения клуба
+                                    </Link>
                                 </li>
                                 <li>
-                                    Достижения
+                                    <Link to='/awards'>
+                                        Достижения
+                                    </Link>
                                 </li>
                                 <Link to='/photogallery'>
                                     <li>
@@ -161,13 +165,15 @@ const AuthHeader = () => {
                     {activeSubMenu === 'clubActivities' && (
                         <div className='submenu' ref={clubActivitiesSubMenuRef} onClick={handleSubMenuClick}>
                             <ul>
-                                <Link to='/sportslife'>
-                                    <li>
-                                        Спорт для школьников
-                                    </li>
-                                </Link>
                                 <li>
-                                    Викторины
+                                    <Link to='/sportslife'>
+                                        Спорт для школьников
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link to="/quizzes">
+                                        Викторины
+                                    </Link>
                                 </li>
                                 <li>
                                     Мероприятия
