@@ -523,15 +523,21 @@ li {
   border-radius: 35px;
   background: white;
   overflow: hidden;
-  li {
+  a {
+    display: block;
     font-size: 18px;
     font-weight: 500;
     line-height: 21.6px;
     text-align: left;
     color: #2A2A2A;
     padding: 19px 30px;
-    &:hover {
+    &:not(._active):hover {
       background: #F8F8F8;
+    }
+    &._active {
+      background-color: #91172C;
+      color: #FFFFFF;
+      pointer-events: none;
     }
   }
 }

@@ -36,6 +36,10 @@
   border-radius: 50px;
   background-color: white;
   white-space: nowrap;
+  &_active {
+    background-color: #91172C;
+    color: #FFFFFF;
+  }
 }
 
 .menuSearchbar {

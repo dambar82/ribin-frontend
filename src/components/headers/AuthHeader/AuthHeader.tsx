@@ -1,13 +1,16 @@
 import React, {useEffect, useRef, useState} from 'react';
+import {useSelector} from "react-redux";
+import {NavLink, Link} from "react-router-dom";
+
+import {useAppDispatch} from "../../../store/hooks";
+import {RootState} from "../../../store/store";
+
 import styles from './AuthHeader.module.scss';
+
 import rubyLogo from '../../../images/rubyLogo.svg';
 import profilePic from '../../../images/svg/profilePic.svg';
 import buttonArrowDown from '../../../images/svg/button_arrow_down.svg';
 import buttonArrowUp from '../../../images/svg/buttonArrowUp.svg';
-import {useSelector} from "react-redux";
-import {useAppDispatch} from "../../../store/hooks";
-import {RootState} from "../../../store/store";
-import {Link} from "react-router-dom";
 import loupePic from '../../../images/svg/loupe.svg';
 import { logout } from '../../../store/userSlice';
 import myProfile from '../../../images/svg/myProfile.svg';
@@ -68,6 +71,10 @@ const AuthHeader = () => {
         setActiveSubMenu(null);
     };
 
+    function isActive({ isActive }) {
+        return isActive ? `${styles.menuLink} ${styles.menuLink_active}` : styles.menuLink
+    }
+
     return (
         <div className={styles.authHeader}>
             <div className={`justify_content_SB ${styles.authHeader_up}`}>
@@ -118,11 +125,7 @@ const AuthHeader = () => {
             </div>
             <div className={styles.authHeader_menu}>
                 {menuLinks.map((link: IMenuLink) => (
-                    <Link to={link.link} key={link.link}>
-                        <div className={styles.menuLink}>
-                            {link.title}
-                        </div>
-                    </Link>
+                    <NavLink key={link.title} to={link.link} className={isActive}>{ link.title }</NavLink>
                 ))}
                 <div className={styles.menuLink} onClick={(event) => toggleSubMenu('rubinLife', event)}>
                     Жизнь “Рубина”
@@ -130,31 +133,25 @@ const AuthHeader = () => {
                     {activeSubMenu === 'rubinLife' && (
                         <div className='submenu' ref={rubinLifeSubMenuRef} onClick={handleSubMenuClick}>
                             <ul>
-                                <Link to='/students'>
-                                    <li>
-                                        Активисты клуба
-                                    </li>
-                                </Link>
-                                <Link to='/academy-coaches'>
-                                    <li>
-                                        Тренерский состав
-                                    </li>
-                                </Link>
-                                <li>
-                                    <Link to='/programs'>
-                                        Программы и предложения клуба
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link to='/awards'>
-                                        Достижения
-                                    </Link>
-                                </li>
-                                <Link to='/photogallery'>
-                                    <li>
-                                        Фотогалерея
-                                    </li>
-                                </Link>
+                                {[
+                                    { name: "Активисты клуба", path: "/students" },
+                                    { name: "Тренерский состав", path: "/academy-coaches" }, 
+                                    { name: "Программы и предложения клуба", path: "/programs" }, 
+                                    { name: "Достижения", path: "/awards" }, 
+                                    { name: "Фотогалерея", path: "/photogallery" }, 
+                                ].map(({ name, path }) => {
+                                    return (
+                                        <li>
+                                            <NavLink 
+                                                key={name} 
+                                                to={path} 
+                                                className={({ isActive }) => {
+                                                    return isActive ? "_active" : ""
+                                                }}
+                                            >{name}</NavLink>
+                                        </li>
+                                    )
+                                })}
                             </ul>
                         </div>
                     )}
@@ -165,19 +162,23 @@ const AuthHeader = () => {
                     {activeSubMenu === 'clubActivities' && (
                         <div className='submenu' ref={clubActivitiesSubMenuRef} onClick={handleSubMenuClick}>
                             <ul>
-                                <li>
-                                    <Link to='/sportslife'>
-                                        Спорт для школьников
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link to="/quizzes">
-                                        Викторины
-                                    </Link>
-                                </li>
-                                <li>
-                                    Мероприятия
-                                </li>
+                                {[
+                                    { name: "Спорт для школьников", path: "/sportslife" },
+                                    { name: "Викторины", path: "/quizzes" }, 
+                                    { name: "Мероприятия", path: "/" },  
+                                ].map(({ name, path }) => {
+                                    return (
+                                        <li>
+                                            <NavLink 
+                                                key={name} 
+                                                to={path} 
+                                                className={({ isActive }) => {
+                                                    return isActive ? "_active" : ""
+                                                }}
+                                            >{name}</NavLink>
+                                        </li>
+                                    )
+                                })}
                             </ul>
                         </div>
                     )}
