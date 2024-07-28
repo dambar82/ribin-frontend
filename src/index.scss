@@ -418,7 +418,7 @@ li {
     position: relative;
     width: 180px;
     height: 180px;
-    overflow: hidden;
+    // overflow: hidden;
     picture {
       border-radius: 50%;
       display: block;
@@ -472,10 +472,12 @@ li {
     align-items: flex-start;
     padding: 24px 0 0;
     & > div {
+      &:first-child {
         display: flex;
         flex-direction: column;
         align-items: flex-start;
         gap: 16px;
+      }
     }
     &:not(:last-child) {
         margin: 0 0 32px;
@@ -544,9 +546,9 @@ li {
   &__users {
     background-color: #F8F8F8;
     border-radius: 50px;
-    padding: 6px 34px 6px 6px;
+    padding: 6px 34px 6px 0px;
     display: flex;
-    gap: 16px;
+    gap: 12px;
     align-items: center;
   }
   &__users-list {
@@ -564,7 +566,7 @@ li {
     position: relative;
     overflow: hidden;
     &:not(:last-child) {
-        margin-right: -14px;
+        margin-right: -20px;
     }
     img {
         width: 100%;

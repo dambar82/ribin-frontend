@@ -37,6 +37,7 @@ import CreateEventPage from './pages/EventsPage/CreateEventPage';
 import EventsPage from './pages/EventsPage/EventsPage';
 import ProfilePage from './pages/ProfilePage/ProfilePage';
 import EditProfilePage from './pages/ProfilePage/EditProfilePage';
+import UserProfilePage from './pages/ProfilePage/UserProfilePage';
 import FeedbackPage from './pages/FeedbackPage/FeedbackPage';
 import SettingsPage from './pages/SettingsPage/SettingsPage';
 
@@ -239,6 +240,16 @@ function App() {
               </Route>
               <Route element={<PrivateRoute />}>
                   <Route
+                      path="/user"
+                      element={
+                          <AuthLayout>
+                            <UserProfilePage />
+                          </AuthLayout>
+                      }
+                  />
+              </Route>
+              <Route element={<PrivateRoute />}>
+                  <Route
                       path="/feedback"
                       element={
                           <AuthLayout>
@@ -267,6 +278,7 @@ function App() {
                       }
                   />
               </Route>
+              
               <Route element={<PrivateRoute />}>
                   <Route
                       path="/clubs/:id"

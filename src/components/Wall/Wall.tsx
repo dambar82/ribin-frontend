@@ -24,6 +24,7 @@ type Post = {
 interface IWall {
     posts: Post[];
     type: string;
+    editable?: boolean;
 }
 
 interface IUser {
@@ -46,7 +47,7 @@ const User = ({avatar, name, level}: IUser) => {
     )
 }
 
-const Wall = ({type, posts}: IWall) => {
+const Wall = ({type, posts, editable = true}: IWall) => {
     const optionsMap = {
         'public': { value: 'public', label: 'Опубликовать для всех' },
         'private': { value: 'private', label: 'Опубликовать для друзей' },
@@ -108,7 +109,7 @@ const Wall = ({type, posts}: IWall) => {
             <div className={styles.wall__content}>
                 {feedType === 0 && (
                     <div className={styles.wall__feed}>
-                        { type === "post" || type ==="profile" ?
+                        { type === "post" || (type ==="profile" && editable) ?
                             <form action="#" method="POST" className={styles.wall__feedForm}>
                                 <textarea name="" id="" placeholder="Поделитесь с другими своими успехами и новостями!"></textarea>
                                 <div>
@@ -166,7 +167,7 @@ const Wall = ({type, posts}: IWall) => {
                                         //         : 'var(--colors-ui-base)',
                                         //     }),
                                         //   },
-                                        />
+                                    />
                                 </div>
                             </form> : null
                         }
