@@ -196,11 +196,13 @@ const CreateEventPage = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         setOpenPopup(true)
+        document.body.classList.add("_lock")
     }
 
     const handlePopupClick = (e) => {
         if (!e.target.closest("[class*='popup__content']")) {
             setOpenPopup(false)
+            document.body.classList.remove("_lock")
         }
     }
 
