@@ -58,7 +58,7 @@ const FeedbackPage = () => {
                     <div className={styles.form__body}>
                         <div className={styles.form__control}>
                             <div className={styles.form__controlLabel}>Почта</div>
-                            <input className={styles.form__controlField} type="emai" placeholder="Введите ваш действующий email адрес" autoComplete="off" value={email} onChange={handleEmailChange}/>
+                            <input className={styles.form__controlField} type="email" placeholder="Введите ваш действующий email адрес" autoComplete="off" value={email} onChange={handleEmailChange}/>
                         </div>
                         <div className={styles.form__control}>
                             <div className={styles.form__controlLabel}>Тема сообщения</div>

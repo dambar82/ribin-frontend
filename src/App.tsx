@@ -38,6 +38,8 @@ import EventsPage from './pages/EventsPage/EventsPage';
 import ProfilePage from './pages/ProfilePage/ProfilePage';
 import EditProfilePage from './pages/ProfilePage/EditProfilePage';
 import FeedbackPage from './pages/FeedbackPage/FeedbackPage';
+import SettingsPage from './pages/SettingsPage/SettingsPage';
+
 
 export function parseAndFormatDate(input) {
     // Разбиваем строку на части
@@ -241,6 +243,16 @@ function App() {
                       element={
                           <AuthLayout>
                             <FeedbackPage />
+                          </AuthLayout>
+                      }
+                  />
+              </Route>
+              <Route element={<PrivateRoute />}>
+                  <Route
+                      path="/settings"
+                      element={
+                          <AuthLayout>
+                            <SettingsPage />
                           </AuthLayout>
                       }
                   />
