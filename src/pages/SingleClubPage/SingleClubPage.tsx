@@ -19,7 +19,9 @@ const SingleClubPage = () => {
                 </div>
                 <div className={styles.clubInfo__content}>
                     <div className={styles.clubInfo__avatar}>
-                        <img src="/images/club-avatar.png" alt="" />
+                        <div>
+                            <img src="/images/club-avatar.png" alt="" />
+                        </div>
                     </div>
                     <div className={styles.clubInfo__info}>
                         <div className={styles.clubInfo__infoHeader}>

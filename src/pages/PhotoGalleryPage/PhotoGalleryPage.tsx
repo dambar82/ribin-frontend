@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { RootState, AppDispatch } from '../../store/store';
 
 import styles from "./PhotoGalleryPage.module.scss";
@@ -18,9 +19,11 @@ const PhotoGalleryPage = () => {
     let filtredPhotoGallery = photoGallery
 
     useEffect(() => {
+
         if (status === 'idle') {
             dispatch(fetchPhotoGallery());
         }
+
     }, [status, dispatch]);
 
     if (status === 'loading') {
@@ -91,14 +94,15 @@ const PhotoGalleryPage = () => {
                         </nav>
                     <div className={styles.photogallery__grid}>
                         {filtredPhotoGallery.map(gallery => (
-                            <GalleryCard 
-                                key={gallery.id}
-                                id={gallery.id}
-                                name={gallery.title}
-                                category={gallery.sectionName}
-                                image={gallery.imagePreviewResized}
-                                date={gallery.publishDate}
-                            />
+                            <Link to={`/photogallery/${gallery.id}`} key={gallery.id} >
+                                <GalleryCard 
+                                    id={gallery.id}
+                                    name={gallery.title}
+                                    category={gallery.sectionName}
+                                    image={gallery.imagePreviewResized}
+                                    date={gallery.publishDate}
+                                />
+                            </Link>
                         ))}
                     </div>
                 </div>

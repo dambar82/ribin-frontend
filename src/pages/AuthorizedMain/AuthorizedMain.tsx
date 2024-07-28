@@ -326,7 +326,7 @@ const AuthorizedMain: React.FC = () => {
                 </div>
             </section>
 
-            <section className={`section section--big section--green section--vector-bg ${styles.clubs} ${styles.clubZone}`}>
+            <section className={`section section--big section--green section--vector-bg ${styles.clubs}`}>
                 <div className="section__header">
                     <h2 className={`section__title ${styles.clubs__title}`}>Клубы</h2>
                     <Link to='/clubs'>

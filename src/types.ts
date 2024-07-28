@@ -140,13 +140,19 @@ export interface Post {
     likes_count: number;
 }
 
+type Photo  = {
+    id: number;
+    imagePreview: string;
+    imagePreviewResized: string;
+}
+
 export interface PhotoGallery {
     id: number;
     sectionName: string;
     title: string;
     imagePreviewResized: string;
-    createdAt: "string";
-    publishDate: "string";
-    tags: "string";
-    photos: String[];
+    createdAt: string;
+    publishDate: string;
+    tags: string;
+    photos: Photo[];
 }

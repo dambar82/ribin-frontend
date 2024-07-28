@@ -798,12 +798,14 @@ li {
   border-radius: 35px;
 }
 .profile_button_subMenu li {
+  padding: 19px 30px;
+}
+.profile_button_subMenu a {
   display: flex;
   justify-content: flex-start;
   align-items: center;
   -moz-column-gap: 12px;
        column-gap: 12px;
-  padding: 19px 30px;
 }
 .profile_button_subMenu span {
   white-space: nowrap;

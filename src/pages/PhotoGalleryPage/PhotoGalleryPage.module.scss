@@ -6,7 +6,7 @@
         display: flex;
         flex-wrap: wrap;
         gap: 32px 20px;
-        & > div {
+        & > a {
             flex: 0 0 calc((100% - 2 * 20px) / 3)
         }
         &:not(:first-child) {

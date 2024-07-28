@@ -247,6 +247,16 @@
       background-color: #00E0FF;
     }
   }
+  .swiper-slide {
+    height: auto;
+    & > a {
+      display: block;
+      height: auto;
+      & > * {
+        height: 100%;
+      }
+    }
+  }
 }
 
 .sponsors {

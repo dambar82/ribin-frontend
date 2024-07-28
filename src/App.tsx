@@ -26,6 +26,7 @@ import SportPage from "./pages/SportPage/SportPage";
 import StudentsPage from './pages/StudentsPage/StudentsPage';
 import CoachesPage from './pages/CoachesPage/CoachesPage';
 import PhotoGalleryPage from './pages/PhotoGalleryPage/PhotoGalleryPage';
+import SinglePhotoGalleryPage from './pages/SinglePhotoGalleryPage/SinglePhotoGalleryPage';
 import SingleClubPage from './pages/SingleClubPage/SingleClubPage';
 import PostsPage from './pages/PostsPage/PostsPage';
 import AwardsPage from './pages/AwardsPage/AwardsPage';
@@ -34,6 +35,8 @@ import QuizzesPage from './pages/QuizzesPage/QuizzesPage';
 import SingleQuizPage from './pages/SingleQuizPage/SingleQuizPage';
 import CreateEventPage from './pages/EventsPage/CreateEventPage';
 import EventsPage from './pages/EventsPage/EventsPage';
+import ProfilePage from './pages/ProfilePage/ProfilePage';
+import EditProfilePage from './pages/ProfilePage/EditProfilePage';
 
 export function parseAndFormatDate(input) {
     // Разбиваем строку на части
@@ -140,21 +143,25 @@ function App() {
                           </AuthLayout>
                       }
                   />
-                  <Route
-                      path="/contests/:contestId"
-                      element={
-                          <AuthLayout>
-                              <ContestPage />
-                          </AuthLayout>
-                      }
-                  />
-                  <Route
-                      path="/contests/:contestId/form"
-                      element={
-                          <AuthLayout>
-                              <ContestForm />
-                          </AuthLayout>
-                      }
+              </Route>
+              <Route element={<PrivateRoute />}>
+                <Route
+                    path="/contests/:contestId"
+                    element={
+                        <AuthLayout>
+                            <ContestPage />
+                        </AuthLayout>
+                    }
+                />
+              </Route>
+              <Route element={<PrivateRoute />}>
+                <Route
+                    path="/contests/:contestId/form"
+                    element={
+                        <AuthLayout>
+                            <ContestForm />
+                        </AuthLayout>
+                    }
                   />
               </Route>
               <Route element={<PrivateRoute />}>
@@ -209,9 +216,20 @@ function App() {
               </Route>
               <Route element={<PrivateRoute />}>
                   <Route
-                      path="/blog"
+                      path="/profile"
                       element={
                           <AuthLayout>
+                            <ProfilePage />
+                          </AuthLayout>
+                      }
+                  />
+              </Route>
+              <Route element={<PrivateRoute />}>
+                  <Route
+                      path="/profile/edit"
+                      element={
+                          <AuthLayout>
+                            <EditProfilePage />
                           </AuthLayout>
                       }
                   />
@@ -282,6 +300,16 @@ function App() {
                       element={
                           <AuthLayout>
                             <PhotoGalleryPage />
+                          </AuthLayout>
+                      }
+                  />
+              </Route>
+              <Route element={<PrivateRoute />}>
+                  <Route
+                      path="/photogallery/:id"
+                      element={
+                          <AuthLayout>
+                            <SinglePhotoGalleryPage />
                           </AuthLayout>
                       }
                   />

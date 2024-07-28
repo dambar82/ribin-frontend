@@ -94,24 +94,59 @@ const AuthHeader = () => {
                             <div className='profile_button_subMenu' ref={profileSubMenuRef} onClick={handleSubMenuClick}>
                                 <ul>
                                     <li>
-                                        <img src={myProfile} alt=""/>
-                                        <span>Мой профиль</span>
+                                        <NavLink 
+                                            to="/profile" 
+                                            className={({ isActive }) => {
+                                                return isActive ? "_active" : ""
+                                            }}
+                                        >
+                                            <img src={myProfile} alt=""/>
+                                            <span>Мой профиль</span>
+                                        </NavLink>
                                     </li>
                                     <li>
-                                        <img src={messages} alt=""/>
-                                        <span>Сообщения</span>
+                                        <NavLink 
+                                            to="/messages" 
+                                            className={({ isActive }) => {
+                                                return isActive ? "_active" : ""
+                                            }}
+                                        >
+                                            <img src={messages} alt=""/>
+                                            <span>Сообщения</span>
+                                        </NavLink>
                                     </li>
                                     <li>
-                                        <img src={options} alt=""/>
-                                        <span>Настройки</span>
+                                        <NavLink 
+                                            to="/settings" 
+                                            className={({ isActive }) => {
+                                                return isActive ? "_active" : ""
+                                            }}
+                                        >
+                                            <img src={options} alt=""/>
+                                            <span>Настройки</span>
+                                        </NavLink>
                                     </li>
                                     <li>
-                                        <img src='/images/heart.svg' alt=""/>
-                                        <span>Обратная связь</span>
+                                        <NavLink 
+                                            to="/feedback" 
+                                            className={({ isActive }) => {
+                                                return isActive ? "_active" : ""
+                                            }}
+                                        >
+                                            <img src='/images/heart.svg' alt=""/>
+                                            <span>Обратная связь</span>
+                                        </NavLink>
                                     </li>
                                     <li>
-                                        <img src='/images/question.svg' alt=""/>
-                                        <span>Помощь</span>
+                                        <NavLink 
+                                            to="/help" 
+                                            className={({ isActive }) => {
+                                                return isActive ? "_active" : ""
+                                            }}
+                                        >
+                                            <img src='/images/question.svg' alt=""/>
+                                            <span>Помощь</span>
+                                        </NavLink>
                                     </li>
                                     <li className={styles.exitMenu} onClick={handleLogout}>
                                         <img src='/images/exit.svg' alt=""/>

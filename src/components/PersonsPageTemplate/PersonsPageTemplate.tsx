@@ -1,7 +1,7 @@
 import PersonCard from "../PersonCard/PersonCard"
 
 const PersonsPageTemplate = ({ title, persons }) => {
-    // const students = ['Рамиз', 'Рамиз', 'Рамиз','Рамиз', 'Рамиз','Рамиз','Рамиз','Рамиз','Рамиз','Рамиз','Рамиз']
+
     return (
         <div className="page">
             <section className="section persons">
@@ -13,9 +13,6 @@ const PersonsPageTemplate = ({ title, persons }) => {
                         {persons.map(person => (
                             <PersonCard key={person.id} name={person.title} imageUrl={person.imagePreviewResized} />
                         ))}
-                        {/* {students.map((name, index) => (
-                            <PersonCard key={name + index} name={name} imageUrl="" />
-                        ))} */}
                     </div>
                 </div>
             </section>

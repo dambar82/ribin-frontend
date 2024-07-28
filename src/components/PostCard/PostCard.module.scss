@@ -1,6 +1,9 @@
 .post {
     background-color: #FFFFFF;
     border-radius: 50px;
+    // display: flex;
+    // flex-direction: column;
+    // gap: 20px;
     padding: 24px;
     & > * {
         &:not(:last-child) {
@@ -18,6 +21,7 @@
     &__image {
         aspect-ratio: calc(492 / 288);
         border-radius: 25px;
+        // margin-top: auto;
         overflow: hidden;
         img {
             width: 100%;

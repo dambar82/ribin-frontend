@@ -108,7 +108,7 @@ const Wall = ({type, posts}: IWall) => {
             <div className={styles.wall__content}>
                 {feedType === 0 && (
                     <div className={styles.wall__feed}>
-                        { type === "post" ?
+                        { type === "post" || type ==="profile" ?
                             <form action="#" method="POST" className={styles.wall__feedForm}>
                                 <textarea name="" id="" placeholder="Поделитесь с другими своими успехами и новостями!"></textarea>
                                 <div>
@@ -170,7 +170,7 @@ const Wall = ({type, posts}: IWall) => {
                                 </div>
                             </form> : null
                         }
-                        {posts.map((post, index) => (
+                        {posts.length ? posts.map((post, index) => (
                             <Post
                                 key={post.name + index}
                                 name={post.name}
@@ -181,7 +181,7 @@ const Wall = ({type, posts}: IWall) => {
                             >
                                 {post.content}
                             </Post>
-                        ))}
+                        )) : null}
                     </div>
                 )}
                 {feedType === 1 && (
@@ -194,7 +194,7 @@ const Wall = ({type, posts}: IWall) => {
                     <p>Здесь должны быть фотографии</p>
                 )}
             </div>
-            <aside className={ type === "post" ? styles.wall__aside : `${styles.wall__aside} ${styles.wall__aside_sticky}`}>
+            <aside className={ type === "post" || type ==="profile" ? styles.wall__aside : `${styles.wall__aside} ${styles.wall__aside_sticky}`}>
                 <div className={styles.wall__asideBlock}>
                     <form method="GET" action="#" className={styles.wall__form}>
                         <button type="button">

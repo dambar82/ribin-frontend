@@ -28,7 +28,7 @@ export const fetchPhotoGallery = createAsyncThunk('photoGallery/fetchPhotoGaller
 });
 
 
-export const fetchPhotoGalleryById = createAsyncThunk('photoGallery/fetchPhotoGalleryById', async (id:number) => {
+export const fetchPhotoGalleryById = createAsyncThunk('photoGallery/fetchPhotoGalleryById', async (id: string) => {
     const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
     const photosUrl = `${proxyUrl}https://loyalfans.rubin-kazan.ru/api/v1/bitrix/photos/${id}`;
 
@@ -63,11 +63,10 @@ const photoGallerySlice = createSlice({
             .addCase(fetchPhotoGalleryById.fulfilled, (state, action: PayloadAction<PhotoGallery>) => {
                 state.photoGallery.map(gallery => {
                     if (gallery.id === action.payload.id) {
-                        gallery.photos = action.payload.photos
+                        gallery.photos = action.payload.photos;
                     }
                 })
                 state.status = 'succeeded';
-                state.error = null;
             })
     }
 })
