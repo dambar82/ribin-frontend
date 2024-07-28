@@ -54,19 +54,19 @@ const FeedbackPage = () => {
         <div className="page">
             <div className={styles.feedback}>
                 <h1 className={styles.feedback__title}>Обратная связь</h1>
-                <form className={styles.form} action="#" method="post" onSubmit={handleSubmit}>
-                    <div className={styles.form__body}>
-                        <div className={styles.form__control}>
-                            <div className={styles.form__controlLabel}>Почта</div>
-                            <input className={styles.form__controlField} type="email" placeholder="Введите ваш действующий email адрес" autoComplete="off" value={email} onChange={handleEmailChange}/>
+                <form className="form" action="#" method="post" onSubmit={handleSubmit}>
+                    <div className={`${styles.form__body} form__body`}>
+                        <div className="form-control">
+                            <div className="form-control__label">Почта</div>
+                            <input className="form-control__field" type="email" placeholder="Введите ваш действующий email адрес" autoComplete="off" value={email} onChange={handleEmailChange}/>
                         </div>
-                        <div className={styles.form__control}>
-                            <div className={styles.form__controlLabel}>Тема сообщения</div>
-                            <input className={styles.form__controlField} type="text" placeholder="Укажите краткую тему вашего сообщения" autoComplete="off" value={topic} onChange={handleTopicChange}/>
+                        <div className="form-control">
+                            <div className="form-control__label">Тема сообщения</div>
+                            <input className="form-control__field" type="text" placeholder="Укажите краткую тему вашего сообщения" autoComplete="off" value={topic} onChange={handleTopicChange}/>
                         </div>
-                        <div className={styles.form__control}>
-                            <div className={styles.form__controlLabel}>Сообщение</div>
-                            <textarea className={styles.form__controlField} name="" id="" placeholder="Пожалуйста, опишите вашу проблему, вопрос или предложение" autoComplete="off" value={text} onChange={handleTextChange}></textarea>
+                        <div className="form-control">
+                            <div className="form-control__label">Сообщение</div>
+                            <textarea className="form-control__field" name="" id="" placeholder="Пожалуйста, опишите вашу проблему, вопрос или предложение" autoComplete="off" value={text} onChange={handleTextChange}></textarea>
                         </div>
                         <div {...getRootProps({
                             className: 'dropzone', 
@@ -98,7 +98,7 @@ const FeedbackPage = () => {
                             <button className="button button--green" type="button" onClick={open}><span>Выбрать файл(-ы)</span></button>
                         </div>
                     </div>
-                    <div className={styles.form__footer}>
+                    <div className={`${styles.form__footer} form__footer`}>
                         <button className="button button--main" type="submit">
                             <span>Отправить</span>
                         </button>

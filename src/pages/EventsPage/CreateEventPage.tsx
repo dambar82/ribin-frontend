@@ -175,6 +175,9 @@ const TimePicker = () => {
 }
 
 const CreateEventPage = () => {
+    const [name, setName] = useState("")
+    const [desc, setDesc] = useState("")
+
     const [files, setFiles] = useState([])
     const [startDate, setStartDate] = useState(new Date())
     const dataPickerEl = useRef(null)
@@ -192,6 +195,9 @@ const CreateEventPage = () => {
     });
     const [openPopup, setOpenPopup] = useState(false)
     const [switchState, setSwitchState] = useState(false)
+
+    const handleNameChange = e => setName(e.target.value)
+    const handleDescChange = e => setDesc(e.target.value)
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -223,8 +229,8 @@ const CreateEventPage = () => {
         <div className="page">
             <h1 className="page__title">Мероприятие клуба</h1>
             <div className="page__content">
-                <form action="#" method="POST" className={styles.form} onSubmit={handleSubmit}>
-                    <div className={styles.form__body}>
+                <form action="#" method="POST" className={`${styles.form} form`} onSubmit={handleSubmit}>
+                    <div className={`${styles.form__body} form__body`}>
                         <div className="container">
                             <div {...getRootProps({
                                     className: 'dropzone', 
@@ -276,13 +282,13 @@ const CreateEventPage = () => {
                             </div>
                         </div>
                         <div className={styles.grid}> 
-                            <div className={styles.formControl}>
-                                <div className={styles.formControl__label}>Название мероприятия</div>
-                                <input className={styles.formControl__field} type="text" placeholder="Введите название вашего мероприятия"/>
+                            <div className="form-control">
+                                <div className="form-control__label">Название мероприятия</div>
+                                <input className="form-control__field" type="text" placeholder="Введите название вашего мероприятия" value={name} onChange={handleNameChange}/>
                             </div>
-                            <div className={styles.formControl}>
-                                <div className={styles.formControl__label}>Дата и время</div>
-                                <div className={styles.formControl__innerBody}>
+                            <div className="form-control">
+                                <div className="form-control__label">Дата и время</div>
+                                <div className="form-control__inner-body">
                                     <DatePicker 
                                         showIcon
                                         showPopperArrow={false}
@@ -293,7 +299,7 @@ const CreateEventPage = () => {
                                         placeholderText='ММ/ДД/ГГ'
                                         withPortal
                                         shouldCloseOnSelect={false}
-                                        className={styles.formControl__field}
+                                        className="form-control__field"
                                         ref={dataPickerEl}
                                         showTimeInput
                                         timeInputLabel='Время'
@@ -304,20 +310,20 @@ const CreateEventPage = () => {
                                     <TimePicker />
                                 </div>
                             </div>
-                            <div className={styles.formControl}>
-                                <div className={styles.formControl__label}>Описание мероприятия</div>
-                                <textarea className={styles.formControl__field} name="" id="" placeholder="Укажите цель мероприятия, программу, ключевых спикеров или любую другую важную информацию"></textarea>
+                            <div className="form-control">
+                                <div className="form-control__label">Описание мероприятия</div>
+                                <textarea className="form-control__field" name="" id="" placeholder="Укажите цель мероприятия, программу, ключевых спикеров или любую другую важную информацию" value={desc} onChange={handleDescChange}></textarea>
                             </div>
-                            <div className={styles.formControl}>
-                                <div className={styles.formControl__labelWrapper}>
-                                    <div className={styles.formControl__label}>Место проведения</div>
-                                    <div className={styles.formControl__switch}>
-                                        <div className={styles.formControl__switchText}>На карте</div>
+                            <div className="form-control">
+                                <div className="form-control__label-wrapper">
+                                    <div className="form-control__label">Место проведения</div>
+                                    <div className="form-control__switch">
+                                        <div className="form-control__switch-text">На карте</div>
                                         <div
                                             className={
                                                 switchState === false 
-                                                ? styles.formControl__switchElement 
-                                                : `${styles.formControl__switchElement} ${styles.formControl__switchElement_on}`
+                                                ? "form-control__switch-element"
+                                                : "form-control__switch-element form-control__switch-element_on"
                                             } 
                                             onClick={() => setSwitchState(prevState => !prevState)}></div>
                                     </div>
@@ -331,13 +337,13 @@ const CreateEventPage = () => {
                                             </Marker>
                                         </MapContainer>
                                     )
-                                    : <textarea className={styles.formControl__field} name="" id="" placeholder="Укажите город и полный адрес проведения мероприятия"></textarea>
+                                    : <textarea className="form-control__field" name="" id="" placeholder="Укажите город и полный адрес проведения мероприятия"></textarea>
                                 }
                                 
                             </div>
                         </div>
                     </div>
-                    <div className={styles.form__footer}>
+                    <div className={`${styles.form__footer} form__footer`}>
                         <button className='button button--main' type="submit" onSubmit={handleSubmit}>
                             <span>Создать мероприятие</span>    
                         </button>

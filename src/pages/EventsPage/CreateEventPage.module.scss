@@ -7,20 +7,13 @@
 }
 
 .form {
-    box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.12);
-    border-radius: 50px;
-    overflow: hidden;
     &__body {
-        display: flex;
+        background-color: var(--white);
         flex-direction: column;
         gap: 50px;
-        padding: 70px;
     }
     &__footer {
         background-color: #F8F8F8;
-        display: flex;
-        justify-content: center;
-        padding: 46px 20px;
     }
 }
 
@@ -77,10 +70,12 @@
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 32px 50px;
+    & > * {
+        grid-column: span 2;
+    }
 }
 
 .formControl {
-    grid-column: span 2;
     &__innerBody {
         display: grid;
         grid-template-columns: 1fr 1fr;
@@ -96,43 +91,6 @@
         font-weight: 500;
         line-height: calc(28 / 24);
         margin: 0 0 24px;
-    }
-    &__switch {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-    }
-    &__switchText {
-        font-size: 20px;
-        font-weight: 500;
-        line-height: calc(24 / 20);
-    }
-    &__switchElement {
-        background-color: #817E7E;
-        border-radius: 20px;
-        cursor: pointer;
-        padding: 2px;
-        position: relative;
-        width: 50px;
-        height: 28px;
-        transition: background-color 0.2s ease 0s;
-        &::after {
-            background-color: #FFFFFF;
-            border-radius: 50px;
-            content: "";
-            position: absolute;
-            top: 2px;
-            left: 2px;
-            width: 24px;
-            height: 24px;
-            transition: left 0.2s ease 0s;
-        }
-        &_on {
-            background-color: #91172C;
-            &::after {
-                left: calc(100% - 26px);
-            }
-        }
     }
     &__field {
         background-color: #F8F8F8;
