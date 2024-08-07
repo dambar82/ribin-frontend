@@ -381,7 +381,7 @@ function App() {
               </Route>
               <Route element={<PrivateRoute />}>
                   <Route
-                      path="/clubs/:id/events"
+                      path="/events"
                       element={
                           <AuthLayout>
                             < EventsPage />

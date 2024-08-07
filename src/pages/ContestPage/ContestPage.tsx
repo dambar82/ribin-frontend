@@ -69,7 +69,7 @@ const ContestPage = () => {
     }, [contest]);
 
     useEffect(() => {
-        if (user.contests.find(item => item.id === Number(contestId))) {
+        if (user.contests?.find(item => item.id === Number(contestId))) {
             setParticipating(true);
         }
     }, [user, contest])
@@ -200,13 +200,13 @@ const ContestPage = () => {
                                         {Object.keys(timeLeft).map((timeItem, index, arr) => {
                                             if (index !== arr.length - 1) 
                                                 return (
-                                                    <>
-                                                    <div key={timeItem} className={styles.timerItem}>
-                                                        <div className={styles.timerItem_value}>{timeLeft[timeItem]}</div>
-                                                        <div className={styles.timerItem_label}>{timeMap[timeItem]}</div>
-                                                    </div>
-                                                    <div className={styles.timerSeparator}></div>
-                                                    </>
+                                                    <React.Fragment key={timeItem}>
+                                                        <div className={styles.timerItem}>
+                                                            <div className={styles.timerItem_value}>{timeLeft[timeItem]}</div>
+                                                            <div className={styles.timerItem_label}>{timeMap[timeItem]}</div>
+                                                        </div>
+                                                        <div className={styles.timerSeparator}></div>
+                                                    </React.Fragment>
                                             )
                                             return (
                                                 <div key={timeItem} className={styles.timerItem}>
@@ -237,8 +237,8 @@ const ContestPage = () => {
                                     <ActiveUserCard
                                         image={participant.client.image}
                                         name={participant.client.name}
-                                        level={20}
-                                        points={2000}
+                                        level={participant.client.level}
+                                        points={participant.client.score}
                                         key={participant.id}></ActiveUserCard>
                                 ))
                             }

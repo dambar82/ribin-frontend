@@ -200,7 +200,7 @@ const AuthHeader = () => {
                                 {[
                                     { name: "Спорт для школьников", path: "/sportslife" },
                                     { name: "Викторины", path: "/quizzes" }, 
-                                    { name: "Мероприятия", path: "/сlubs/:id/events" },  
+                                    { name: "Мероприятия", path: "/events" },
                                 ].map(({ name, path }) => {
                                     return (
                                         <li>
