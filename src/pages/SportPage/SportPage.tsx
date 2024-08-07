@@ -39,7 +39,7 @@ const SportPage = () => {
             </div>
             <div className={`${styles.training} section`}>
                 <div className='section__header'>
-                    <div className='section__title'>Видео-тренировки</div>
+                    <div className='section__title'>{tabPage === 0 ? 'Видео-тренировки' : 'Здоровое питание'}</div>
                     <div className='section__counter'>2303</div>
                     <nav className='tab-nav' style={{ marginLeft: "auto" }}>
                         <button className={`button button--white tab-button ${tabPage === 0 ? "tab-button--active" : ""}`} type='button' onClick={() => setTabPage(0)}><span>Тренировки</span></button>
@@ -66,8 +66,8 @@ const SportPage = () => {
                         {
                             tabPage === 1 && 
                             <div className='tab-page'>
-                                <Grid totalItems={sports["healthy_eating_img"]?.length}>
-                                    {sports["healthy_eating_img"]?.map(video => (
+                                <Grid totalItems={sports["healthy_eating_video"]?.length}>
+                                    {sports["healthy_eating_video"]?.map(video => (
                                         <VideoTrainingCard 
                                             key={video.id}
                                             title={video.name}
