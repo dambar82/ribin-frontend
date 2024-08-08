@@ -185,3 +185,19 @@
   border-radius: 50px;
   overflow: hidden;
 }
+
+.eventPage_gallery {
+
+}
+
+.eventPage_gallery_photo {
+  max-height: 300px;
+  width: 100%;
+  border-radius: 25px;
+  overflow: hidden;
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
