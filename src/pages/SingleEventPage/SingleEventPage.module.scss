@@ -1,5 +1,8 @@
 .eventPage {
   padding-top: 60px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 160px;
 }
 
 .eventBackground {
@@ -161,4 +164,24 @@
   flex-direction: column;
   justify-content: space-between;
   padding: 6px 0;
+}
+
+.eventPage_Deck {
+  display: flex;
+  flex-direction: column;
+  row-gap: 46px;
+}
+
+.eventPage_regularHeader {
+  font-size: 32px;
+  font-weight: 500;
+  line-height: 38px;
+  text-align: left;
+}
+
+.mapWrapper {
+  width: 100%;
+  height: 700px;
+  border-radius: 50px;
+  overflow: hidden;
 }

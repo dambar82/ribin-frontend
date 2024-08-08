@@ -1,4 +1,5 @@
 import React from 'react';
+import Map from '../../components/Map/Map';
 import Breadcrumbs from "../../components/Breadcrumbs/Breadcrumbs";
 import styles from '../SingleEventPage/SingleEventPage.module.scss';
 import background from '../../images/1383bd1e9c5ffe515f07e308cc8c8a83.jpg';
@@ -85,6 +86,22 @@ const SingleEventPage = () => {
                                 Участвовать
                             </button>
                         </div>
+                    </div>
+                </div>
+                <div className={styles.eventPage_Deck}>
+                    <h2 className={styles.eventPage_regularHeader}>
+                        Расположение
+                    </h2>
+                    <div className={styles.mapWrapper}>
+                        <Map coordinates={[55.783063, 49.119782]}></Map>
+                    </div>
+                </div>
+                <div className={styles.eventPage_Deck}>
+                    <h2 className={styles.eventPage_regularHeader}>
+                        Фотогалерея
+                    </h2>
+                    <div>
+
                     </div>
                 </div>
             </div>
