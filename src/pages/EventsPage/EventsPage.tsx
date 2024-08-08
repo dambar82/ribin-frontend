@@ -24,9 +24,9 @@ const EventsPage = () => {
                     <div className={styles.events__counter}>230</div>
                     <nav className="tab-nav">
                         {["Список", "На карте"].map((item, index) => (
-                            <button 
+                            <button
                                 onClick={() => setActive(index + 1)}
-                                className={`tab-button ${active === index + 1 ? "tab-button--active" : ""} button button--white`} 
+                                className={`tab-button ${active === index + 1 ? "tab-button--active" : ""} button button--white`}
                                 type="button"
                             >
                                 <span>{item}</span>
@@ -35,12 +35,12 @@ const EventsPage = () => {
                     </nav>
                 </div>
                 <div className={styles.events__body}>
-                {active === 1 
+                {active === 1
                     ? (
                         <div className={styles.events__list}>
                             {events.map(event => (
-                                <Link key={event.name} to="/" className={event.completed ? styles.disableLink : ""}>
-                                    <EventCard 
+                                <Link key={event.name} to="/events/event" className={event.completed ? styles.disableLink : ""}>
+                                    <EventCard
                                         name={event.name}
                                         image={event.image}
                                         completed={event.completed}

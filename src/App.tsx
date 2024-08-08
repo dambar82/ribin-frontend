@@ -40,6 +40,7 @@ import EditProfilePage from './pages/ProfilePage/EditProfilePage';
 import UserProfilePage from './pages/ProfilePage/UserProfilePage';
 import FeedbackPage from './pages/FeedbackPage/FeedbackPage';
 import SettingsPage from './pages/SettingsPage/SettingsPage';
+import SingleEventPage from './pages/SingleEventPage/SingleEventPage';
 
 
 export function parseAndFormatDate(input) {
@@ -85,324 +86,78 @@ function App() {
 
     const { user } = useSelector((state: RootState) => state.user);
 
-  return (
-      <BrowserRouter>
-          <Routes>
-              <Route
-                  path="/login"
-                  element={
-                      <UnauthLayout>
-                          <Login />
-                      </UnauthLayout>
-                  }
-              />
-              <Route
-                  path="/register"
-                  element={
-                      <UnauthLayout>
-                          <Register />
-                      </UnauthLayout>
-                  }
-              />
-              <Route
-                path='/restore'
-                element={
-                  <RestoreLayout>
-                      <Restore />
-                  </RestoreLayout>
-                }
-              >
-              </Route>
-              <Route
-                path='/restore/password'
-                element={
-                  <RestoreLayout>
-                      <NewPassword></NewPassword>
-                  </RestoreLayout>
-                }
-              >
-              </Route>
-              <Route
-                path='/'
-                element={
-                  user ? (
-                      <MainAuthorizedLayout>
-                          <AuthorizedMain></AuthorizedMain>
-                      </MainAuthorizedLayout>
-                      ) : (
-                      <MainUnauthorizedLayout>
-                          <UnauthorizedMain></UnauthorizedMain>
-                      </MainUnauthorizedLayout>
-                  )
-                }
-              >
+    const publicRoutes = [
+        { path: '/login', element: <Login />, layout: UnauthLayout },
+        { path: '/register', element: <Register />, layout: UnauthLayout },
+        { path: '/restore', element: <Restore />, layout: RestoreLayout },
+        { path: '/restore/password', element: <NewPassword />, layout: RestoreLayout },
+    ];
 
-              </Route>
-              <Route element={<PrivateRoute />}>
-                  <Route
-                      path="/contests"
-                      element={
-                          <AuthLayout>
-                              <Contests />
-                          </AuthLayout>
-                      }
-                  />
-              </Route>
-              <Route element={<PrivateRoute />}>
+    const privateRoutes = [
+        { path: '/contests', element: <Contests /> },
+        { path: '/contests/:contestId', element: <ContestPage /> },
+        { path: '/contests/:contestId/form', element: <ContestForm /> },
+        { path: '/people', element: <UsersFilter /> },
+        { path: '/quizzes', element: <QuizzesPage /> },
+        { path: '/quizzes/:id', element: <SingleQuizPage /> },
+        { path: '/news', element: <NewsPage /> },
+        { path: '/news/:id', element: <SingleNewsPage /> },
+        { path: '/profile', element: <ProfilePage /> },
+        { path: '/profile/edit', element: <EditProfilePage /> },
+        { path: '/user', element: <UserProfilePage /> },
+        { path: '/feedback', element: <FeedbackPage /> },
+        { path: '/settings', element: <SettingsPage /> },
+        { path: '/clubs', element: <Clubs /> },
+        { path: '/clubs/:id', element: <SingleClubPage /> },
+        { path: '/rubylife', element: <RubyLife /> },
+        { path: '/sportslife', element: <SportPage /> },
+        { path: '/students', element: <StudentsPage /> },
+        { path: '/academy-coaches', element: <CoachesPage /> },
+        { path: '/photogallery', element: <PhotoGalleryPage /> },
+        { path: '/photogallery/:id', element: <SinglePhotoGalleryPage /> },
+        { path: '/posts', element: <PostsPage /> },
+        { path: '/awards', element: <AwardsPage /> },
+        { path: '/programs', element: <ClubProgramsPage /> },
+        { path: '/events', element: <EventsPage /> },
+        { path: '/events/event', element: <SingleEventPage /> },
+        { path: '/clubs/events/new', element: <CreateEventPage /> },
+    ];
+
+    return (
+        <BrowserRouter>
+            <Routes>
+                {publicRoutes.map(({ path, element, layout: Layout }) => (
+                    <Route key={path} path={path} element={<Layout>{element}</Layout>} />
+                ))}
                 <Route
-                    path="/contests/:contestId"
+                    path="/"
                     element={
-                        <AuthLayout>
-                            <ContestPage />
-                        </AuthLayout>
+                        user ? (
+                            <MainAuthorizedLayout>
+                                <AuthorizedMain />
+                            </MainAuthorizedLayout>
+                        ) : (
+                            <MainUnauthorizedLayout>
+                                <UnauthorizedMain />
+                            </MainUnauthorizedLayout>
+                        )
                     }
                 />
-              </Route>
-              <Route element={<PrivateRoute />}>
-                <Route
-                    path="/contests/:contestId/form"
-                    element={
-                        <AuthLayout>
-                            <ContestForm />
-                        </AuthLayout>
-                    }
-                  />
-              </Route>
-              <Route element={<PrivateRoute />}>
-                  <Route
-                      path="/people"
-                      element={
-                          <AuthLayout>
-                              <UsersFilter></UsersFilter>
-                          </AuthLayout>
-                      }
-                  />
-              </Route>
-              <Route element={<PrivateRoute />}>
-                  <Route
-                      path="/quizzes"
-                      element={
-                          <AuthLayout>
-                            <QuizzesPage />
-                          </AuthLayout>
-                      }
-                  />
-              </Route>
-              <Route element={<PrivateRoute />}>
-                  <Route
-                      path="/quizzes/:id"
-                      element={
-                          <AuthLayout>
-                            <SingleQuizPage />
-                          </AuthLayout>
-                      }
-                  />
-              </Route>
-              <Route element={<PrivateRoute />}>
-                  <Route
-                      path="/news"
-                      element={
-                          <AuthLayout>
-                                <NewsPage />
-                          </AuthLayout>
-                      }
-                    />
-              </Route>
-              <Route element={<PrivateRoute />}>
+                {privateRoutes.map(({ path, element }) => (
                     <Route
-                        path="/news/:id"
+                        key={path}
+                        path={path}
                         element={
-                            <AuthLayout>
-                                <SingleNewsPage />
-                            </AuthLayout>
+                            <PrivateRoute>
+                                <AuthLayout>{element}</AuthLayout>
+                            </PrivateRoute>
                         }
                     />
-              </Route>
-              <Route element={<PrivateRoute />}>
-                  <Route
-                      path="/profile"
-                      element={
-                          <AuthLayout>
-                            <ProfilePage />
-                          </AuthLayout>
-                      }
-                  />
-              </Route>
-              <Route element={<PrivateRoute />}>
-                  <Route
-                      path="/profile/edit"
-                      element={
-                          <AuthLayout>
-                            <EditProfilePage />
-                          </AuthLayout>
-                      }
-                  />
-              </Route>
-              <Route element={<PrivateRoute />}>
-                  <Route
-                      path="/user"
-                      element={
-                          <AuthLayout>
-                            <UserProfilePage />
-                          </AuthLayout>
-                      }
-                  />
-              </Route>
-              <Route element={<PrivateRoute />}>
-                  <Route
-                      path="/feedback"
-                      element={
-                          <AuthLayout>
-                            <FeedbackPage />
-                          </AuthLayout>
-                      }
-                  />
-              </Route>
-              <Route element={<PrivateRoute />}>
-                  <Route
-                      path="/settings"
-                      element={
-                          <AuthLayout>
-                            <SettingsPage />
-                          </AuthLayout>
-                      }
-                  />
-              </Route>
-              <Route element={<PrivateRoute />}>
-                  <Route
-                      path="/clubs"
-                      element={
-                          <AuthLayout>
-                              <Clubs />
-                          </AuthLayout>
-                      }
-                  />
-              </Route>
-              
-              <Route element={<PrivateRoute />}>
-                  <Route
-                      path="/clubs/:id"
-                      element={
-                          <AuthLayout>
-                              <SingleClubPage />
-                          </AuthLayout>
-                      }
-                  />
-              </Route>
-              <Route element={<PrivateRoute />}>
-                  <Route
-                      path="/rubylife"
-                      element={
-                          <AuthLayout>
-                              <RubyLife></RubyLife>
-                          </AuthLayout>
-                      }
-                  />
-              </Route>
-              <Route element={<PrivateRoute />}>
-                  <Route
-                      path="/sportslife"
-                      element={
-                          <AuthLayout>
-                              <SportPage />
-                          </AuthLayout>
-                      }
-                  />
-              </Route>
-              <Route element={<PrivateRoute />}>
-                  <Route
-                      path="/students"
-                      element={
-                          <AuthLayout>
-                            <StudentsPage />
-                          </AuthLayout>
-                      }
-                  />
-              </Route>
-              <Route element={<PrivateRoute />}>
-                  <Route
-                      path="/academy-coaches"
-                      element={
-                          <AuthLayout>
-                            <CoachesPage />
-                          </AuthLayout>
-                      }
-                  />
-              </Route>
-              <Route element={<PrivateRoute />}>
-                  <Route
-                      path="/photogallery"
-                      element={
-                          <AuthLayout>
-                            <PhotoGalleryPage />
-                          </AuthLayout>
-                      }
-                  />
-              </Route>
-              <Route element={<PrivateRoute />}>
-                  <Route
-                      path="/photogallery/:id"
-                      element={
-                          <AuthLayout>
-                            <SinglePhotoGalleryPage />
-                          </AuthLayout>
-                      }
-                  />
-              </Route>
-              <Route element={<PrivateRoute />}>
-                  <Route
-                      path="/posts"
-                      element={
-                          <AuthLayout>
-                            <PostsPage />
-                          </AuthLayout>
-                      }
-                  />
-              </Route>
-              <Route element={<PrivateRoute />}>
-                  <Route
-                      path="/awards"
-                      element={
-                          <AuthLayout>
-                            <AwardsPage />
-                          </AuthLayout>
-                      }
-                  />
-              </Route>
-              <Route element={<PrivateRoute />}>
-                  <Route
-                      path="/programs"
-                      element={
-                          <AuthLayout>
-                            < ClubProgramsPage />
-                          </AuthLayout>
-                      }
-                  />
-              </Route>
-              <Route element={<PrivateRoute />}>
-                  <Route
-                      path="/events"
-                      element={
-                          <AuthLayout>
-                            < EventsPage />
-                          </AuthLayout>
-                      }
-                  />
-              </Route>
-              <Route element={<PrivateRoute />}>
-                  <Route
-                      path="/clubs/events/new"
-                      element={
-                          <AuthLayout>
-                            < CreateEventPage />
-                          </AuthLayout>
-                      }
-                  />
-              </Route>
-              <Route path="*" element={<Navigate to={user ? "/" : "/login"} />} />
-          </Routes>
-      </BrowserRouter>
-  );
+                ))}
+                <Route path="*" element={<Navigate to={user ? "/" : "/login"} />} />
+            </Routes>
+        </BrowserRouter>
+    );
 }
 
 export default App;
