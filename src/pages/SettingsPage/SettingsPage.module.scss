@@ -14,3 +14,87 @@
 .confirm_button {
   cursor: pointer;
 }
+
+.datepicker_wrapper {
+  display: grid;
+  align-items: center;
+
+  & > div {
+    grid-area: 1/1;
+  }
+
+  svg {
+    grid-area: 1/1;
+    justify-self: end;
+    z-index: 1;
+    margin-right: 30px;
+    pointer-events: none;
+  }
+}
+
+.datepicker_header {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+
+  font-size: 20px;
+  font-weight: 600;
+
+  p {
+    cursor: pointer;
+  }
+
+  button {
+    font-size: 20px;
+    font-weight: 600;
+  }
+}
+
+.select_wrapper {
+  justify-self: center;
+  
+  position: absolute;
+  display: flex;
+  align-items: center;
+  height: 100%;
+  background-color: #fff;
+
+  select {
+    padding: 2px;
+    cursor: pointer;
+    
+    font-size: 20px;
+    font-weight: 600;
+
+    &:nth-child(1) {
+      border-radius: 8px 0 0 8px;
+    }
+    &:nth-child(2) {
+      border-radius: 0 8px 8px 0;
+    }
+  }
+
+  button {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    margin-left: 20px;
+
+    &::before, &::after {
+      content: '';
+      position: absolute;
+      width: 15px;
+      height: 2px;
+      background-color: #000000;
+    }
+    &::before {
+      transform: rotate(45deg);
+    }
+    &::after {
+      transform: rotate(-45deg);
+    }
+  }
+}

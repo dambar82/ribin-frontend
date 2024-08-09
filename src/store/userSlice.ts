@@ -98,10 +98,13 @@ const userSlice = createSlice({
                 state.error = action.error.message || null;
             })
 
+            .addCase(editUser.pending, (state) => {
+              state.status = 'loading';
+            })
             .addCase(editUser.fulfilled, (state, action: PayloadAction<User>) => {
                 state.user = action.payload;
+                localStorage.setItem('user', JSON.stringify(action.payload))
                 state.status = 'succeeded';
-                console.log(action.payload)
                 state.error = null;
             })
             .addCase(editUser.rejected, (state, action) => {

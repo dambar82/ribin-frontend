@@ -1,20 +1,32 @@
 import { useState, useRef } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { AppDispatch, RootState } from "../../store/store"
-import { classNames } from "../../shared/utils"
+import { arrayFromTo, classNames } from "../../shared/utils"
+import { editUser } from "../../store/userSlice"
 
-import DatePicker from "react-datepicker";
+import DatePicker, { DatePickerProps, ReactDatePickerCustomHeaderProps, registerLocale } from "react-datepicker";
+import ru from "date-fns/locale/ru";
+import { getMonth, getYear } from "date-fns"
 
 import styles from "./SettingsPage.module.scss"
 import "react-datepicker/dist/react-datepicker.css"
 
 import hidePasswordIcon from "../../images/svg/hide-password.svg"
 import showPasswordIcon from "../../images/svg/views.svg"
-import { editUser } from "../../store/userSlice"
+
+
+//@ts-ignore
+registerLocale('ru', ru)
+
+
+const YEARS = arrayFromTo(1990, getYear(new Date()) + 1);
+
+const MONTHS = [ 'Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь' ];
+
 
 const SettingsPage = () => {
 
-    const { user } = useSelector((state: RootState) => state.user);
+    const { user, status } = useSelector((state: RootState) => state.user);
 
     const dispatch = useDispatch<AppDispatch>();
 
@@ -50,6 +62,9 @@ const SettingsPage = () => {
         password,
         age: startDate.getTime()
       }))
+      .finally(() => {
+        alert('Настройки сохранены')
+      })
 
     }
 
@@ -86,29 +101,33 @@ const SettingsPage = () => {
                         </div>
                         <div className="form-control">
                             <div className="form-control__label">Дата рождения</div>
-                            {/* @ts-ignore */}
-                            <DatePicker
-                              date={startDate}
-                              showIcon
-                              showPopperArrow={false}
-                              selected={startDate}
-                              //@ts-ignore
-                              onChange={(date) => setStartDate(date)}
-                              dateFormat="dd.MM.YYYY"
-                              placeholderText='ММ/ДД/ГГ'
-                              withPortal
-                              shouldCloseOnSelect={false}
-                              className="form-control__field"
-                              ref={dataPickerEl}
-                            >
-                              <button
-                                className={classNames('button', 'button--main', styles.confirm_button)}
-                                type="button"
-                                onClick={() => dataPickerEl.current?.setOpen(false)}
+                            <div className={styles.datepicker_wrapper} >
+                              {/* @ts-ignore */}
+                              <DatePicker
+                                locale='ru'
+                                renderCustomHeader={(props) => <DatePickerHeader {...props} />}
+                                date={startDate}
+                                showPopperArrow={false}
+                                selected={startDate}
+                                //@ts-ignore
+                                onChange={(date) => setStartDate(date)}
+                                dateFormat="dd.MM.YYYY"
+                                placeholderText='ММ/ДД/ГГ'
+                                withPortal
+                                shouldCloseOnSelect={false}
+                                className="form-control__field"
+                                ref={dataPickerEl}
                               >
-                                <span>Выбрать</span>
-                              </button>
-                            </DatePicker>
+                                <button
+                                  className={classNames('button', 'button--main', styles.confirm_button)}
+                                  type="button"
+                                  onClick={() => dataPickerEl.current?.setOpen(false)}
+                                >
+                                  <span>Выбрать</span>
+                                </button>
+                              </DatePicker>
+                              <svg width="23" height="22" viewBox="0 0 23 22" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7.83203 1.83337V5.50004" stroke="#2A2A2A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/><path d="M15.168 1.83337V5.50004" stroke="#2A2A2A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/><path d="M17.9167 3.66663H5.08333C4.07081 3.66663 3.25 4.48744 3.25 5.49996V18.3333C3.25 19.3458 4.07081 20.1666 5.08333 20.1666H17.9167C18.9292 20.1666 19.75 19.3458 19.75 18.3333V5.49996C19.75 4.48744 18.9292 3.66663 17.9167 3.66663Z" stroke="#2A2A2A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/><path d="M3.25 9.16663H19.75" stroke="#2A2A2A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                            </div>
                         </div>
                     </div>
                     <div className="form__column">
@@ -134,7 +153,7 @@ const SettingsPage = () => {
                                   value={password}
                                   onChange={e => setPassword(e.target.value)}
                                 />
-                                { password ? <img src={ hidePassword ? showPasswordIcon : hidePasswordIcon  } alt="" onClick={() => setHidePassword(state => !state)}/> : null }
+                                { password ? <img width={20} src={ hidePassword ? hidePasswordIcon : showPasswordIcon } alt="" onClick={() => setHidePassword(state => !state)}/> : null }
                             </div>
                         </div>
                         <div className={`${styles.form__control} form-control`}>
@@ -148,7 +167,7 @@ const SettingsPage = () => {
                                   value={copyPassword}
                                   onChange={e => setCopyPassword(e.target.value)}
                                 />
-                                {copyPassword ? <img src={ hideCopyPassword ? showPasswordIcon : hidePasswordIcon  } alt="" onClick={() => setHideCopyPassword(state => !state)}/> : null }
+                                {copyPassword ? <img width={20} src={ hideCopyPassword ? hidePasswordIcon : showPasswordIcon  } alt="" onClick={() => setHideCopyPassword(state => !state)}/> : null }
                             </div>
                         </div>
                     </div>
@@ -156,7 +175,10 @@ const SettingsPage = () => {
 
                 <div className="form__footer">
                     <button className={classNames('button', 'button--main', styles.confirm_button)} type="submit">
-                        <span>Сохранить изменения</span>
+                        {status === 'loading'
+                          ? <span>Загрузка...</span>
+                          : <span>Сохранить изменения</span>
+                        }
                     </button>
                 </div>
               </form>
@@ -164,6 +186,62 @@ const SettingsPage = () => {
             </div>
         </div>
     )
+}
+
+
+const DatePickerHeader = ({
+  date,
+  changeYear,
+  changeMonth,
+  decreaseMonth,
+  increaseMonth,
+  prevMonthButtonDisabled,
+  nextMonthButtonDisabled,
+}: ReactDatePickerCustomHeaderProps) => {
+
+  const [active, setActive] = useState(false)
+
+  return (
+    <div className={styles.datepicker_header} >
+      <button type="button" onClick={decreaseMonth} disabled={prevMonthButtonDisabled}>
+        {"<"}
+      </button>
+
+      <p onClick={() => setActive(true)} >{MONTHS[getMonth(date)]} {getYear(date)}</p>
+
+      {active && 
+        <div className={styles.select_wrapper} >
+          <select
+            value={MONTHS[getMonth(date)]}
+            onChange={({ target: { value } }) =>
+              changeMonth(MONTHS.indexOf(value))
+            }
+          >
+            {MONTHS.map((option) => (
+              <option key={option} value={option}>
+                {option}
+              </option>
+            ))}
+          </select>
+          <select
+            value={getYear(date)}
+            onChange={({ target: { value } }) => changeYear(+value)}
+          >
+            {YEARS.map((option) => (
+              <option key={option} value={option}>
+                {option}
+              </option>
+            ))}
+          </select>
+          <button type='button' onClick={() => setActive(false)} ></button>
+        </div>
+      }
+
+      <button type="button" onClick={increaseMonth} disabled={nextMonthButtonDisabled}>
+        {">"}
+      </button>
+    </div>
+  )
 }
 
 export default SettingsPage
