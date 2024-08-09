@@ -4,20 +4,20 @@ import axios from "axios";
 
 
 interface SportState {
-    sports: Sport[];
+    sports: Sport;
     status: 'idle' | 'loading' | 'succeeded' | 'failed';
     error: string | null;
 }
 
 const initialState: SportState = {
-    sports: [],
+    sports: { training_videos: [], healthy_eating_img: [], healthy_eating_video: [] },
     status: 'idle',
     error: null,
 };
 
 export const fetchSport = createAsyncThunk('sport/fetchSport', async () => {
     const response = await axios.get('https://api-rubin.multfilm.tatar/api/sport');
-    return response.data as Sport[];
+    return response.data as Sport;
 })
 
 const sportSlice = createSlice({
@@ -29,7 +29,7 @@ const sportSlice = createSlice({
             .addCase(fetchSport.pending, (state) => {
                 state.status = 'loading';
             })
-            .addCase(fetchSport.fulfilled, (state, action: PayloadAction<Sport[]>) => {
+            .addCase(fetchSport.fulfilled, (state, action: PayloadAction<Sport>) => {
                 state.sports = action.payload;
                 state.status = 'succeeded';
                 state.error = null;

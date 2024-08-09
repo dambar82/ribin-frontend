@@ -1,13 +1,15 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
 import {ContestUser, Post} from "../types";
+import { TEditUserRequest, TEditUserResponse } from '../shared/types/user.types'
 
 export interface User {
     id: number;
     email: string;
     name: string;
-    password: string;
+    surname: string;
     age: number;
+    password: string;
     address: string | null;
     phone: string | null;
     score: number | null;
@@ -39,6 +41,11 @@ export const loginUser = createAsyncThunk('user/loginUser', async ({ email, pass
 export const registerUser = createAsyncThunk('user/registerUser', async ({ email, password, name, surname }: { email: string; password: string; name: string, surname: string }) => {
     const response = await axios.post('https://api-rubin.multfilm.tatar/api/register', { email, password, name, surname });
     return response.data.data as User;
+});
+
+export const editUser = createAsyncThunk('user/editUser', async ( sendObj: TEditUserRequest ) => {
+  const response = await axios.put<TEditUserResponse>(`https://api-rubin.multfilm.tatar/api/clients/${sendObj.id}`, sendObj);
+  return response.data.data
 });
 
 const userSlice = createSlice({
@@ -76,6 +83,7 @@ const userSlice = createSlice({
                 console.log('action', action);
                 state.error = action.error.message || null;
             })
+
             .addCase(registerUser.pending, (state) => {
                 state.status = 'loading';
             })
@@ -88,7 +96,18 @@ const userSlice = createSlice({
             .addCase(registerUser.rejected, (state, action) => {
                 state.status = 'failed';
                 state.error = action.error.message || null;
-            });
+            })
+
+            .addCase(editUser.fulfilled, (state, action: PayloadAction<User>) => {
+                state.user = action.payload;
+                state.status = 'succeeded';
+                console.log(action.payload)
+                state.error = null;
+            })
+            .addCase(editUser.rejected, (state, action) => {
+                state.status = 'failed';
+                state.error = action.error.message || null;
+            })
     },
 });
 
