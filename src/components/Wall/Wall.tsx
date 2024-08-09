@@ -151,7 +151,7 @@ const Wall = ({type, posts, editable = true}: IWall) => {
                             <Post
                                 key={post.id}
                                 name={post.client.name}
-                                avatar={post.client.image}
+                                avatar={post.client.avatar}
                                 tags={null}
                                 source={post.source}
                                 comments={post.comments}

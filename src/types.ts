@@ -1,22 +1,22 @@
 import exp from "constants";
 
 export interface Client {
-    id: number;
-    name: string;
-    login: string;
-    image: string | null;
-    phone: string | null;
+    rubick: number;
     address: string | null;
-    client_roles_id: number;
     age: number;
-    score: number | null;
-    email: string;
+    avatar: string | null;
+    client_roles_id: number;
     created_at: string | null;
+    districts_id: number | null;
+    email: string;
+    id: number;
+    image: string;
+    name: string;
+    phone: string | null;
+    school: string | null;
+    score: number | null;
+    status: string | null;
     updated_at: string | null;
-    pivot: {
-        contest_id: number;
-        client_id: number;
-    };
 }
 
 export interface Contest {

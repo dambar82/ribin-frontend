@@ -57,7 +57,7 @@ const ProfilePage = () => {
                 </div>
             </section>
             <section className="section">
-                <Wall type="profile" posts={null}/>
+                {/*<Wall type="profile" posts={null}/>*/}
             </section>
 
         </section>

@@ -1,23 +1,6 @@
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 import axios from "axios";
-import {IComment} from "../types";
-
-export interface Client {
-    rubick: number;
-    address: string | null;
-    client_roles_id: number;
-    created_at: string | null;
-    districts_id: number | null;
-    email: string;
-    id: number;
-    image: string;
-    name: string;
-    phone: string | null;
-    school: string | null;
-    score: number | null;
-    status: string | null;
-    updated_at: string | null;
-}
+import {Client, IComment} from "../types";
 
 export interface Post {
     client: Client;
