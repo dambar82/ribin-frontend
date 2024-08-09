@@ -5,24 +5,13 @@ import loupeIcon from '../../images/svg/loupe.svg'
 import attachmentIcon from '../../images/svg/attachment.svg'
 
 import Select from 'react-select';
-import Post from '../../components/Post/Post';
 
-type Comment = {
-    avatar: string;
-    author: string
-}
+import {PostAnswer} from "../../store/postSlice";
+import Post from '../Post/Post';
 
-type Post = {
-    name: string;
-    avatar?: string;
-    tags?: string;
-    image?: string;
-    comments?: Comment[]
-    content: React.ReactNode;
-}
 
 interface IWall {
-    posts: Post[];
+    posts: PostAnswer;
     type: string;
     editable?: boolean;
 }
@@ -52,7 +41,7 @@ const Wall = ({type, posts, editable = true}: IWall) => {
         'public': { value: 'public', label: 'Опубликовать для всех' },
         'private': { value: 'private', label: 'Опубликовать для друзей' },
     }
-    
+
     const options = Object.values(optionsMap);
 
     const [feedType, setFeedType] = useState(0)
@@ -78,27 +67,14 @@ const Wall = ({type, posts, editable = true}: IWall) => {
         }
 
         setFile(e.target.files[0])
-        // document.querySelector(".form__file-input")?.addEventListener("change", e => {
-        //     if (e.target.files[0].size > 100 * 1024 * 1024) {
-        //         alert("Размер файла не должен превышать 30 MB")
-        //         return
-        //     }
-        //     const parentEl = e.target.closest(".form__file");
-        //     parentEl.querySelector(".form__file-doc .text").innerHTML = e.target.files[0].name
-        //     parentEl.classList.add("form__file_attached")
-        //     parentEl.querySelector(".form__file-doc button").addEventListener("click", () => {
-        //         e.target.value = "";
-        //         parentEl.classList.remove("form__file_attached")
-        //     }, { once: true })
-        // })
     }
     return (
         <div className={styles.wall}>
             <nav className={styles.wall__nav}>
                 {["Записи", "Комментарии", "Видео", "Фотографии"].map((item, index) => (
-                    <button 
+                    <button
                         key={item + index}
-                        className={feedType !== index ? styles.wall__navButton : `${styles.wall__navButton} ${styles.wall__navButtonActive}`} 
+                        className={feedType !== index ? styles.wall__navButton : `${styles.wall__navButton} ${styles.wall__navButtonActive}`}
                         type="button"
                         onClick={() => setFeedType(index)}
                     >
@@ -114,7 +90,7 @@ const Wall = ({type, posts, editable = true}: IWall) => {
                                 <textarea name="" id="" placeholder="Поделитесь с другими своими успехами и новостями!"></textarea>
                                 <div>
                                     <div className={styles.wall__feedFormFile}>
-                                        { file ? 
+                                        { file ?
                                             <div className={styles.wall__feedFormFileDoc}>
                                                 <span>{file.name}</span>
                                                 <button type='button' onClick={() => setFile(null)}></button>
@@ -171,16 +147,16 @@ const Wall = ({type, posts, editable = true}: IWall) => {
                                 </div>
                             </form> : null
                         }
-                        {posts.length ? posts.map((post, index) => (
+                        {posts.all.length ? posts.all.map((post, index) => (
                             <Post
-                                key={post.name + index}
-                                name={post.name}
-                                avatar={post.avatar}
-                                tags={post?.tags ? post.tags : null}
-                                image={post?.image ? post.image : null}
-                                comments={post.comments?.length ? post.comments : []}
+                                key={post.id}
+                                name={post.client.name}
+                                avatar={post.client.image}
+                                tags={null}
+                                source={post.source}
+                                comments={post.comments}
                             >
-                                {post.content}
+                                {post.description}
                             </Post>
                         )) : null}
                     </div>
@@ -205,9 +181,9 @@ const Wall = ({type, posts, editable = true}: IWall) => {
                     </form>
                     <div className={styles.wall__filter}>
                         {["Популярное", "Новое", "Старое"].map((item, index) => (
-                            <button 
+                            <button
                                 key={item + index}
-                                className={sortType === index ? `${styles.wall__filterItem} ${styles.wall__filterItemActive}` : styles.wall__filterItem} 
+                                className={sortType === index ? `${styles.wall__filterItem} ${styles.wall__filterItemActive}` : styles.wall__filterItem}
                                 type="button"
                                 onClick={() => setSortType(index)}
                             >{item}</button>
@@ -216,9 +192,9 @@ const Wall = ({type, posts, editable = true}: IWall) => {
                     { type === "post" ?
                         <div className={styles.wall__filter}>
                             {["Мои записи", "Записи друзей", "Записи Клубов"].map((item, index) => (
-                                <button 
+                                <button
                                     key={item + index}
-                                    className={postType === index ? `${styles.wall__filterItem} ${styles.wall__filterItemActive}` : styles.wall__filterItem} 
+                                    className={postType === index ? `${styles.wall__filterItem} ${styles.wall__filterItemActive}` : styles.wall__filterItem}
                                     type="button"
                                     onClick={() => setPostType(index)}
                                 >{item}</button>
@@ -233,7 +209,7 @@ const Wall = ({type, posts, editable = true}: IWall) => {
                             <ul className={styles.wall__usersList}>
                                 { users.map((user, index) => (
                                     <li key={user.name + index}>
-                                        <User 
+                                        <User
                                             avatar={user.avatar}
                                             name={user.name}
                                             level={user.level}

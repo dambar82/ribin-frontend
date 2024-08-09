@@ -6,23 +6,18 @@ import sharedIcon from '../../images/svg/shared.svg'
 import viewIcon from '../../images/svg/views.svg'
 
 import DropdownMenu from '../DropdownMenu/DropdownMenu'
-import Comment from '../Comment/Comment'
-
-type Comment = {
-    avatar: string;
-    author: string;
-}
+import {IComment} from "../../types";
 
 interface ICard {
     name: string;
     avatar?: string;
-    image?: string;
+    source: string[];
     tags?: string;
-    comments?: Comment[]
+    comments?: IComment[]
     children: React.ReactNode;
 }
 
-const Post = ({ name, avatar, image, tags, comments, children }: ICard) => {
+const Post = ({ name, avatar, source, tags, comments, children }: ICard) => {
     return (
         <article className={styles.post}>
             <div className={styles.post__header}>
@@ -43,11 +38,11 @@ const Post = ({ name, avatar, image, tags, comments, children }: ICard) => {
                     {children}
                 </div>
                 <div className={styles.post__tags}>{tags}</div>
-                { image && (
-                    <div className={styles.post__image}>
-                        <img src={image} alt="" />
-                    </div>
-                )}
+                {/*{ image && (*/}
+                {/*    <div className={styles.post__image}>*/}
+                {/*        <img src={image} alt="" />*/}
+                {/*    </div>*/}
+                {/*)}*/}
             </div>
             <div className={styles.post__footer}>
                 <div className={`${styles.post__tag} ${styles.post__tag_likes}`}>
@@ -78,11 +73,11 @@ const Post = ({ name, avatar, image, tags, comments, children }: ICard) => {
             { comments.length ? (
                 <div className={styles.post__comments}>
                 <ul className={styles.post__commentsList}>
-                    {comments.map((comment, index) => (
-                        <li key={comment.author + index}>
-                            <Comment key={comment.author + index} author={comment.author} avatar={comment.avatar} />
-                        </li>
-                    ))}
+                    {/*{comments.map((comment, index) => (*/}
+                    {/*    <li key={comment.id}>*/}
+                    {/*        <Comment key={comment.id} author={comment.author} avatar={comment.avatar} />*/}
+                    {/*    </li>*/}
+                    {/*))}*/}
                 </ul>
                 <button className={styles.post__commentsMore} type="button">Показать больше комментариев(<span>119</span>)</button>
                 <form action="#" method="POST" className={styles.post__commentsForm}>

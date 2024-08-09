@@ -11,8 +11,8 @@ export interface User {
     address: string | null;
     phone: string | null;
     score: number | null;
-    posts: Post[]; // Define more specific types if needed
-    contests: ContestUser[]; // Define more specific types if needed
+    posts: Post[];
+    contests: ContestUser[];
     image: string;
     clubs: any[];
     events: any[];

@@ -1,5 +1,6 @@
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 import axios from "axios";
+import {IComment} from "../types";
 
 export interface Client {
     rubick: number;
@@ -20,7 +21,7 @@ export interface Client {
 
 export interface Post {
     client: Client;
-    comments: Comment[];
+    comments: IComment[];
     description: string;
     id: number;
     likes_count: number;
@@ -28,27 +29,31 @@ export interface Post {
     title: string;
 }
 
-interface PostAnswer {
+export interface PostAnswer {
     all: Post[];
     image: Post[];
     video: Post[];
 }
 
 interface PostState {
-    posts: PostAnswer[];
+    posts: PostAnswer;
     status: 'idle' | 'loading' | 'succeeded' | 'failed';
     error: string | null;
 }
 
 const initialState: PostState = {
-    posts: [],
+    posts: {
+        all: [],
+        image: [],
+        video: []
+    },
     status: 'idle',
     error: null,
 };
 
 export const fetchPosts = createAsyncThunk('post/fetchPosts', async () => {
     const response = await axios.get('https://api-rubin.multfilm.tatar/api/posts');
-    return response.data as PostAnswer[];
+    return response.data as PostAnswer;
 })
 
 const postSlice = createSlice({
@@ -60,7 +65,9 @@ const postSlice = createSlice({
             .addCase(fetchPosts.pending, (state) => {
                 state.status = 'loading';
             })
-            .addCase(fetchPosts.fulfilled, (state, action: PayloadAction<any[]>) => {
+            .addCase(fetchPosts.fulfilled, (state, action: PayloadAction<PostAnswer>) => {
+                console.log(state)
+                // @ts-ignore
                 state.posts = action.payload;
                 console.log(action.payload);
                 state.status = 'succeeded';

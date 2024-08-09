@@ -157,10 +157,10 @@ export interface PhotoGallery {
     photos: Photo[];
 }
 
-export interface Comment {
+export interface IComment {
     id: number;
     text: string;
     created_at: string;
     likes_count: number;
-    child: Comment[];
+    child: IComment[];
 }

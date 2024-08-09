@@ -53,7 +53,7 @@ const EditProfilePage = () => {
                 </div>
             </section>
             <section className="section">
-                <Wall type="profile" posts={[]}/>
+                {/*<Wall type="profile" posts={[]}/>*/}
             </section>
 
         </section>
