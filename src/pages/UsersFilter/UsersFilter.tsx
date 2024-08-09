@@ -22,7 +22,7 @@ const UsersFilter = () => {
 
     React.useEffect(() => {
         dispatch(fetchPeople());
-    }, [dispatch]);
+    }, [dispatch, people]);
 
     const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setSearchTerm(e.target.value);

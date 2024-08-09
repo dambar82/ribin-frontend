@@ -94,8 +94,8 @@ const AuthHeader = () => {
                             <div className='profile_button_subMenu' ref={profileSubMenuRef} onClick={handleSubMenuClick}>
                                 <ul>
                                     <li>
-                                        <NavLink 
-                                            to="/profile" 
+                                        <NavLink
+                                            to="/profile"
                                             className={({ isActive }) => {
                                                 return isActive ? "_active" : ""
                                             }}
@@ -105,8 +105,8 @@ const AuthHeader = () => {
                                         </NavLink>
                                     </li>
                                     <li>
-                                        <NavLink 
-                                            to="/messages" 
+                                        <NavLink
+                                            to="/messages"
                                             className={({ isActive }) => {
                                                 return isActive ? "_active" : ""
                                             }}
@@ -116,8 +116,8 @@ const AuthHeader = () => {
                                         </NavLink>
                                     </li>
                                     <li>
-                                        <NavLink 
-                                            to="/settings" 
+                                        <NavLink
+                                            to="/settings"
                                             className={({ isActive }) => {
                                                 return isActive ? "_active" : ""
                                             }}
@@ -127,8 +127,8 @@ const AuthHeader = () => {
                                         </NavLink>
                                     </li>
                                     <li>
-                                        <NavLink 
-                                            to="/feedback" 
+                                        <NavLink
+                                            to="/feedback"
                                             className={({ isActive }) => {
                                                 return isActive ? "_active" : ""
                                             }}
@@ -138,8 +138,8 @@ const AuthHeader = () => {
                                         </NavLink>
                                     </li>
                                     <li>
-                                        <NavLink 
-                                            to="/help" 
+                                        <NavLink
+                                            to="/help"
                                             className={({ isActive }) => {
                                                 return isActive ? "_active" : ""
                                             }}
@@ -170,16 +170,15 @@ const AuthHeader = () => {
                             <ul>
                                 {[
                                     { name: "Активисты клуба", path: "/students" },
-                                    { name: "Тренерский состав", path: "/academy-coaches" }, 
-                                    { name: "Программы и предложения клуба", path: "/programs" }, 
-                                    { name: "Достижения", path: "/awards" }, 
-                                    { name: "Фотогалерея", path: "/photogallery" }, 
+                                    { name: "Тренерский состав", path: "/academy-coaches" },
+                                    { name: "Программы и предложения клуба", path: "/programs" },
+                                    { name: "Достижения", path: "/awards" },
+                                    { name: "Фотогалерея", path: "/photogallery" },
                                 ].map(({ name, path }) => {
                                     return (
-                                        <li>
-                                            <NavLink 
-                                                key={name} 
-                                                to={path} 
+                                        <li key={name}>
+                                            <NavLink
+                                                to={path}
                                                 className={({ isActive }) => {
                                                     return isActive ? "_active" : ""
                                                 }}
@@ -199,14 +198,14 @@ const AuthHeader = () => {
                             <ul>
                                 {[
                                     { name: "Спорт для школьников", path: "/sportslife" },
-                                    { name: "Викторины", path: "/quizzes" }, 
+                                    { name: "Викторины", path: "/quizzes" },
                                     { name: "Мероприятия", path: "/events" },
                                 ].map(({ name, path }) => {
                                     return (
                                         <li>
-                                            <NavLink 
-                                                key={name} 
-                                                to={path} 
+                                            <NavLink
+                                                key={name}
+                                                to={path}
                                                 className={({ isActive }) => {
                                                     return isActive ? "_active" : ""
                                                 }}

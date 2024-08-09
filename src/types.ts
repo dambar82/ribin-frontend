@@ -156,3 +156,11 @@ export interface PhotoGallery {
     tags: string;
     photos: Photo[];
 }
+
+export interface Comment {
+    id: number;
+    text: string;
+    created_at: string;
+    likes_count: number;
+    child: Comment[];
+}
