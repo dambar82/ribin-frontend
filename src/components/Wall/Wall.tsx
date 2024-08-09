@@ -150,11 +150,14 @@ const Wall = ({type, posts, editable = true}: IWall) => {
                         {posts.all.length ? posts.all.map((post, index) => (
                             <Post
                                 key={post.id}
+                                id={post.id}
                                 name={post.client.name}
                                 avatar={post.client.avatar}
                                 tags={null}
                                 source={post.source}
                                 comments={post.comments}
+                                likes={post.likes_count}
+                                type={'all'}
                             >
                                 {post.description}
                             </Post>

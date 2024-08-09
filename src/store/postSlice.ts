@@ -22,6 +22,7 @@ interface PostState {
     posts: PostAnswer;
     status: 'idle' | 'loading' | 'succeeded' | 'failed';
     error: string | null;
+    likedPosts: number[];
 }
 
 const initialState: PostState = {
@@ -32,6 +33,7 @@ const initialState: PostState = {
     },
     status: 'idle',
     error: null,
+    likedPosts: [],
 };
 
 export const fetchPosts = createAsyncThunk('post/fetchPosts', async () => {
@@ -39,10 +41,35 @@ export const fetchPosts = createAsyncThunk('post/fetchPosts', async () => {
     return response.data as PostAnswer;
 })
 
+export const toggleLikeAsync = createAsyncThunk(
+    'posts/toggleLikeAsync',
+    async ({ postId, postType, userId }: { postId: number, postType: 'all' | 'image' | 'video', userId: number }, { dispatch }) => {
+        try {
+            await axios.post(`https://api-rubin.multfilm.tatar/api/posts/${postId}/like/${userId}`);
+            // Обновление состояния после успешного запроса
+            dispatch(addLike({ postId, postType }));
+        } catch (error) {
+            console.error('Failed to toggle like:', error);
+        }
+    }
+);
+
 const postSlice = createSlice({
     name: 'post',
     initialState,
-    reducers: {},
+    reducers: {
+        addLike: (state, action: PayloadAction<{ postId: number, postType: 'all' | 'image' | 'video' }>) => {
+            const { postId, postType } = action.payload;
+            const postsArray = state.posts[postType];
+            const post = postsArray.find(p => p.id === postId);
+            if (post) {
+                if (!state.likedPosts.includes(postId)) {
+                    post.likes_count += 1;
+                    state.likedPosts.push(postId);
+                }
+            }
+        },
+    },
     extraReducers: (builder) => {
         builder
             .addCase(fetchPosts.pending, (state) => {
@@ -62,5 +89,7 @@ const postSlice = createSlice({
             });
     }
 });
+
+export const { addLike } = postSlice.actions;
 
 export default postSlice.reducer;

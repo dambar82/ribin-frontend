@@ -7,17 +7,37 @@ import viewIcon from '../../images/svg/views.svg'
 
 import DropdownMenu from '../DropdownMenu/DropdownMenu'
 import {IComment} from "../../types";
+import {useSelector} from "react-redux";
+import {useAppDispatch} from "../../store/hooks";
+import {toggleLikeAsync} from "../../store/postSlice";
+import {RootState} from "../../store/store";
 
 interface ICard {
+    id: number;
     name: string;
     avatar?: string;
     source: string[];
     tags?: string;
     comments?: IComment[]
     children: React.ReactNode;
+    likes: number;
+    type: 'all' | 'image' | 'video';
 }
 
-const Post = ({ name, avatar, source, tags, comments, children }: ICard) => {
+const Post = ({ id, name, avatar, source, tags, comments, children, likes, type }: ICard) => {
+
+    const dispatch = useAppDispatch();
+
+    const post = useSelector((state: RootState) => state.post.posts[type].find(post => post.id === id));
+    const likedPosts = useSelector((state: RootState) => state.post.likedPosts);
+    const user = useSelector((state: RootState) => state.user);
+
+    const handleLikeClick = () => {
+        if (post && !likedPosts.includes(id)) {
+            dispatch(toggleLikeAsync({postId: id, postType: type, userId: user.user.id}));
+        }
+    };
+
     return (
         <article className={styles.post}>
             <div className={styles.post__header}>
@@ -45,17 +65,17 @@ const Post = ({ name, avatar, source, tags, comments, children }: ICard) => {
                 {/*)}*/}
             </div>
             <div className={styles.post__footer}>
-                <div className={`${styles.post__tag} ${styles.post__tag_likes}`}>
+                <div className={`${styles.post__tag} ${styles.post__tag_likes}`} onClick={handleLikeClick}>
                     <div className={styles.post__tagIcon}>
                         <img src={likeIcon} alt="" />
                     </div>
-                    <span className={styles.post__tagLabel}>12</span>
+                    <span className={styles.post__tagLabel}>{post?.likes_count || 0}</span>
                 </div>
                 <div className={`${styles.post__tag} ${styles.post__tag_comments}`}>
                     <div className={styles.post__tagIcon}>
                         <img src={commentIcon} alt="" />
                     </div>
-                    <span className={styles.post__tagLabel}>0</span>
+                    <span className={styles.post__tagLabel}>{comments.length}</span>
                 </div>
                 <div className={`${styles.post__tag} ${styles.post__tag_shared}`}>
                     <div className={styles.post__tagIcon}>
@@ -63,12 +83,12 @@ const Post = ({ name, avatar, source, tags, comments, children }: ICard) => {
                     </div>
                     <span className={styles.post__tagLabel}>12</span>
                 </div>
-                <div className={`${styles.post__tag} ${styles.post__tag_views}`}>
-                    <div className={styles.post__tagIcon}>
-                        <img src={viewIcon} alt="" />
-                    </div>
-                    <span className={styles.post__tagLabel}>122</span>
-                </div>
+                {/*<div className={`${styles.post__tag} ${styles.post__tag_views}`}>*/}
+                {/*    <div className={styles.post__tagIcon}>*/}
+                {/*        <img src={viewIcon} alt="" />*/}
+                {/*    </div>*/}
+                {/*    <span className={styles.post__tagLabel}>122</span>*/}
+                {/*</div>*/}
             </div>
             { comments.length ? (
                 <div className={styles.post__comments}>

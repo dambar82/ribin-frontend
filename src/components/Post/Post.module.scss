@@ -93,14 +93,13 @@
     &__footer {
         display: flex;
         gap: 12px;
-        & > * {
-            &:last-child {
-                margin-left: auto;
-            }
-        }
-        &:not(:last-child) {
+        //& > * {
+        //    &:last-child {
+        //        margin-left: auto;
+        //    }
+        //}
+        //&:not(:last-child) {
             margin: 0 0 24px;
-        }
     }
     &__tag {
         background-color: #F8F8F8;
@@ -109,6 +108,7 @@
         align-items: center;
         gap: 8px;
         padding: 12px 20px;
+        cursor: pointer;
         span {
             font-family: "Saira", "sans-serif";
             font-size: 20px;
