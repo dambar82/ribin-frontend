@@ -62,8 +62,11 @@ const SettingsPage = () => {
         password,
         age: startDate.getTime()
       }))
-      .finally(() => {
+      .then(() => {
         alert('Настройки сохранены')
+      })
+      .catch(() => {
+        alert('Что-то пошло не так')
       })
 
     }
