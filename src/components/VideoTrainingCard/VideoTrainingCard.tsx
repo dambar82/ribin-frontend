@@ -9,7 +9,7 @@ interface IVideoTrainingCard {
     description: string;
 }
 
-const VideoTrainingCard = ({ title, image, description }) => {
+const VideoTrainingCard = ({ title, image, description }: IVideoTrainingCard) => {
     const [isPlaying, setIsPlaying] = useState(false);
     const [isHovered, setIsHovered] = useState(false);
     const [duration, setDuration] = useState(0);
@@ -33,7 +33,7 @@ const VideoTrainingCard = ({ title, image, description }) => {
     };
 
     // Функция для форматирования времени в формате "MM:SS"
-    const formatDuration = (seconds) => {
+    const formatDuration = ( seconds: number ) => {
         const minutes = Math.floor(seconds / 60);
         const secs = Math.floor(seconds % 60);
         return `${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
