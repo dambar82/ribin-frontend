@@ -9,11 +9,15 @@ import styles from './Clubs.module.scss';
 import Grid from '../../components/Grid/Grid'
 import ClubCard from '../../components/ClubCard/ClubCard';
 
-import { fetchClubs } from '../../store/clubsSlice';
+import { createClub, fetchClubs } from '../../store/clubsSlice';
+import { Modal } from '../../shared/UI'
 
 const Clubs = () => {
+
     const dispatch = useDispatch<AppDispatch>()
     const { clubs, status, error } = useSelector((state: RootState) => state.clubs);
+
+    const [activeModal, setActiveModal] = useState(false)
 
     useEffect(() => {
         if (status === 'idle') {
@@ -59,9 +63,17 @@ const Clubs = () => {
                 <img src="images/article-bg.png" alt="" />
                 <div className={styles.article__content}>
                     <h3 className={styles.article__slogan}>Создай клуб своей мечты! Преврати свои идеи в реальность и объединяй людей с такими же интересами.</h3>
-                    <button className={`${styles.article__button} button button--white`} type='button'>
-                        <span>Создать свой клуб</span>
+                    <button
+                      className={`${styles.article__button} button button--white`}
+                      type='button'
+                      onClick={() => setActiveModal(true)}
+                    >
+                      <span>Создать свой клуб</span>
                     </button>
+                    <ClubModal
+                      active={activeModal}
+                      setActive={setActiveModal}
+                    />
                 </div>
             </article>
             <div className={`section ${styles.clubs}`}>
@@ -86,5 +98,59 @@ const Clubs = () => {
         </div>
     );
 };
+
+interface ClubModalProps {
+  active: boolean | null
+  setActive: React.Dispatch<React.SetStateAction<boolean | null>>
+}
+const ClubModal = ({ active, setActive }: ClubModalProps) => {
+
+  const dispatch = useDispatch<AppDispatch>();
+
+  const onSubmit = async ( e: React.FormEvent<HTMLFormElement> ) => {
+    e.preventDefault()
+
+    const data = new FormData(e.currentTarget)
+
+    const name = data.get('name') as string | null
+    const description = data.get('description') as string | null
+
+    dispatch(createClub({
+      name,
+      description
+    }))
+  }
+
+  return (
+    <Modal
+      active={active}
+      setActive={setActive}
+      className={styles.create_club_modal}
+    >
+      <form onSubmit={onSubmit} >
+        <div className="form-control">
+          <div className="form-control__label">Название клуба</div>
+          <input
+            name='name'
+            className="form-control__field"
+            type="text" 
+            placeholder='Введите название вашего клуба'
+            autoComplete="off"
+          />
+        </div>
+        <div className="form-control">
+          <div className="form-control__label">Описание клуба</div>
+          <textarea
+            name='description'
+            className="form-control__field"
+            placeholder='Опишите деятельность клуба'
+            rows={5}
+          />
+        </div>
+        <button>Создать клуб</button>
+      </form>
+    </Modal>
+  )
+}
 
 export default Clubs;

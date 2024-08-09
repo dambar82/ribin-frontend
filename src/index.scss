@@ -22,6 +22,9 @@
 }
 
 body {
+  overflow-x: hidden;
+  margin-right: calc(-1 * (100vw - 100%));
+
   &._lock {
     overflow: hidden;
     height: 100%;

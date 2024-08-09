@@ -76,3 +76,38 @@
     &__button {
     }
 }
+
+.create_club_modal {
+
+  & > div {
+    padding: 70px;
+    border-radius: 50px;
+  }
+
+  form {
+    display: grid;
+    gap: 32px;
+
+    :global(.form-control__label) {
+      margin: 0 0 12px!important;
+    }
+
+    button {
+      justify-self: center;
+
+      cursor: pointer;
+      width: max-content;
+      padding: 18px 60px;
+      border-radius: 50px;
+      background-color: var(--main-color);
+
+      color: var(--white);
+      font-size: 20px;
+      font-weight: 500;
+
+      &:active {
+        transform: scale(0.99);
+      }
+    }
+  }
+}

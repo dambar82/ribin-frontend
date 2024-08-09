@@ -147,7 +147,7 @@ const Wall = ({type, posts, editable = true}: IWall) => {
                                 </div>
                             </form> : null
                         }
-                        {posts.all.length ? posts.all.map((post, index) => (
+                        {posts?.all.length ? posts.all.map((post, index) => (
                             <Post
                                 key={post.id}
                                 id={post.id}

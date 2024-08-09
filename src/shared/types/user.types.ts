@@ -11,3 +11,11 @@ export type TEditUserRequest = {
 export type TEditUserResponse = {
   data: User
 }
+
+export type TCreateClubRequest = {
+  name: string
+  description: string
+}
+export type TCreateClubResponse = {
+  
+}
