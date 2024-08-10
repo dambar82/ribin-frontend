@@ -8,6 +8,7 @@ import Select from 'react-select';
 
 import {PostAnswer} from "../../store/postSlice";
 import Post from '../Post/Post';
+import { Button } from '../../shared/UI'
 
 
 interface IWall {
@@ -21,6 +22,10 @@ interface IUser {
     name: string;
     level: number
 }
+
+
+const MAX_COUNT_FILES_IN_FORM = 8
+
 
 const User = ({avatar, name, level}: IUser) => {
     return (
@@ -47,7 +52,7 @@ const Wall = ({type, posts, editable = true}: IWall) => {
     const [feedType, setFeedType] = useState(0)
     const [sortType, setSortType] = useState(0)
     const [postType, setPostType] = useState(0)
-    const [file, setFile] = useState(null)
+    const [files, setFiles] = useState<{ id: number, file: File }[]>([])
     const [option, setOption] = useState(optionsMap.public)
 
     const users = [
@@ -58,16 +63,33 @@ const Wall = ({type, posts, editable = true}: IWall) => {
         { avatar: "/images/popular-user-05.png", name: "Георгий Воробьев", level: 95 }
     ]
 
-    const handleFileChange = (e) => {
-        console.log(e.target.files)
-
-        if (e.target.files[0].size > 100 * 1024 * 1024) {
+    const handleFileChange = ( e: React.ChangeEvent<HTMLInputElement> ) => {
+        const file = e.target.files[0]  
+        if ( !file ) return
+        if (file.size > 100 * 1024 * 1024) {
             alert("Размер файла не должен превышать 30 MB")
             return
         }
-
-        setFile(e.target.files[0])
+        setFiles(prev => {
+          prev.push({
+            id: Date.now(),
+            file
+          })
+          return [...prev]
+        })
     }
+
+    const deleteFile = ( fileId: number ) => {
+      setFiles(prev => prev.filter(el => el.id !== fileId))
+    }
+
+    const onSubmit = ( e: React.FormEvent<HTMLFormElement> ) => {
+      e.preventDefault()
+      const data = new FormData(e.currentTarget)
+
+
+    }
+
     return (
         <div className={styles.wall}>
             <nav className={styles.wall__nav}>
@@ -86,21 +108,27 @@ const Wall = ({type, posts, editable = true}: IWall) => {
                 {feedType === 0 && (
                     <div className={styles.wall__feed}>
                         { type === "post" || (type ==="profile" && editable) ?
-                            <form action="#" method="POST" className={styles.wall__feedForm}>
-                                <textarea name="" id="" placeholder="Поделитесь с другими своими успехами и новостями!"></textarea>
-                                <div>
+                            <form className={styles.wall__feedForm} onSubmit={onSubmit} >
+                                <div className={styles.textarea_wrapper} >
+                                  <textarea name="" id="" placeholder="Поделитесь с другими своими успехами и новостями!"></textarea>
+                                  <Button className={styles.submit_button} >Отправить</Button>
+                                </div>
+                                <div className={styles.feenFormFooter} >
                                     <div className={styles.wall__feedFormFile}>
-                                        { file ?
-                                            <div className={styles.wall__feedFormFileDoc}>
-                                                <span>{file.name}</span>
-                                                <button type='button' onClick={() => setFile(null)}></button>
-                                            </div> :
+                                        {files.map(file => (
+                                          <div key={file.id} className={styles.wall__feedFormFileDoc}>
+                                            <span>{file.file?.name}</span>
+                                            <button type='button' onClick={() => deleteFile(file.id)}></button>
+                                          </div>
+                                        ))}
+                                        {
+                                          files.length <= MAX_COUNT_FILES_IN_FORM &&
                                             <div className={styles.wall__feedFormFileField}>
-                                                <input type='file' id='file' accept='' onChange={handleFileChange}/>
-                                                <label htmlFor='file'>
-                                                    <img src={attachmentIcon} alt=''/>
-                                                </label>
-                                            </div>
+                                            <input type='file' id='file' accept='image/*,video/*' onChange={handleFileChange}/>
+                                            <label htmlFor='file'>
+                                              <img src={attachmentIcon} alt=''/>
+                                            </label>
+                                          </div>
                                         }
                                     </div>
                                     <Select
@@ -110,6 +138,7 @@ const Wall = ({type, posts, editable = true}: IWall) => {
                                         isSearchable={false}
                                         value={option}
                                         onChange={(option) => setOption(option)}
+                                        className={styles.form_select}
                                         styles={{
                                             control: (baseStyles, state) => ({
                                                 ...baseStyles,
