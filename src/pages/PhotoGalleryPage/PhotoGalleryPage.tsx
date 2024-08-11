@@ -2,21 +2,26 @@ import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { RootState, AppDispatch } from '../../store/store';
+import { fetchPhotoGallery } from '../../store/photoGallerySlice';
 
 import styles from "./PhotoGalleryPage.module.scss";
 
 import GalleryCard from '../../components/GalleryCard/GalleryCard';
 
 import filter from "../../images/svg/filter.svg"
-import { fetchPhotoGallery } from '../../store/photoGallerySlice';
+
 
 const PhotoGalleryPage = () => {
-    const [dropdownOpen, setDropdownOpen] = useState(false)
-    const [album, setAlbum] = useState("Все альбомы")
-    const dispatch = useDispatch<AppDispatch>()
-    const { photoGallery, status, error } = useSelector((state: RootState) => state.photoGallery);
-    const albums= [];
-    let filtredPhotoGallery = photoGallery
+
+  const { photoGallery, status, error } = useSelector((state: RootState) => state.photoGallery);
+
+  const [album, setAlbum] = useState("Все альбомы")
+  const [dropdownOpen, setDropdownOpen] = useState(false)
+  
+  const dispatch = useDispatch<AppDispatch>()
+  
+  const albums= [];
+  let filtredPhotoGallery = photoGallery
 
     useEffect(() => {
 

@@ -6,10 +6,11 @@ import c from './modal.module.scss'
 interface ModalProps {
   children: ReactNode
   className?: string
+  bodyClassName?: string
   active: boolean | null
   setActive: React.Dispatch<React.SetStateAction<boolean | null>>
 }
-const Modal = ({ children, className, active, setActive }: ModalProps) => {
+const Modal = ({ children, className, bodyClassName, active, setActive }: ModalProps) => {
 
   const modalRef = useRef<HTMLDivElement>(null)
 
@@ -56,7 +57,7 @@ const Modal = ({ children, className, active, setActive }: ModalProps) => {
 
   return (
     <div className={classNames(c.modal, className)} ref={modalRef} >
-      <div className={classNames(c.modal_body, 'block')} >
+      <div className={classNames(c.modal_body, 'block', bodyClassName)} >
 
         <button className={c.close} onClick={closeModal} ></button>
 
