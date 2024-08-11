@@ -13,6 +13,7 @@ import "react-datepicker/dist/react-datepicker.css"
 
 import hidePasswordIcon from "../../images/svg/hide-password.svg"
 import showPasswordIcon from "../../images/svg/views.svg"
+import { MONTHS } from "../../shared/constants"
 
 
 //@ts-ignore
@@ -20,8 +21,6 @@ registerLocale('ru', ru)
 
 
 const YEARS = arrayFromTo(1990, getYear(new Date()) + 1);
-
-const MONTHS = [ 'Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь' ];
 
 
 const SettingsPage = () => {
