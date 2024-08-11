@@ -22,6 +22,7 @@ const SinglePhotoGalleryPage = () => {
 
     const gallery = useSelector((state: RootState) => state.photoGallery.photoGallery.find(gallery => gallery.id === parseInt(id)))
     
+  //////////////////////////////__dev__////////////////////////////////////
   const photos = useMemo(() => {
     return structuredClone(gallery?.photos || []).map(el => {
       el.id = getRandom()
@@ -32,6 +33,7 @@ const SinglePhotoGalleryPage = () => {
   function getRandom() {
     return Date.now() + Math.round(Math.random()*10000)
   }
+  //////////////////////////////__dev__////////////////////////////////////
 
     const [activeModal, setActiveModal] = useState(false)
     const [initialSlide, setInitialSlide] = useState(1)
