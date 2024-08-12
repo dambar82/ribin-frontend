@@ -11,6 +11,7 @@ import {useSelector} from "react-redux";
 import {useAppDispatch} from "../../store/hooks";
 import {toggleLikeAsync} from "../../store/postSlice";
 import {RootState} from "../../store/store";
+import {useEffect} from "react";
 
 interface ICard {
     id: number;
@@ -24,6 +25,12 @@ interface ICard {
     type: 'all' | 'image' | 'video';
 }
 
+const determineMediaType = (src: string): 'image' | 'video' | undefined  => {
+    if (src.endsWith('.mp4')) return 'video';
+    if (src.endsWith('.png') || src.endsWith('.jpg') || src.endsWith('.jpeg')) return 'image';
+    return undefined ; // fallback case
+};
+
 const Post = ({ id, name, avatar, source, tags, comments, children, likes, type }: ICard) => {
 
     const dispatch = useAppDispatch();
@@ -31,6 +38,10 @@ const Post = ({ id, name, avatar, source, tags, comments, children, likes, type 
     const post = useSelector((state: RootState) => state.post.posts[type].find(post => post.id === id));
     const likedPosts = useSelector((state: RootState) => state.post.likedPosts);
     const user = useSelector((state: RootState) => state.user);
+
+    useEffect(() => {
+        console.log(source);
+    }, [source])
 
     const handleLikeClick = () => {
         if (post && !likedPosts.includes(id)) {
@@ -58,11 +69,24 @@ const Post = ({ id, name, avatar, source, tags, comments, children, likes, type 
                     {children}
                 </div>
                 <div className={styles.post__tags}>{tags}</div>
-                {/*{ image && (*/}
-                {/*    <div className={styles.post__image}>*/}
-                {/*        <img src={image} alt="" />*/}
-                {/*    </div>*/}
-                {/*)}*/}
+                <div className={styles.post__media}>
+                    {source.map((media, index) => {
+                        const type = determineMediaType(media);
+                        if (!type) return null;
+                        return (
+                            <div key={index} className={styles.post__media_item}>
+                                {type === 'image' ? (
+                                    <img src={media} alt={`media-${index}`} />
+                                ) : type === 'video' ? (
+                                    <video controls>
+                                        <source src={media} type="video/mp4" />
+                                        Your browser does not support the video.
+                                    </video>
+                                ) : null}
+                            </div>
+                        )
+                    })}
+                </div>
             </div>
             <div className={styles.post__footer}>
                 <div className={`${styles.post__tag} ${styles.post__tag_likes}`} onClick={handleLikeClick}>

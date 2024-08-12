@@ -45,7 +45,19 @@ export const toggleLikeAsync = createAsyncThunk(
     'posts/toggleLikeAsync',
     async ({ postId, postType, userId }: { postId: number, postType: 'all' | 'image' | 'video', userId: number }, { dispatch }) => {
         try {
-            await axios.post(`https://api-rubin.multfilm.tatar/api/posts/${postId}/like/${userId}`);
+            const token = JSON.parse(localStorage.getItem('user')).token; // Замените на ваш реальный токен
+
+            console.log(token)
+
+            await axios.post(
+                `https://api-rubin.multfilm.tatar/api/posts/${postId}/like`,
+                {},
+                {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                }
+            );
             // Обновление состояния после успешного запроса
             dispatch(addLike({ postId, postType }));
         } catch (error) {
