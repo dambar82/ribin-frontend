@@ -1,4 +1,5 @@
 .card {
+  height: 100%;
     background-color: white;
     border-radius: 50px;
     box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.16);
@@ -34,6 +35,14 @@
         position: absolute;
         top: 26px;
         left: 26px;
+
+        @media (max-width: 1440px) {
+          font-size: 16px;
+        }
+        @media (max-width: 768px) {
+          font-size: 12px; 
+        }
+
         span {
             font-family: "Raleway", "sans-serif";
         }
@@ -76,6 +85,14 @@
         font-size: 28px;
         font-weight: 600;
         line-height: calc(32 / 28);
+
+        @media (max-width: 1440px) {
+          font-size: 24px;
+        }
+        @media (max-width: 768px) {
+          font-size: 20px; 
+        }
+
         &:not(:last-child) {
             margin: 0 0 12px;
         }
@@ -87,5 +104,11 @@
         max-height: calc(1em * 1.2 * 4);
         overflow: hidden;
 
+        @media (max-width: 1440px) {
+          font-size: 18px;
+        }
+        @media (max-width: 768px) {
+          font-size: 14px; 
+        }
     }
 }

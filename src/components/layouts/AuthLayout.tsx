@@ -25,13 +25,13 @@ const AuthLayout: React.FC<AuthLayoutProps> = ({ children }) => {
         return null; // или можно вернуть индикатор загрузки
     }
 
-    return (
+    return (<>
         <div className='content'>
             <AuthHeader></AuthHeader>
             <main>{children}</main>
-            <Footer></Footer>
         </div>
-    );
+        <Footer />
+    </>);
 };
 
 export default AuthLayout;

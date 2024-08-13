@@ -632,9 +632,11 @@ li {
   flex-wrap: wrap;
   gap: 20px;
 }
+
 .persons__grid > div {
   width: calc((100% - 60px) / 4);
 }
+
 
 .filter__button {
   background-color: #FFFFFF;

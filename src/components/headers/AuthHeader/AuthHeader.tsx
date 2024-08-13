@@ -18,6 +18,7 @@ import messages from '../../../images/svg/messages.svg';
 import options from '../../../images/svg/options.svg';
 import blackArrowDown from '../../../images/svg/blackArrowDown.svg';
 import blackArrowUp from '../../../images/svg/blackArrowUp.svg';
+import { classNames } from '../../../shared/utils'
 
 interface IMenuLink {
     title: string;
@@ -34,12 +35,19 @@ const menuLinks: IMenuLink[] = [
 ];
 
 const AuthHeader = () => {
-    const dispatch = useAppDispatch();
-    const { user } = useSelector((state: RootState) => state.user);
-    const [activeSubMenu, setActiveSubMenu] = useState(null);
-    const profileSubMenuRef = useRef(null);
-    const rubinLifeSubMenuRef = useRef(null);
-    const clubActivitiesSubMenuRef = useRef(null);
+
+  const { user } = useSelector((state: RootState) => state.user);
+  
+  const [activeSubMenu, setActiveSubMenu] = useState(null);
+  const [activeMenu, setActiveMenu] = useState(false);
+  
+  const profileSubMenuRef = useRef(null);
+  const rubinLifeSubMenuRef = useRef(null);
+  const clubActivitiesSubMenuRef = useRef(null);
+  const menuRef = useRef(null);
+  
+  
+  const dispatch = useAppDispatch();
 
     const handleLogout = () => {
         dispatch(logout());
@@ -51,10 +59,12 @@ const AuthHeader = () => {
     };
 
     const handleClickOutside = (event) => {
-        if (activeSubMenu &&
-            (!profileSubMenuRef.current || !profileSubMenuRef.current.contains(event.target)) &&
-            (!rubinLifeSubMenuRef.current || !rubinLifeSubMenuRef.current.contains(event.target)) &&
-            (!clubActivitiesSubMenuRef.current || !clubActivitiesSubMenuRef.current.contains(event.target))) {
+        if (
+          activeSubMenu &&
+          (!profileSubMenuRef.current || !profileSubMenuRef.current.contains(event.target)) &&
+          (!rubinLifeSubMenuRef.current || !rubinLifeSubMenuRef.current.contains(event.target)) &&
+          (!clubActivitiesSubMenuRef.current || !clubActivitiesSubMenuRef.current.contains(event.target))
+        ) {
             setActiveSubMenu(null);
         }
     };
@@ -75,10 +85,20 @@ const AuthHeader = () => {
         return isActive ? `${styles.menuLink} ${styles.menuLink_active}` : styles.menuLink
     }
 
+    const openMobileMenu = () => {
+      setActiveMenu(true)
+    }
+
+    const closeMobileMenu = () => {
+      setActiveMenu(false)
+    }
+
     return (
         <div className={styles.authHeader}>
-            <div className={`justify_content_SB ${styles.authHeader_up}`}>
-                <img src={rubyLogo} alt=""/>
+            <div className={`${styles.authHeader_up}`}>
+                <div className={styles.logo_wrapper} >
+                  <img src={rubyLogo} alt=""/>
+                </div>
                 {user && (
                     <div className='profile_button' onClick={(event) => toggleSubMenu('profile', event)}>
                         <div className={`profile_button_avatar`}>
@@ -157,16 +177,28 @@ const AuthHeader = () => {
                         )}
                     </div>
                 )}
+                <div className={styles.sub_menu_button} onClick={openMobileMenu} >
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 12H20" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/><path d="M4 6H20" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/><path d="M4 18H20" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                </div>
             </div>
-            <div className={styles.authHeader_menu}>
+
+            <div
+              className={classNames(styles.authHeader_menu, activeMenu ? styles._active : '')}
+              ref={menuRef}
+            >
+                <div className={styles.close} onClick={closeMobileMenu} ></div>
+
                 {menuLinks.map((link: IMenuLink) => (
                     <NavLink key={link.title} to={link.link} className={isActive}>{ link.title }</NavLink>
                 ))}
-                <div className={styles.menuLink} onClick={(event) => toggleSubMenu('rubinLife', event)}>
-                    Жизнь “Рубина”
-                    {activeSubMenu === 'rubinLife' ? <img src={blackArrowUp} alt=""/> : <img src={blackArrowDown} alt=""/>}
+
+                <div ref={rubinLifeSubMenuRef} className={styles.menuLink} onClick={(event) => toggleSubMenu('rubinLife', event)}>
+                    <div>
+                      Жизнь “Рубина”
+                      {activeSubMenu === 'rubinLife' ? <img src={blackArrowUp} alt=""/> : <img src={blackArrowDown} alt=""/>}
+                    </div>
                     {activeSubMenu === 'rubinLife' && (
-                        <div className='submenu' ref={rubinLifeSubMenuRef} onClick={handleSubMenuClick}>
+                        <div className='submenu' onClick={handleSubMenuClick}>
                             <ul>
                                 {[
                                     { name: "Активисты клуба", path: "/students" },
@@ -190,11 +222,13 @@ const AuthHeader = () => {
                         </div>
                     )}
                 </div>
-                <div className={styles.menuLink} onClick={(event) => toggleSubMenu('clubActivities', event)}>
+                <div ref={clubActivitiesSubMenuRef} className={styles.menuLink} onClick={(event) => toggleSubMenu('clubActivities', event)}>
+                  <div>
                     Активности клуба
                     {activeSubMenu === 'clubActivities' ? <img src={blackArrowUp} alt=""/> : <img src={blackArrowDown} alt=""/>}
+                  </div>
                     {activeSubMenu === 'clubActivities' && (
-                        <div className='submenu' ref={clubActivitiesSubMenuRef} onClick={handleSubMenuClick}>
+                        <div className='submenu' onClick={handleSubMenuClick}>
                             <ul>
                                 {[
                                     { name: "Спорт для школьников", path: "/sportslife" },

@@ -22,6 +22,7 @@ const SinglePhotoGalleryPage = () => {
 
     const gallery = useSelector((state: RootState) => state.photoGallery.photoGallery.find(gallery => gallery.id === parseInt(id)))
     
+  // Удалить когда у фотографий появятся разные id
   //////////////////////////////__dev__////////////////////////////////////
   const photos = useMemo(() => {
     return structuredClone(gallery?.photos || []).map(el => {
