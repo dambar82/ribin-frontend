@@ -19,8 +19,7 @@ export const fetchNewsAndNewsBack = createAsyncThunk('news/fetchNewsAndNewsBack'
     const newsBackUrl = 'https://api-rubin.multfilm.tatar/api/news';
     const newsUrl = `${proxyUrl}https://loyalfans.rubin-kazan.ru/api/v1/bitrix/news?isTop=true`;
 
-    // Выполняем оба запроса одновременно
-    const [newsBackResponse, newsResponse] = await Promise.all([
+    const results = await Promise.allSettled([
         axios.get(newsBackUrl),
         axios.get(newsUrl, {
             headers: {
@@ -29,13 +28,12 @@ export const fetchNewsAndNewsBack = createAsyncThunk('news/fetchNewsAndNewsBack'
         })
     ]);
 
-    // Преобразуем данные в нужные типы
-    const newsBackData = newsBackResponse.data.data as NewsBack[];
-    const newsData = newsResponse.data as News[];
+    const newsBackData = results[0].status === 'fulfilled' ? results[0].value.data.data : [];
+    const newsData = results[1].status === 'fulfilled' ? results[1].value.data : [];
 
-    // Объединяем массивы
     return [...newsData, ...newsBackData];
 });
+
 
 const newsSlice = createSlice({
     name: 'news',

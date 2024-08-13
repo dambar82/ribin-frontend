@@ -104,7 +104,9 @@ const Wall = ({type, posts, editable = true}: IWall) => {
             formData.append('source[]', file.file);
         });
 
-        formData.append('clients_id', JSON.parse(localStorage.getItem('user')).client.id)
+        console.log(JSON.parse(localStorage.getItem('user')))
+
+      //  formData.append('clients_id', JSON.parse(localStorage.getItem('user')).client.id)
         // formData.append('likes_count', '1');
 
         dispatch(createPost(formData));
