@@ -11,7 +11,9 @@ import {useSelector} from "react-redux";
 import {useAppDispatch} from "../../store/hooks";
 import {toggleLikeAsync} from "../../store/postSlice";
 import {RootState} from "../../store/store";
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
+import 'react-image-lightbox/style.css'; // Импорт стилей для lightbox
+import Lightbox from 'react-image-lightbox';
 
 interface ICard {
     id: number;
@@ -31,22 +33,38 @@ const determineMediaType = (src: string): 'image' | 'video' | undefined  => {
     return undefined ; // fallback case
 };
 
+function srcset(image: string, size: number, rows = 1, cols = 1) {
+    return {
+        src: `${image}?w=${size * cols}&h=${size * rows}&fit=crop&auto=format`,
+        srcSet: `${image}?w=${size * cols}&h=${
+            size * rows
+        }&fit=crop&auto=format&dpr=2 2x`,
+    };
+}
+
 const Post = ({ id, name, avatar, source, tags, comments, children, likes, type }: ICard) => {
 
     const dispatch = useAppDispatch();
+    const [isOpen, setIsOpen] = useState(false);
+    const [photoIndex, setPhotoIndex] = useState(0);
 
     const post = useSelector((state: RootState) => state.post.posts[type].find(post => post.id === id));
     const likedPosts = useSelector((state: RootState) => state.post.likedPosts);
     const user = useSelector((state: RootState) => state.user);
 
-    useEffect(() => {
-        console.log(source);
-    }, [source])
-
     const handleLikeClick = () => {
         if (post && !likedPosts.includes(id)) {
             dispatch(toggleLikeAsync({postId: id, postType: type, userId: user.user.id}));
         }
+    };
+
+    const openLightbox = (index) => {
+        setPhotoIndex(index);
+        setIsOpen(true);
+    };
+
+    const closeLightbox = () => {
+        setIsOpen(false);
     };
 
     return (
@@ -74,7 +92,7 @@ const Post = ({ id, name, avatar, source, tags, comments, children, likes, type 
                         const type = determineMediaType(media);
                         if (!type) return null;
                         return (
-                            <div key={index} className={styles.post__media_item}>
+                            <div key={index} className={styles.post__media_item} onClick={() => openLightbox(index)}>
                                 {type === 'image' ? (
                                     <img src={media} alt={`media-${index}`} />
                                 ) : type === 'video' ? (
@@ -129,6 +147,16 @@ const Post = ({ id, name, avatar, source, tags, comments, children, likes, type 
                 </form>
             </div>
             ) : null}
+            {isOpen && (
+                <Lightbox
+                    mainSrc={source[photoIndex]}
+                    nextSrc={source[(photoIndex + 1) % source.length]}
+                    prevSrc={source[(photoIndex + source.length - 1) % source.length]}
+                    onCloseRequest={closeLightbox}
+                    onMovePrevRequest={() => setPhotoIndex((photoIndex + source.length - 1) % source.length)}
+                    onMoveNextRequest={() => setPhotoIndex((photoIndex + 1) % source.length)}
+                />
+            )}
         </article>
     )
 }

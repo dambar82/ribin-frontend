@@ -1,6 +1,7 @@
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 import axios from "axios";
 import {Client, IComment} from "../types";
+import exp from "constants";
 
 export interface Post {
     client: Client;
@@ -41,13 +42,20 @@ export const fetchPosts = createAsyncThunk('post/fetchPosts', async () => {
     return response.data as PostAnswer;
 })
 
+export const createPost = createAsyncThunk('post/createPost', async (formData: FormData) => {
+    const response = await axios.post('https://api-rubin.multfilm.tatar/api/posts', formData, {
+        headers: {
+            'Content-Type': 'multipart/form-data',
+        },
+    });
+    return response.data;
+});
+
 export const toggleLikeAsync = createAsyncThunk(
     'posts/toggleLikeAsync',
     async ({ postId, postType, userId }: { postId: number, postType: 'all' | 'image' | 'video', userId: number }, { dispatch }) => {
         try {
-            const token = JSON.parse(localStorage.getItem('user')).token; // Замените на ваш реальный токен
-
-            console.log(token)
+            const token = JSON.parse(localStorage.getItem('user')).token;
 
             await axios.post(
                 `https://api-rubin.multfilm.tatar/api/posts/${postId}/like`,
@@ -58,7 +66,6 @@ export const toggleLikeAsync = createAsyncThunk(
                     }
                 }
             );
-            // Обновление состояния после успешного запроса
             dispatch(addLike({ postId, postType }));
         } catch (error) {
             console.error('Failed to toggle like:', error);

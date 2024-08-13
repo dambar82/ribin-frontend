@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import {useEffect, useState} from 'react'
 import styles from './Wall.module.scss';
 
 import loupeIcon from '../../images/svg/loupe.svg'
@@ -6,9 +6,11 @@ import attachmentIcon from '../../images/svg/attachment.svg'
 
 import Select from 'react-select';
 
-import {PostAnswer} from "../../store/postSlice";
+import {createPost, PostAnswer} from "../../store/postSlice";
 import Post from '../Post/Post';
 import { Button } from '../../shared/UI'
+import {useDispatch} from "react-redux";
+import {useAppDispatch} from "../../store/hooks";
 
 
 interface IWall {
@@ -49,6 +51,7 @@ const Wall = ({type, posts, editable = true}: IWall) => {
 
     const options = Object.values(optionsMap);
 
+    const dispatch = useAppDispatch();
     const [feedType, setFeedType] = useState(0)
     const [sortType, setSortType] = useState(0)
     const [postType, setPostType] = useState(0)
@@ -79,14 +82,32 @@ const Wall = ({type, posts, editable = true}: IWall) => {
         })
     }
 
+    useEffect(() => {
+        console.log(JSON.parse(localStorage.getItem('user')));
+    }, [])
+
     const deleteFile = ( fileId: number ) => {
       setFiles(prev => prev.filter(el => el.id !== fileId))
     }
 
     const onSubmit = ( e: React.FormEvent<HTMLFormElement> ) => {
       e.preventDefault()
-      const data = new FormData(e.currentTarget)
+      const form = e.currentTarget;
+        const formData = new FormData(form);
 
+        // Добавляем поле description
+        formData.append('description', formData.get('description') as string);
+        formData.append('title', formData.get('description') as string);
+
+        // Добавляем массив файлов
+        files.forEach(file => {
+            formData.append('source[]', file.file);
+        });
+
+        formData.append('clients_id', JSON.parse(localStorage.getItem('user')).client.id)
+        // formData.append('likes_count', '1');
+
+        dispatch(createPost(formData));
 
     }
 
@@ -110,8 +131,8 @@ const Wall = ({type, posts, editable = true}: IWall) => {
                         { type === "post" || (type ==="profile" && editable) ?
                             <form className={styles.wall__feedForm} onSubmit={onSubmit} >
                                 <div className={styles.textarea_wrapper} >
-                                  <textarea name="" id="" placeholder="Поделитесь с другими своими успехами и новостями!"></textarea>
-                                  <Button className={styles.submit_button} >Отправить</Button>
+                                  <textarea name="description" id="" placeholder="Поделитесь с другими своими успехами и новостями!"></textarea>
+                                  <Button className={styles.submit_button}>Отправить</Button>
                                 </div>
                                 <div className={styles.feenFormFooter} >
                                     <div className={styles.wall__feedFormFile}>
@@ -153,25 +174,6 @@ const Wall = ({type, posts, editable = true}: IWall) => {
                                                 display: "none"
                                             })
                                         }}
-                                        //     control: (provided) => ({
-                                        //       ...provided,
-                                        //       backgroundColor: 'var(--colors-ui-base)',
-                                        //       color: 'var(--colors-text)',
-                                        //       borderRadius: 'var(--radii)',
-                                        //       padding: '0.25rem',
-                                        //       border: 'none',
-                                        //       boxShadow: 'var(--shadow)',
-                                        //       height: '50px',
-                                        //     }),
-                                        //     option: (provided, state) => ({
-                                        //       ...provided,
-                                        //       cursor: 'pointer',
-                                        //       color: 'var(--colors-text)',
-                                        //       backgroundColor: state.isSelected
-                                        //         ? 'var(--colors-bg)'
-                                        //         : 'var(--colors-ui-base)',
-                                        //     }),
-                                        //   },
                                     />
                                 </div>
                             </form> : null
