@@ -159,9 +159,9 @@ const ContestPage = () => {
                             </h3>
                             {
                                 contest?.prizes && (
-                                    contest.prizes.map((prize: string) => (
-                                        <p key={prize}>
-                                            {prize}
+                                    contest.prizes.map((prize: any) => (
+                                        <p key={prize.id}>
+                                            {prize.reward}
                                         </p>
                                     ))
                                 )

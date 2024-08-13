@@ -1,21 +1,24 @@
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 import axios from "axios";
 import {Client, IComment} from "../types";
+import exp from "constants";
 
-export interface Post {
+export interface IPost {
     client: Client;
     comments: IComment[];
     description: string;
     id: number;
+    liked_by: number[];
     likes_count: number;
     source: string[];
     title: string;
+    updated_at: string;
 }
 
 export interface PostAnswer {
-    all: Post[];
-    image: Post[];
-    video: Post[];
+    all: IPost[];
+    image: IPost[];
+    video: IPost[];
 }
 
 interface PostState {
@@ -41,12 +44,30 @@ export const fetchPosts = createAsyncThunk('post/fetchPosts', async () => {
     return response.data as PostAnswer;
 })
 
+export const createPost = createAsyncThunk('post/createPost', async (formData: FormData) => {
+    const response = await axios.post('https://api-rubin.multfilm.tatar/api/posts', formData, {
+        headers: {
+            'Content-Type': 'multipart/form-data',
+        },
+    });
+    return response.data;
+});
+
 export const toggleLikeAsync = createAsyncThunk(
     'posts/toggleLikeAsync',
     async ({ postId, postType, userId }: { postId: number, postType: 'all' | 'image' | 'video', userId: number }, { dispatch }) => {
         try {
-            await axios.post(`https://api-rubin.multfilm.tatar/api/posts/${postId}/like/${userId}`);
-            // Обновление состояния после успешного запроса
+            const token = JSON.parse(localStorage.getItem('user')).token;
+            console.log(token);
+            await axios.post(
+                `https://api-rubin.multfilm.tatar/api/posts/${postId}/like`,
+                {},
+                {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                }
+            );
             dispatch(addLike({ postId, postType }));
         } catch (error) {
             console.error('Failed to toggle like:', error);

@@ -53,6 +53,10 @@ const Contests = () => {
     };
 
     useEffect(() => {
+        console.log(contests)
+    }, [contests])
+
+    useEffect(() => {
         if (contestStatus === 'idle') {
             dispatch(fetchContests());
         }
@@ -82,7 +86,7 @@ const Contests = () => {
                 </div>
                 <div className={styles.contest_list}>
                     {contests.map((contest) => (
-                        contest.status === 'Активно' ? (
+                        contest.status === 1 ? (
                             <Link to={`/contests/${contest.id}`} key={contest.id}>
                                 <ContestCard
                                     title={contest.name}

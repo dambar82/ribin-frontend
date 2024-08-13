@@ -26,11 +26,11 @@ export interface Contest {
     id: number;
     name: string;
     participants: any[];
-    prizes: string[];
+    prizes: any[];
     short_description: string;
     source: string;
     start_date: string;
-    status: string;
+    status: number;
 }
 
 export interface Participant {

@@ -11,6 +11,9 @@ import {useSelector} from "react-redux";
 import {useAppDispatch} from "../../store/hooks";
 import {toggleLikeAsync} from "../../store/postSlice";
 import {RootState} from "../../store/store";
+import {useEffect, useState} from "react";
+import 'react-image-lightbox/style.css'; // Импорт стилей для lightbox
+import Lightbox from 'react-image-lightbox';
 
 interface ICard {
     id: number;
@@ -21,21 +24,65 @@ interface ICard {
     comments?: IComment[]
     children: React.ReactNode;
     likes: number;
+    liked_by: number[];
+    updated_at: string;
     type: 'all' | 'image' | 'video';
 }
 
-const Post = ({ id, name, avatar, source, tags, comments, children, likes, type }: ICard) => {
+const determineMediaType = (src: string): 'image' | 'video' | undefined  => {
+    if (src.endsWith('.mp4')) return 'video';
+    if (src.endsWith('.png') || src.endsWith('.jpg') || src.endsWith('.jpeg')) return 'image';
+    return undefined ; // fallback case
+};
+
+function srcset(image: string, size: number, rows = 1, cols = 1) {
+    return {
+        src: `${image}?w=${size * cols}&h=${size * rows}&fit=crop&auto=format`,
+        srcSet: `${image}?w=${size * cols}&h=${
+            size * rows
+        }&fit=crop&auto=format&dpr=2 2x`,
+    };
+}
+
+function formatDate(isoString) {
+    const date = new Date(isoString);
+
+    // Получаем компоненты даты
+    const day = String(date.getDate()).padStart(2, '0'); // День
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Месяц (месяцы начинаются с 0)
+    const year = date.getFullYear(); // Год
+
+    // Получаем компоненты времени
+    const hours = String(date.getHours()).padStart(2, '0'); // Часы
+    const minutes = String(date.getMinutes()).padStart(2, '0'); // Минуты
+
+    // Форматируем строку
+    return `${day}.${month}.${year} I ${hours}:${minutes}`;
+}
+
+const Post = ({ id, name, avatar, source, tags, comments, children, likes, liked_by, updated_at, type }: ICard) => {
 
     const dispatch = useAppDispatch();
+    const [isOpen, setIsOpen] = useState(false);
+    const [photoIndex, setPhotoIndex] = useState(0);
 
     const post = useSelector((state: RootState) => state.post.posts[type].find(post => post.id === id));
     const likedPosts = useSelector((state: RootState) => state.post.likedPosts);
     const user = useSelector((state: RootState) => state.user);
 
     const handleLikeClick = () => {
-        if (post && !likedPosts.includes(id)) {
+        if (post && !liked_by.includes(user.user.id)) {
             dispatch(toggleLikeAsync({postId: id, postType: type, userId: user.user.id}));
         }
+    };
+
+    const openLightbox = (index) => {
+        setPhotoIndex(index);
+        setIsOpen(true);
+    };
+
+    const closeLightbox = () => {
+        setIsOpen(false);
     };
 
     return (
@@ -49,7 +96,7 @@ const Post = ({ id, name, avatar, source, tags, comments, children, likes, type 
                         }
                     </div>
                     <div className={styles.post__title}>{name}</div>
-                    <div className={styles.post__createdAt}>13.03.2024 I 17:31</div>
+                    <div className={styles.post__createdAt}>{formatDate(post.updated_at)}</div>
                 </div>
                 <DropdownMenu />
             </div>
@@ -58,11 +105,24 @@ const Post = ({ id, name, avatar, source, tags, comments, children, likes, type 
                     {children}
                 </div>
                 <div className={styles.post__tags}>{tags}</div>
-                {/*{ image && (*/}
-                {/*    <div className={styles.post__image}>*/}
-                {/*        <img src={image} alt="" />*/}
-                {/*    </div>*/}
-                {/*)}*/}
+                <div className={styles.post__media}>
+                    {source.map((media, index) => {
+                        const type = determineMediaType(media);
+                        if (!type) return null;
+                        return (
+                            <div key={index} className={styles.post__media_item} onClick={() => openLightbox(index)}>
+                                {type === 'image' ? (
+                                    <img src={media} alt={`media-${index}`} />
+                                ) : type === 'video' ? (
+                                    <video controls>
+                                        <source src={media} type="video/mp4" />
+                                        Your browser does not support the video.
+                                    </video>
+                                ) : null}
+                            </div>
+                        )
+                    })}
+                </div>
             </div>
             <div className={styles.post__footer}>
                 <div className={`${styles.post__tag} ${styles.post__tag_likes}`} onClick={handleLikeClick}>
@@ -105,6 +165,16 @@ const Post = ({ id, name, avatar, source, tags, comments, children, likes, type 
                 </form>
             </div>
             ) : null}
+            {isOpen && (
+                <Lightbox
+                    mainSrc={source[photoIndex]}
+                    nextSrc={source[(photoIndex + 1) % source.length]}
+                    prevSrc={source[(photoIndex + source.length - 1) % source.length]}
+                    onCloseRequest={closeLightbox}
+                    onMovePrevRequest={() => setPhotoIndex((photoIndex + source.length - 1) % source.length)}
+                    onMoveNextRequest={() => setPhotoIndex((photoIndex + 1) % source.length)}
+                />
+            )}
         </article>
     )
 }

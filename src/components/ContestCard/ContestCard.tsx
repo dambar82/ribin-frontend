@@ -5,7 +5,7 @@ import {formatDate} from "../../App";
 interface IContestCard {
     title: string;
     image: string;
-    status: string;
+    status: number;
     short_description: string;
     start_date: string;
     end_date: string
@@ -13,7 +13,7 @@ interface IContestCard {
 
 const ContestCard = ({title, image, status, short_description, start_date, end_date}: IContestCard) => {
     return (
-        <div className={status === 'Активно' ? styles.card : `${styles.card} ${styles.card_gray}`}>
+        <div className={status === 1 ? styles.card : `${styles.card} ${styles.card_gray}`}>
             <div className={styles.card_image}>
                 {image && <img src={image} alt=""/>}
             </div>
@@ -22,7 +22,7 @@ const ContestCard = ({title, image, status, short_description, start_date, end_d
                     <h3>
                         {title}
                     </h3>
-                    {status === 'Активно' ? (
+                    {status === 1 ? (
                         <div className='orange_button'>
                             Активен
                         </div>
@@ -36,7 +36,7 @@ const ContestCard = ({title, image, status, short_description, start_date, end_d
                     <p>
                         {short_description}
                     </p>
-                    {status === 'Активно' ? (
+                    {status === 1 ? (
                         <div className={`${styles.dates}`}>
                             <div className='start_button start_button-green'>
                                 <span>Старт</span>

@@ -75,6 +75,7 @@ const userSlice = createSlice({
             .addCase(loginUser.fulfilled, (state, action: PayloadAction<User>) => {
                 state.user = action.payload;
                 state.status = 'succeeded';
+                console.log(action.payload)
                 localStorage.setItem('user', JSON.stringify(action.payload));
                 state.error = null;
             })
