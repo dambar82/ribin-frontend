@@ -3,20 +3,22 @@ import axios from "axios";
 import {Client, IComment} from "../types";
 import exp from "constants";
 
-export interface Post {
+export interface IPost {
     client: Client;
     comments: IComment[];
     description: string;
     id: number;
+    liked_by: number[];
     likes_count: number;
     source: string[];
     title: string;
+    updated_at: string;
 }
 
 export interface PostAnswer {
-    all: Post[];
-    image: Post[];
-    video: Post[];
+    all: IPost[];
+    image: IPost[];
+    video: IPost[];
 }
 
 interface PostState {

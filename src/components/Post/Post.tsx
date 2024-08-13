@@ -24,6 +24,8 @@ interface ICard {
     comments?: IComment[]
     children: React.ReactNode;
     likes: number;
+    liked_by: number[];
+    updated_at: string;
     type: 'all' | 'image' | 'video';
 }
 
@@ -42,7 +44,23 @@ function srcset(image: string, size: number, rows = 1, cols = 1) {
     };
 }
 
-const Post = ({ id, name, avatar, source, tags, comments, children, likes, type }: ICard) => {
+function formatDate(isoString) {
+    const date = new Date(isoString);
+
+    // Получаем компоненты даты
+    const day = String(date.getDate()).padStart(2, '0'); // День
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Месяц (месяцы начинаются с 0)
+    const year = date.getFullYear(); // Год
+
+    // Получаем компоненты времени
+    const hours = String(date.getHours()).padStart(2, '0'); // Часы
+    const minutes = String(date.getMinutes()).padStart(2, '0'); // Минуты
+
+    // Форматируем строку
+    return `${day}.${month}.${year} I ${hours}:${minutes}`;
+}
+
+const Post = ({ id, name, avatar, source, tags, comments, children, likes, liked_by, updated_at, type }: ICard) => {
 
     const dispatch = useAppDispatch();
     const [isOpen, setIsOpen] = useState(false);
@@ -53,7 +71,7 @@ const Post = ({ id, name, avatar, source, tags, comments, children, likes, type 
     const user = useSelector((state: RootState) => state.user);
 
     const handleLikeClick = () => {
-        if (post && !likedPosts.includes(id)) {
+        if (post && !liked_by.includes(user.user.id)) {
             dispatch(toggleLikeAsync({postId: id, postType: type, userId: user.user.id}));
         }
     };
@@ -78,7 +96,7 @@ const Post = ({ id, name, avatar, source, tags, comments, children, likes, type 
                         }
                     </div>
                     <div className={styles.post__title}>{name}</div>
-                    <div className={styles.post__createdAt}>13.03.2024 I 17:31</div>
+                    <div className={styles.post__createdAt}>{formatDate(post.updated_at)}</div>
                 </div>
                 <DropdownMenu />
             </div>
