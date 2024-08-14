@@ -16,7 +16,7 @@ const initialState: PeopleState = {
 };
 
 export const fetchPeople = createAsyncThunk('people/fetchPeople', async () => {
-    const response = await axios.get('https://api-rubin.multfilm.tatar/api/user');
+    const response = await axios.get('https://api-rubin.multfilm.tatar/api/clients');
     return response.data.data as User[];
 });
 

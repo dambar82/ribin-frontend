@@ -1,6 +1,7 @@
 import styles from './Post.module.scss'
 
 import likeIcon from '../../images/svg/likes.svg'
+import likeIconLiked from '../../images/svg/likes_red.svg'
 import commentIcon from '../../images/svg/comments.svg'
 import sharedIcon from '../../images/svg/shared.svg'
 import viewIcon from '../../images/svg/views.svg'
@@ -19,7 +20,7 @@ interface ICard {
     id: number;
     name: string;
     avatar?: string;
-    source: string[];
+    source?: string[];
     tags?: string;
     comments?: IComment[]
     children: React.ReactNode;
@@ -67,12 +68,24 @@ const Post = ({ id, name, avatar, source, tags, comments, children, likes, liked
     const [photoIndex, setPhotoIndex] = useState(0);
 
     const post = useSelector((state: RootState) => state.post.posts[type].find(post => post.id === id));
-    const likedPosts = useSelector((state: RootState) => state.post.likedPosts);
     const user = useSelector((state: RootState) => state.user);
 
+    const [isLiked, setIsLiked] = useState(liked_by.includes(user.user.id));
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        if (post) {
+            setIsLiked(post.liked_by.includes(user.user.id));
+        }
+    }, [post, user.user.id]);
+
     const handleLikeClick = () => {
-        if (post && !liked_by.includes(user.user.id)) {
-            dispatch(toggleLikeAsync({postId: id, postType: type, userId: user.user.id}));
+        if (post && !isLiked) {
+            dispatch(toggleLikeAsync({postId: id, postType: type, userId: user.user.id}))
+                .unwrap()
+                .then(() => {
+                    setIsLiked(true);
+                })
         }
     };
 
@@ -96,7 +109,7 @@ const Post = ({ id, name, avatar, source, tags, comments, children, likes, liked
                         }
                     </div>
                     <div className={styles.post__title}>{name}</div>
-                    <div className={styles.post__createdAt}>{formatDate(post.updated_at)}</div>
+                    <div className={styles.post__createdAt}>{formatDate(post.created_at)}</div>
                 </div>
                 <DropdownMenu />
             </div>
@@ -106,7 +119,7 @@ const Post = ({ id, name, avatar, source, tags, comments, children, likes, liked
                 </div>
                 <div className={styles.post__tags}>{tags}</div>
                 <div className={styles.post__media}>
-                    {source.map((media, index) => {
+                    {source?.map((media, index) => {
                         const type = determineMediaType(media);
                         if (!type) return null;
                         return (
@@ -127,9 +140,18 @@ const Post = ({ id, name, avatar, source, tags, comments, children, likes, liked
             <div className={styles.post__footer}>
                 <div className={`${styles.post__tag} ${styles.post__tag_likes}`} onClick={handleLikeClick}>
                     <div className={styles.post__tagIcon}>
-                        <img src={likeIcon} alt="" />
+                        <img
+                            src={isLiked ? likeIconLiked : likeIcon}
+                            alt=""
+                        />
                     </div>
-                    <span className={styles.post__tagLabel}>{post?.likes_count || 0}</span>
+                    <span
+                        className={`${styles.post__tagLabel} ${
+                            isLiked ? styles.post__tagLabel_liked : ''
+                        }`}
+                    >
+                        {post?.likes_count || 0}
+                    </span>
                 </div>
                 <div className={`${styles.post__tag} ${styles.post__tag_comments}`}>
                     <div className={styles.post__tagIcon}>

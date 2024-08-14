@@ -6,7 +6,7 @@ import attachmentIcon from '../../images/svg/attachment.svg'
 
 import Select from 'react-select';
 
-import {createPost, IPost, PostAnswer} from "../../store/postSlice";
+import {addPost, createPost, IPost, PostAnswer} from "../../store/postSlice";
 import Post from '../Post/Post';
 import { Button } from '../../shared/UI'
 import {useDispatch} from "react-redux";
@@ -48,9 +48,9 @@ const sortPosts = (posts: IPost[], sortType: number) => {
         case 0: // "Популярное"
             return [...posts].sort((a, b) => b.likes_count - a.likes_count);
         case 1: // "Новое"
-            return [...posts].sort((a, b) => new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime());
+            return [...posts].sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
         case 2: // "Старое"
-            return [...posts].sort((a, b) => new Date(a.updated_at).getTime() - new Date(b.updated_at).getTime());
+            return [...posts].sort((a, b) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime());
         default:
             return posts;
     }
@@ -66,8 +66,9 @@ const Wall = ({type, posts, editable = true}: IWall) => {
 
     const dispatch = useAppDispatch();
     const [feedType, setFeedType] = useState(0)
-    const [sortType, setSortType] = useState(0)
+    const [sortType, setSortType] = useState(1)
     const [postType, setPostType] = useState(0)
+    const [textareaValue, setTextareaValue] = useState('');
     const [files, setFiles] = useState<{ id: number, file: File }[]>([])
     const [option, setOption] = useState(optionsMap.public)
 
@@ -95,10 +96,6 @@ const Wall = ({type, posts, editable = true}: IWall) => {
         })
     }
 
-    useEffect(() => {
-        console.log(JSON.parse(localStorage.getItem('user')));
-    }, [])
-
     const sortedAllPosts = sortPosts(posts.all, sortType);
     const sortedVideoPosts = sortPosts(posts.video, sortType);
     const sortedImagePosts = sortPosts(posts.image, sortType);
@@ -107,26 +104,29 @@ const Wall = ({type, posts, editable = true}: IWall) => {
       setFiles(prev => prev.filter(el => el.id !== fileId))
     }
 
-    const onSubmit = ( e: React.FormEvent<HTMLFormElement> ) => {
+    const onSubmit = async ( e: React.FormEvent<HTMLFormElement> ) => {
       e.preventDefault()
       const form = e.currentTarget;
         const formData = new FormData(form);
 
-        // Добавляем поле description
         formData.append('description', formData.get('description') as string);
         formData.append('title', formData.get('description') as string);
 
-        // Добавляем массив файлов
         files.forEach(file => {
             formData.append('source[]', file.file);
         });
 
-        console.log(JSON.parse(localStorage.getItem('user')))
 
-      //  formData.append('clients_id', JSON.parse(localStorage.getItem('user')).client.id)
-        // formData.append('likes_count', '1');
+        try {
+            const response = await dispatch(createPost(formData)).unwrap();
+            const newPost = response;
 
-        dispatch(createPost(formData));
+            dispatch(addPost(newPost));
+            setFiles([]);
+            setTextareaValue('');
+        } catch (error) {
+            console.error('Ошибка при создании поста:', error);
+        }
 
     }
 
@@ -150,7 +150,14 @@ const Wall = ({type, posts, editable = true}: IWall) => {
                         { type === "post" || (type ==="profile" && editable) ?
                             <form className={styles.wall__feedForm} onSubmit={onSubmit} >
                                 <div className={styles.textarea_wrapper} >
-                                  <textarea name="description" id="" placeholder="Поделитесь с другими своими успехами и новостями!"></textarea>
+                                  <textarea
+                                      name="description"
+                                      id=""
+                                      placeholder="Поделитесь с другими своими успехами и новостями!"
+                                      value={textareaValue}
+                                      onChange={(e) => setTextareaValue(e.target.value)}
+                                  >
+                                  </textarea>
                                   <Button className={styles.submit_button}>Отправить</Button>
                                 </div>
                                 <div className={styles.feenFormFooter} >
@@ -208,7 +215,7 @@ const Wall = ({type, posts, editable = true}: IWall) => {
                                 comments={post.comments}
                                 likes={post.likes_count}
                                 liked_by={post.liked_by}
-                                updated_at={post.updated_at}
+                                updated_at={post.created_at}
                                 type={'all'}
                             >
                                 {post.description}
@@ -221,56 +228,56 @@ const Wall = ({type, posts, editable = true}: IWall) => {
                 )}
                 {feedType === 2 && (
                     <div className={styles.wall__feed}>
-                        { type === "post" || (type ==="profile" && editable) ?
-                            <form className={styles.wall__feedForm} onSubmit={onSubmit} >
-                                <div className={styles.textarea_wrapper} >
-                                    <textarea name="description" id="" placeholder="Поделитесь с другими своими успехами и новостями!"></textarea>
-                                    <Button className={styles.submit_button}>Отправить</Button>
-                                </div>
-                                <div className={styles.feenFormFooter} >
-                                    <div className={styles.wall__feedFormFile}>
-                                        {files.map(file => (
-                                            <div key={file.id} className={styles.wall__feedFormFileDoc}>
-                                                <span>{file.file?.name}</span>
-                                                <button type='button' onClick={() => deleteFile(file.id)}></button>
-                                            </div>
-                                        ))}
-                                        {
-                                            files.length <= MAX_COUNT_FILES_IN_FORM &&
-                                            <div className={styles.wall__feedFormFileField}>
-                                                <input type='file' id='file' accept='image/*,video/*' onChange={handleFileChange}/>
-                                                <label htmlFor='file'>
-                                                    <img src={attachmentIcon} alt=''/>
-                                                </label>
-                                            </div>
-                                        }
-                                    </div>
-                                    <Select
-                                        options={options}
-                                        placeholder="Filter by Region"
-                                        isClearable={false}
-                                        isSearchable={false}
-                                        value={option}
-                                        onChange={(option) => setOption(option)}
-                                        className={styles.form_select}
-                                        styles={{
-                                            control: (baseStyles, state) => ({
-                                                ...baseStyles,
-                                                border: "none",
-                                                // boxShadow: "none",
-                                                fontFamily: '"Saira", "sans-serif"',
-                                                fontSize: "20px",
-                                                fontWeight: "500",
-                                                lineHeight: "calc(24 / 20)"
-                                            }),
-                                            indicatorSeparator: () => ({
-                                                display: "none"
-                                            })
-                                        }}
-                                    />
-                                </div>
-                            </form> : null
-                        }
+                        {/*{ type === "post" || (type ==="profile" && editable) ?*/}
+                        {/*    <form className={styles.wall__feedForm} onSubmit={onSubmit} >*/}
+                        {/*        <div className={styles.textarea_wrapper} >*/}
+                        {/*            <textarea name="description" id="" placeholder="Поделитесь с другими своими успехами и новостями!"></textarea>*/}
+                        {/*            <Button className={styles.submit_button}>Отправить</Button>*/}
+                        {/*        </div>*/}
+                        {/*        <div className={styles.feenFormFooter} >*/}
+                        {/*            <div className={styles.wall__feedFormFile}>*/}
+                        {/*                {files.map(file => (*/}
+                        {/*                    <div key={file.id} className={styles.wall__feedFormFileDoc}>*/}
+                        {/*                        <span>{file.file?.name}</span>*/}
+                        {/*                        <button type='button' onClick={() => deleteFile(file.id)}></button>*/}
+                        {/*                    </div>*/}
+                        {/*                ))}*/}
+                        {/*                {*/}
+                        {/*                    files.length <= MAX_COUNT_FILES_IN_FORM &&*/}
+                        {/*                    <div className={styles.wall__feedFormFileField}>*/}
+                        {/*                        <input type='file' id='file' accept='image/*,video/*' onChange={handleFileChange}/>*/}
+                        {/*                        <label htmlFor='file'>*/}
+                        {/*                            <img src={attachmentIcon} alt=''/>*/}
+                        {/*                        </label>*/}
+                        {/*                    </div>*/}
+                        {/*                }*/}
+                        {/*            </div>*/}
+                        {/*            <Select*/}
+                        {/*                options={options}*/}
+                        {/*                placeholder="Filter by Region"*/}
+                        {/*                isClearable={false}*/}
+                        {/*                isSearchable={false}*/}
+                        {/*                value={option}*/}
+                        {/*                onChange={(option) => setOption(option)}*/}
+                        {/*                className={styles.form_select}*/}
+                        {/*                styles={{*/}
+                        {/*                    control: (baseStyles, state) => ({*/}
+                        {/*                        ...baseStyles,*/}
+                        {/*                        border: "none",*/}
+                        {/*                        // boxShadow: "none",*/}
+                        {/*                        fontFamily: '"Saira", "sans-serif"',*/}
+                        {/*                        fontSize: "20px",*/}
+                        {/*                        fontWeight: "500",*/}
+                        {/*                        lineHeight: "calc(24 / 20)"*/}
+                        {/*                    }),*/}
+                        {/*                    indicatorSeparator: () => ({*/}
+                        {/*                        display: "none"*/}
+                        {/*                    })*/}
+                        {/*                }}*/}
+                        {/*            />*/}
+                        {/*        </div>*/}
+                        {/*    </form> : null*/}
+                        {/*}*/}
                         {sortedVideoPosts.length ? sortedVideoPosts.map((post, index) => (
                             <Post
                                 key={post.id}
@@ -282,7 +289,7 @@ const Wall = ({type, posts, editable = true}: IWall) => {
                                 comments={post.comments}
                                 likes={post.likes_count}
                                 liked_by={post.liked_by}
-                                updated_at={post.updated_at}
+                                updated_at={post.created_at}
                                 type={'video'}
                             >
                                 {post.description}
@@ -292,56 +299,56 @@ const Wall = ({type, posts, editable = true}: IWall) => {
                 )}
                 {feedType === 3 && (
                     <div className={styles.wall__feed}>
-                        { type === "post" || (type ==="profile" && editable) ?
-                            <form className={styles.wall__feedForm} onSubmit={onSubmit} >
-                                <div className={styles.textarea_wrapper} >
-                                    <textarea name="description" id="" placeholder="Поделитесь с другими своими успехами и новостями!"></textarea>
-                                    <Button className={styles.submit_button}>Отправить</Button>
-                                </div>
-                                <div className={styles.feenFormFooter} >
-                                    <div className={styles.wall__feedFormFile}>
-                                        {files.map(file => (
-                                            <div key={file.id} className={styles.wall__feedFormFileDoc}>
-                                                <span>{file.file?.name}</span>
-                                                <button type='button' onClick={() => deleteFile(file.id)}></button>
-                                            </div>
-                                        ))}
-                                        {
-                                            files.length <= MAX_COUNT_FILES_IN_FORM &&
-                                            <div className={styles.wall__feedFormFileField}>
-                                                <input type='file' id='file' accept='image/*,video/*' onChange={handleFileChange}/>
-                                                <label htmlFor='file'>
-                                                    <img src={attachmentIcon} alt=''/>
-                                                </label>
-                                            </div>
-                                        }
-                                    </div>
-                                    <Select
-                                        options={options}
-                                        placeholder="Filter by Region"
-                                        isClearable={false}
-                                        isSearchable={false}
-                                        value={option}
-                                        onChange={(option) => setOption(option)}
-                                        className={styles.form_select}
-                                        styles={{
-                                            control: (baseStyles, state) => ({
-                                                ...baseStyles,
-                                                border: "none",
-                                                // boxShadow: "none",
-                                                fontFamily: '"Saira", "sans-serif"',
-                                                fontSize: "20px",
-                                                fontWeight: "500",
-                                                lineHeight: "calc(24 / 20)"
-                                            }),
-                                            indicatorSeparator: () => ({
-                                                display: "none"
-                                            })
-                                        }}
-                                    />
-                                </div>
-                            </form> : null
-                        }
+                        {/*{ type === "post" || (type ==="profile" && editable) ?*/}
+                        {/*    <form className={styles.wall__feedForm} onSubmit={onSubmit} >*/}
+                        {/*        <div className={styles.textarea_wrapper} >*/}
+                        {/*            <textarea name="description" id="" placeholder="Поделитесь с другими своими успехами и новостями!"></textarea>*/}
+                        {/*            <Button className={styles.submit_button}>Отправить</Button>*/}
+                        {/*        </div>*/}
+                        {/*        <div className={styles.feenFormFooter} >*/}
+                        {/*            <div className={styles.wall__feedFormFile}>*/}
+                        {/*                {files.map(file => (*/}
+                        {/*                    <div key={file.id} className={styles.wall__feedFormFileDoc}>*/}
+                        {/*                        <span>{file.file?.name}</span>*/}
+                        {/*                        <button type='button' onClick={() => deleteFile(file.id)}></button>*/}
+                        {/*                    </div>*/}
+                        {/*                ))}*/}
+                        {/*                {*/}
+                        {/*                    files.length <= MAX_COUNT_FILES_IN_FORM &&*/}
+                        {/*                    <div className={styles.wall__feedFormFileField}>*/}
+                        {/*                        <input type='file' id='file' accept='image/*,video/*' onChange={handleFileChange}/>*/}
+                        {/*                        <label htmlFor='file'>*/}
+                        {/*                            <img src={attachmentIcon} alt=''/>*/}
+                        {/*                        </label>*/}
+                        {/*                    </div>*/}
+                        {/*                }*/}
+                        {/*            </div>*/}
+                        {/*            <Select*/}
+                        {/*                options={options}*/}
+                        {/*                placeholder="Filter by Region"*/}
+                        {/*                isClearable={false}*/}
+                        {/*                isSearchable={false}*/}
+                        {/*                value={option}*/}
+                        {/*                onChange={(option) => setOption(option)}*/}
+                        {/*                className={styles.form_select}*/}
+                        {/*                styles={{*/}
+                        {/*                    control: (baseStyles, state) => ({*/}
+                        {/*                        ...baseStyles,*/}
+                        {/*                        border: "none",*/}
+                        {/*                        // boxShadow: "none",*/}
+                        {/*                        fontFamily: '"Saira", "sans-serif"',*/}
+                        {/*                        fontSize: "20px",*/}
+                        {/*                        fontWeight: "500",*/}
+                        {/*                        lineHeight: "calc(24 / 20)"*/}
+                        {/*                    }),*/}
+                        {/*                    indicatorSeparator: () => ({*/}
+                        {/*                        display: "none"*/}
+                        {/*                    })*/}
+                        {/*                }}*/}
+                        {/*            />*/}
+                        {/*        </div>*/}
+                        {/*    </form> : null*/}
+                        {/*}*/}
                         {sortedImagePosts.length ? sortedImagePosts.map((post, index) => (
                             <Post
                                 key={post.id}
@@ -353,7 +360,7 @@ const Wall = ({type, posts, editable = true}: IWall) => {
                                 comments={post.comments}
                                 likes={post.likes_count}
                                 liked_by={post.liked_by}
-                                updated_at={post.updated_at}
+                                updated_at={post.created_at}
                                 type={'image'}
                             >
                                 {post.description}

@@ -21,11 +21,19 @@ export interface User {
     events: any[];
 }
 
+interface AuthResponse {
+    client: User;
+    token: string;
+}
+
 interface UserState {
     user: User | null;
+    // token: string | null;
     status: 'idle' | 'loading' | 'succeeded' | 'failed';
     error: string | null;
 }
+
+const localStorageUser = JSON.parse(localStorage.getItem('user') || '{}');
 
 const initialState: UserState = {
     user: null,
@@ -33,6 +41,7 @@ const initialState: UserState = {
     error: null,
 };
 
+const token = JSON.parse(localStorage.getItem('user'))?.token;
 
 export const loginUser = createAsyncThunk('user/loginUser', async ({ email, password }: { email: string; password: string }) => {
     const response = await axios.post<TLoginUserResponse>('https://api-rubin.multfilm.tatar/api/login', { email, password });
@@ -55,6 +64,16 @@ export const checkAuth = createAsyncThunk('user/checkAuth', async () => {
   return response.data.data
 });
 
+export const getCurrentUser = createAsyncThunk('user/getCurrentUser', async () => {
+    const response = await axios.get('https://api-rubin.multfilm.tatar/api/clients/1',
+        {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        }
+    )
+})
+
 export const editUser = createAsyncThunk('user/editUser', async ( sendObj: TEditUserRequest ) => {
   const response = await axios.put<TEditUserResponse>(`https://api-rubin.multfilm.tatar/api/clients/${sendObj.id}`, sendObj, {
     headers: {
@@ -70,17 +89,21 @@ const userSlice = createSlice({
     reducers: {
         logout: (state) => {
             state.user = null;
+            // state.token = null;
             state.status = 'idle';
             state.error = null;
-            localStorage.removeItem('user');
+            localStorage.removeItem('token');
+            localStorage.removeItem('user_id');
         },
-        setUser: (state, action: PayloadAction<User>) => {
-            state.user = action.payload;
-            localStorage.setItem('user', JSON.stringify(action.payload)); // Сохранение пользователя в localStorage
+        setUser: (state, action: PayloadAction<{ user: User; token: string }>) => {
+            state.user = action.payload.user;
+            // state.token = action.payload.token;
+            localStorage.setItem('user', JSON.stringify(action.payload)); // Сохранение пользователя и токена в localStorage
         },
         clearUser: (state) => {
             state.user = null;
-            localStorage.removeItem('user'); // Удаление пользователя из localStorage
+            localStorage.removeItem('token');
+            localStorage.removeItem('user_id');
         }
     },
     extraReducers: (builder) => {
@@ -97,7 +120,6 @@ const userSlice = createSlice({
             })
             .addCase(loginUser.rejected, (state, action) => {
                 state.status = 'failed';
-                console.log('action', action);
                 state.error = action.error.message || null;
             })
 
@@ -130,18 +152,17 @@ const userSlice = createSlice({
             })
 
             .addCase(editUser.pending, (state) => {
-              state.status = 'loading';
+                state.status = 'loading';
             })
             .addCase(editUser.fulfilled, (state, action: PayloadAction<User>) => {
                 state.user = action.payload;
-                localStorage.setItem('user', JSON.stringify(action.payload))
+                // localStorage.setItem('user', JSON.stringify({ client: action.payload, token: state.token }));
                 state.status = 'succeeded';
                 state.error = null;
             })
             .addCase(editUser.rejected, (state, action) => {
                 state.status = 'failed';
                 state.error = action.error.message || null;
-                throw Error(action.error.message)
             })
     },
 });

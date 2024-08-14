@@ -12,7 +12,7 @@ export interface IPost {
     likes_count: number;
     source: string[];
     title: string;
-    updated_at: string;
+    created_at: string;
 }
 
 export interface PostAnswer {
@@ -39,26 +39,29 @@ const initialState: PostState = {
     likedPosts: [],
 };
 
+const token = JSON.parse(localStorage.getItem('user'))?.token;
+
 export const fetchPosts = createAsyncThunk('post/fetchPosts', async () => {
     const response = await axios.get('https://api-rubin.multfilm.tatar/api/posts');
     return response.data as PostAnswer;
 })
 
 export const createPost = createAsyncThunk('post/createPost', async (formData: FormData) => {
+    console.log(token);
     const response = await axios.post('https://api-rubin.multfilm.tatar/api/posts', formData, {
         headers: {
             'Content-Type': 'multipart/form-data',
+            'Authorization': `Bearer ${token}`
         },
     });
-    return response.data;
+    return response.data.data;
 });
 
 export const toggleLikeAsync = createAsyncThunk(
     'posts/toggleLikeAsync',
     async ({ postId, postType, userId }: { postId: number, postType: 'all' | 'image' | 'video', userId: number }, { dispatch }) => {
+        console.log(token);
         try {
-            const token = JSON.parse(localStorage.getItem('user')).token;
-            console.log(token);
             await axios.post(
                 `https://api-rubin.multfilm.tatar/api/posts/${postId}/like`,
                 {},
@@ -79,6 +82,13 @@ const postSlice = createSlice({
     name: 'post',
     initialState,
     reducers: {
+        addPost: (state, action: any) => {
+            // Используем иммутабельный метод для обновления состояния
+            // @ts-ignore
+            console.log(action.payload);
+            state.posts.all = [action.payload, ...state.posts.all]; // Добавляем новый пост в начало массива
+            console.log(state.posts.all);
+        },
         addLike: (state, action: PayloadAction<{ postId: number, postType: 'all' | 'image' | 'video' }>) => {
             const { postId, postType } = action.payload;
             const postsArray = state.posts[postType];
@@ -111,6 +121,6 @@ const postSlice = createSlice({
     }
 });
 
-export const { addLike } = postSlice.actions;
+export const { addLike, addPost } = postSlice.actions;
 
 export default postSlice.reducer;
