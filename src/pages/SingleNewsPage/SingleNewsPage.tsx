@@ -121,12 +121,14 @@ const SingleNewsPage = () => {
                                         // Здесь newsItem обрабатывается как NewsBack
                                         return (
                                             <SwiperSlide key={newsItem.id}>
-                                                <NewsCard
-                                                    date={newsItem.date}
-                                                    image={newsItem.images[0]}
-                                                    title={newsItem.title} 
-                                                    newsBack={true}
-                                                />
+                                                <Link key={newsItem.id} to={`/news/${newsItem.id}`}>
+                                                    <NewsCard
+                                                        date={newsItem.date}
+                                                        image={newsItem.images[0]}
+                                                        title={newsItem.title}
+                                                        newsBack={true}
+                                                    />
+                                                </Link>
                                             </SwiperSlide>
                                         );
                                     }

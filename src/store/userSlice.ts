@@ -20,28 +20,48 @@ export interface User {
     events: any[];
 }
 
+interface AuthResponse {
+    client: User;
+    token: string;
+}
+
 interface UserState {
     user: User | null;
+    token: string | null;
     status: 'idle' | 'loading' | 'succeeded' | 'failed';
     error: string | null;
 }
 
+const localStorageUser = JSON.parse(localStorage.getItem('user') || '{}');
+
 const initialState: UserState = {
-    user: JSON.parse(localStorage.getItem('user') || '{}') as User | null,
+    user: localStorageUser.client || null,
+    token: localStorageUser.token || null,
     status: 'idle',
     error: null,
 };
 
+const token = JSON.parse(localStorage.getItem('user'))?.token;
 
 export const loginUser = createAsyncThunk('user/loginUser', async ({ email, password }: { email: string; password: string }) => {
-    const response = await axios.post(`https://api-rubin.multfilm.tatar/api/login?email=${email}&password=${password}`);
-    return response.data as User;
+    const response = await axios.post('https://api-rubin.multfilm.tatar/api/login', { email, password });
+    return response.data as AuthResponse;
 });
 
-export const registerUser = createAsyncThunk('user/registerUser', async ({ email, password, name, surname }: { email: string; password: string; name: string, surname: string }) => {
-    const response = await axios.post('https://api-rubin.multfilm.tatar/api/register', { email, password, name, surname });
-    return response.data.data as User;
+export const registerUser = createAsyncThunk('user/registerUser', async ({ email, password, name, surname }: { email: string; password: string; name: string; surname: string }) => {
+    const response = await axios.post('https://api-rubin.multfilm.tatar/api/clients', { email, password, name, surname });
+    return response.data as AuthResponse;
 });
+
+export const getCurrentUser = createAsyncThunk('user/getCurrentUser', async () => {
+    const response = await axios.get('https://api-rubin.multfilm.tatar/api/clients/1',
+        {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        }
+    )
+})
 
 export const editUser = createAsyncThunk('user/editUser', async ( sendObj: TEditUserRequest ) => {
   const response = await axios.put<TEditUserResponse>(`https://api-rubin.multfilm.tatar/api/clients/${sendObj.id}`, sendObj);
@@ -54,17 +74,20 @@ const userSlice = createSlice({
     reducers: {
         logout: (state) => {
             state.user = null;
+            state.token = null;
             state.status = 'idle';
             state.error = null;
             localStorage.removeItem('user');
         },
-        setUser: (state, action: PayloadAction<User>) => {
-            state.user = action.payload;
-            localStorage.setItem('user', JSON.stringify(action.payload)); // Сохранение пользователя в localStorage
+        setUser: (state, action: PayloadAction<{ user: User; token: string }>) => {
+            state.user = action.payload.user;
+            state.token = action.payload.token;
+            localStorage.setItem('user', JSON.stringify(action.payload)); // Сохранение пользователя и токена в localStorage
         },
         clearUser: (state) => {
             state.user = null;
-            localStorage.removeItem('user'); // Удаление пользователя из localStorage
+            state.token = null;
+            localStorage.removeItem('user'); // Удаление пользователя и токена из localStorage
         }
     },
     extraReducers: (builder) => {
@@ -72,26 +95,27 @@ const userSlice = createSlice({
             .addCase(loginUser.pending, (state) => {
                 state.status = 'loading';
             })
-            .addCase(loginUser.fulfilled, (state, action: PayloadAction<User>) => {
-                state.user = action.payload;
-                state.status = 'succeeded';
+            .addCase(loginUser.fulfilled, (state, action: PayloadAction<AuthResponse>) => {
+                state.user = action.payload.client;
+                state.token = action.payload.token;
                 console.log(action.payload)
+                state.status = 'succeeded';
                 localStorage.setItem('user', JSON.stringify(action.payload));
                 state.error = null;
             })
             .addCase(loginUser.rejected, (state, action) => {
                 state.status = 'failed';
-                console.log('action', action);
                 state.error = action.error.message || null;
             })
 
             .addCase(registerUser.pending, (state) => {
                 state.status = 'loading';
             })
-            .addCase(registerUser.fulfilled, (state, action: PayloadAction<User>) => {
-                state.user = action.payload;
+            .addCase(registerUser.fulfilled, (state, action: PayloadAction<AuthResponse>) => {
+                state.user = action.payload.client;
+                state.token = action.payload.token;
                 state.status = 'succeeded';
-                console.log(action.payload)
+                localStorage.setItem('user', JSON.stringify(action.payload));
                 state.error = null;
             })
             .addCase(registerUser.rejected, (state, action) => {
@@ -100,18 +124,17 @@ const userSlice = createSlice({
             })
 
             .addCase(editUser.pending, (state) => {
-              state.status = 'loading';
+                state.status = 'loading';
             })
             .addCase(editUser.fulfilled, (state, action: PayloadAction<User>) => {
                 state.user = action.payload;
-                localStorage.setItem('user', JSON.stringify(action.payload))
+                localStorage.setItem('user', JSON.stringify({ client: action.payload, token: state.token }));
                 state.status = 'succeeded';
                 state.error = null;
             })
             .addCase(editUser.rejected, (state, action) => {
                 state.status = 'failed';
                 state.error = action.error.message || null;
-                throw Error(action.error.message)
             })
     },
 });

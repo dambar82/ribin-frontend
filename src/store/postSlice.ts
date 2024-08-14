@@ -47,6 +47,7 @@ export const fetchPosts = createAsyncThunk('post/fetchPosts', async () => {
 })
 
 export const createPost = createAsyncThunk('post/createPost', async (formData: FormData) => {
+    console.log(token);
     const response = await axios.post('https://api-rubin.multfilm.tatar/api/posts', formData, {
         headers: {
             'Content-Type': 'multipart/form-data',
@@ -59,6 +60,7 @@ export const createPost = createAsyncThunk('post/createPost', async (formData: F
 export const toggleLikeAsync = createAsyncThunk(
     'posts/toggleLikeAsync',
     async ({ postId, postType, userId }: { postId: number, postType: 'all' | 'image' | 'video', userId: number }, { dispatch }) => {
+        console.log(token);
         try {
             await axios.post(
                 `https://api-rubin.multfilm.tatar/api/posts/${postId}/like`,

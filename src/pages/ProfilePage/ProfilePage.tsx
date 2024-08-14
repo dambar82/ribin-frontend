@@ -3,8 +3,30 @@ import { Link } from "react-router-dom";
 import styles from "./ProfilePage.module.scss"
 
 import Wall from '../../components/Wall/Wall';
+import {useSelector} from "react-redux";
+import {RootState} from "../../store/store";
+import {useEffect, useState} from "react";
+import {fetchPosts} from "../../store/postSlice";
+import {useAppDispatch} from "../../store/hooks";
 
 const ProfilePage = () => {
+    const dispatch = useAppDispatch();
+    const { posts, status, error } = useSelector((state: RootState) => state.post);
+    const user = useSelector((state: RootState) => state.user);
+    const [filteredPosts, setFilteredPosts] = useState([]);
+
+    useEffect(() => {
+        if (status === 'idle') {
+            dispatch(fetchPosts());
+        }
+    }, [status, dispatch]);
+
+    // useEffect(() => {
+    //     if (posts) {
+    //         setFilteredPosts(posts.filter(post => post.client.id === user.id));
+    //     }
+    // }, [posts])
+
     return (
         <section className="page">
 

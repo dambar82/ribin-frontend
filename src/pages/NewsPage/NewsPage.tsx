@@ -54,15 +54,16 @@ const NewsPage = () => {
                                         </Link>
                                     );
                                 } else {
-                                    // Здесь newsItem обрабатывается как NewsBack
                                     return (
-                                        <NewsCard
-                                            date={newsItem.date}
-                                            image={newsItem.images[0]}
-                                            title={newsItem.title}
-                                            key={newsItem.id}
-                                            newsBack={true}
-                                        />
+                                        <Link key={newsItem.id} to={`/news/${newsItem.id}`}>
+                                            <NewsCard
+                                                date={newsItem.date}
+                                                image={newsItem.images[0]}
+                                                title={newsItem.title}
+                                                key={newsItem.id}
+                                                newsBack={true}
+                                            />
+                                        </Link>
                                     );
                                 }
                             })

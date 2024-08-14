@@ -228,56 +228,56 @@ const Wall = ({type, posts, editable = true}: IWall) => {
                 )}
                 {feedType === 2 && (
                     <div className={styles.wall__feed}>
-                        { type === "post" || (type ==="profile" && editable) ?
-                            <form className={styles.wall__feedForm} onSubmit={onSubmit} >
-                                <div className={styles.textarea_wrapper} >
-                                    <textarea name="description" id="" placeholder="Поделитесь с другими своими успехами и новостями!"></textarea>
-                                    <Button className={styles.submit_button}>Отправить</Button>
-                                </div>
-                                <div className={styles.feenFormFooter} >
-                                    <div className={styles.wall__feedFormFile}>
-                                        {files.map(file => (
-                                            <div key={file.id} className={styles.wall__feedFormFileDoc}>
-                                                <span>{file.file?.name}</span>
-                                                <button type='button' onClick={() => deleteFile(file.id)}></button>
-                                            </div>
-                                        ))}
-                                        {
-                                            files.length <= MAX_COUNT_FILES_IN_FORM &&
-                                            <div className={styles.wall__feedFormFileField}>
-                                                <input type='file' id='file' accept='image/*,video/*' onChange={handleFileChange}/>
-                                                <label htmlFor='file'>
-                                                    <img src={attachmentIcon} alt=''/>
-                                                </label>
-                                            </div>
-                                        }
-                                    </div>
-                                    <Select
-                                        options={options}
-                                        placeholder="Filter by Region"
-                                        isClearable={false}
-                                        isSearchable={false}
-                                        value={option}
-                                        onChange={(option) => setOption(option)}
-                                        className={styles.form_select}
-                                        styles={{
-                                            control: (baseStyles, state) => ({
-                                                ...baseStyles,
-                                                border: "none",
-                                                // boxShadow: "none",
-                                                fontFamily: '"Saira", "sans-serif"',
-                                                fontSize: "20px",
-                                                fontWeight: "500",
-                                                lineHeight: "calc(24 / 20)"
-                                            }),
-                                            indicatorSeparator: () => ({
-                                                display: "none"
-                                            })
-                                        }}
-                                    />
-                                </div>
-                            </form> : null
-                        }
+                        {/*{ type === "post" || (type ==="profile" && editable) ?*/}
+                        {/*    <form className={styles.wall__feedForm} onSubmit={onSubmit} >*/}
+                        {/*        <div className={styles.textarea_wrapper} >*/}
+                        {/*            <textarea name="description" id="" placeholder="Поделитесь с другими своими успехами и новостями!"></textarea>*/}
+                        {/*            <Button className={styles.submit_button}>Отправить</Button>*/}
+                        {/*        </div>*/}
+                        {/*        <div className={styles.feenFormFooter} >*/}
+                        {/*            <div className={styles.wall__feedFormFile}>*/}
+                        {/*                {files.map(file => (*/}
+                        {/*                    <div key={file.id} className={styles.wall__feedFormFileDoc}>*/}
+                        {/*                        <span>{file.file?.name}</span>*/}
+                        {/*                        <button type='button' onClick={() => deleteFile(file.id)}></button>*/}
+                        {/*                    </div>*/}
+                        {/*                ))}*/}
+                        {/*                {*/}
+                        {/*                    files.length <= MAX_COUNT_FILES_IN_FORM &&*/}
+                        {/*                    <div className={styles.wall__feedFormFileField}>*/}
+                        {/*                        <input type='file' id='file' accept='image/*,video/*' onChange={handleFileChange}/>*/}
+                        {/*                        <label htmlFor='file'>*/}
+                        {/*                            <img src={attachmentIcon} alt=''/>*/}
+                        {/*                        </label>*/}
+                        {/*                    </div>*/}
+                        {/*                }*/}
+                        {/*            </div>*/}
+                        {/*            <Select*/}
+                        {/*                options={options}*/}
+                        {/*                placeholder="Filter by Region"*/}
+                        {/*                isClearable={false}*/}
+                        {/*                isSearchable={false}*/}
+                        {/*                value={option}*/}
+                        {/*                onChange={(option) => setOption(option)}*/}
+                        {/*                className={styles.form_select}*/}
+                        {/*                styles={{*/}
+                        {/*                    control: (baseStyles, state) => ({*/}
+                        {/*                        ...baseStyles,*/}
+                        {/*                        border: "none",*/}
+                        {/*                        // boxShadow: "none",*/}
+                        {/*                        fontFamily: '"Saira", "sans-serif"',*/}
+                        {/*                        fontSize: "20px",*/}
+                        {/*                        fontWeight: "500",*/}
+                        {/*                        lineHeight: "calc(24 / 20)"*/}
+                        {/*                    }),*/}
+                        {/*                    indicatorSeparator: () => ({*/}
+                        {/*                        display: "none"*/}
+                        {/*                    })*/}
+                        {/*                }}*/}
+                        {/*            />*/}
+                        {/*        </div>*/}
+                        {/*    </form> : null*/}
+                        {/*}*/}
                         {sortedVideoPosts.length ? sortedVideoPosts.map((post, index) => (
                             <Post
                                 key={post.id}
@@ -299,56 +299,56 @@ const Wall = ({type, posts, editable = true}: IWall) => {
                 )}
                 {feedType === 3 && (
                     <div className={styles.wall__feed}>
-                        { type === "post" || (type ==="profile" && editable) ?
-                            <form className={styles.wall__feedForm} onSubmit={onSubmit} >
-                                <div className={styles.textarea_wrapper} >
-                                    <textarea name="description" id="" placeholder="Поделитесь с другими своими успехами и новостями!"></textarea>
-                                    <Button className={styles.submit_button}>Отправить</Button>
-                                </div>
-                                <div className={styles.feenFormFooter} >
-                                    <div className={styles.wall__feedFormFile}>
-                                        {files.map(file => (
-                                            <div key={file.id} className={styles.wall__feedFormFileDoc}>
-                                                <span>{file.file?.name}</span>
-                                                <button type='button' onClick={() => deleteFile(file.id)}></button>
-                                            </div>
-                                        ))}
-                                        {
-                                            files.length <= MAX_COUNT_FILES_IN_FORM &&
-                                            <div className={styles.wall__feedFormFileField}>
-                                                <input type='file' id='file' accept='image/*,video/*' onChange={handleFileChange}/>
-                                                <label htmlFor='file'>
-                                                    <img src={attachmentIcon} alt=''/>
-                                                </label>
-                                            </div>
-                                        }
-                                    </div>
-                                    <Select
-                                        options={options}
-                                        placeholder="Filter by Region"
-                                        isClearable={false}
-                                        isSearchable={false}
-                                        value={option}
-                                        onChange={(option) => setOption(option)}
-                                        className={styles.form_select}
-                                        styles={{
-                                            control: (baseStyles, state) => ({
-                                                ...baseStyles,
-                                                border: "none",
-                                                // boxShadow: "none",
-                                                fontFamily: '"Saira", "sans-serif"',
-                                                fontSize: "20px",
-                                                fontWeight: "500",
-                                                lineHeight: "calc(24 / 20)"
-                                            }),
-                                            indicatorSeparator: () => ({
-                                                display: "none"
-                                            })
-                                        }}
-                                    />
-                                </div>
-                            </form> : null
-                        }
+                        {/*{ type === "post" || (type ==="profile" && editable) ?*/}
+                        {/*    <form className={styles.wall__feedForm} onSubmit={onSubmit} >*/}
+                        {/*        <div className={styles.textarea_wrapper} >*/}
+                        {/*            <textarea name="description" id="" placeholder="Поделитесь с другими своими успехами и новостями!"></textarea>*/}
+                        {/*            <Button className={styles.submit_button}>Отправить</Button>*/}
+                        {/*        </div>*/}
+                        {/*        <div className={styles.feenFormFooter} >*/}
+                        {/*            <div className={styles.wall__feedFormFile}>*/}
+                        {/*                {files.map(file => (*/}
+                        {/*                    <div key={file.id} className={styles.wall__feedFormFileDoc}>*/}
+                        {/*                        <span>{file.file?.name}</span>*/}
+                        {/*                        <button type='button' onClick={() => deleteFile(file.id)}></button>*/}
+                        {/*                    </div>*/}
+                        {/*                ))}*/}
+                        {/*                {*/}
+                        {/*                    files.length <= MAX_COUNT_FILES_IN_FORM &&*/}
+                        {/*                    <div className={styles.wall__feedFormFileField}>*/}
+                        {/*                        <input type='file' id='file' accept='image/*,video/*' onChange={handleFileChange}/>*/}
+                        {/*                        <label htmlFor='file'>*/}
+                        {/*                            <img src={attachmentIcon} alt=''/>*/}
+                        {/*                        </label>*/}
+                        {/*                    </div>*/}
+                        {/*                }*/}
+                        {/*            </div>*/}
+                        {/*            <Select*/}
+                        {/*                options={options}*/}
+                        {/*                placeholder="Filter by Region"*/}
+                        {/*                isClearable={false}*/}
+                        {/*                isSearchable={false}*/}
+                        {/*                value={option}*/}
+                        {/*                onChange={(option) => setOption(option)}*/}
+                        {/*                className={styles.form_select}*/}
+                        {/*                styles={{*/}
+                        {/*                    control: (baseStyles, state) => ({*/}
+                        {/*                        ...baseStyles,*/}
+                        {/*                        border: "none",*/}
+                        {/*                        // boxShadow: "none",*/}
+                        {/*                        fontFamily: '"Saira", "sans-serif"',*/}
+                        {/*                        fontSize: "20px",*/}
+                        {/*                        fontWeight: "500",*/}
+                        {/*                        lineHeight: "calc(24 / 20)"*/}
+                        {/*                    }),*/}
+                        {/*                    indicatorSeparator: () => ({*/}
+                        {/*                        display: "none"*/}
+                        {/*                    })*/}
+                        {/*                }}*/}
+                        {/*            />*/}
+                        {/*        </div>*/}
+                        {/*    </form> : null*/}
+                        {/*}*/}
                         {sortedImagePosts.length ? sortedImagePosts.map((post, index) => (
                             <Post
                                 key={post.id}

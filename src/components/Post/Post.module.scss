@@ -128,11 +128,14 @@
         gap: 8px;
         padding: 12px 20px;
         cursor: pointer;
-        span {
+        &Label {
             font-family: "Saira", "sans-serif";
             font-size: 20px;
             font-weight: 500;
             line-height: calc(24 / 20);
+            &_liked {
+                color: #E11F1F;
+            }
         }
         &_views {
             background-color: transparent
