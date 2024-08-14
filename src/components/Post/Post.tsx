@@ -19,7 +19,7 @@ interface ICard {
     id: number;
     name: string;
     avatar?: string;
-    source: string[];
+    source?: string[];
     tags?: string;
     comments?: IComment[]
     children: React.ReactNode;
@@ -96,7 +96,7 @@ const Post = ({ id, name, avatar, source, tags, comments, children, likes, liked
                         }
                     </div>
                     <div className={styles.post__title}>{name}</div>
-                    <div className={styles.post__createdAt}>{formatDate(post.updated_at)}</div>
+                    <div className={styles.post__createdAt}>{formatDate(post.created_at)}</div>
                 </div>
                 <DropdownMenu />
             </div>
@@ -106,7 +106,7 @@ const Post = ({ id, name, avatar, source, tags, comments, children, likes, liked
                 </div>
                 <div className={styles.post__tags}>{tags}</div>
                 <div className={styles.post__media}>
-                    {source.map((media, index) => {
+                    {source?.map((media, index) => {
                         const type = determineMediaType(media);
                         if (!type) return null;
                         return (
