@@ -5,7 +5,7 @@ export type TEditUserRequest = {
   email: string
   name: string
   surname: string
-  age: number
+  birthdate: number
   password: string
 }
 export type TEditUserResponse = {

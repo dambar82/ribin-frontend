@@ -27,12 +27,14 @@ const SettingsPage = () => {
 
     const { user, status } = useSelector((state: RootState) => state.user);
 
+    console.log(user);
+    
     const dispatch = useDispatch<AppDispatch>();
 
     const [name, setName] = useState(user.name || '')
     const [surname, setSurname] = useState(user.surname || '')
     const [email, setEmail] = useState(user.email || '')
-    const [startDate, setStartDate] = useState<Date | null>(user.age ? new Date(user.age) : null)
+    const [startDate, setStartDate] = useState<Date | null>(user.birthdate ? new Date(user.birthdate) : null)
     const [password, setPassword] = useState('')
     const [copyPassword, setCopyPassword] = useState('')
     
@@ -59,7 +61,7 @@ const SettingsPage = () => {
         surname,
         email,
         password,
-        age: startDate.getTime()
+        birthdate: startDate.getTime()
       }))
       .then(() => {
         alert('Настройки сохранены')

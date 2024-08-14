@@ -1,8 +1,8 @@
 import React, {useEffect} from 'react';
 import { BrowserRouter, Navigate, Route, Routes, useNavigate } from "react-router-dom";
 import Contests from "./pages/Contests/Contests";
-import {useSelector} from "react-redux";
-import {RootState} from "./store/store";
+import {useDispatch, useSelector} from "react-redux";
+import {AppDispatch, RootState} from "./store/store";
 import AuthLayout from "./components/layouts/AuthLayout";
 import UnauthLayout from "./components/layouts/UnauthLayout";
 import Login from "./pages/Login";
@@ -41,6 +41,7 @@ import UserProfilePage from './pages/ProfilePage/UserProfilePage';
 import FeedbackPage from './pages/FeedbackPage/FeedbackPage';
 import SettingsPage from './pages/SettingsPage/SettingsPage';
 import SingleEventPage from './pages/SingleEventPage/SingleEventPage';
+import { checkAuth } from './store/userSlice'
 
 
 export function parseAndFormatDate(input) {
@@ -86,6 +87,8 @@ function App() {
 
     const { user } = useSelector((state: RootState) => state.user);
 
+    const dispatch = useDispatch<AppDispatch>()
+
     const publicRoutes = [
         { path: '/login', element: <Login />, layout: UnauthLayout },
         { path: '/register', element: <Register />, layout: UnauthLayout },
@@ -122,6 +125,10 @@ function App() {
         { path: '/events/event', element: <SingleEventPage /> },
         { path: '/clubs/events/new', element: <CreateEventPage /> },
     ];
+
+    useEffect(() => {
+      dispatch(checkAuth())
+    }, [])
 
     return (
         <BrowserRouter>
