@@ -39,7 +39,7 @@ const initialState: PostState = {
     likedPosts: [],
 };
 
-const token = JSON.parse(localStorage.getItem('user')).token;
+const token = JSON.parse(localStorage.getItem('user'))?.token;
 
 export const fetchPosts = createAsyncThunk('post/fetchPosts', async () => {
     const response = await axios.get('https://api-rubin.multfilm.tatar/api/posts');
