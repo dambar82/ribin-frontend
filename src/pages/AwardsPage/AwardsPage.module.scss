@@ -7,6 +7,11 @@
         background-size: contain;
         border-radius: 50px;
         padding: 70px;
+
+        @media (max-width: 1440px) {
+          padding: 30px;
+        }
+
         & > div > div {
             flex: 0 0 calc((100% - 20px) / 2);
         }
@@ -15,6 +20,10 @@
         display: flex;
         gap: 20px;
         flex-wrap: wrap;
+
+        @media (max-width: 768px) {
+          display: grid;
+        }
     }
 }
 
@@ -30,6 +39,11 @@
     position: relative;
     height: 350px;
     overflow: hidden;
+
+    @media (max-width: 1440px) {
+      padding: 24px;      
+    }
+
     &::after {
         background-color: rgba($color: #91172C, $alpha: 0.5);
         content: "";
@@ -61,16 +75,30 @@
         font-size: 20px;
         font-weight: 500;
         line-height: calc(24 / 20);
+
+        @media (max-width: 1440px) {
+          font-size: 18px;
+        }
     }
     &__name {
         font-size: 32px;
         font-weight: 500;
         line-height: calc(38 / 32);
         max-width: 425px;
+
+        @media (max-width: 1440px) {
+          font-size: 28px;
+        }
     }
     &__cup {
         width: 80px;
         height: 100px;
+
+        @media (max-width: 1440px) {
+          width: max-content;
+          height: 54px; 
+        }
+
         img {
             width: 100%;
             height: 100%;

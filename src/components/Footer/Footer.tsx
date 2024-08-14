@@ -8,6 +8,7 @@ import tg from '../../images/svg/tg.svg';
 import youtube from '../../images/svg/youtube.svg';
 import tiktok from '../../images/svg/tiktok.svg';
 import twitter from '../../images/svg/twitter.svg';
+import { classNames } from '../../shared/utils'
 
 interface IMenuLink {
     title: string;
@@ -51,9 +52,8 @@ const menuLinks: IMenuLink[] = [
 
 const Footer = () => {
     return (
-        <div className='content'>
             <div className={styles.footer}>
-                <div className={`${styles.footer_whitePart} justify_content_SB`}>
+                <div className={`${styles.footer_whitePart} justify_content_SB content`}>
                     <div className={styles.footer_logos}>
                         <img src={ruby} alt=""/>
                         <img src={rubyLogo} alt=""/>
@@ -117,21 +117,23 @@ const Footer = () => {
                         </div>
                     </div>
                 </div>
-                <div className={`${styles.footer_redPart} justify_content_SB`}>
-                    <p>
-                        © 2024 Детский футбольный клуб "Рубин".  <br/>Все права защищены.
-                    </p>
-                    <div className={styles.footer_redPart_right}>
-                        <p>
-                            Политика конфиденциальности
-                        </p>
-                        <p>
-                            Условия использования
-                        </p>
+                <div className={`${styles.footer_redPart} `}>
+                    <div className={classNames('content', 'justify_content_SB')} >
+                      <p>
+                          © 2024 Детский футбольный клуб "Рубин".  <br/>Все права защищены.
+                      </p>
+                      <div className={styles.footer_redPart_right}>
+                          <p>
+                              Политика конфиденциальности
+                          </p>
+                          <p>
+                              Условия использования
+                          </p>
+                      </div>
                     </div>
                 </div>
             </div>
-        </div>
+
     );
 };
 

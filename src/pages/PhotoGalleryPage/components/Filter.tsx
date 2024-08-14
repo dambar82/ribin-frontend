@@ -38,7 +38,7 @@ export const Filter = ({ filters, setFilters }: FilterProps) => {
   }
 
   return (
-    <div className={`${c.photogallery__filter} ${dropdownOpen ? "filter filter--open" : "filter"}`} style={{ marginLeft: "auto" }}>
+    <div className={`${c.photogallery_filter} ${dropdownOpen ? "filter filter--open" : "filter"}`} style={{ marginLeft: "auto" }}>
         <button className='filter__button' type="button" onClick={() => setDropdownOpen(prevState => !prevState)}>
             <img src={filter} alt=''/>
         </button>
