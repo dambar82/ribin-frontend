@@ -6,30 +6,34 @@ import Wall from '../../components/Wall/Wall';
 import {useSelector} from "react-redux";
 import {RootState} from "../../store/store";
 import {useEffect, useState} from "react";
-import {fetchPosts} from "../../store/postSlice";
+import {fetchPostsByUserId} from "../../store/postSlice";
 import {useAppDispatch} from "../../store/hooks";
 
 const ProfilePage = () => {
     const dispatch = useAppDispatch();
     const { posts, status, error } = useSelector((state: RootState) => state.post);
     const user = useSelector((state: RootState) => state.user);
-    const [filteredPosts, setFilteredPosts] = useState([]);
 
     useEffect(() => {
         if (status === 'idle') {
-            dispatch(fetchPosts());
+            if (user) {
+                console.log('DISPATCH', user.user)
+                // @ts-ignore
+                dispatch(fetchPostsByUserId({userId: user.user.id}));
+            }
         }
-    }, [status, dispatch]);
+    }, [status, dispatch, user]);
 
-    // useEffect(() => {
-    //     if (posts) {
-    //         setFilteredPosts(posts.filter(post => post.client.id === user.id));
-    //     }
-    // }, [posts])
+    if (status === 'loading') {
+        return <p>Loading...</p>;
+    }
+
+    if (status === 'failed') {
+        return <p>{error}</p>;
+    }
 
     return (
         <section className="page">
-
             <section className="big-card">
                 <div className="big-card__cover">
                     <img src="/images/profile-cover.png" alt="" />
@@ -79,7 +83,7 @@ const ProfilePage = () => {
                 </div>
             </section>
             <section className="section">
-                {/*<Wall type="profile" posts={null}/>*/}
+                {/*<Wall type="profile" posts={posts}/>*/}
             </section>
 
         </section>

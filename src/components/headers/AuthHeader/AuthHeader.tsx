@@ -46,7 +46,10 @@ const AuthHeader = () => {
   const clubActivitiesSubMenuRef = useRef(null);
   const menuRef = useRef(null);
   
-  
+  useEffect(() => {
+      console.log(user)
+  }, [user])
+
   const dispatch = useAppDispatch();
 
     const handleLogout = () => {

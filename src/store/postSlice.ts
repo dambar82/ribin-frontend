@@ -46,8 +46,19 @@ export const fetchPosts = createAsyncThunk('post/fetchPosts', async () => {
     return response.data as PostAnswer;
 })
 
+export const fetchPostsByUserId = createAsyncThunk('post/fetchPostsByUserId', async ({userId} : { userId: number }) => {
+    console.log(userId)
+    const response = await axios.get(`https://api-rubin.multfilm.tatar/api/reposts/${userId}`,
+        {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        }
+    )
+    return response.data as PostAnswer;
+})
+
 export const createPost = createAsyncThunk('post/createPost', async (formData: FormData) => {
-    console.log(token);
     const response = await axios.post('https://api-rubin.multfilm.tatar/api/posts', formData, {
         headers: {
             'Content-Type': 'multipart/form-data',
@@ -106,9 +117,16 @@ const postSlice = createSlice({
             .addCase(fetchPosts.pending, (state) => {
                 state.status = 'loading';
             })
+            .addCase(fetchPostsByUserId.pending, (state) => {
+                state.status = 'loading';
+            })
             .addCase(fetchPosts.fulfilled, (state, action: PayloadAction<PostAnswer>) => {
-                console.log(state)
                 // @ts-ignore
+                state.posts = action.payload;
+                state.status = 'succeeded';
+                state.error = null;
+            })
+            .addCase(fetchPostsByUserId.fulfilled, (state, action: PayloadAction<PostAnswer>) => {
                 state.posts = action.payload;
                 console.log(action.payload);
                 state.status = 'succeeded';
@@ -117,7 +135,11 @@ const postSlice = createSlice({
             .addCase(fetchPosts.rejected, (state, action) => {
                 state.status = 'failed';
                 state.error = action.error.message || null;
-            });
+            })
+            .addCase(fetchPostsByUserId.rejected, (state, action) => {
+                state.status = 'failed';
+                state.error = action.error.message || null;
+            })
     }
 });
 

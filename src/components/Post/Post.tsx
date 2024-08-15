@@ -5,7 +5,7 @@ import likeIconLiked from '../../images/svg/likes_red.svg'
 import commentIcon from '../../images/svg/comments.svg'
 import sharedIcon from '../../images/svg/shared.svg'
 import viewIcon from '../../images/svg/views.svg'
-
+import Comment from '../Comment/Comment';
 import DropdownMenu from '../DropdownMenu/DropdownMenu'
 import {IComment} from "../../types";
 import {useSelector} from "react-redux";
@@ -15,6 +15,7 @@ import {RootState} from "../../store/store";
 import {useEffect, useState} from "react";
 import 'react-image-lightbox/style.css'; // Импорт стилей для lightbox
 import Lightbox from 'react-image-lightbox';
+import {Button} from "../../shared/UI";
 
 interface ICard {
     id: number;
@@ -66,15 +67,20 @@ const Post = ({ id, name, avatar, source, tags, comments, children, likes, liked
     const dispatch = useAppDispatch();
     const [isOpen, setIsOpen] = useState(false);
     const [photoIndex, setPhotoIndex] = useState(0);
+    const [showAllComments, setShowAllComments] = useState(false);
 
     const post = useSelector((state: RootState) => state.post.posts[type].find(post => post.id === id));
     const user = useSelector((state: RootState) => state.user);
 
     const [isLiked, setIsLiked] = useState(liked_by.includes(user.user.id));
-    const [error, setError] = useState(null);
+
+    const onSubmit = async () => {
+
+    }
 
     useEffect(() => {
         if (post) {
+            console.log(post);
             setIsLiked(post.liked_by.includes(user.user.id));
         }
     }, [post, user.user.id]);
@@ -88,6 +94,12 @@ const Post = ({ id, name, avatar, source, tags, comments, children, likes, liked
                 })
         }
     };
+
+    const toggleComments = () => {
+        setShowAllComments(!showAllComments);
+    };
+
+    const commentsToDisplay = showAllComments ? comments : comments.slice(-3);
 
     const openLightbox = (index) => {
         setPhotoIndex(index);
@@ -175,15 +187,28 @@ const Post = ({ id, name, avatar, source, tags, comments, children, likes, liked
             { comments.length ? (
                 <div className={styles.post__comments}>
                 <ul className={styles.post__commentsList}>
-                    {/*{comments.map((comment, index) => (*/}
-                    {/*    <li key={comment.id}>*/}
-                    {/*        <Comment key={comment.id} author={comment.author} avatar={comment.avatar} />*/}
-                    {/*    </li>*/}
-                    {/*))}*/}
+                    {commentsToDisplay.map((comment, index) => (
+                        <li key={comment.id}>
+                            <Comment key={comment.id} author={post.client} text={comment.text}/>
+                        </li>
+                    ))}
                 </ul>
-                <button className={styles.post__commentsMore} type="button">Показать больше комментариев(<span>119</span>)</button>
-                <form action="#" method="POST" className={styles.post__commentsForm}>
-                    <textarea name="" id="" placeholder='Ваш Комментарий...' cols={9}></textarea>
+                    {
+                        comments.length > 3 && (
+                            <button
+                                className={styles.post__commentsMore}
+                                type="button"
+                                onClick={toggleComments}
+                            >
+                                {showAllComments ? <span>Скрыть комментарии</span> : <span>Показать больше комментариев ({comments.length - 2})</span>}
+                            </button>
+                        )
+                    }
+                <form onSubmit={onSubmit} className={styles.post__commentsForm}>
+                    <div className={styles.textarea_wrapper} >
+                        <textarea name="" id="" placeholder='Ваш Комментарий...' cols={9}></textarea>
+                        <Button className={styles.submit_button}>Отправить</Button>
+                    </div>
                 </form>
             </div>
             ) : null}

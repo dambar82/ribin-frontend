@@ -36,6 +36,7 @@ const clubsSlice = createSlice({
             })
             .addCase(fetchClubs.fulfilled, (state, action: PayloadAction<Clubs[]>) => {
                 state.clubs = action.payload;
+                console.log('clubs', action.payload);
                 state.status = 'succeeded';
                 state.error = null;
             })

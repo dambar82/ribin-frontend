@@ -64,16 +64,6 @@ export const checkAuth = createAsyncThunk('user/checkAuth', async () => {
   return response.data.data
 });
 
-export const getCurrentUser = createAsyncThunk('user/getCurrentUser', async () => {
-    const response = await axios.get('https://api-rubin.multfilm.tatar/api/clients/1',
-        {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        }
-    )
-})
-
 export const editUser = createAsyncThunk('user/editUser', async ( sendObj: TEditUserRequest ) => {
   const response = await axios.put<TEditUserResponse>(`https://api-rubin.multfilm.tatar/api/clients/${sendObj.id}`, sendObj, {
     headers: {
