@@ -15,13 +15,19 @@ const initialState: ClubsState = {
     error: null,
 };
 
+const token = JSON.parse(localStorage.getItem('user'))?.token;
+
 export const fetchClubs = createAsyncThunk('clubs/fetchClubs', async () => {
   const response = await axios.get('https://api-rubin.multfilm.tatar/api/club');
   return response.data.data as Clubs[];
 });
 
 export const createClub = createAsyncThunk('clubs/createClubs', async ( sendObj: TCreateClubRequest ) => {
-  const response = await axios.post<TCreateClubResponse>('https://api-rubin.multfilm.tatar/api/club/create', sendObj);
+  const response = await axios.post<TCreateClubResponse>('https://api-rubin.multfilm.tatar/api/club', sendObj, {
+      headers: {
+          'Authorization': `Bearer ${token}`
+      }
+  });
   return response.data
 });
 

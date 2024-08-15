@@ -41,6 +41,10 @@ const initialState: PostState = {
 
 const token = JSON.parse(localStorage.getItem('user'))?.token;
 
+export const createComment = createAsyncThunk('post/createComment', async () => {
+    await axios.post('https://rubin/api/club/1/comments')
+})
+
 export const fetchPosts = createAsyncThunk('post/fetchPosts', async () => {
     const response = await axios.get('https://api-rubin.multfilm.tatar/api/posts');
     return response.data as PostAnswer;
