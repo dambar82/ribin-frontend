@@ -80,7 +80,6 @@ const Post = ({ id, name, avatar, source, tags, comments, children, likes, liked
 
     useEffect(() => {
         if (post) {
-            console.log(post);
             setIsLiked(post.liked_by.includes(user.user.id));
         }
     }, [post, user.user.id]);

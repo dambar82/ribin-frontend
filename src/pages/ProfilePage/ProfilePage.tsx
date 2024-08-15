@@ -83,7 +83,7 @@ const ProfilePage = () => {
                 </div>
             </section>
             <section className="section">
-                {/*<Wall type="profile" posts={posts}/>*/}
+                <Wall type="profile" posts={posts}/>
             </section>
 
         </section>
