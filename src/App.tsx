@@ -44,6 +44,22 @@ import SingleEventPage from './pages/SingleEventPage/SingleEventPage';
 import { checkAuth } from './store/userSlice'
 
 
+export function postFormatDate(isoString) {
+    const date = new Date(isoString);
+
+    // Получаем компоненты даты
+    const day = String(date.getDate()).padStart(2, '0'); // День
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Месяц (месяцы начинаются с 0)
+    const year = date.getFullYear(); // Год
+
+    // Получаем компоненты времени
+    const hours = String(date.getHours()).padStart(2, '0'); // Часы
+    const minutes = String(date.getMinutes()).padStart(2, '0'); // Минуты
+
+    // Форматируем строку
+    return `${day}.${month}.${year} I ${hours}:${minutes}`;
+}
+
 export function parseAndFormatDate(input) {
     // Разбиваем строку на части
     const parts = input.match(/(\d{2})\.(\d{2})\.(\d{4}) (\d{2}):(\d{2}):(\d{2})/);

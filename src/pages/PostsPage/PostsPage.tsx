@@ -12,14 +12,8 @@ const PostsPage = () => {
     const { posts, status, error } = useSelector((state: RootState) => state.post);
 
     useEffect(() => {
-        if (status === 'idle') {
-            dispatch(fetchPosts());
-        }
-    }, [status, dispatch]);
-
-    useEffect(() => {
-        console.log(posts);
-    }, [posts])
+        dispatch(fetchPosts());
+    }, [dispatch]);
 
     if (status === 'loading') {
         return <p>Loading...</p>;

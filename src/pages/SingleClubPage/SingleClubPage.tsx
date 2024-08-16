@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import {useEffect, useState} from 'react'
 import styles from './SingleClubPage.module.scss';
 
 import geoIcon from '../../images/svg/geo.svg'
@@ -6,10 +6,20 @@ import geoIcon from '../../images/svg/geo.svg'
 import Wall from '../../components/Wall/Wall';
 import Row from '../../components/Row/Row';
 import Card from '../../components/Card/Card';
+import {useSelector} from "react-redux";
+import {RootState} from "../../store/store";
+import {fetchPostsByClubId, fetchPostsByUserId} from "../../store/postSlice";
+import {useAppDispatch} from "../../store/hooks";
 
 const SingleClubPage = () => {
+    const dispatch = useAppDispatch();
+    const { posts, status, error } = useSelector((state: RootState) => state.post)
     const [feedType, setFeedType] = useState(0)
     const [sortType, setSortType] = useState(0)
+
+    useEffect(() => {
+            dispatch(fetchPostsByClubId({clubId: 1}));
+    }, [dispatch]);
 
     return (
         <div className='page'>
@@ -96,7 +106,7 @@ const SingleClubPage = () => {
                 <div className={`section__body`}>
                     <Wall
                         type="club"
-                        posts={null}
+                        posts={posts}
                     />
                 </div>
             </section>

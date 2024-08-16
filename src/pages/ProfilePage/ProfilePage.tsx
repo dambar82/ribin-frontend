@@ -15,14 +15,10 @@ const ProfilePage = () => {
     const user = useSelector((state: RootState) => state.user);
 
     useEffect(() => {
-        if (status === 'idle') {
-            if (user) {
-                console.log('DISPATCH', user.user)
-                // @ts-ignore
-                dispatch(fetchPostsByUserId({userId: user.user.id}));
-            }
+        if (user) {
+            dispatch(fetchPostsByUserId({userId: user.user.id}));
         }
-    }, [status, dispatch, user]);
+    }, [dispatch, user]);
 
     if (status === 'loading') {
         return <p>Loading...</p>;
