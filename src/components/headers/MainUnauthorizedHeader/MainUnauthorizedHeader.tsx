@@ -68,10 +68,10 @@ const MainUnauthorizedHeader = () => {
                             </Link>
                         ))
                     }
-                    <div className={styles.menuSearchbar}>
+                    {/* <div className={styles.menuSearchbar}>
                         <input type="text" placeholder="Поиск"/>
                         <img src={loupePic} alt=""/>
-                    </div>
+                    </div> */}
                 </div>
             </div>
         </div>
