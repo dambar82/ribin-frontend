@@ -85,7 +85,7 @@ export const formatDate = (dateStr: string) => {
 
 function App() {
 
-    const { user } = useSelector((state: RootState) => state.user);
+    const user = useSelector((state: RootState) => state.user.user);
 
     const dispatch = useDispatch<AppDispatch>()
 

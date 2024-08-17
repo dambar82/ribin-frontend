@@ -33,15 +33,23 @@ interface UserState {
     error: string | null;
 }
 
-const localStorageUser = JSON.parse(localStorage.getItem('user') || '{}');
-
 const initialState: UserState = {
     user: null,
     status: 'idle',
     error: null,
 };
 
-const token = JSON.parse(localStorage.getItem('user'))?.token;
+const $api = axios.create({
+  baseURL: 'https://api-rubin.multfilm.tatar'
+})
+
+$api.interceptors.request.use(config => {
+  const token = JSON.parse(localStorage.getItem('token') || '')
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`
+  }
+  return config
+})
 
 export const loginUser = createAsyncThunk('user/loginUser', async ({ email, password }: { email: string; password: string }) => {
     const response = await axios.post<TLoginUserResponse>('https://api-rubin.multfilm.tatar/api/login', { email, password });
@@ -56,20 +64,12 @@ export const registerUser = createAsyncThunk('user/registerUser', async ({ email
 export const checkAuth = createAsyncThunk('user/checkAuth', async () => {
   const user_id = JSON.parse(localStorage.getItem('user_id') || '')
   if ( !user_id ) return null
-  const response = await axios.get<TCheckAuthResponse>(`https://api-rubin.multfilm.tatar/api/clients/${user_id}`, {
-    headers: {
-      'Authorization': `Bearer ${JSON.parse(localStorage.getItem('token') || '')}`,
-    },
-});
+  const response = await $api.get<TCheckAuthResponse>(`/api/clients/${user_id}`);
   return response.data.data
 });
 
 export const editUser = createAsyncThunk('user/editUser', async ( sendObj: TEditUserRequest ) => {
-  const response = await axios.put<TEditUserResponse>(`https://api-rubin.multfilm.tatar/api/clients/${sendObj.id}`, sendObj, {
-    headers: {
-        'Authorization': `Bearer ${JSON.parse(localStorage.getItem('token') || '')}`,
-    },
-});
+  const response = await $api.put<TEditUserResponse>(`/api/clients/${sendObj.id}`, sendObj);
   return response.data.data
 });
 

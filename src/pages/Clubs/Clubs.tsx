@@ -49,6 +49,7 @@ const Clubs = () => {
                         {clubs.slice(0, 3).map((club, index) => (
                             <Link to={`/clubs/${index}`} key={club.name + index}>
                                 <ClubCard
+                                    id={club.id}
                                     name={club.name}
                                     image={club.caption}
                                     desc={club.short_description}
@@ -85,6 +86,7 @@ const Clubs = () => {
                     <Grid totalItems={clubs.length}>
                         {clubs.map((club, index) => (
                             <ClubCard
+                                id={club.id}
                                 key={club.name + index}
                                 name={club.name}
                                 image={club.caption}

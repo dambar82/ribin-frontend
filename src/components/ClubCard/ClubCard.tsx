@@ -1,7 +1,9 @@
 import styles from './ClubCard.module.scss';
 import participantsIcon from '../../images/svg/participants.svg';
+import { Link } from 'react-router-dom'
 
 interface IClubCard {
+  id: number
     name: string;
     image: string;
     desc: string;
@@ -9,7 +11,7 @@ interface IClubCard {
 }
 
 
-const ClubCard = ({ name, image, desc, participants }: IClubCard) => {
+const ClubCard = ({ id, name, image, desc, participants }: IClubCard) => {
     // {title, image, short_description, participants}: IClubCard
     return (
         <div className={styles.card}>
@@ -29,9 +31,9 @@ const ClubCard = ({ name, image, desc, participants }: IClubCard) => {
                 <h3 className={styles.card__title}>{ name }</h3>
                 <p className={styles.card__desc}>{ desc }</p>
             </div>
-            <button className={`${styles.card__button} button button--black`} type="button">
+            <Link to={`/clubs/${id}`} className={`${styles.card__button} button button--black`} type="button">
                 <span>Вступить в клуб</span>
-            </button>
+            </Link>
         </div>
     );
 };

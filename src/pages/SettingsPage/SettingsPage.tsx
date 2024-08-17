@@ -27,8 +27,6 @@ const SettingsPage = () => {
 
     const { user, status } = useSelector((state: RootState) => state.user);
 
-    console.log(user);
-    
     const dispatch = useDispatch<AppDispatch>();
 
     const [name, setName] = useState(user.name || '')
@@ -61,7 +59,7 @@ const SettingsPage = () => {
         surname,
         email,
         password,
-        birthdate: startDate.getTime()
+        birthdate: startDate?.getTime() || null
       }))
       .then(() => {
         alert('Настройки сохранены')

@@ -201,7 +201,7 @@ const UnauthorizedMain: React.FC = () => {
                     </div>
                 </div> */}
             </section>
-            <div className={styles.contestZone}>
+            <div className={`section section--big section--rounded ${styles.contestZone}`}>
                 <div className={styles.contestZone_header}>
                     <h2>
                         Конкурсы

@@ -1,4 +1,5 @@
 import { User } from "../../store/userSlice"
+import { Clubs } from "../../types"
 
 export type TEditUserRequest = {
   id: number
@@ -10,12 +11,4 @@ export type TEditUserRequest = {
 }
 export type TEditUserResponse = {
   data: User
-}
-
-export type TCreateClubRequest = {
-  name: string
-  description: string
-}
-export type TCreateClubResponse = {
-  
 }

@@ -1,4 +1,5 @@
 import exp from "constants";
+import { IPost } from "./store/postSlice"
 
 export interface Client {
     rubick: number;
@@ -81,6 +82,7 @@ export interface NewsBack {
 }
 
 export interface Clubs {
+  id: number
     name: string;
     caption: string;
     short_description: string;
@@ -90,6 +92,7 @@ export interface Clubs {
     clients_count: number;
     clients: any[];
     events: any[];
+    posts: IPost[]
 }
 
 export interface TrainingVideo {

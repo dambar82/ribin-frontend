@@ -39,7 +39,7 @@ const initialState: PostState = {
     likedPosts: [],
 };
 
-const token = JSON.parse(localStorage.getItem('user'))?.token;
+const token = JSON.parse(localStorage.getItem('token') || '')
 
 export const createComment = createAsyncThunk('post/createComment', async () => {
     await axios.post('https://rubin/api/club/1/comments')

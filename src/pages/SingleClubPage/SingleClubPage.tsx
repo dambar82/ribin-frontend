@@ -1,32 +1,46 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import styles from './SingleClubPage.module.scss';
+import { useAppDispatch } from '../../store/hooks'
+import { getClub } from '../../store/clubsSlice'
 
 import geoIcon from '../../images/svg/geo.svg'
 
 import Wall from '../../components/Wall/Wall';
 import Row from '../../components/Row/Row';
 import Card from '../../components/Card/Card';
+import { useParams } from 'react-router-dom'
+import { useSelector } from 'react-redux'
+import { RootState } from '../../store/store'
 
 const SingleClubPage = () => {
     const [feedType, setFeedType] = useState(0)
     const [sortType, setSortType] = useState(0)
 
+    const club = useSelector((state: RootState) => state.clubs.club)
+
+    const params = useParams()
+    const dispatch = useAppDispatch();
+
+    useEffect(() => {
+      dispatch(getClub({ id: params.id }))
+    }, [])
+
     return (
         <div className='page'>
             <section className={`section ${styles.clubInfo}`}>
                 <div className={styles.clubInfo__image}>
-                    <img src="/images/club-cover.png" alt="" />
+                    <img src={club.caption} alt="" />
                 </div>
                 <div className={styles.clubInfo__content}>
                     <div className={styles.clubInfo__avatar}>
                         <div>
-                            <img src="/images/club-avatar.png" alt="" />
+                            <img src={club.caption} alt="" />
                         </div>
                     </div>
                     <div className={styles.clubInfo__info}>
                         <div className={styles.clubInfo__infoHeader}>
                             <div>
-                                <h1 className={styles.clubInfo__title}>Фитнес-клуб "Футбол и здоровье"</h1>
+                                <h1 className={styles.clubInfo__title}>{club.name}</h1>
                                 <div className={styles.clubInfo__level}>Уровень 200</div>
                             </div>
                             <button className="button button--main" type="button">
@@ -34,7 +48,7 @@ const SingleClubPage = () => {
                             </button>
                         </div>
                         <div className={styles.clubInfo__infoDesc}>
-                            <p>Клуб для тех, кто хочет улучшить свою физическую форму через футбольные тренировки. Включает кардиотренировки, специальные упражнения и футбольные игры. Также проводятся занятия по правильному питанию и общему укреплению здоровья.</p>
+                            <p>{club.description}</p>
                         </div>
                         <div className={styles.clubInfo__infoFooter}>
                             <div className={styles.clubInfo__author + " " + styles.author}>

@@ -351,6 +351,7 @@ const AuthorizedMain: React.FC = () => {
                                         <SwiperSlide key={club.name + index}>
                                             <Link to={`/clubs/${index}`}>
                                                 <ClubCard
+                                                  id={club.id}
                                                     name={club.name}
                                                     image={club.caption}
                                                     desc={club.short_description}
