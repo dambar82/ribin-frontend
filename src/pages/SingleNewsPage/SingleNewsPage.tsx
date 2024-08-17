@@ -1,6 +1,6 @@
 import {useEffect} from 'react'
 import {useDispatch, useSelector} from "react-redux";
-import { Link } from 'react-router-dom';
+import {Link, useParams} from 'react-router-dom';
 import {AppDispatch, RootState} from "../../store/store";
 
 import styles from "./SingleNewsPage.module.scss"
@@ -25,11 +25,26 @@ import 'swiper/css/navigation';
 import {fetchNewsAndNewsBack} from "../../store/newsSlice";
 import { fetchPhotoGalleryById } from '../../store/photoGallerySlice';
 
+function formatDate(dateString) {
+    const [year, month, day] = dateString.split("-");
+    return `${day}.${month}.${year}`;
+}
+
 const SingleNewsPage = () => {
 
     const dispatch = useDispatch<AppDispatch>();
 
+    const { id } = useParams();
+
     const { status, news } = useSelector((state: RootState) => state.news);
+
+    const singleNews = news.find(item => item.id.toString() === id);
+
+    useEffect(() => {
+        console.log(singleNews);
+        console.log(id);
+        console.log(news);
+    }, [singleNews, news]);
 
     useEffect(() => {
         if (status === 'idle') {
@@ -41,24 +56,36 @@ const SingleNewsPage = () => {
         <div className="page">
             <div className={styles.news}>
                 <div className={styles.news__cover}>
-                    <img src="/images/news-cover.png" alt="" />
+                    {
+                        //@ts-ignore
+                        <img src={singleNews.images[0]} alt="" />
+                    }
                 </div>
                 <div className={styles.news__innerWrapper}>
                     <div className={styles.news__info}>
-                        <h1 className={styles.news__title}>Подготовка к Сезону: Тренировки в Полном Разгаре!</h1>
+                        <h1 className={styles.news__title}>{singleNews.title}</h1>
                         <div className={styles.news__subheader}>
-                            <Tag icon={calendarIcon} count={"16.03.2024"}/>
-                            <Tag icon={viewIcon} count={122}/>
+                            {
+                                //@ts-ignore
+                                <Tag icon={calendarIcon} count={formatDate(singleNews.date)}/>
+                            }
+                            {
+                                //@ts-ignore
+                                <Tag icon={viewIcon} count={singleNews.count_views}/>
+                            }
                         </div>
                         <div className={styles.news__text}>
-                            <p>Наши юные футболисты полны энергии и решимости, активно готовясь к новому сезону. Тренировки проходят ежедневно под чутким руководством опытных тренеров. Команда усердно работает над техникой, тактикой и физической подготовкой, оттачивая каждый элемент игры до совершенства.</p>
-                            <p>Каждое утро начинается с разминки, направленной на развитие гибкости и координации. Затем следуют интенсивные упражнения на выносливость, включающие бег, прыжки и разнообразные спортивные игры. Тренеры уделяют особое внимание командной работе, разрабатывая различные тактические схемы и стратегии. Футболисты отрабатывают точность передач, удары по воротам и защитные действия.</p>
-                            <p>Кроме того, особое внимание уделяется развитию личностных качеств спортсменов, таких как дисциплина, ответственность и умение работать в команде. Мы верим, что формирование сильного духа и позитивного отношения к тренировкам играет ключевую роль в достижении высоких результатов.</p>
-                            <p>Тренировки проходят на лучших спортивных площадках, оснащённых современным оборудованием. Атмосфера на занятиях всегда дружелюбная и поддерживающая, что позволяет каждому футболисту раскрывать свой потенциал. Родители и болельщики могут быть уверены, что наши спортсмены выкладываются на полную, чтобы показать лучшие результаты в предстоящих матчах.</p>
-                            <p>С каждым днём команда становится сильнее и сплочённее, что вселяет уверенность в успешном сезоне. Впереди нас ждут увлекательные игры и множество ярких моментов. Мы гордимся их настойчивостью и энтузиазмом, ведь именно в таких тренировках закладывается фундамент будущих побед. Спасибо за вашу поддержку, вместе мы добьёмся больших высот!</p>
+                                <p>
+                                    {
+                                        //@ts-ignore
+                                        singleNews.full_content
+                                    }
+                                </p>
                         </div>
                         <div className={styles.news__footer}>
-                            <Tag icon={likeIcon} count={12} />
+                            {//@ts-ignore
+                                <Tag icon={likeIcon} count={singleNews.likes_count}/>
+                            }
                             <Tag icon={sharedIcon} count={12} />
                             <div className={styles.news__author}>
                                 <div className={styles.news__authorAvatar}>

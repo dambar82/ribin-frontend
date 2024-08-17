@@ -31,7 +31,8 @@
         align-items: center;
         gap: 8px;
         padding: 12px 20px;
-        span {
+        cursor: pointer;
+        .comment__label {
             font-size: 20px;
             font-weight: 500;
             line-height: calc(24 / 20);

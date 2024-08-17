@@ -138,12 +138,14 @@ const AuthorizedMain: React.FC = () => {
                                                 // Здесь newsItem обрабатывается как NewsBack
                                                 return (
                                                     <SwiperSlide key={newsItem.id}>
-                                                        <NewsCard
-                                                            date={newsItem.date}
-                                                            image={newsItem.images[0]}
-                                                            title={newsItem.title} 
-                                                            newsBack={true}
-                                                        />
+                                                        <Link to={`/news/${newsItem.id}`}>
+                                                            <NewsCard
+                                                                date={newsItem.date}
+                                                                image={newsItem.images[0]}
+                                                                title={newsItem.title}
+                                                                newsBack={true}
+                                                            />
+                                                        </Link>
                                                     </SwiperSlide>
                                                 );
                                             }
@@ -336,10 +338,10 @@ const AuthorizedMain: React.FC = () => {
                     </Link>
                 </div>
                 <div className="section__body">
-                    { clubs.length ? 
+                    { clubs.length ?
                         (
                             <div className="section__slider">
-                                <Swiper 
+                                <Swiper
                                     spaceBetween={20}
                                     slidesPerView={3}
                                     modules={[Navigation]}

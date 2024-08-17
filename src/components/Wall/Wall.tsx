@@ -8,9 +8,11 @@ import Select from 'react-select';
 
 import {addPost, createPost, IPost, PostAnswer} from "../../store/postSlice";
 import Post from '../Post/Post';
-import { Button } from '../../shared/UI'
-import {useDispatch} from "react-redux";
+import {Button} from '../../shared/UI'
 import {useAppDispatch} from "../../store/hooks";
+import {useSelector} from "react-redux";
+import {RootState} from "../../store/store";
+import {fetchPeople} from "../../store/peopleSlice";
 
 
 interface IWall {
@@ -65,12 +67,23 @@ const Wall = ({type, posts, editable = true}: IWall) => {
     const options = Object.values(optionsMap);
 
     const dispatch = useAppDispatch();
+    const { people, status } = useSelector((state: RootState) => state.people)
     const [feedType, setFeedType] = useState(0)
     const [sortType, setSortType] = useState(1)
     const [postType, setPostType] = useState(0)
     const [textareaValue, setTextareaValue] = useState('');
     const [files, setFiles] = useState<{ id: number, file: File }[]>([])
     const [option, setOption] = useState(optionsMap.public)
+    const [searchTerm, setSearchTerm] = useState('')
+
+
+    useEffect(() => {
+        dispatch(fetchPeople());
+    }, [dispatch]);
+
+    useEffect(() => {
+        console.log(people);
+    }, [people])
 
     const users = [
         { avatar: "/images/popular-user-01.png", name: "Амина Ушакова", level: 201 },
@@ -81,7 +94,7 @@ const Wall = ({type, posts, editable = true}: IWall) => {
     ]
 
     const handleFileChange = ( e: React.ChangeEvent<HTMLInputElement> ) => {
-        const file = e.target.files[0]  
+        const file = e.target.files[0]
         if ( !file ) return
         if (file.size > 100 * 1024 * 1024) {
             alert("Размер файла не должен превышать 30 MB")
@@ -96,13 +109,25 @@ const Wall = ({type, posts, editable = true}: IWall) => {
         })
     }
 
-    const sortedAllPosts = sortPosts(posts.all, sortType);
-    const sortedVideoPosts = sortPosts(posts.video, sortType);
-    const sortedImagePosts = sortPosts(posts.image, sortType);
+    const filteredPosts = (posts: IPost[]) => {
+        return posts.filter(post => post.description.toLowerCase().includes(searchTerm.toLowerCase()));
+    };
+
+    const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setSearchTerm(e.target.value);
+    };
+
+    const sortedAllPosts = sortPosts(filteredPosts(posts.all), sortType);
+    const sortedVideoPosts = sortPosts(filteredPosts(posts.video), sortType);
+    const sortedImagePosts = sortPosts(filteredPosts(posts.image), sortType);
 
     const deleteFile = ( fileId: number ) => {
       setFiles(prev => prev.filter(el => el.id !== fileId))
     }
+
+    useEffect(() => {
+        console.log(posts);
+    }, [posts])
 
     const onSubmit = async ( e: React.FormEvent<HTMLFormElement> ) => {
       e.preventDefault()
@@ -118,8 +143,7 @@ const Wall = ({type, posts, editable = true}: IWall) => {
 
 
         try {
-            const response = await dispatch(createPost(formData)).unwrap();
-            const newPost = response;
+            const newPost = await dispatch(createPost(formData)).unwrap();
 
             dispatch(addPost(newPost));
             setFiles([]);
@@ -228,56 +252,6 @@ const Wall = ({type, posts, editable = true}: IWall) => {
                 )}
                 {feedType === 2 && (
                     <div className={styles.wall__feed}>
-                        {/*{ type === "post" || (type ==="profile" && editable) ?*/}
-                        {/*    <form className={styles.wall__feedForm} onSubmit={onSubmit} >*/}
-                        {/*        <div className={styles.textarea_wrapper} >*/}
-                        {/*            <textarea name="description" id="" placeholder="Поделитесь с другими своими успехами и новостями!"></textarea>*/}
-                        {/*            <Button className={styles.submit_button}>Отправить</Button>*/}
-                        {/*        </div>*/}
-                        {/*        <div className={styles.feenFormFooter} >*/}
-                        {/*            <div className={styles.wall__feedFormFile}>*/}
-                        {/*                {files.map(file => (*/}
-                        {/*                    <div key={file.id} className={styles.wall__feedFormFileDoc}>*/}
-                        {/*                        <span>{file.file?.name}</span>*/}
-                        {/*                        <button type='button' onClick={() => deleteFile(file.id)}></button>*/}
-                        {/*                    </div>*/}
-                        {/*                ))}*/}
-                        {/*                {*/}
-                        {/*                    files.length <= MAX_COUNT_FILES_IN_FORM &&*/}
-                        {/*                    <div className={styles.wall__feedFormFileField}>*/}
-                        {/*                        <input type='file' id='file' accept='image/*,video/*' onChange={handleFileChange}/>*/}
-                        {/*                        <label htmlFor='file'>*/}
-                        {/*                            <img src={attachmentIcon} alt=''/>*/}
-                        {/*                        </label>*/}
-                        {/*                    </div>*/}
-                        {/*                }*/}
-                        {/*            </div>*/}
-                        {/*            <Select*/}
-                        {/*                options={options}*/}
-                        {/*                placeholder="Filter by Region"*/}
-                        {/*                isClearable={false}*/}
-                        {/*                isSearchable={false}*/}
-                        {/*                value={option}*/}
-                        {/*                onChange={(option) => setOption(option)}*/}
-                        {/*                className={styles.form_select}*/}
-                        {/*                styles={{*/}
-                        {/*                    control: (baseStyles, state) => ({*/}
-                        {/*                        ...baseStyles,*/}
-                        {/*                        border: "none",*/}
-                        {/*                        // boxShadow: "none",*/}
-                        {/*                        fontFamily: '"Saira", "sans-serif"',*/}
-                        {/*                        fontSize: "20px",*/}
-                        {/*                        fontWeight: "500",*/}
-                        {/*                        lineHeight: "calc(24 / 20)"*/}
-                        {/*                    }),*/}
-                        {/*                    indicatorSeparator: () => ({*/}
-                        {/*                        display: "none"*/}
-                        {/*                    })*/}
-                        {/*                }}*/}
-                        {/*            />*/}
-                        {/*        </div>*/}
-                        {/*    </form> : null*/}
-                        {/*}*/}
                         {sortedVideoPosts.length ? sortedVideoPosts.map((post, index) => (
                             <Post
                                 key={post.id}
@@ -299,56 +273,6 @@ const Wall = ({type, posts, editable = true}: IWall) => {
                 )}
                 {feedType === 3 && (
                     <div className={styles.wall__feed}>
-                        {/*{ type === "post" || (type ==="profile" && editable) ?*/}
-                        {/*    <form className={styles.wall__feedForm} onSubmit={onSubmit} >*/}
-                        {/*        <div className={styles.textarea_wrapper} >*/}
-                        {/*            <textarea name="description" id="" placeholder="Поделитесь с другими своими успехами и новостями!"></textarea>*/}
-                        {/*            <Button className={styles.submit_button}>Отправить</Button>*/}
-                        {/*        </div>*/}
-                        {/*        <div className={styles.feenFormFooter} >*/}
-                        {/*            <div className={styles.wall__feedFormFile}>*/}
-                        {/*                {files.map(file => (*/}
-                        {/*                    <div key={file.id} className={styles.wall__feedFormFileDoc}>*/}
-                        {/*                        <span>{file.file?.name}</span>*/}
-                        {/*                        <button type='button' onClick={() => deleteFile(file.id)}></button>*/}
-                        {/*                    </div>*/}
-                        {/*                ))}*/}
-                        {/*                {*/}
-                        {/*                    files.length <= MAX_COUNT_FILES_IN_FORM &&*/}
-                        {/*                    <div className={styles.wall__feedFormFileField}>*/}
-                        {/*                        <input type='file' id='file' accept='image/*,video/*' onChange={handleFileChange}/>*/}
-                        {/*                        <label htmlFor='file'>*/}
-                        {/*                            <img src={attachmentIcon} alt=''/>*/}
-                        {/*                        </label>*/}
-                        {/*                    </div>*/}
-                        {/*                }*/}
-                        {/*            </div>*/}
-                        {/*            <Select*/}
-                        {/*                options={options}*/}
-                        {/*                placeholder="Filter by Region"*/}
-                        {/*                isClearable={false}*/}
-                        {/*                isSearchable={false}*/}
-                        {/*                value={option}*/}
-                        {/*                onChange={(option) => setOption(option)}*/}
-                        {/*                className={styles.form_select}*/}
-                        {/*                styles={{*/}
-                        {/*                    control: (baseStyles, state) => ({*/}
-                        {/*                        ...baseStyles,*/}
-                        {/*                        border: "none",*/}
-                        {/*                        // boxShadow: "none",*/}
-                        {/*                        fontFamily: '"Saira", "sans-serif"',*/}
-                        {/*                        fontSize: "20px",*/}
-                        {/*                        fontWeight: "500",*/}
-                        {/*                        lineHeight: "calc(24 / 20)"*/}
-                        {/*                    }),*/}
-                        {/*                    indicatorSeparator: () => ({*/}
-                        {/*                        display: "none"*/}
-                        {/*                    })*/}
-                        {/*                }}*/}
-                        {/*            />*/}
-                        {/*        </div>*/}
-                        {/*    </form> : null*/}
-                        {/*}*/}
                         {sortedImagePosts.length ? sortedImagePosts.map((post, index) => (
                             <Post
                                 key={post.id}
@@ -375,7 +299,12 @@ const Wall = ({type, posts, editable = true}: IWall) => {
                         <button type="button">
                             <img src={loupeIcon} alt="" />
                         </button>
-                        <input type="text" placeholder='Поиск'/>
+                        <input
+                            type="text"
+                            placeholder='Поиск'
+                            value={searchTerm}
+                            onChange={handleSearchChange}
+                        />
                     </form>
                     <div className={styles.wall__filter}>
                         {["Популярное", "Новое", "Старое"].map((item, index) => (

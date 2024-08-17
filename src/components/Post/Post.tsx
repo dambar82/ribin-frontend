@@ -4,18 +4,18 @@ import likeIcon from '../../images/svg/likes.svg'
 import likeIconLiked from '../../images/svg/likes_red.svg'
 import commentIcon from '../../images/svg/comments.svg'
 import sharedIcon from '../../images/svg/shared.svg'
-import viewIcon from '../../images/svg/views.svg'
 import Comment from '../Comment/Comment';
 import DropdownMenu from '../DropdownMenu/DropdownMenu'
 import {IComment} from "../../types";
 import {useSelector} from "react-redux";
 import {useAppDispatch} from "../../store/hooks";
-import {toggleLikeAsync} from "../../store/postSlice";
+import {addComment, createComment, toggleLikeAsync} from "../../store/postSlice";
 import {RootState} from "../../store/store";
 import {useEffect, useState} from "react";
 import 'react-image-lightbox/style.css'; // Импорт стилей для lightbox
 import Lightbox from 'react-image-lightbox';
 import {Button} from "../../shared/UI";
+import {postFormatDate} from "../../App";
 
 interface ICard {
     id: number;
@@ -46,36 +46,54 @@ function srcset(image: string, size: number, rows = 1, cols = 1) {
     };
 }
 
-function formatDate(isoString) {
-    const date = new Date(isoString);
-
-    // Получаем компоненты даты
-    const day = String(date.getDate()).padStart(2, '0'); // День
-    const month = String(date.getMonth() + 1).padStart(2, '0'); // Месяц (месяцы начинаются с 0)
-    const year = date.getFullYear(); // Год
-
-    // Получаем компоненты времени
-    const hours = String(date.getHours()).padStart(2, '0'); // Часы
-    const minutes = String(date.getMinutes()).padStart(2, '0'); // Минуты
-
-    // Форматируем строку
-    return `${day}.${month}.${year} I ${hours}:${minutes}`;
-}
-
 const Post = ({ id, name, avatar, source, tags, comments, children, likes, liked_by, updated_at, type }: ICard) => {
 
     const dispatch = useAppDispatch();
     const [isOpen, setIsOpen] = useState(false);
     const [photoIndex, setPhotoIndex] = useState(0);
     const [showAllComments, setShowAllComments] = useState(false);
+    const [showCommentSection, setShowCommentSection] = useState(false);
+    const [commentText, setCommentText] = useState('');
+    const [postComments, setPostComments] = useState(comments);
 
     const post = useSelector((state: RootState) => state.post.posts[type].find(post => post.id === id));
     const user = useSelector((state: RootState) => state.user);
 
     const [isLiked, setIsLiked] = useState(liked_by.includes(user.user.id));
 
-    const onSubmit = async () => {
+    const handleCommentSection = () => {
 
+    }
+
+    const onSubmit = async ( e: React.FormEvent<HTMLFormElement> ) => {
+        e.preventDefault()
+
+        const form = e.currentTarget;
+        const formData = new FormData(form);
+
+        formData.append('text', formData.get('commentText') as string);
+
+        try {
+            const newPost = await dispatch(createComment({formData, postId: id})).unwrap();
+
+            setPostComments([
+                ...postComments,
+                {
+                    id: newPost.id,
+                    text: newPost.text,
+                    created_at: newPost.created_at,
+                    liked_by: [],
+                    likes_count: 0,
+                    child: []
+                }
+            ])
+
+            setCommentText('');
+            setShowAllComments(true);
+
+        } catch (error) {
+            console.error('Ошибка при создании комментария:', error);
+        }
     }
 
     useEffect(() => {
@@ -98,7 +116,7 @@ const Post = ({ id, name, avatar, source, tags, comments, children, likes, liked
         setShowAllComments(!showAllComments);
     };
 
-    const commentsToDisplay = showAllComments ? comments : comments.slice(-3);
+    const commentsToDisplay = showAllComments ? postComments : postComments.slice(0, 3);
 
     const openLightbox = (index) => {
         setPhotoIndex(index);
@@ -120,7 +138,7 @@ const Post = ({ id, name, avatar, source, tags, comments, children, likes, liked
                         }
                     </div>
                     <div className={styles.post__title}>{name}</div>
-                    <div className={styles.post__createdAt}>{formatDate(post.created_at)}</div>
+                    <div className={styles.post__createdAt}>{postFormatDate(post.created_at)}</div>
                 </div>
                 <DropdownMenu />
             </div>
@@ -164,11 +182,11 @@ const Post = ({ id, name, avatar, source, tags, comments, children, likes, liked
                         {post?.likes_count || 0}
                     </span>
                 </div>
-                <div className={`${styles.post__tag} ${styles.post__tag_comments}`}>
+                <div className={`${styles.post__tag} ${styles.post__tag_comments}`} onClick={() => setShowCommentSection(!showCommentSection)}>
                     <div className={styles.post__tagIcon}>
                         <img src={commentIcon} alt="" />
                     </div>
-                    <span className={styles.post__tagLabel}>{comments.length}</span>
+                    <span className={styles.post__tagLabel}>{postComments.length}</span>
                 </div>
                 <div className={`${styles.post__tag} ${styles.post__tag_shared}`}>
                     <div className={styles.post__tagIcon}>
@@ -183,29 +201,44 @@ const Post = ({ id, name, avatar, source, tags, comments, children, likes, liked
                 {/*    <span className={styles.post__tagLabel}>122</span>*/}
                 {/*</div>*/}
             </div>
-            { comments.length ? (
+            { showCommentSection || postComments.length > 0 ? (
                 <div className={styles.post__comments}>
                 <ul className={styles.post__commentsList}>
                     {commentsToDisplay.map((comment, index) => (
                         <li key={comment.id}>
-                            <Comment key={comment.id} author={post.client} text={comment.text}/>
+                            <Comment
+                                key={comment.id}
+                                id = {comment.id}
+                                liked_by={comment.liked_by}
+                                author={post.client}
+                                text={comment.text}
+                                created_at={comment.created_at}
+                                likes_count={comment.likes_count}
+                            />
                         </li>
                     ))}
                 </ul>
                     {
-                        comments.length > 3 && (
+                        postComments.length > 3 && (
                             <button
                                 className={styles.post__commentsMore}
                                 type="button"
                                 onClick={toggleComments}
                             >
-                                {showAllComments ? <span>Скрыть комментарии</span> : <span>Показать больше комментариев ({comments.length - 2})</span>}
+                                {showAllComments ? <span>Скрыть комментарии</span> : <span>Показать больше комментариев ({postComments.length - 3})</span>}
                             </button>
                         )
                     }
                 <form onSubmit={onSubmit} className={styles.post__commentsForm}>
                     <div className={styles.textarea_wrapper} >
-                        <textarea name="" id="" placeholder='Ваш Комментарий...' cols={9}></textarea>
+                        <textarea
+                            name="commentText"
+                            id=""
+                            placeholder='Ваш Комментарий...'
+                            cols={9}
+                            value={commentText}
+                            onChange={(e) => setCommentText(e.target.value)}
+                        ></textarea>
                         <Button className={styles.submit_button}>Отправить</Button>
                     </div>
                 </form>

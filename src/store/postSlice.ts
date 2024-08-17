@@ -41,9 +41,9 @@ const initialState: PostState = {
 
 const token = JSON.parse(localStorage.getItem('token') || '')
 
-export const createComment = createAsyncThunk('post/createComment', async () => {
-    await axios.post('https://rubin/api/club/1/comments')
-})
+// export const createComment = createAsyncThunk('post/createComment', async () => {
+//     await axios.post('https://rubin/api/club/1/comments')
+// })
 
 export const fetchPosts = createAsyncThunk('post/fetchPosts', async () => {
     const response = await axios.get('https://api-rubin.multfilm.tatar/api/posts');
@@ -51,7 +51,6 @@ export const fetchPosts = createAsyncThunk('post/fetchPosts', async () => {
 })
 
 export const fetchPostsByUserId = createAsyncThunk('post/fetchPostsByUserId', async ({userId} : { userId: number }) => {
-    console.log(userId)
     const response = await axios.get(`https://api-rubin.multfilm.tatar/api/reposts/${userId}`,
         {
             headers: {
@@ -59,6 +58,15 @@ export const fetchPostsByUserId = createAsyncThunk('post/fetchPostsByUserId', as
             }
         }
     )
+    return response.data as PostAnswer;
+})
+
+export const fetchPostsByClubId = createAsyncThunk('post/fetchPostsByClubId', async ({clubId} : {clubId: number}) => {
+    const response = await axios.get(`https://api-rubin.multfilm.tatar/api/club/posts/${clubId}`, {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    })
     return response.data as PostAnswer;
 })
 
@@ -71,6 +79,34 @@ export const createPost = createAsyncThunk('post/createPost', async (formData: F
     });
     return response.data.data;
 });
+
+export const createComment = createAsyncThunk('post/createComment', async ({formData, postId} : {formData: FormData, postId: number}) => {
+    const response = await axios.post(`https://api-rubin.multfilm.tatar/api/posts/${postId}/comments`, formData, {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    })
+    return response.data.comment;
+})
+
+export const commentLikeAsync = createAsyncThunk(
+    'posts/commentLikeAsync',
+    async ({commentId} : {commentId: number}) => {
+        try {
+            await axios.post(
+                `https://api-rubin.multfilm.tatar/api/comments/${commentId}/like`,
+                {},
+                {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                }
+            )
+        } catch (error) {
+            console.error('Failed to toggle like:', error);
+        }
+    }
+)
 
 export const toggleLikeAsync = createAsyncThunk(
     'posts/toggleLikeAsync',
@@ -98,11 +134,11 @@ const postSlice = createSlice({
     initialState,
     reducers: {
         addPost: (state, action: any) => {
-            // Используем иммутабельный метод для обновления состояния
-            // @ts-ignore
-            console.log(action.payload);
             state.posts.all = [action.payload, ...state.posts.all]; // Добавляем новый пост в начало массива
             console.log(state.posts.all);
+        },
+        addComment: (state, action: any) => {
+            console.log(action.payload);
         },
         addLike: (state, action: PayloadAction<{ postId: number, postType: 'all' | 'image' | 'video' }>) => {
             const { postId, postType } = action.payload;
@@ -119,9 +155,19 @@ const postSlice = createSlice({
     extraReducers: (builder) => {
         builder
             .addCase(fetchPosts.pending, (state) => {
+                state.posts = {
+                    all: [],
+                    video: [],
+                    image: []
+                };
                 state.status = 'loading';
             })
             .addCase(fetchPostsByUserId.pending, (state) => {
+                state.posts = {
+                    all: [],
+                    video: [],
+                    image: []
+                };
                 state.status = 'loading';
             })
             .addCase(fetchPosts.fulfilled, (state, action: PayloadAction<PostAnswer>) => {
@@ -132,7 +178,6 @@ const postSlice = createSlice({
             })
             .addCase(fetchPostsByUserId.fulfilled, (state, action: PayloadAction<PostAnswer>) => {
                 state.posts = action.payload;
-                console.log(action.payload);
                 state.status = 'succeeded';
                 state.error = null;
             })
@@ -147,6 +192,6 @@ const postSlice = createSlice({
     }
 });
 
-export const { addLike, addPost } = postSlice.actions;
+export const { addLike, addPost, addComment } = postSlice.actions;
 
 export default postSlice.reducer;

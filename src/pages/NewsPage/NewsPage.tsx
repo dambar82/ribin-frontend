@@ -22,7 +22,6 @@ const NewsPage = () => {
         }
     }, [status, dispatch]);
 
-
     return (
         <div className="page">
             <div className={`${styles.hero} hero`}>

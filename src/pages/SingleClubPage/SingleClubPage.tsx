@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import {useEffect, useState} from 'react'
 import styles from './SingleClubPage.module.scss';
 import { useAppDispatch } from '../../store/hooks'
 import { getClub } from '../../store/clubsSlice'
@@ -9,10 +9,13 @@ import Wall from '../../components/Wall/Wall';
 import Row from '../../components/Row/Row';
 import Card from '../../components/Card/Card';
 import { useParams } from 'react-router-dom'
+import {fetchPostsByClubId, fetchPostsByUserId} from "../../store/postSlice";
 import { useSelector } from 'react-redux'
 import { RootState } from '../../store/store'
 
 const SingleClubPage = () => {
+
+    const { posts, status, error } = useSelector((state: RootState) => state.post)
     const [feedType, setFeedType] = useState(0)
     const [sortType, setSortType] = useState(0)
 
@@ -24,6 +27,9 @@ const SingleClubPage = () => {
     useEffect(() => {
       dispatch(getClub({ id: params.id }))
     }, [])
+    useEffect(() => {
+            dispatch(fetchPostsByClubId({clubId: 1}));
+    }, [dispatch]);
 
     return (
         <div className='page'>
@@ -110,7 +116,7 @@ const SingleClubPage = () => {
                 <div className={`section__body`}>
                     <Wall
                         type="club"
-                        posts={null}
+                        posts={posts}
                     />
                 </div>
             </section>
