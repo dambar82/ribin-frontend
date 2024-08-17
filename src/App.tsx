@@ -6,7 +6,7 @@ import {AppDispatch, RootState} from "./store/store";
 import AuthLayout from "./components/layouts/AuthLayout";
 import UnauthLayout from "./components/layouts/UnauthLayout";
 import Login from "./pages/Login";
-import Register from "./pages/Register";
+import Register from "./pages/Register/Register";
 import PrivateRoute from "./components/layouts/PrivateRoute";
 import Restore from "./pages/Restore";
 import RestoreLayout from "./components/layouts/RestoreLayout";

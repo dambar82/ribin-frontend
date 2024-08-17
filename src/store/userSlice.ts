@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
 import {ContestUser, Post} from "../types";
 import { TEditUserRequest, TEditUserResponse } from '../shared/types/user.types'
-import { TCheckAuthResponse, TLoginUserResponse } from '../shared/types/auth.types'
+import { TCheckAuthResponse, TLoginUserResponse, TConfirmEmailResponse } from '../shared/types/auth.types'
 
 export interface User {
     id: number;
@@ -31,12 +31,14 @@ interface UserState {
     // token: string | null;
     status: 'idle' | 'loading' | 'succeeded' | 'failed';
     error: string | null;
+    confirmEmailStatus: TConfirmEmailResponse | null
 }
 
 const initialState: UserState = {
     user: null,
     status: 'idle',
     error: null,
+    confirmEmailStatus: null
 };
 
 const $api = axios.create({
@@ -44,7 +46,7 @@ const $api = axios.create({
 })
 
 $api.interceptors.request.use(config => {
-  const token = JSON.parse(localStorage.getItem('token') || '')
+  const token = JSON.parse(localStorage.getItem('token') || '0')
   if (token) {
     config.headers.Authorization = `Bearer ${token}`
   }
@@ -56,13 +58,18 @@ export const loginUser = createAsyncThunk('user/loginUser', async ({ email, pass
     return response.data
 });
 
+export const confirmEmail = createAsyncThunk('user/confirmEmail', async () => {
+    const response = await $api.get<TConfirmEmailResponse>('/api/client/email-confirmation');
+    return response.data
+});
+
 export const registerUser = createAsyncThunk('user/registerUser', async ({ email, password, name, surname }: { email: string; password: string; name: string, surname: string }) => {
     const response = await axios.post<TLoginUserResponse>('https://api-rubin.multfilm.tatar/api/clients', { email, password, name, surname });
     return response.data
 });
 
 export const checkAuth = createAsyncThunk('user/checkAuth', async () => {
-  const user_id = JSON.parse(localStorage.getItem('user_id') || '')
+  const user_id = JSON.parse(localStorage.getItem('user_id') || '0')
   if ( !user_id ) return null
   const response = await $api.get<TCheckAuthResponse>(`/api/clients/${user_id}`);
   return response.data.data
@@ -94,6 +101,9 @@ const userSlice = createSlice({
             state.user = null;
             localStorage.removeItem('token');
             localStorage.removeItem('user_id');
+        },
+        resetConfirmEmail: (state) => {
+          state.confirmEmailStatus = null
         }
     },
     extraReducers: (builder) => {
@@ -109,6 +119,17 @@ const userSlice = createSlice({
                 state.error = null;
             })
             .addCase(loginUser.rejected, (state, action) => {
+                state.status = 'failed';
+                state.error = action.error.message || null;
+            })
+
+            .addCase(confirmEmail.pending, (state) => {
+                state.status = 'loading';
+            })
+            .addCase(confirmEmail.fulfilled, (state, action: PayloadAction<TConfirmEmailResponse>) => {
+                state.confirmEmailStatus = action.payload
+            })
+            .addCase(confirmEmail.rejected, (state, action) => {
                 state.status = 'failed';
                 state.error = action.error.message || null;
             })
@@ -157,5 +178,5 @@ const userSlice = createSlice({
     },
 });
 
-export const { logout, setUser, clearUser } = userSlice.actions;
+export const { logout, setUser, clearUser, resetConfirmEmail } = userSlice.actions;
 export default userSlice.reducer;

@@ -1,0 +1,101 @@
+
+.modal {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  padding: 28px;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  justify-content: center;
+  gap: 60px;
+  background-color: var(--white);
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 28px;
+}
+
+.modal_body {
+  display: grid;
+  justify-items: center;
+  gap: 46px;
+  height: max-content;
+  box-shadow: 0px 0px 4px rgba(0, 0, 0, .25);
+  border-radius: 50px;
+  padding: 70px;
+
+  .text_wrapper {
+    display: grid;
+    gap: 14px;
+    max-width: 500px;
+
+    p {
+      color: var(--black);
+
+      span {
+        font-weight: 600;
+      }
+    }
+  }
+
+  .title {
+    font-size: 36px;
+    font-weight: 600;
+    text-align: center;
+  }
+
+  .text {
+    font-size: 20px;
+    line-height: 24px;
+  }
+
+  .btns {
+    display: grid;
+    gap: 8px;
+
+    button {
+      width: 100%;
+      font-weight: 500;
+
+      &:nth-child(2) {
+        background-color: transparent;
+        border: 2px solid var(--main-color);
+        color: var(--main-color);
+      }
+    }
+  }
+
+  form {
+    width: 100%;
+    display: grid;
+    justify-items: center;
+    gap: 46px;
+
+    :global(.authBlock__form-group) {
+      display: grid;
+      justify-content: stretch;
+  
+      input {
+        &._invalid {
+          border: 2px solid #E11F1F;
+        }
+      }
+  
+      span {
+        color: #E11F1F;
+        font-size: 18px;
+        font-weight: 500;
+        margin-bottom: 10px;
+      }
+    }
+  }
+
+}

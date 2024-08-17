@@ -1,0 +1,54 @@
+
+.authBlock__form {
+
+  :global(.authBlock__form-group) {
+    display: grid;
+    justify-content: stretch;
+
+    input {
+      &._invalid {
+        border: 2px solid #E11F1F;
+      }
+    }
+
+    span {
+      color: #E11F1F;
+      font-size: 18px;
+      font-weight: 500;
+      margin-bottom: 10px;
+    }
+  }
+
+}
+
+.politics {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-content: start;
+
+  span {
+    font-size: 16px;
+    line-height: 1.2;
+
+    a {
+      text-decoration: underline;
+      margin-left: 3px;
+    }
+  }
+
+  .checkbox {
+    color: var(--main-color)!important;
+  }
+
+  .checkbox_error {
+    grid-column: 1/3;
+    color: #E11F1F;
+    font-size: 18px;
+    font-weight: 500;
+    margin-bottom: 10px;
+  }
+}
+
+.button {
+  background-color: var(--main-color);
+}

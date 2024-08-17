@@ -12,3 +12,11 @@ export type TLoginUserResponse = {
 export type TCheckAuthResponse = {
   data: User
 }
+
+export type TConfirmEmailRequest = {
+  
+}
+export type TConfirmEmailResponse = {
+  status: 'success' | 'error'
+  message: string
+}
