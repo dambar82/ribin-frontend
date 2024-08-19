@@ -80,7 +80,7 @@
             height: 100%;
             object-fit: cover;
         }
-    } 
+    }
     &__authorName {
         grid-column: 2 / 3;
         grid-row: 2 / 3;
@@ -112,6 +112,7 @@
         align-items: center;
         width: 60px;
         height: 60px;
+        cursor: pointer;
     }
 }
 
@@ -144,9 +145,28 @@
                 }
             }
         }
-        
+
     }
     &__more {
         align-self: flex-end;
+    }
+}
+
+.tag {
+    background-color: #F8F8F8;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 20px;
+    cursor: pointer;
+    &__label {
+        font-family: "Saira", "sans-serif";
+        font-size: 20px;
+        font-weight: 500;
+        line-height: calc(24 / 20);
+        &_liked {
+            color: #E11F1F;
+        }
     }
 }

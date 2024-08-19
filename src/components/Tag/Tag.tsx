@@ -3,9 +3,10 @@ import styles from "./Tag.module.scss"
 interface ICard {
     icon: string;
     count: number | string;
+    onClick?: () => void
 }
 
-const Tag = ({icon, count}: ICard) => {
+const Tag = ({icon, count, onClick}: ICard) => {
 
     return (
         // <div className={`${styles.post__tag} ${styles.post__tag_shared}`}>

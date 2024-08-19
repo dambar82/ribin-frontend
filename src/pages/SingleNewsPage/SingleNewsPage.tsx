@@ -1,4 +1,4 @@
-import {useEffect} from 'react'
+import {useEffect, useState} from 'react'
 import {useDispatch, useSelector} from "react-redux";
 import {Link, useParams} from 'react-router-dom';
 import {AppDispatch, RootState} from "../../store/store";
@@ -7,6 +7,7 @@ import styles from "./SingleNewsPage.module.scss"
 
 
 import likeIcon from "../../images/svg/likes.svg";
+import likeIconLiked from "../../images/svg/likes_red.svg";
 import sharedIcon from "../../images/svg/shared.svg"
 import viewIcon from "../../images/svg/views.svg"
 import calendarIcon from "../../images/svg/calendar.svg"
@@ -22,7 +23,7 @@ import { Navigation } from 'swiper/modules'
 import 'swiper/css';
 import 'swiper/css/navigation';
 
-import {fetchNewsAndNewsBack} from "../../store/newsSlice";
+import {addViewNews, fetchNewsAndNewsBack, newsLikeAsync} from "../../store/newsSlice";
 import { fetchPhotoGalleryById } from '../../store/photoGallerySlice';
 
 function formatDate(dateString) {
@@ -36,16 +37,24 @@ const SingleNewsPage = () => {
 
     const { id } = useParams();
 
-    const { status, news } = useSelector((state: RootState) => state.news);
+    const { status, news, error } = useSelector((state: RootState) => state.news);
 
     const user = useSelector((state: RootState) => state.user);
 
     const singleNews = news.find(item => item.id.toString() === id);
+    // @ts-ignore
+    const [isLiked, setIsLiked] = useState(false);
+    // @ts-ignore
+    const [likes, setLikes] = useState(0);
 
     useEffect(() => {
-        console.log(singleNews);
-        console.log(id);
-        console.log(news);
+        if (singleNews) {
+            dispatch(addViewNews({newsId: singleNews.id}));
+            // @ts-ignore
+            setIsLiked(singleNews.liked_by.includes(user.user.id))
+            // @ts-ignore
+            setLikes(singleNews.likes_count);
+        }
     }, [singleNews, news]);
 
     useEffect(() => {
@@ -53,6 +62,23 @@ const SingleNewsPage = () => {
             dispatch(fetchNewsAndNewsBack());
         }
     }, [status, dispatch]);
+
+    const handleLikeClick = () => {
+        console.log('liked');
+        if (!isLiked) {
+            dispatch(newsLikeAsync({newsId: singleNews.id}))
+            setLikes(likes + 1);
+            setIsLiked(true);
+        }
+    }
+
+    if (status === 'loading' || !singleNews) {
+        return <p>Loading...</p>;
+    }
+
+    if (status === 'failed') {
+        return <p>{error}</p>;
+    }
 
     return (
         <div className="page">
@@ -86,7 +112,14 @@ const SingleNewsPage = () => {
                         </div>
                         <div className={styles.news__footer}>
                             {//@ts-ignore
-                                <Tag icon={likeIcon} count={singleNews.likes_count}/>
+                                <div className={styles.tag} onClick={handleLikeClick}>
+                                    <div className={styles.tag__icon}>
+                                        <img src={isLiked ? likeIconLiked : likeIcon} alt="" />
+                                    </div>
+                                    <span className={`${styles.tag__label} ${isLiked ? styles.tag__label_liked : ''}`}>
+                                        {likes}
+                                    </span>
+                                </div>
                             }
                             <Tag icon={sharedIcon} count={12} />
                             <div className={styles.news__author}>
@@ -99,8 +132,8 @@ const SingleNewsPage = () => {
                         </div>
                     </div>
                     <div className={styles.news__actions}>
-                        <button className={styles.news__favorite} type="button">
-                            <img src={favoriteIcon} alt="" />
+                        <button className={styles.news__favorite} type="button" onClick={handleLikeClick}>
+                            <img src={isLiked ? likeIconLiked : likeIcon} alt="" />
                         </button>
                         <button className={styles.news__share} type="button">
                             <img src={shareIcon} alt="" />

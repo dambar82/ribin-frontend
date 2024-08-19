@@ -14,6 +14,8 @@ const initialState: NewsState = {
     error: null,
 };
 
+const token = JSON.parse(localStorage.getItem('token') || '0')
+
 export const fetchNewsAndNewsBack = createAsyncThunk('news/fetchNewsAndNewsBack', async () => {
     const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
     const newsBackUrl = 'https://api-rubin.multfilm.tatar/api/news';
@@ -34,6 +36,36 @@ export const fetchNewsAndNewsBack = createAsyncThunk('news/fetchNewsAndNewsBack'
     return [...newsData, ...newsBackData];
 });
 
+export const newsLikeAsync = createAsyncThunk('news/newsLike', async ({newsId} : {newsId: number}) => {
+    try {
+        await axios.post(
+            `https://api-rubin.multfilm.tatar/api/news/${newsId}/like`,
+            {},
+            {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            }
+        )
+    } catch (error) {
+        console.error('Failed to toggle like:', error);
+    }
+})
+
+export const addViewNews = createAsyncThunk('news/addViewNews', async ({newsId} : {newsId: number}) => {
+    try {
+        await axios.get(
+            `https://api-rubin.multfilm.tatar/api/news/${newsId}`,
+            {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            }
+        )
+    } catch (error) {
+        console.error(error);
+    }
+})
 
 const newsSlice = createSlice({
     name: 'news',
