@@ -5,6 +5,7 @@ import { TEditUserRequest, TEditUserResponse } from '../shared/types/user.types'
 import { TCheckAuthResponse, TLoginUserResponse, TConfirmEmailResponse, TRegisterUserRequest, TRegisterUserResponse, TConfirmEmailRequest } from '../shared/types/auth.types'
 
 export interface User {
+    avatar: string | null;
     id: number;
     email: string;
     email_confirmed: boolean
@@ -16,10 +17,16 @@ export interface User {
     phone: string | null;
     score: number | null;
     posts: Post[];
+    level: number | null;
+    friends: any[];
     contests: ContestUser[];
     image: string;
     clubs: any[];
     events: any[];
+    rubick: any;
+    school: any;
+    school_number: any;
+    status: any;
 }
 
 interface AuthResponse {
@@ -142,7 +149,7 @@ const userSlice = createSlice({
               //@ts-ignore
                 if ( action.payload?.status === 'error' ) {
                   return
-                } 
+                }
                 state.user = action.payload.client;
                 state.status = 'succeeded';
                 localStorage.setItem('token', JSON.stringify(action.payload.token));
@@ -159,7 +166,7 @@ const userSlice = createSlice({
             })
             .addCase(confirmEmail.fulfilled, (state, action: PayloadAction<TConfirmEmailResponse>) => {
                 console.log(action.payload);
-              
+
                 state.confirmEmailStatus = action.payload
             })
             .addCase(confirmEmail.rejected, (state, action) => {
@@ -172,7 +179,7 @@ const userSlice = createSlice({
             })
             .addCase(resendConfirmEmail.fulfilled, (state, action: PayloadAction<TConfirmEmailResponse>) => {
                 console.log(action.payload);
-              
+
                 state.confirmEmailStatus = action.payload
             })
             .addCase(resendConfirmEmail.rejected, (state, action) => {
@@ -186,7 +193,7 @@ const userSlice = createSlice({
             .addCase(registerUser.fulfilled, (state, action: PayloadAction<TLoginUserResponse>) => {
                 if ( action.payload?.errors ) {
                   return
-                }  
+                }
                 state.user = action.payload.client;
                 state.status = 'succeeded';
                 localStorage.setItem('token', JSON.stringify(action.payload.token));
@@ -195,7 +202,7 @@ const userSlice = createSlice({
             })
             .addCase(registerUser.rejected, (state, action) => {
                 console.log(action);
-              
+
                 state.status = 'failed';
                 state.error = action.error.message || null;
             })

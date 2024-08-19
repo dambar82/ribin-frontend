@@ -14,13 +14,20 @@ const ProfilePage = () => {
     const { posts, status, error } = useSelector((state: RootState) => state.post);
     const user = useSelector((state: RootState) => state.user);
 
+    const [currentUser, setCurrentUser] = useState(null);
+
     useEffect(() => {
-        if (user) {
+        setCurrentUser(user.user);
+        if (currentUser) {
             dispatch(fetchPostsByUserId({userId: user.user.id}));
         }
     }, [dispatch, user]);
 
-    if (status === 'loading') {
+    useEffect(() => {
+        console.log(user);
+    }, [user])
+
+    if (status === 'loading' || !currentUser) {
         return <p>Loading...</p>;
     }
 
@@ -44,8 +51,8 @@ const ProfilePage = () => {
                     <div className="big-card__info">
                         <div className="big-card__info-header">
                             <div>
-                                <h1 className="big-card__title">Иван Иванов</h1>
-                                <div className="big-card__level">Уровень <span>0</span></div>
+                                <h1 className="big-card__title">{currentUser.name} {currentUser.surname}</h1>
+                                <div className="big-card__level">Уровень <span>{currentUser.level}</span></div>
                             </div>
                             <div className="big-card__actions">
                                 <Link to="/profile/edit">
@@ -63,16 +70,22 @@ const ProfilePage = () => {
                         <div className="big-card__info-footer">
                             <div className="big-card__users">
                                 <ul className="big-card__users-list">
-                                    {[1, 2, 3, 4, 5].map(item => (
+                                    {currentUser.friends.map(item => (
                                         <li key={item} className="big-card__user">
                                             <img src={`/images/club-client-0${item}.png`} alt="" />
                                         </li>
                                     ))}
                                 </ul>
-                                <div className="big-card__users-qty">
-                                    <div>Друзья</div>
-                                    <div>+220</div>
-                                </div>
+                                {currentUser.friends.length > 0 && (
+                                    <div className="big-card__users-qty">
+                                        <div className="big-card__users-qty_friends">Друзья</div>
+                                        {currentUser.friends.length > 5 && (
+                                            <div className="big-card__users-qty_friendsCount">
+                                                {currentUser.friends.length - 5}
+                                            </div>
+                                        )}
+                                    </div>
+                                )}
                             </div>
                         </div>
                     </div>

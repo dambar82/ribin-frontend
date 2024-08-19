@@ -102,7 +102,7 @@ export const formatDate = (dateStr: string) => {
 };
 
 function App() {
-  
+
     const user = useSelector((state: RootState) => state.user.user);
 
     const isAuth = !!user?.email_confirmed
@@ -130,7 +130,7 @@ function App() {
         { path: '/news/:id', element: <SingleNewsPage /> },
         { path: '/profile', element: <ProfilePage /> },
         { path: '/profile/edit', element: <EditProfilePage /> },
-        { path: '/user', element: <UserProfilePage /> },
+        { path: '/user/:id', element: <UserProfilePage /> },
         { path: '/feedback', element: <FeedbackPage /> },
         { path: '/settings', element: <SettingsPage /> },
         { path: '/clubs', element: <Clubs /> },

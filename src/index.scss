@@ -202,7 +202,7 @@ li {
   white-space: nowrap;
 
   @media (max-width: 768px) {
-    padding: 14px 26px; 
+    padding: 14px 26px;
   }
 
   span {
@@ -356,11 +356,11 @@ li {
 .tab-button {
 
   @media (max-width: 1440px) {
-    font-size: 18px; 
+    font-size: 18px;
     padding: 14px 30px;
   }
   @media (max-width: 768px) {
-    font-size: 16px; 
+    font-size: 16px;
   }
 
   &--active {
@@ -625,19 +625,17 @@ li {
     display: flex;
     flex-direction: column;
     gap: 4px;
-    & > {
-        *:first-child {
-            color: #817E7E;
-            font-size: 16px;
-            font-weight: 500;
-            line-height: calc(20 / 16);
-        }
-        *:last-child {
-            font-family: "Saira", "sans-serif";
-            font-size: 20px;
-            font-weight: 500;
-            list-style: calc(24 / 20)
-        }
+    &_friends {
+      color: #817E7E;
+      font-size: 16px;
+      font-weight: 500;
+      line-height: calc(20 / 16);
+    }
+    &_friendsCount {
+      font-family: "Saira", "sans-serif";
+      font-size: 20px;
+      font-weight: 500;
+      list-style: calc(24 / 20)
     }
   }
   &--edit {
@@ -921,7 +919,7 @@ li {
     width: 100%;
   }
   @media (max-width: 1000px) {
-    padding: 0 20px; 
+    padding: 0 20px;
   }
 }
 
@@ -1118,7 +1116,7 @@ li {
     text-align: left;
 
     @media (max-width: 1440px) {
-      font-size: 16px; 
+      font-size: 16px;
     }
   }
 }

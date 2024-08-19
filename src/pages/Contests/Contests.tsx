@@ -86,7 +86,7 @@ const Contests = () => {
                 </div>
                 <div className={styles.contest_list}>
                     {contests.map((contest) => (
-                        contest.status === 1 ? (
+                        // contest.status === 1 ? (
                             <Link to={`/contests/${contest.id}`} key={contest.id}>
                                 <ContestCard
                                     title={contest.name}
@@ -97,17 +97,17 @@ const Contests = () => {
                                     end_date={contest.end_date}
                                 />
                             </Link>
-                        ) : (
-                            <ContestCard
-                                key={contest.id}
-                                title={contest.name}
-                                image={contest.source}
-                                status={contest.status}
-                                short_description={contest.short_description}
-                                start_date={contest.start_date}
-                                end_date={contest.end_date}
-                            />
-                        )
+                        // ) : (
+                        //     <ContestCard
+                        //         key={contest.id}
+                        //         title={contest.name}
+                        //         image={contest.source}
+                        //         status={contest.status}
+                        //         short_description={contest.short_description}
+                        //         start_date={contest.start_date}
+                        //         end_date={contest.end_date}
+                        //     />
+                        // )
                     ))}
                 </div>
             </div>
