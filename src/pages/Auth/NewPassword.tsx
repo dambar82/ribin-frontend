@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
-import {loginUser} from "../store/userSlice";
-import {useAppDispatch} from "../store/hooks";
+import {loginUser} from "../../store/userSlice";
+import {useAppDispatch} from "../../store/hooks";
 
 const Restore = () => {
 

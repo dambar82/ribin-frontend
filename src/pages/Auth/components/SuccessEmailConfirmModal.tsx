@@ -1,13 +1,17 @@
 import { useNavigate } from 'react-router-dom'
 import { Button, Logo } from '../../../shared/UI'
+import { useAppDispatch } from '../../../store/hooks'
+import { emailConfirmed } from '../../../store/userSlice'
 
 import c from './confirmEmailModal.module.scss'
 
 const SuccessConfirmEmailModal = () => {
 
   const navigate = useNavigate()
+  const dispatch = useAppDispatch();
 
   const confirmHandler = () => {
+    dispatch(emailConfirmed())
     navigate('/')
   }
 

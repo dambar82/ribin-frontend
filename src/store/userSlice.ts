@@ -2,11 +2,12 @@ import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
 import {ContestUser, Post} from "../types";
 import { TEditUserRequest, TEditUserResponse } from '../shared/types/user.types'
-import { TCheckAuthResponse, TLoginUserResponse, TConfirmEmailResponse } from '../shared/types/auth.types'
+import { TCheckAuthResponse, TLoginUserResponse, TConfirmEmailResponse, TRegisterUserRequest, TRegisterUserResponse, TConfirmEmailRequest } from '../shared/types/auth.types'
 
 export interface User {
     id: number;
     email: string;
+    email_confirmed: boolean
     name: string;
     surname: string;
     birthdate: number;
@@ -54,18 +55,42 @@ $api.interceptors.request.use(config => {
 })
 
 export const loginUser = createAsyncThunk('user/loginUser', async ({ email, password }: { email: string; password: string }) => {
+  try {
     const response = await axios.post<TLoginUserResponse>('https://api-rubin.multfilm.tatar/api/login', { email, password });
     return response.data
+  } catch (error) {
+    console.log(error);
+    return error?.response.data
+  }
 });
 
-export const confirmEmail = createAsyncThunk('user/confirmEmail', async () => {
-    const response = await $api.get<TConfirmEmailResponse>('/api/client/email-confirmation');
+export const confirmEmail = createAsyncThunk('user/confirmEmail', async (sendObj: TConfirmEmailRequest) => {
+  try {
+    const response = await $api.post<TConfirmEmailResponse>('/api/clients/confirm-email', sendObj);
     return response.data
+  } catch (error) {
+    console.log(error);
+    return error?.response.data
+  }
+});
+export const resendConfirmEmail = createAsyncThunk('user/resendConfirmEmail', async (sendObj: TConfirmEmailRequest) => {
+  try {
+    const response = await $api.post<TConfirmEmailResponse>('/api/clients/resend-confirmation', sendObj);
+    return response.data
+  } catch (error) {
+    console.log(error);
+    return error?.response.data
+  }
 });
 
-export const registerUser = createAsyncThunk('user/registerUser', async ({ email, password, name, surname }: { email: string; password: string; name: string, surname: string }) => {
-    const response = await axios.post<TLoginUserResponse>('https://api-rubin.multfilm.tatar/api/clients', { email, password, name, surname });
-    return response.data
+export const registerUser = createAsyncThunk('user/registerUser', async (sendObj: TRegisterUserRequest) => {
+    try {
+      const response = await axios.post<TRegisterUserResponse>('https://api-rubin.multfilm.tatar/api/clients', sendObj);
+      return response.data
+    } catch (error) {
+      console.log(error);
+      return error?.response.data
+    }
 });
 
 export const checkAuth = createAsyncThunk('user/checkAuth', async () => {
@@ -102,8 +127,8 @@ const userSlice = createSlice({
             localStorage.removeItem('token');
             localStorage.removeItem('user_id');
         },
-        resetConfirmEmail: (state) => {
-          state.confirmEmailStatus = null
+        emailConfirmed: (state) => {
+          if ( state.user ) state.user.email_confirmed = true
         }
     },
     extraReducers: (builder) => {
@@ -112,6 +137,12 @@ const userSlice = createSlice({
                 state.status = 'loading';
             })
             .addCase(loginUser.fulfilled, (state, action: PayloadAction<TLoginUserResponse>) => {
+              console.log(action.payload);
+
+              //@ts-ignore
+                if ( action.payload?.status === 'error' ) {
+                  return
+                } 
                 state.user = action.payload.client;
                 state.status = 'succeeded';
                 localStorage.setItem('token', JSON.stringify(action.payload.token));
@@ -127,9 +158,24 @@ const userSlice = createSlice({
                 state.status = 'loading';
             })
             .addCase(confirmEmail.fulfilled, (state, action: PayloadAction<TConfirmEmailResponse>) => {
+                console.log(action.payload);
+              
                 state.confirmEmailStatus = action.payload
             })
             .addCase(confirmEmail.rejected, (state, action) => {
+                state.status = 'failed';
+                state.error = action.error.message || null;
+            })
+
+            .addCase(resendConfirmEmail.pending, (state) => {
+                state.status = 'loading';
+            })
+            .addCase(resendConfirmEmail.fulfilled, (state, action: PayloadAction<TConfirmEmailResponse>) => {
+                console.log(action.payload);
+              
+                state.confirmEmailStatus = action.payload
+            })
+            .addCase(resendConfirmEmail.rejected, (state, action) => {
                 state.status = 'failed';
                 state.error = action.error.message || null;
             })
@@ -138,6 +184,9 @@ const userSlice = createSlice({
                 state.status = 'loading';
             })
             .addCase(registerUser.fulfilled, (state, action: PayloadAction<TLoginUserResponse>) => {
+                if ( action.payload?.errors ) {
+                  return
+                }  
                 state.user = action.payload.client;
                 state.status = 'succeeded';
                 localStorage.setItem('token', JSON.stringify(action.payload.token));
@@ -145,6 +194,8 @@ const userSlice = createSlice({
                 state.error = null;
             })
             .addCase(registerUser.rejected, (state, action) => {
+                console.log(action);
+              
                 state.status = 'failed';
                 state.error = action.error.message || null;
             })
@@ -178,5 +229,5 @@ const userSlice = createSlice({
     },
 });
 
-export const { logout, setUser, clearUser, resetConfirmEmail } = userSlice.actions;
+export const { logout, setUser, clearUser, emailConfirmed } = userSlice.actions;
 export default userSlice.reducer;

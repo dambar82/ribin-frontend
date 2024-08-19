@@ -2,25 +2,34 @@ import { useState } from 'react'
 import { Button, Logo } from '../../../shared/UI'
 import { classNames } from '../../../shared/utils'
 import { isEmailValid } from '../../../shared/utils/validators/isEmailValid'
+import { useAppDispatch } from '../../../store/hooks'
+import { resendConfirmEmail } from '../../../store/userSlice'
 
 import c from './confirmEmailModal.module.scss'
 
-const TimeoutConfirmEmailModal = () => {
+interface TimeoutConfirmEmailModalProps {
+  client_id: number | undefined
+}
+const TimeoutConfirmEmailModal = ({ client_id }: TimeoutConfirmEmailModalProps) => {
 
   const [error, setError] = useState('')
 
-  const onSubmit = (e: React.FormEvent<HTMLFormElement> ) => {
-    e.preventDefault();
+  const dispatch = useAppDispatch();
 
-    const data = new FormData(e.currentTarget)
+  const onSubmit = () => {
+    // e.preventDefault();
 
-    const email = data.get('email') as string | null
+    // const data = new FormData(e.currentTarget)
 
-    setError('')
+    // const email = data.get('email') as string | null
 
-    if ( !isEmailValid(email) ) {
-      setError('Укажите свою почту*')
-    }
+    // setError('')
+
+    // if ( !isEmailValid(email) ) {
+    //   setError('Укажите свою почту*')
+    // }
+
+    dispatch(resendConfirmEmail({ client_id }))
   }
 
   return (
@@ -37,7 +46,7 @@ const TimeoutConfirmEmailModal = () => {
           <p className={c.text} >Ссылка для подтверждения больше не активна. Пожалуйста, запросите новую, чтобы продолжить.</p>
         </div>
 
-          <form onSubmit={onSubmit} >
+          {/* <form onSubmit={onSubmit} >
             <div className='authBlock__form-group'>
               {error && <span>{error}</span>}
               <input
@@ -51,8 +60,8 @@ const TimeoutConfirmEmailModal = () => {
                   )}
               />
             </div>
-            <Button>Запросить повторно</Button>
-          </form>
+          </form> */}
+            <Button onClick={onSubmit} >Запросить повторно</Button>
       </div>
 
     </div>

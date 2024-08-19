@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 import styles from "./EventsPage.module.scss";
@@ -15,6 +15,12 @@ const EventsPage = () => {
         { name: "Здоровье и выносливость", image: "/images/event-04.png", completed: true}
     ]
 
+    // useEffect(() => {
+    //   (async () => {
+    //     const pages = await fetch('https://api-rubin.multfilm.tatar/api/events')
+    //     console.log(pages);
+    //   })()
+    // }, [])
 
     return (
         <div className="page">

@@ -1,22 +1,51 @@
-import { Button, Logo } from '../../../shared/UI'
-import { useAppDispatch } from '../../../store/hooks'
-import { resetConfirmEmail } from '../../../store/userSlice'
+import { useNavigate, useParams } from 'react-router-dom'
+import { Button, Logo } from '../../shared/UI'
+import { useAppDispatch, useAppSelector } from '../../store/hooks'
+import { clearUser, confirmEmail, resendConfirmEmail } from '../../store/userSlice'
 
-import c from './confirmEmailModal.module.scss'
+import c from './components/confirmEmailModal.module.scss'
+import { useEffect } from 'react'
+import { SuccessConfirmEmailModal, TimeoutConfirmEmailModal } from './components'
 
 interface ConfirmEmailModalProps {
   email: string
 }
 const ConfirmEmailModal = ({ email }: ConfirmEmailModalProps) => {
+  
+  const confirmEmailStatus = useAppSelector(state => state.user.confirmEmailStatus)
+  const user = useAppSelector(state => state.user.user)
+
+  const navigate = useNavigate()
+  const params = useParams()
 
   const dispatch = useAppDispatch()
 
-  const resendEmailConfirmation = () => {
+  useEffect(() => {
+    if ( params.hash ) {
+      dispatch(confirmEmail({ hash: params.hash }))
+    }
+  }, [params])
 
+  const resendEmailConfirmation = () => {
+    dispatch(resendConfirmEmail({ client_id: user.id }))
   }
 
   const cancelHandler = () => {
-    dispatch(resetConfirmEmail())
+    navigate('/login')
+    dispatch(clearUser())
+  }
+
+  if ( user?.email_confirmed ) {
+    navigate('/')
+    return
+  }
+
+  if ( confirmEmailStatus?.status === 'success' ) {
+    return <SuccessConfirmEmailModal />
+  }
+
+  if ( confirmEmailStatus?.status === 'error' ) {
+    return <TimeoutConfirmEmailModal client_id={user.id} />
   }
 
   return (

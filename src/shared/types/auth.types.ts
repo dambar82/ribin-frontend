@@ -7,6 +7,18 @@ export type TLoginUserRequest = {
 export type TLoginUserResponse = {
   client: User
   token: string
+  errors?: any
+}
+
+export type TRegisterUserRequest = {
+  name: string
+  surname: string
+  email: string
+  password: string
+}
+export type TRegisterUserResponse = {
+  client: User
+  token: string
 }
 
 export type TCheckAuthResponse = {
@@ -14,7 +26,8 @@ export type TCheckAuthResponse = {
 }
 
 export type TConfirmEmailRequest = {
-  
+  client_id?: number
+  hash?: string
 }
 export type TConfirmEmailResponse = {
   status: 'success' | 'error'

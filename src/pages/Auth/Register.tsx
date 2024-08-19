@@ -8,6 +8,7 @@ import { ConfirmEmailModal, SuccessConfirmEmailModal, TimeoutConfirmEmailModal }
 
 import c from './Register.module.scss'
 import { isEmailValid } from '../../shared/utils/validators/isEmailValid'
+import { TRegisterUserResponse } from '../../shared/types/auth.types'
 
 
 const POLITICS_URL = process.env.REACT_APP_POLITICS_URL
@@ -24,9 +25,13 @@ const FORM_FIELDS: TFormFiled[] = [
 
 const Register = () => {
 
-    const [formData, setFormData] = useState<Record<string, string>>({})
+    const [formData, setFormData] = useState<Record<string, string>>(FORM_FIELDS.reduce((acc, el) => {
+      acc[el.id] = ''
+      return acc
+    }, {}))
     const [errors, setErrors] = useState<Record<string, string>>({})
     const [confirmEmailModal, setConfirmEmailModal] = useState(false)
+    const [errorMessage, setErrorMessage] = useState('')
 
     const dispatch = useAppDispatch();
 
@@ -59,20 +64,20 @@ const Register = () => {
           setErrors(prev => ({ ...prev, checkbox: 'Согласие обязательно*' }))
         }
 
-        dispatch(confirmEmail())
-        
-        // dispatch(registerUser({ email, password, name, surname }));
+        dispatch(registerUser({ email, password, name, surname }))
+          .then((res: any) => {
+            console.log(res);
+            
+            if ( res.payload?.token ) {
+              setConfirmEmailModal(true)
+            }
+            if ( res.payload?.message ) {
+              setErrorMessage(res.payload?.message)
+            }
+          })
     };
 
-    if ( false ) {
-      return <TimeoutConfirmEmailModal />
-    }
-
-    if ( false ) {
-      return <SuccessConfirmEmailModal />
-    }
-
-    if ( false ) {
+    if ( confirmEmailModal ) {
       return <ConfirmEmailModal email={formData?.email} />
     }
 
@@ -90,11 +95,12 @@ const Register = () => {
                 <h2 className='authBlock__h2'>
                     Регистрация
                 </h2>
+               {errorMessage && <p>{errorMessage}</p>}
                 <form onSubmit={handleSubmit} className='authBlock__form_block'>
                     <div className='authBlock__form_inputs'>
                       {FORM_FIELDS.map(field => (
                         <div key={field.id} className='authBlock__form-group'>
-                          {errors[field.id] && <span>{errors[field.id]}</span>}
+                          {errors[field.id] && <span style={{ color: 'red' }} >{errors[field.id]}</span>}
                           <input
                               placeholder={field.placeholder}
                               type={field?.type || "text"}

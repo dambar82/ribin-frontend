@@ -61,10 +61,8 @@ const MainUnauthorizedHeader = () => {
                 <div className={styles.authHeader_menu}>
                     {
                         menuLinks.map((link: IMenuLink) => (
-                            <Link to={link.link} key={link.link}>
-                                <div className={styles.menuLink}>
-                                    {link.title}
-                                </div>
+                            <Link to={link.link} key={link.link} className={styles.menuLink} >
+                              {link.title}
                             </Link>
                         ))
                     }

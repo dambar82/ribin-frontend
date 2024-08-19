@@ -1,16 +1,16 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import { BrowserRouter, Navigate, Route, Routes, useNavigate } from "react-router-dom";
 import Contests from "./pages/Contests/Contests";
 import {useDispatch, useSelector} from "react-redux";
 import {AppDispatch, RootState} from "./store/store";
 import AuthLayout from "./components/layouts/AuthLayout";
 import UnauthLayout from "./components/layouts/UnauthLayout";
-import Login from "./pages/Login";
-import Register from "./pages/Register/Register";
+import Login from "./pages/Auth/Login";
+import Register from "./pages/Auth/Register";
 import PrivateRoute from "./components/layouts/PrivateRoute";
-import Restore from "./pages/Restore";
+import Restore from "./pages/Auth/Restore";
 import RestoreLayout from "./components/layouts/RestoreLayout";
-import NewPassword from "./pages/NewPassword";
+import NewPassword from "./pages/Auth/NewPassword";
 import ContestPage from "./pages/ContestPage/ContestPage";
 import ContestForm from "./pages/ContestForm/ContestForm";
 import MainUnauthorizedLayout from "./components/layouts/MainUnauthorizedLayout";
@@ -42,6 +42,8 @@ import FeedbackPage from './pages/FeedbackPage/FeedbackPage';
 import SettingsPage from './pages/SettingsPage/SettingsPage';
 import SingleEventPage from './pages/SingleEventPage/SingleEventPage';
 import { checkAuth } from './store/userSlice'
+import { ConfirmEmailModal } from './pages/Auth/components'
+import { Loader } from './shared/UI'
 
 
 export function postFormatDate(isoString) {
@@ -100,8 +102,12 @@ export const formatDate = (dateStr: string) => {
 };
 
 function App() {
-
+  
     const user = useSelector((state: RootState) => state.user.user);
+
+    const isAuth = !!user?.email_confirmed
+
+    const [loading, setLoading] = useState(false)
 
     const dispatch = useDispatch<AppDispatch>()
 
@@ -110,6 +116,7 @@ function App() {
         { path: '/register', element: <Register />, layout: UnauthLayout },
         { path: '/restore', element: <Restore />, layout: RestoreLayout },
         { path: '/restore/password', element: <NewPassword />, layout: RestoreLayout },
+        { path: '/email-confirmation/:hash', element: <ConfirmEmailModal email='' />, layout: UnauthLayout },
     ];
 
     const privateRoutes = [
@@ -142,9 +149,21 @@ function App() {
         { path: '/clubs/events/new', element: <CreateEventPage /> },
     ];
 
+    const token = JSON.parse(localStorage.getItem('token') || '0')
+
     useEffect(() => {
-      dispatch(checkAuth())
+      if ( token ) {
+        setLoading(true)
+        dispatch(checkAuth())
+          .finally(() => {
+            setLoading(false)
+          })
+      }
     }, [])
+
+    if ( token && (loading || !user) ) {
+      return <Loader />
+    }
 
     return (
         <BrowserRouter>
@@ -155,7 +174,7 @@ function App() {
                 <Route
                     path="/"
                     element={
-                        user ? (
+                      isAuth ? (
                             <MainAuthorizedLayout>
                                 <AuthorizedMain />
                             </MainAuthorizedLayout>
@@ -177,7 +196,7 @@ function App() {
                         }
                     />
                 ))}
-                <Route path="*" element={<Navigate to={user ? "/" : "/login"} />} />
+                <Route path="*" element={<Navigate to={isAuth ? '/' : "/login"} />} />
             </Routes>
         </BrowserRouter>
     );
