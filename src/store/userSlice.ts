@@ -124,11 +124,15 @@ const userSlice = createSlice({
         },
         clearUser: (state) => {
             state.user = null;
+            state.confirmEmailStatus = null
             localStorage.removeItem('token');
             localStorage.removeItem('user_id');
         },
         emailConfirmed: (state) => {
-          if ( state.user ) state.user.email_confirmed = true
+          if ( state.user ) {
+            state.user.email_confirmed = true
+            state.confirmEmailStatus = null
+          }
         }
     },
     extraReducers: (builder) => {
