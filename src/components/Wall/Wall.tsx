@@ -13,6 +13,7 @@ import {useAppDispatch} from "../../store/hooks";
 import {useSelector} from "react-redux";
 import {RootState} from "../../store/store";
 import {fetchPeople} from "../../store/peopleSlice";
+import {Link} from "react-router-dom";
 
 
 interface IWall {
@@ -24,6 +25,7 @@ interface IWall {
 interface IUser {
     avatar?: string;
     name: string;
+    surname: string;
     level: number
 }
 
@@ -31,13 +33,13 @@ interface IUser {
 const MAX_COUNT_FILES_IN_FORM = 8
 
 
-const User = ({avatar, name, level}: IUser) => {
+const User = ({avatar, name, surname, level}: IUser) => {
     return (
         <div className={styles.user}>
             <div className={styles.user__avatar}>
                 { avatar && <img src={avatar} alt="" /> }
             </div>
-            <div className={styles.user__name}>{name}</div>
+            <div className={styles.user__name}>{name} {surname}</div>
             <div className={styles.user__level}>
                 <span>Уровень</span><span>{level}</span>
             </div>
@@ -334,13 +336,16 @@ const Wall = ({type, posts, editable = true}: IWall) => {
                         <div className={styles.wall__users}>
                             <div className={styles.wall__usersTitle}>Популярные пользователи</div>
                             <ul className={styles.wall__usersList}>
-                                { users.map((user, index) => (
+                                { people.slice(0, 5).map((user, index) => (
                                     <li key={user.name + index}>
-                                        <User
-                                            avatar={user.avatar}
-                                            name={user.name}
-                                            level={user.level}
-                                        />
+                                        <Link to={`/user/${user.id}`}>
+                                            <User
+                                                avatar={user.avatar}
+                                                name={user.name}
+                                                surname={user.surname}
+                                                level={0}
+                                            />
+                                        </Link>
                                     </li>
                                 ))}
                             </ul>
