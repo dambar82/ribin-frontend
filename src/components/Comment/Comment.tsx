@@ -9,6 +9,7 @@ import {useAppDispatch} from "../../store/hooks";
 import {commentLikeAsync} from "../../store/postSlice";
 import {useSelector} from "react-redux";
 import {RootState} from "../../store/store";
+import likeIconLiked from "../../images/svg/likes_red.svg";
 
 interface IComment {
     id: number;
@@ -30,6 +31,7 @@ const Comment = ({ id, liked_by, author, text, created_at, likes_count }: IComme
         if (!isLiked) {
             dispatch(commentLikeAsync({commentId: id}))
             setLikes(likes + 1);
+            setIsLiked(true);
         }
     }
 
@@ -51,9 +53,12 @@ const Comment = ({ id, liked_by, author, text, created_at, likes_count }: IComme
         <div className={styles.comment__footer}>
             <div className={styles.comment__likes} onClick={handleLikeClick}>
                 <div className={styles.comment__likesIcon}>
-                    <img src={likeIcon} alt=""/>
+                    <img
+                        src={isLiked ? likeIconLiked : likeIcon}
+                        alt=""
+                    />
                 </div>
-                <span className={styles.comment__label}>{likes}</span>
+                <span className={`${styles.comment__label} ${isLiked ? styles.comment__label_liked : ''}`}>{likes}</span>
             </div>
             <button className={`${styles.comment__button} ${styles.comment__button_reply}`} type="button">Ответить</button>
             <button className={`${styles.comment__button} ${styles.comment__button_share}`} type="button">Поделиться</button>

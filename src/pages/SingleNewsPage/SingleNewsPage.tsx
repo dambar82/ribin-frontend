@@ -38,6 +38,8 @@ const SingleNewsPage = () => {
 
     const { status, news } = useSelector((state: RootState) => state.news);
 
+    const user = useSelector((state: RootState) => state.user);
+
     const singleNews = news.find(item => item.id.toString() === id);
 
     useEffect(() => {
