@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState, AppDispatch } from '../../store/store';
 
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import styles from './Clubs.module.scss';
 
@@ -47,7 +47,7 @@ const Clubs = () => {
                 <div className='section__body'>
                     <div className={styles.clubs__row}>
                         {clubs.slice(0, 3).map((club, index) => (
-                            <Link to={`/clubs/${index}`} key={club.name + index}>
+                            <Link to={`/clubs/${club.id}`} key={club.name + index}>
                                 <ClubCard
                                     id={club.id}
                                     name={club.name}
@@ -101,6 +101,8 @@ const Clubs = () => {
     );
 };
 
+
+
 interface ClubModalProps {
   active: boolean | null
   setActive: React.Dispatch<React.SetStateAction<boolean | null>>
@@ -108,6 +110,7 @@ interface ClubModalProps {
 const ClubModal = ({ active, setActive }: ClubModalProps) => {
 
   const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate()
 
   const onSubmit = async ( e: React.FormEvent<HTMLFormElement> ) => {
     e.preventDefault()
@@ -117,10 +120,20 @@ const ClubModal = ({ active, setActive }: ClubModalProps) => {
     const name = data.get('name') as string | null
     const description = data.get('description') as string | null
 
+    if ( description.length > 120 ) {
+      alert('Описание должно быть не более 120 символов')
+      return
+    }
+
     dispatch(createClub({
       name,
       description
     }))
+    .then(({ payload }) => {
+      if ( !payload.id ) return
+      setActive(false)
+      navigate(`/clubs/${payload.id}`)
+    })
   }
 
   return (

@@ -1,0 +1,168 @@
+
+
+.banner_wrapper {
+  position: relative;
+
+  .button_wrapper {
+    position: absolute;
+    top: 32px;
+    right: 32px;
+
+    input {
+      position: absolute;
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    button {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+  
+      background-color: var(--black);
+      border-radius: 50px;
+      padding: 12px 30px;
+      cursor: pointer;
+  
+      color: var(--white);
+      font-size: 20px;
+      font-weight: 500;
+  
+      &:active {
+        transform: scale(0.99);
+      }
+    }
+  }
+
+}
+
+.club_info_avatar {
+  position: relative;
+  overflow: visible;
+
+  img {
+    border-radius: 50%;
+  }
+
+  .button_wrapper {
+    position: absolute;
+    bottom: -5px;
+    right: -5px;
+    border: 6px solid var(--white);
+    border-radius: 50%;
+
+    input {
+      position: absolute;
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    button {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+  
+      background-color: var(--black);
+      border-radius: 50px;
+      padding: 14px;
+      cursor: pointer;
+  
+      color: var(--white);
+      font-size: 20px;
+      font-weight: 500;
+  
+      &:active {
+        transform: scale(0.99);
+      }
+    }
+  }
+}
+
+.club_info_content {
+  div:first-child {
+    z-index: 10;
+  }
+}
+
+.club_info {
+  display: flex;
+  justify-content: space-between;
+  flex-grow: 1;
+  gap: 20px;
+  padding: 20px 0;
+
+  form {
+    justify-self: stretch;
+    width: 100%;
+    max-width: 900px;
+    display: grid;
+    gap: 32px;
+
+    .input_wrapper {
+      display: grid;
+      gap: 12px;
+
+      & > span {
+        color: var(--black);
+        font-size: 24px;
+        font-weight: 500;
+      }
+
+      input {
+        width: 100%;
+      }
+    }
+  }
+
+  & > button {
+    height: max-content;
+  }
+}
+
+.create_club_event {
+  position: relative;
+  height: max-content;
+  width: auto;
+  aspect-ratio: 1/1;
+  display: flex;
+  justify-content: center;
+  cursor: pointer;
+
+  border: 6px dotted #48903A;
+  border-radius: 50px;
+
+  &.disabled {
+    background-color: #F8F8F8;
+    border: none;
+    pointer-events: none;
+
+    &::before, &::after {
+      background-color: var(--black);
+    }
+  }
+
+  &::before, &::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: 145px;
+    width: 4px;
+    background-color: #48903A;
+    border-radius: 2px;
+  }
+  &::after {
+    transform: translate(-50%, -50%) rotate(90deg);
+  }
+
+  span {
+    position: absolute;
+    bottom: 70px;
+
+    font-size: 24px;
+    font-weight: 500;
+  }
+}

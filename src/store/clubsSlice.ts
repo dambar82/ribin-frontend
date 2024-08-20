@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
 import {Clubs} from "../types";
-import { TCreateClubRequest, TCreateClubResponse, TGetClubRequest, TGetClubResponse } from '../shared/types/club.types'
+import { TCreateClubEventRequest, TCreateClubEventResponse, TCreateClubRequest, TCreateClubResponse, TEditClubRequest, TEditClubResponse, TGetClubRequest, TGetClubResponse, TJoinTheClubRequest, TJoinTheClubResponse } from '../shared/types/club.types'
 
 interface ClubsState {
     club: Clubs | null
@@ -37,13 +37,38 @@ export const fetchClubs = createAsyncThunk('clubs/fetchClubs', async () => {
 });
 
 export const createClub = createAsyncThunk('clubs/createClubs', async ( sendObj: TCreateClubRequest ) => {
-  const response = await $api.post<TCreateClubResponse>('/api/club', sendObj);
-  return response.data
+  try {
+    const response = await $api.post<TCreateClubResponse>('/api/club', sendObj);
+    return response.data
+  } catch (error) {
+    console.log(error);
+    return error?.response.data
+  }
 });
 
 export const getClub = createAsyncThunk('clubs/getClub', async ( sendObj: TGetClubRequest ) => {
   const response = await $api.get<TGetClubResponse>(`/api/club/${sendObj.id}`);
   return response.data.data
+});
+
+export const editClub = createAsyncThunk('clubs/editClub', async ( data: { id: number, formData: TEditClubRequest } ) => {
+  const response = await $api.put<TEditClubResponse>(`/api/club/${data.id}`, data.formData);
+  return response.data
+});
+
+export const joinTheClub = createAsyncThunk('clubs/joinTheClub', async ( sendObj: TJoinTheClubRequest ) => {
+  const response = await $api.put<TJoinTheClubResponse>('')
+  return response.data
+});
+
+export const createClubEvent = createAsyncThunk('clubs/createClubEvent', async ( sendObj: TCreateClubEventRequest ) => {
+  try {
+    const response = await $api.put<TCreateClubEventResponse>('')
+    return response.data
+  } catch (error) {
+    console.log(error);
+    return error?.response.data
+  }
 });
 
 const clubsSlice = createSlice({
@@ -69,8 +94,12 @@ const clubsSlice = createSlice({
             .addCase(createClub.pending, (state) => {
                 state.status = 'loading';
             })
-            .addCase(createClub.fulfilled, (state, action: PayloadAction<any>) => {
-                console.log(action.payload);
+            .addCase(createClub.fulfilled, (state, action: PayloadAction<TCreateClubResponse>): any => {
+              if ( !action.payload?.id ) {
+                return
+              }
+              state.club = action.payload
+              console.log(action.payload);
             })
             .addCase(createClub.rejected, (state, action) => {
                 state.status = 'failed';
@@ -88,6 +117,32 @@ const clubsSlice = createSlice({
             .addCase(getClub.rejected, (state, action) => {
                 state.status = 'failed';
                 state.error = action.error.message || null;
+            })
+
+            .addCase(editClub.pending, (state) => {
+            })
+            .addCase(editClub.fulfilled, (state, action: PayloadAction<TEditClubResponse>) => {
+                state.club = action.payload
+            })
+            .addCase(editClub.rejected, (state, action) => {
+            })
+
+            .addCase(joinTheClub.pending, (state) => {
+            })
+            .addCase(joinTheClub.fulfilled, (state, action: PayloadAction<TJoinTheClubResponse>) => {
+              
+            })
+            .addCase(joinTheClub.rejected, (state, action) => {
+            })
+
+            .addCase(createClubEvent.pending, (state) => {
+            })
+            .addCase(createClubEvent.fulfilled, (state, action: PayloadAction<TCreateClubEventResponse>) => {
+              if ( !action.payload ) {
+                return
+              }
+            })
+            .addCase(createClubEvent.rejected, (state, action) => {
             })
     }
 })
