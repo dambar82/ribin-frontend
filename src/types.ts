@@ -83,16 +83,17 @@ export interface NewsBack {
 
 export interface Clubs {
   id: number
-    name: string;
-    caption: string;
-    short_description: string;
-    age: number;
-    description: string;
-    source: string[];
-    clients_count: number;
-    clients: any[];
-    events: any[];
-    posts: IPost[]
+  name: string;
+  avatar: string
+  caption: string;
+  short_description: string;
+  age: number;
+  description: string;
+  source: string[];
+  clients_count: number;
+  clients: any[];
+  events: any[];
+  posts: IPost[]
 }
 
 export interface TrainingVideo {

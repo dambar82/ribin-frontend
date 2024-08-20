@@ -1,25 +1,33 @@
 import {useEffect, useState} from 'react'
-import styles from './SingleClubPage.module.scss';
+import c from './SingleClubPage.module.scss';
 import { useAppDispatch } from '../../store/hooks'
 import { getClub } from '../../store/clubsSlice'
-
-import geoIcon from '../../images/svg/geo.svg'
-
-import Wall from '../../components/Wall/Wall';
-import Row from '../../components/Row/Row';
-import Card from '../../components/Card/Card';
 import { useParams } from 'react-router-dom'
 import {fetchPostsByClubId, fetchPostsByUserId} from "../../store/postSlice";
 import { useSelector } from 'react-redux'
 import { RootState } from '../../store/store'
+import Wall from '../../components/Wall/Wall';
+import Row from '../../components/Row/Row';
+import Card from '../../components/Card/Card';
+
+import geoIcon from '../../images/svg/geo.svg'
+//@ts-ignore
+import banner from '../../images/default_club_banner.png'
+//@ts-ignore
+import avatar from '../../images/default_club_avatar.png'
+import { JoinTheClubButton } from './components'
+import { EditClubTab } from './tabs/edit-club-tab/EditClubTab'
+import { Button } from '../../shared/UI'
+import { CreateClubEvent } from './tabs/create-club-event/CreateClubEvent'
+import { SuccessCreateEvent } from './tabs/success-create-event/SuccessCreateEvent'
+
 
 const SingleClubPage = () => {
 
-    const { posts, status, error } = useSelector((state: RootState) => state.post)
-    const [feedType, setFeedType] = useState(0)
-    const [sortType, setSortType] = useState(0)
-
+    const { posts } = useSelector((state: RootState) => state.post)
     const club = useSelector((state: RootState) => state.clubs.club)
+    
+    const [activeTab, setActiveTab] = useState(3)
 
     const params = useParams()
     const dispatch = useAppDispatch();
@@ -27,62 +35,96 @@ const SingleClubPage = () => {
     useEffect(() => {
       dispatch(getClub({ id: params.id }))
     }, [])
+
     useEffect(() => {
             dispatch(fetchPostsByClubId({clubId: 1}));
     }, [dispatch]);
 
+    if ( !club ) {
+      return <div>Клуб не найден</div>
+    }
+
+    const isAdmin = true
+
+    if ( activeTab === 1 ) {
+      return <EditClubTab
+        club={club}
+        setActiveTab={setActiveTab}
+      />
+    }
+
+    if ( activeTab === 2 ) {
+      return <CreateClubEvent
+        club={club}
+        setActiveTab={setActiveTab}
+      />
+    }
+
     return (
         <div className='page'>
-            <section className={`section ${styles.clubInfo}`}>
-                <div className={styles.clubInfo__image}>
-                    <img src={club.caption} alt="" />
+            <section className={`section ${c.clubInfo}`}>
+                <div className={c.clubInfo__image}>
+                    <img src={club.caption || banner} />
                 </div>
-                <div className={styles.clubInfo__content}>
-                    <div className={styles.clubInfo__avatar}>
+                <div className={c.clubInfo__content}>
+
+                    <div className={c.clubInfo__avatar}>
                         <div>
-                            <img src={club.caption} alt="" />
+                            <img src={club.caption || avatar} alt="" />
                         </div>
                     </div>
-                    <div className={styles.clubInfo__info}>
-                        <div className={styles.clubInfo__infoHeader}>
+                    
+                    <div className={c.clubInfo__info}>
+                        <div className={c.clubInfo__infoHeader}>
                             <div>
-                                <h1 className={styles.clubInfo__title}>{club.name}</h1>
-                                <div className={styles.clubInfo__level}>Уровень 200</div>
+                                <h1 className={c.clubInfo__title}>{club.name}</h1>
                             </div>
-                            <button className="button button--main" type="button">
-                                <span>Вступить в Клуб</span>
-                            </button>
+                            {isAdmin
+                              ? <Button
+                                  onClick={() => {
+                                    setActiveTab(1)
+                                    setTimeout(
+                                      () => window.scrollTo({ top: 0, left: 0, behavior: "smooth" }),
+                                      100
+                                    )
+                                  }}
+                                >
+                                  Редактировать клуб
+                                </Button>
+                              : <JoinTheClubButton>Вступить в клуб</JoinTheClubButton>
+                            }
                         </div>
-                        <div className={styles.clubInfo__infoDesc}>
+                        <div className={c.clubInfo__infoDesc}>
                             <p>{club.description}</p>
                         </div>
-                        <div className={styles.clubInfo__infoFooter}>
-                            <div className={styles.clubInfo__author + " " + styles.author}>
-                                <div className={styles.author__avatar}>
+                        <div className={c.clubInfo__infoFooter}>
+                            <div className={c.clubInfo__author + " " + c.author}>
+                                <div className={c.author__avatar}>
                                     <img src="/images/club-owner.png" alt="" />
                                 </div>
-                                <div className={styles.author__position}>Организатор</div>
-                                <div className={styles.author__name}>Андрей Афанасьев</div>
+                                <div className={c.author__position}>Организатор</div>
+                                <div className={c.author__name}>Андрей Афанасьев</div>
                             </div>
-                            <div className={styles.clubInfo__clients}>
-                                <div className={styles.clubInfo__client}>
+                            <div className={c.clubInfo__clients}>
+                                <div className={c.clubInfo__client}>
                                     <img src="/images/club-client-01.png" alt="" />
                                 </div>
-                                <div className={styles.clubInfo__client}>
+                                <div className={c.clubInfo__client}>
                                     <img src="/images/club-client-02.png" alt="" />
                                 </div>
-                                <div className={styles.clubInfo__client}>
+                                <div className={c.clubInfo__client}>
                                     <img src="/images/club-client-03.png" alt="" />
                                 </div>
-                                <div className={styles.clubInfo__client}>
+                                <div className={c.clubInfo__client}>
                                     <img src="/images/club-client-04.png" alt="" />
                                 </div>
-                                <div className={styles.clubInfo__client}>
+                                <div className={c.clubInfo__client}>
                                     <img src="/images/club-client-05.png" alt="" />
                                 </div>
                             </div>
                         </div>
                     </div>
+
                 </div>
             </section>
             <section className="section">
@@ -108,7 +150,7 @@ const SingleClubPage = () => {
                     </Row>
                 </div>
             </section>
-            <section className={`section ${styles.feed}`}>
+            <section className={`section ${c.feed}`}>
                 <div className="section__header">
                     <h2 className="section__title">Лента клуба</h2>
                     <div className="section__counter">5</div>
@@ -121,7 +163,7 @@ const SingleClubPage = () => {
                 </div>
             </section>
         </div>
-    );
-};
+    )
+}
 
 export default SingleClubPage;

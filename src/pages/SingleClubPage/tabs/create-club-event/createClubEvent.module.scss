@@ -1,0 +1,339 @@
+
+.page_top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.section {
+  background-color: #FFFFFF;
+  box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.12);
+  border-radius: 50px;
+  padding: 70px;
+  
+  form {
+    display: grid;
+    gap: 50px;
+
+    .input_wrapper {
+      display: grid;
+      gap: 12px;
+
+      & > span {
+        color: var(--black);
+        font-size: 24px;
+        font-weight: 500;
+      }
+
+      input {
+        width: 100%;
+      }
+
+      textarea {
+        width: 100%;
+        min-height: 220px;
+        resize: vertical;
+        padding: 30px;
+      }
+    }
+
+    & > button {
+      justify-self: center;
+    }
+
+  }
+}
+
+.fields_wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px 50px;
+
+  .date_wrapper {
+    display: grid;
+    gap: 12px;
+
+    & > span {
+      color: var(--black);
+      font-size: 24px;
+      font-weight: 500;
+    }
+
+    & > div {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+
+    :global(.react-datepicker) {
+      display: grid;
+      gap: 10px;
+    }
+    :global(.react-datepicker__time-container) {
+      width: 100%;
+    }
+    :global(.react-datepicker__time-box) {
+      width: 100%;
+    }
+  }
+
+  .address_wrapper {
+    display: grid;
+    gap: 12px;
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      & > div {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+
+        font-weight: 500;
+      }
+      
+      & > span {
+        color: var(--black);
+        font-size: 24px;
+        font-weight: 500;
+      }
+    }
+
+    & > div {
+      textarea {
+        width: 100%;
+        min-height: 220px;
+        resize: vertical;
+        padding: 30px;
+      }
+    }
+
+    .toggle {
+      position: relative;
+      width: 50px;
+      height: 28px;
+      padding: 2px;
+      background-color: #817E7E;
+      border-radius: 20px;
+      cursor: pointer;
+
+      &._active {
+        span {
+          right: 2px;
+          left: auto;
+        }
+      }
+
+      span {
+        position: absolute;
+        top: 2px;
+        left: 2px;
+        display: block;
+        height: calc(100% - 4px);
+        width: auto;
+        aspect-ratio: 1/1;
+        border-radius: 50%;
+        background-color: var(--white);
+      }
+    }
+  }
+}
+
+.datepicker_wrapper {
+  display: grid;
+  align-items: center;
+
+  input {
+    padding: 20px 30px;
+  }
+
+  & > div {
+    grid-area: 1/1;
+  }
+
+  svg {
+    grid-area: 1/1;
+    justify-self: end;
+    z-index: 1;
+    margin-right: 30px;
+    pointer-events: none;
+  }
+}
+
+.datepicker_header {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+
+  font-size: 20px;
+  font-weight: 600;
+
+  p {
+    cursor: pointer;
+  }
+
+  button {
+    font-size: 20px;
+    font-weight: 600;
+  }
+}
+
+.select_wrapper {
+  justify-self: center;
+  
+  position: absolute;
+  display: flex;
+  align-items: center;
+  height: 100%;
+  background-color: #fff;
+
+  select {
+    padding: 2px;
+    cursor: pointer;
+    
+    font-size: 20px;
+    font-weight: 600;
+
+    &:nth-child(1) {
+      border-radius: 8px 0 0 8px;
+    }
+    &:nth-child(2) {
+      border-radius: 0 8px 8px 0;
+    }
+  }
+
+  button {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    margin-left: 20px;
+
+    &::before, &::after {
+      content: '';
+      position: absolute;
+      width: 15px;
+      height: 2px;
+      background-color: #000000;
+    }
+    &::before {
+      transform: rotate(45deg);
+    }
+    &::after {
+      transform: rotate(-45deg);
+    }
+  }
+}
+
+.drop_area {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 32px;
+  padding: 70px;
+
+  border: 6px dotted #48903A;
+  border-radius: 50px;
+
+  svg {
+    pointer-events: none;
+  }
+
+  input {
+    position: absolute;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  p {
+    pointer-events: none;
+    max-width: 330px;
+    font-size: 20px;
+    font-weight: 500;
+    text-align: center;
+  }
+
+  button {
+    background-color: #48903A;
+  }
+}
+
+.loaded_cover_wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+
+  img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    border-radius: 35px;
+  }
+}
+
+.photos {
+  display: grid;
+  gap: 24px;
+
+  p {
+    font-size: 24px;
+    font-weight: 500;
+  }
+}
+
+.photos_wrapper {
+  display: flex;
+  gap: 20px;
+
+  div {
+    position: relative;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1/1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+
+    border: 4px dotted #817E7E;
+    border-radius: 35px;
+
+    img {
+      position: absolute;
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+    }
+
+    &::before, &::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      height: 28px;
+      width: 4px;
+      background-color: #817E7E;
+      border-radius: 2px;
+    }
+    &::after {
+      transform: translate(-50%, -50%) rotate(90deg);
+    }
+
+    input {
+      position: absolute;
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+  }
+}

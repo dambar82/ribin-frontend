@@ -1,0 +1,56 @@
+
+.modal_body_wrapper {
+  border-radius: 50px;
+  max-width: 90%!important;
+
+  & > button {
+    display: none!important;
+  }
+}
+
+.modal_body {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 60px;
+
+  background-color: #FFFFFF;
+  border-radius: 50px;
+  padding: 70px;
+
+  & > div {
+    &:nth-child(1) {
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+  }
+
+  b {
+    font-size: 64px;
+    font-weight: 600;
+  }
+
+  p {
+    font-size: 20px;
+  }
+
+  .btns {
+    height: 100%;
+    justify-self: flex-end;
+    display: grid;
+    justify-content: start;
+    align-items: end;
+    grid-template-columns: auto auto;
+    gap: 18px;
+
+    button:nth-child(2) {
+      background-color: transparent;
+      border: 2px solid var(--main-color);
+      color: var(--main-color);
+    }
+  }
+
+  img {
+    max-width: 600px;
+  }
+}

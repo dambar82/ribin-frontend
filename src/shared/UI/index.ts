@@ -1,4 +1,8 @@
 
+export { Textarea } from "./input/Textarea"
+
+export { Input } from "./input/Input"
+
 export { Loader } from "./loader/Loader"
 
 export { Logo } from "./logo/Logo"
