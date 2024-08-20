@@ -17,9 +17,8 @@ const initialState: NewsState = {
 const token = JSON.parse(localStorage.getItem('token') || '0')
 
 export const fetchNewsAndNewsBack = createAsyncThunk('news/fetchNewsAndNewsBack', async () => {
-    const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
     const newsBackUrl = 'https://api-rubin.multfilm.tatar/api/news';
-    const newsUrl = `${proxyUrl}https://loyalfans.rubin-kazan.ru/api/v1/bitrix/news?isTop=true`;
+    const newsUrl = `https://api-rubin.multfilm.tatar/api/request/news?isTop=true`;
 
     const results = await Promise.allSettled([
         axios.get(newsBackUrl),

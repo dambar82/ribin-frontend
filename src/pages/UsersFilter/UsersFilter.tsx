@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import styles from './UsersFilter.module.scss';
 import loupe from '../../images/svg/loupe.svg';
 import select_arrow_down from '../../images/svg/select_arrow_down.svg';
@@ -24,6 +24,10 @@ const UsersFilter = () => {
         dispatch(fetchPeople());
     }, [dispatch, people]);
 
+    useEffect(() => {
+        setFilteredPeople(people);
+    }, [people])
+
     const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setSearchTerm(e.target.value);
     };
@@ -40,6 +44,10 @@ const UsersFilter = () => {
         });
         console.log(filteredPeople)
         setFilteredPeople(filteredPeople);
+    }
+
+    if (!filteredPeople) {
+        return <p>Loading...</p>;
     }
 
     // @ts-ignore
@@ -89,7 +97,7 @@ const UsersFilter = () => {
             <div className={`section`}>
                 <div className='section__header'>
                     <div className='section__title'>Результатов</div>
-                    <div className='section__counter'>2303</div>
+                    <div className='section__counter'>{filteredPeople.length}</div>
                 </div>
                 <div className={`section__body`}>
                     <Grid totalItems={filteredPeople.length}>

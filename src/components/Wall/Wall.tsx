@@ -83,10 +83,6 @@ const Wall = ({type, posts, editable = true}: IWall) => {
         dispatch(fetchPeople());
     }, [dispatch]);
 
-    useEffect(() => {
-        console.log(people);
-    }, [people])
-
     const users = [
         { avatar: "/images/popular-user-01.png", name: "Амина Ушакова", level: 201 },
         { avatar: "/images/popular-user-02.png", name: "Артем Егоров", level: 180 },
@@ -112,7 +108,12 @@ const Wall = ({type, posts, editable = true}: IWall) => {
     }
 
     const filteredPosts = (posts: IPost[]) => {
-        return posts.filter(post => post.description.toLowerCase().includes(searchTerm.toLowerCase()));
+        return posts.filter(post => {
+            if (!searchTerm) {
+                return true;
+            }
+            return post.description && post.description.toLowerCase().includes(searchTerm.toLowerCase());
+        });
     };
 
     const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -146,7 +147,7 @@ const Wall = ({type, posts, editable = true}: IWall) => {
 
         try {
             const newPost = await dispatch(createPost(formData)).unwrap();
-
+            console.log(newPost);
             dispatch(addPost(newPost));
             setFiles([]);
             setTextareaValue('');

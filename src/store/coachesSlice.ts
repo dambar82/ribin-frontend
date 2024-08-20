@@ -16,7 +16,7 @@ const initialState: CoachesState = {
 
 export const fetchCoaches = createAsyncThunk('coaches/fetchCoaches', async () => {
     const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
-    const studentsUrl = `${proxyUrl}https://loyalfans.rubin-kazan.ru/api/v1/bitrix/academy-coaches`;
+    const studentsUrl = `https://api-rubin.multfilm.tatar/api/request/academy-coaches`;
 
     const response = await axios.get(studentsUrl, {
         headers: {
