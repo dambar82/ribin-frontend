@@ -118,6 +118,80 @@
   margin-top: 160px;
 }
 
+.prizes_content {
+  flex-direction: column;
+  row-gap: 28px;
+  &_block {
+    padding: 50px;
+    background-color: #FBFBFB;
+    border-radius: 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    &_place {
+      font-family: Saira;
+      font-size: 64px;
+      font-weight: 600;
+      line-height: 76px;
+      text-align: center;
+      color: white;
+      width: 116px;
+      height: 116px;
+      border-radius: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    &_left {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      column-gap: 28px;
+    }
+    &_avatar {
+      width: 116px;
+      height: 116px;
+      overflow: hidden;
+      border-radius: 20px;
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+    &_info {
+      display: flex;
+      flex-direction: column;
+      row-gap: 16px;
+      &_name {
+        font-family: Raleway;
+        font-size: 32px;
+        font-weight: 600;
+        line-height: 38px;
+        text-align: center;
+      }
+      &_level {
+        display: flex;
+        justify-content: flex-start;
+        column-gap: 28px;
+        div {
+          font-size: 20px;
+          font-weight: 500;
+          line-height: 24px;
+          text-align: center;
+          span {
+            font-family: Saira;
+            font-size: 32px;
+            font-weight: 500;
+            line-height: 38px;
+            text-align: center;
+          }
+        }
+      }
+    }
+  }
+}
+
 .results_content {
   display: flex;
   justify-content: space-between;
@@ -211,9 +285,11 @@
 .participants_content {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  flex-wrap: wrap;
   gap: 20px;
   height: 1000px;
   border-radius: 50px;
+  align-items: stretch;
   padding: 80px 5%;
   background: url("../../images/activeUsers-bg.svg");
 }

@@ -32,7 +32,8 @@ const ContestPage = () => {
     const { contests, contestStatus, error } = useSelector((state: RootState) => state.contests);
     const { user } = useSelector((state: RootState) => state.user);
 
-    const [participating, setParticipating] = useState(true);
+    const [participating, setParticipating] = useState(false);
+    const [topParticipants, setTopParticipants] = useState([]);
     const [timeLeft, setTimeLeft] = useState<TimeLeft>(defaultTimeLeft);
 
     const contest: Contest = contests.find(contest => contest.id.toString() === contestId);
@@ -75,12 +76,29 @@ const ContestPage = () => {
     }, [user, contest])
 
     useEffect(() => {
+        console.log(participating);
+    }, [participating])
+
+    useEffect(() => {
+        console.log(contest)
+        if (contest) {
+            setTopParticipants(contest.participants.filter(participant =>
+                contest.prizes.some(prize => prize.client_id === participant.client.id)
+            ).sort((a, b) => {
+                    const prizeA = contest.prizes.find(prize => prize.client_id === a.client.id);
+                    const prizeB = contest.prizes.find(prize => prize.client_id === b.client.id);
+                    return prizeA.place - prizeB.place;
+                }))
+        }
+    }, [contest])
+
+    useEffect(() => {
         if (contestStatus === 'idle') {
             dispatch(fetchContests());
         }
     }, [contestStatus, dispatch]);
 
-    if (contestStatus === 'loading') {
+    if (contestStatus === 'loading' || !contest) {
         return <p>Loading...</p>;
     }
 
@@ -101,9 +119,15 @@ const ContestPage = () => {
                             <h3>
                                 {contest?.name}
                             </h3>
-                            <div className='orange_button'>
-                                Идёт приём работ
-                            </div>
+                            {contest?.status === 1 ? (
+                                <div className='orange_button'>
+                                    Идёт приём работ
+                                </div>
+                            ) : (
+                                <div className='gray_button'>
+                                    Завершён
+                                </div>
+                            )}
                         </div>
                         <div className={styles.card__right_footer}>
                             <div className={`${styles.boxShadow} ${styles.datesBlock}`}>
@@ -170,7 +194,7 @@ const ContestPage = () => {
                     </div>
                 </div>
             </div>
-            {!participating && (
+            {(participating === false) && (contest.status === 1) && (
                 <div className={styles.grayPart}>
                     <Link to={`/contests/${contestId}/form`}>
                         <div className='action_button'>
@@ -180,73 +204,118 @@ const ContestPage = () => {
                 </div>
             )}
         </div>
-        {participating && (
-            <>
-                <div className={`section ${styles.results}`}>
-                    <div className='section__header'>
-                        <div className='section__title'>Результаты</div>
-                    </div>
-                    <div className='section_body'>
-                        <div className={`shadowBlock ${styles.results_content}`}>
-                            <div className={`${styles.results_content_leftPart}`}>
-                                <h1>
-                                    Поздравляем, ты стал (а) участником конкурса!
-                                </h1>
-                                <div className={styles.timerBlock}>
-                                    <h2>
-                                        Осталось времени до оглашения результатов
-                                    </h2>
-                                    <div className={styles.timerBlock_timer}>
-                                        {Object.keys(timeLeft).map((timeItem, index, arr) => {
-                                            if (index !== arr.length - 1) 
-                                                return (
-                                                    <React.Fragment key={timeItem}>
-                                                        <div className={styles.timerItem}>
-                                                            <div className={styles.timerItem_value}>{timeLeft[timeItem]}</div>
-                                                            <div className={styles.timerItem_label}>{timeMap[timeItem]}</div>
-                                                        </div>
-                                                        <div className={styles.timerSeparator}></div>
-                                                    </React.Fragment>
-                                            )
-                                            return (
-                                                <div key={timeItem} className={styles.timerItem}>
-                                                    <div className={styles.timerItem_value}>{timeLeft[timeItem]}</div>
-                                                    <div className={styles.timerItem_label}>{timeMap[timeItem]}</div>
+            {
+                (participating || contest.status === 0) && (
+                    <>
+                        <div className={`section ${styles.results}`}>
+                            <div className='section__header'>
+                                <div className='section__title'>Результаты</div>
+                            </div>
+                            <div className='section_body'>
+                                {participating && (
+                                    <div className={`shadowBlock ${styles.results_content}`}>
+                                        <div className={`${styles.results_content_leftPart}`}>
+                                            <h1>
+                                                Поздравляем, ты стал (а) участником конкурса!
+                                            </h1>
+                                            <div className={styles.timerBlock}>
+                                                <h2>
+                                                    Осталось времени до оглашения результатов
+                                                </h2>
+                                                <div className={styles.timerBlock_timer}>
+                                                    {Object.keys(timeLeft).map((timeItem, index, arr) => {
+                                                        if (index !== arr.length - 1)
+                                                            return (
+                                                                <React.Fragment key={timeItem}>
+                                                                    <div className={styles.timerItem}>
+                                                                        <div className={styles.timerItem_value}>{timeLeft[timeItem]}</div>
+                                                                        <div className={styles.timerItem_label}>{timeMap[timeItem]}</div>
+                                                                    </div>
+                                                                    <div className={styles.timerSeparator}></div>
+                                                                </React.Fragment>
+                                                            )
+                                                        return (
+                                                            <div key={timeItem} className={styles.timerItem}>
+                                                                <div className={styles.timerItem_value}>{timeLeft[timeItem]}</div>
+                                                                <div className={styles.timerItem_label}>{timeMap[timeItem]}</div>
+                                                            </div>
+                                                        )
+                                                    })}
                                                 </div>
-                                            )
-                                        })}
+                                            </div>
+                                        </div>
+                                        <div className={styles.results_content_rightPart}>
+                                            <img src={resultsDragon} alt=""/>
+                                        </div>
                                     </div>
+                                )}
+                                {contest.status === 0 && (
+                                    <div className={`shadowBlock ${styles.results_content} ${styles.prizes_content}`}>
+                                        {topParticipants.slice(0, 3).map((member, index) => (
+                                            <Link to={`/user/${member.client.id}`}>
+                                                <div className={styles.prizes_content_block}>
+                                                    <div className={styles.prizes_content_block_left}>
+                                                        <div className={styles.prizes_content_block_avatar}>
+                                                            <img src={member.client.image} alt=""/>
+                                                        </div>
+                                                        <div className={styles.prizes_content_block_info}>
+                                                            <div className={styles.prizes_content_block_info_name}>
+                                                                {member.client.name} {member.client.surname}
+                                                            </div>
+                                                            <div className={styles.prizes_content_block_info_level}>
+                                                                <div>
+                                                                    Уровень <span>{member.client.level}</span>
+                                                                </div>
+                                                                <div>
+                                                                    Очков <span>{member.client.score}</span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div
+                                                        className={styles.prizes_content_block_place}
+                                                        style={{
+                                                            backgroundColor: index === 0 ? '#FFE500' :
+                                                                index === 1 ? '#BAB9B6' :
+                                                                    index === 2 ? '#FF9A51' :
+                                                                        'gray' // цвет по умолчанию для остальных
+                                                        }}
+                                                    >
+                                                        {index + 1}
+                                                    </div>
+                                                </div>
+                                            </Link>
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                        <div className={`section ${styles.participants}`}>
+                            <div className='section__header'>
+                                <div className='section__title'>Участники</div>
+                                <div className='section__counter'>{contest.participants.length}</div>
+                            </div>
+                            <div className='section__body'>
+                                <div className={styles.participants_content}>
+                                    {contest && contest.participants
+                                        .slice(0, 20)
+                                        .map(participant => (
+                                            <Link to={`/user/${participant.id}`}>
+                                                <ActiveUserCard
+                                                    image={participant.client.image}
+                                                    name={participant.client.name}
+                                                    level={participant.client.level}
+                                                    points={participant.client.score}
+                                                    key={participant.id}></ActiveUserCard>
+                                            </Link>
+                                        ))
+                                    }
                                 </div>
                             </div>
-                            <div className={styles.results_content_rightPart}>
-                                <img src={resultsDragon} alt=""/>
-                            </div>
                         </div>
-                    </div>
-                </div>
-                <div className={`section ${styles.participants}`}>
-                    <div className='section__header'>
-                        <div className='section__title'>Участники</div>
-                        <div className='section__counter'>23</div>
-                    </div>
-                    <div className='section__body'>
-                        <div className={styles.participants_content}>
-                            {contest && contest.participants
-                                .slice(0, 20) // Ограничиваем массив до первых 20 элементов
-                                .map(participant => (
-                                    <ActiveUserCard
-                                        image={participant.client.image}
-                                        name={participant.client.name}
-                                        level={participant.client.level}
-                                        points={participant.client.score}
-                                        key={participant.id}></ActiveUserCard>
-                                ))
-                            }
-                        </div>
-                    </div>
-                </div>
-            </>
-        )}
+                    </>
+                )
+            }
         </div>
     );
 };

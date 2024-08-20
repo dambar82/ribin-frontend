@@ -19,6 +19,7 @@ const ProfilePage = () => {
     useEffect(() => {
         setCurrentUser(user.user);
         if (currentUser) {
+            console.log(currentUser);
             dispatch(fetchPostsByUserId({userId: user.user.id}));
         }
     }, [dispatch, user]);

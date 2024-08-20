@@ -237,6 +237,7 @@ const Wall = ({type, posts, editable = true}: IWall) => {
                                 id={post.id}
                                 name={post.client.name}
                                 avatar={post.client.avatar}
+                                created_by={post.client.id}
                                 tags={null}
                                 source={post.source}
                                 comments={post.comments}
@@ -268,7 +269,7 @@ const Wall = ({type, posts, editable = true}: IWall) => {
                                 liked_by={post.liked_by}
                                 updated_at={post.created_at}
                                 type={'video'}
-                            >
+                                created_by={post.client.id}>
                                 {post.description}
                             </Post>
                         )) : null}
@@ -289,6 +290,7 @@ const Wall = ({type, posts, editable = true}: IWall) => {
                                 liked_by={post.liked_by}
                                 updated_at={post.created_at}
                                 type={'image'}
+                                created_by={post.client.id}
                             >
                                 {post.description}
                             </Post>

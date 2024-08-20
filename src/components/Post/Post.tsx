@@ -16,11 +16,13 @@ import 'react-image-lightbox/style.css'; // Импорт стилей для lig
 import Lightbox from 'react-image-lightbox';
 import {Button} from "../../shared/UI";
 import {postFormatDate} from "../../App";
+import {Link} from "react-router-dom";
 
 interface ICard {
     id: number;
     name: string;
     avatar?: string;
+    created_by: number;
     source?: string[];
     tags?: string;
     comments?: IComment[]
@@ -46,7 +48,7 @@ function srcset(image: string, size: number, rows = 1, cols = 1) {
     };
 }
 
-const Post = ({ id, name, avatar, source, tags, comments, children, likes, liked_by, updated_at, type }: ICard) => {
+const Post = ({ id, name, avatar, created_by, source, tags, comments, children, likes, liked_by, updated_at, type }: ICard) => {
 
     const dispatch = useAppDispatch();
     const [isOpen, setIsOpen] = useState(false);
@@ -131,12 +133,14 @@ const Post = ({ id, name, avatar, source, tags, comments, children, likes, liked
         <article className={styles.post}>
             <div className={styles.post__header}>
                 <div className={styles.post__mainInfo}>
-                    <div className={styles.post__avatar}>
-                        {avatar ?
-                            <img src={avatar} alt="" /> :
-                            <img src="/images/club-image.png" alt="" />
-                        }
-                    </div>
+                        <div className={styles.post__avatar}>
+                            <Link to={`/user/${created_by}`}>
+                                {avatar ?
+                                    <img src={avatar} alt="" /> :
+                                    <img src="/images/club-image.png" alt="" />
+                                }
+                            </Link>
+                        </div>
                     <div className={styles.post__title}>{name}</div>
                     <div className={styles.post__createdAt}>{postFormatDate(post.created_at)}</div>
                 </div>
