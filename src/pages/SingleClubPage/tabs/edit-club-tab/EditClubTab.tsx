@@ -39,8 +39,8 @@ const EditClubTab = ({ club, setActiveTab }: EditClubTabProps) => {
 
     const data = new FormData(e.currentTarget)
 
-    if ( loadedAvatar ) data.set('caption', loadedAvatar.file, 'caption')
-    if ( loadedBanner ) data.set('banner', loadedBanner.file, 'banner')
+    if ( loadedAvatar ) data.set('source', loadedAvatar.file, 'source')
+    if ( loadedBanner ) data.set('caption', loadedBanner.file, 'caption')
 
     dispatch(editClub({
       id: club.id,
@@ -168,15 +168,15 @@ const EditClubTab = ({ club, setActiveTab }: EditClubTabProps) => {
               </div>
             }
 
-            {club.events?.map((name, index) => (
+            {club.events?.map(event => (
               <Card
-                key={index}
-                date='12.07.2024, 16:00'
-                name={name}
-                image='/images/event.png'
-                desc="Клуб для тех, кто хочет улучшить свою физическую форму через футбольные тренировки. Включает кардиотренировки, специальные упражнения и футбольные игры. Также проводятся занятия по правильному питанию и общему укреплению здоровья."
+                key={event.id}
+                date={`${event.date}, ${event.time}`}
+                name={event.name}
+                image={event.caption}
+                desc={event.description}
                 tagIcon={geoIcon}
-                tagLabel='Cтадион "Рубин", улица Спортивная, 15'
+                tagLabel={`${event.city} ${event.location}`}
               />
             ))}
 

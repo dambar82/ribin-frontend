@@ -1,7 +1,7 @@
 import { Clubs } from '../../../../types'
 import c from './createClubEvent.module.scss'
 import c2 from '../../SingleClubPage.module.scss'
-import { Button, Input, Textarea } from '../../../../shared/UI'
+import { Button, Input, Modal, Textarea } from '../../../../shared/UI'
 import { ChangeEvent, useRef, useState } from 'react'
 import { isFileSizeAllowed } from '../../../../shared/utils/validators/isFileSizeAllowed'
 import { arrayFromTo, classNames } from '../../../../shared/utils'
@@ -13,6 +13,7 @@ import { useAppDispatch } from '../../../../store/hooks'
 import { createClubEvent } from '../../../../store/clubsSlice'
 import { createPortal } from 'react-dom'
 import { SuccessCreateEvent } from '../success-create-event/SuccessCreateEvent'
+import Map from '../../../../components/Map/Map'
 
 //@ts-ignore
 registerLocale('ru', ru)
@@ -31,7 +32,7 @@ const CreateClubEvent = ({ club, setActiveTab }: CreateClubEventProps) => {
   const [startDate, setStartDate] = useState<Date | null>(new Date())
   const [activeToggle, setActiveToggle] = useState(false)
 
-  const [activeModal, setActiveModal] = useState<boolean | null>(true)
+  const [activeModal, setActiveModal] = useState<boolean | null>(null)
 
   const coverRef = useRef<HTMLInputElement>(null)
   const dataPickerEl = useRef(null)
@@ -44,29 +45,31 @@ const CreateClubEvent = ({ club, setActiveTab }: CreateClubEventProps) => {
 
     const data = new FormData(e.currentTarget)
 
-    const name = data.get('name') as string | null
-    const description = data.get('description') as string | null
-    const address = data.get('address') as string | null
-
-    const req = {
-      name,
-      description,
-      address,
-      cover: loadedCover.url,
-      photos: loadedPhotos.map(photo => photo.url),
-      date: startDate
-    }
-
-    console.log(req);
+    if ( loadedCover ) data.set('caption', loadedCover.file, 'caption')
+      
+    loadedPhotos.forEach((photo, i) => {
+      data.append('photos', photo.file, `photo${i+1}`)
+    })
     
-    dispatch(createClubEvent({}))
+    const date = `${startDate.getFullYear()}-${('0' + (startDate.getMonth()+1)).slice(-2)}-${('0' + startDate.getDay()).slice(-2)}`
+    data.set('date', date)
+
+    const time = `${startDate.getHours()}:${('0' + startDate.getMinutes()).slice(-2)}`
+    data.set('time', time)
+
+    data.set('visible', 'true')
+
+    data.set('city', 'City')
+    data.set('location', 'Location')
+
+    dispatch(createClubEvent({ sendObj: data, club_id: club.id }))
       .then(res => {
         if ( res.payload ) {
           setActiveModal(true)
           //@ts-ignore
-          loadedCover(null)
+          setLoadedCover(null)
           //@ts-ignore
-          loadedPhotos([])
+          setLoadedPhotos([])
           setStartDate(new Date())
           setActiveToggle(false)
         }
@@ -157,7 +160,7 @@ const CreateClubEvent = ({ club, setActiveTab }: CreateClubEventProps) => {
           {loadedCover
           ?
             <div className={c.loaded_cover_wrapper} >
-              <img src={loadedCover.url} />
+              <img src={loadedCover?.url} />
               <Button onClick={cancelLoadedCover} >Удалить</Button>
             </div>
           :
@@ -299,10 +302,15 @@ const CreateClubEvent = ({ club, setActiveTab }: CreateClubEventProps) => {
               </div>
 
               <div>
-                <Textarea
-                  name='address'
-                  placeholder='Укажите город и полный адрес проведения мероприятия'
-                />
+                { !activeToggle &&
+                  <Textarea
+                    name='address'
+                    placeholder='Укажите город и полный адрес проведения мероприятия'
+                  />
+                }
+                {activeToggle &&
+                  <MapWrapper coordinates={[55.783063, 49.119782]}></MapWrapper>
+                }
               </div>
             </div>
 
@@ -371,6 +379,27 @@ const DatePickerHeader = ({
       </button>
     </div>
   )
+}
+
+interface MapWrapperProps {
+  coordinates: [number, number]
+}
+const MapWrapper = ({ coordinates }: MapWrapperProps) => {
+
+  const [activeModal, setActiveModal] = useState<boolean | null>(null)
+
+  return <>
+    <div className={c.map_wrapper} onClick={() => setActiveModal(true)} >
+      <Map coordinates={coordinates}></Map>
+    </div>
+    <Modal
+      active={activeModal}
+      setActive={setActiveModal}
+      className={c.map_modal}
+    >
+      <Map coordinates={coordinates}></Map>
+    </Modal>
+  </>
 }
 
 export { CreateClubEvent }

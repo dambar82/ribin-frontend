@@ -84,12 +84,16 @@ export interface NewsBack {
 export interface Clubs {
   id: number
   name: string;
-  avatar: string
+  source: string
   caption: string;
+  created_by: {
+    id: number
+    name: string
+    surname: string
+  }
   short_description: string;
   age: number;
   description: string;
-  source: string[];
   clients_count: number;
   clients: any[];
   events: any[];

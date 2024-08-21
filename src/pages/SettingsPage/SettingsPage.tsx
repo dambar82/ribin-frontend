@@ -14,6 +14,7 @@ import "react-datepicker/dist/react-datepicker.css"
 import hidePasswordIcon from "../../images/svg/hide-password.svg"
 import showPasswordIcon from "../../images/svg/views.svg"
 import { MONTHS } from "../../shared/constants"
+import { TEditUserRequest } from "../../shared/types/user.types"
 
 
 //@ts-ignore
@@ -29,9 +30,9 @@ const SettingsPage = () => {
 
     const dispatch = useDispatch<AppDispatch>();
 
-    const [name, setName] = useState(user.name || '')
-    const [surname, setSurname] = useState(user.surname || '')
-    const [email, setEmail] = useState(user.email || '')
+    const [name, setName] = useState('')
+    const [surname, setSurname] = useState('')
+    const [email, setEmail] = useState('')
     const [startDate, setStartDate] = useState<Date | null>(user.birthdate ? new Date(user.birthdate) : null)
     const [password, setPassword] = useState('')
     const [copyPassword, setCopyPassword] = useState('')
@@ -44,23 +45,17 @@ const SettingsPage = () => {
     const onSubmit = async ( e: React.FormEvent<HTMLFormElement> ) => {
       e.preventDefault()
 
-      if ( !password ) {
-        alert('Введите пароль')
-        return
-      }
-      if ( password !== copyPassword ) {
-        alert('Пароли не совпадают')
-        return
+      const req: TEditUserRequest = {
+        id: user.id,
+        birthdate: startDate?.getTime() || null
       }
 
-      dispatch(editUser({
-        id: user.id,
-        name,
-        surname,
-        email,
-        password,
-        birthdate: startDate?.getTime() || null
-      }))
+      if ( name ) req.name = name
+      if ( surname ) req.surname = surname
+      if ( email ) req.email = email
+      if ( password ) req.password = password
+
+      dispatch(editUser(req))
       .then(() => {
         alert('Настройки сохранены')
       })

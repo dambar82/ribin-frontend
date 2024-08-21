@@ -132,7 +132,9 @@ const ClubModal = ({ active, setActive }: ClubModalProps) => {
     .then(({ payload }) => {
       if ( !payload.id ) return
       setActive(false)
-      navigate(`/clubs/${payload.id}`)
+      setTimeout(() => {
+        navigate(`/clubs/${payload.id}`)
+      }, 100);
     })
   }
 
