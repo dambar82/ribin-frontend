@@ -21,6 +21,7 @@ export interface User {
     friends: any[];
     contests: ContestUser[];
     image: string;
+    description: string;
     clubs: any[];
     events: any[];
     rubick: any;

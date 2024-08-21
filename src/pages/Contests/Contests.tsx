@@ -81,7 +81,7 @@ const Contests = () => {
                         Все конкурсы
                     </h2>
                     <div className={styles.counter}>
-                        2303
+                        {contests.length}
                     </div>
                 </div>
                 <div className={styles.contest_list}>

@@ -102,7 +102,7 @@ const UsersFilter = () => {
                 <div className={`section__body`}>
                     <Grid totalItems={filteredPeople.length}>
                         {filteredPeople && filteredPeople.map((user: User) => (
-                            <FoundUserCard image={user.image} name={user.name} age={user.birthdate} level={14} desc={'Обожаю играть в футбол и всегда рад новым друзьям. Давай играть вместе и достигать новых вершин вместе!'}/>
+                            <FoundUserCard key={user.id} image={user.avatar} name={user.name} age={user.birthdate} level={14} id={user.id} desc={'Обожаю играть в футбол и всегда рад новым друзьям. Давай играть вместе и достигать новых вершин вместе!'}/>
                         ))}
                     </Grid>
                 </div>

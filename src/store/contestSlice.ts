@@ -14,6 +14,8 @@ const initialState: ContestState = {
     error: null,
 };
 
+const token = JSON.parse(localStorage.getItem('token') || '0')
+
 export const fetchContests = createAsyncThunk('contests/fetchContests', async () => {
     const response = await axios.get('https://api-rubin.multfilm.tatar/api/contest');
     return response.data.data as Contest[];
@@ -33,7 +35,8 @@ export const sendWorkForContest = createAsyncThunk('contests/sendWorkForContest'
 
             const response = await axios.post(`https://api-rubin.multfilm.tatar/api/contest`, formData, {
                 headers: {
-                    'Content-Type': 'multipart/form-data'
+                    'Content-Type': 'multipart/form-data',
+                    'Authorization': `Bearer ${token}`
                 }
             });
         } catch (error) {

@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import styles from './ContestForm.module.scss';
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import cloud from '../../images/svg/cloud.svg'
 import {useAppDispatch} from "../../store/hooks";
 import {sendWorkForContest} from "../../store/contestSlice";
@@ -11,6 +11,7 @@ const ContestForm = () => {
 
     const dispatch = useAppDispatch();
     const { contestId } = useParams();
+    const navigate = useNavigate();
     const { user } = useSelector((state: RootState) => state.user);
 
     const [userId, setUserId] = useState(null)
@@ -48,10 +49,22 @@ const ContestForm = () => {
         setIsDragOver(false);
     };
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        dispatch(sendWorkForContest({description: workDescription, source: selectedFile, video: urlVideo, contest_id: Number(contestId), client_id: userId }))
+        try {
+            await dispatch(sendWorkForContest({
+                description: workDescription,
+                source: selectedFile,
+                video: urlVideo,
+                contest_id: Number(contestId),
+                client_id: userId
+            })).unwrap();
+
+            navigate(`/contests/${contestId}`);
+        } catch (error) {
+            console.error('Ошибка при отправке данных:', error);
+        }
     }
 
     return (

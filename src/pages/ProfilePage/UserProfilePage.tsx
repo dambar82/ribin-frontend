@@ -4,17 +4,20 @@ import Wall from '../../components/Wall/Wall';
 import {useAppDispatch} from "../../store/hooks";
 import {useSelector} from "react-redux";
 import {RootState} from "../../store/store";
-import {useParams} from "react-router-dom";
+import {Link, useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {fetchPostsByUserId} from "../../store/postSlice";
-import {fetchPeople} from "../../store/peopleSlice";
+import {fetchPeople, sendFriendRequest} from "../../store/peopleSlice";
+import {User} from "../../store/userSlice";
 
 const UserProfilePage = () => {
     const dispatch = useAppDispatch();
     const { id } = useParams();
     const { people } = useSelector((state: RootState) => state.people)
     const { posts, status, error } = useSelector((state: RootState) => state.post);
-    const [currentUser, setCurrentUser] = useState(null);
+    const user = useSelector((state: RootState) => state.user.user);
+    const [currentUser, setCurrentUser] = useState<User>(null);
+    const [yourPage, setYourPage] = useState(false);
 
     useEffect(() => {
         dispatch(fetchPeople());
@@ -24,9 +27,22 @@ const UserProfilePage = () => {
         setCurrentUser(people.find(user => user.id.toString() === id));
     }, [currentUser, people])
 
+    useEffect(() => {
+        if (user && currentUser) {
+            console.log(currentUser)
+            if (user.id === currentUser.id) {
+                setYourPage(true);
+            }
+        }
+    }, [currentUser, user])
+
      useEffect(() => {
          dispatch(fetchPostsByUserId({userId: Number(id)}));
       }, [dispatch])
+
+    const handleFriendAdd = () => {
+        dispatch(sendFriendRequest({receiverId: currentUser.id}))
+    }
 
 
     if (status === 'loading' || !currentUser) {
@@ -41,12 +57,12 @@ const UserProfilePage = () => {
         <div className="page">
             <section className="big-card">
                 <div className="big-card__cover">
-                    <img src="/images/user-cover.png" alt="" />
+                    <img src={currentUser.image} alt="" />
                 </div>
                 <div className="big-card__content">
                     <div className="big-card__avatar">
                         <picture>
-                            <img src="/images/user-avatar.png" alt="" />
+                            <img src={currentUser.avatar} alt="" />
                         </picture>
                         <div className="big-card__avatar-status"></div>
                     </div>
@@ -54,20 +70,32 @@ const UserProfilePage = () => {
                         <div className="big-card__info-header">
                             <div>
                                 <h1 className="big-card__title">{currentUser.name} {currentUser.surname}</h1>
-                                <div className="big-card__level">Уровень <span>200</span></div>
+                                <div className="big-card__level">Уровень <span>{currentUser.level}</span></div>
                             </div>
-                            <div className="big-card__actions">
-                                <button className="button button--main-outlined" type="button">
-                                    <span>Написать сообщение</span>
-                                </button>
-                                <button className="button button--main" type="button">
-                                    <span>Добавить в друзья</span>
-                                </button>
-                            </div>
+                            {
+                                yourPage ? (
+                                    <div className="big-card__actions">
+                                        <Link to={`/user/${currentUser.id}/edit`}>
+                                            <button className="button button--main" type="button">
+                                                <span>Редактировать профиль</span>
+                                            </button>
+                                        </Link>
+                                    </div>
+                                    ) : (
+                                    <div className="big-card__actions">
+                                        <button className="button button--main-outlined" type="button">
+                                            <span>Написать сообщение</span>
+                                        </button>
+                                        <button className="button button--main" type="button" onClick={handleFriendAdd}>
+                                            <span>Добавить в друзья</span>
+                                        </button>
+                                    </div>
+                                )
+                            }
                         </div>
                         <div className="big-card__info-body">
                             <div className="big-card__info-desc">
-                                <p>Обожаю играть в футбол и всегда рад новым друзьям. Давай играть вместе и достигать новых вершин вместе!</p>
+                                <p>{currentUser.description}</p>
                             </div>
                         </div>
                         <div className="big-card__info-footer">

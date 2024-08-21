@@ -38,15 +38,15 @@ const menuLinks: IMenuLink[] = [
 const AuthHeader = () => {
 
   const { user } = useSelector((state: RootState) => state.user);
-  
+
   const [activeSubMenu, setActiveSubMenu] = useState(null);
   const [activeMenu, setActiveMenu] = useState(false);
-  
+
   const profileSubMenuRef = useRef(null);
   const rubinLifeSubMenuRef = useRef(null);
   const clubActivitiesSubMenuRef = useRef(null);
   const menuRef = useRef(null);
-  
+
   useEffect(() => {
       console.log(user)
   }, [user])
@@ -119,7 +119,7 @@ const AuthHeader = () => {
                 {user && (
                     <div className='profile_button' onClick={(event) => toggleSubMenu('profile', event)}>
                         <div className={`profile_button_avatar`}>
-                            <img src={user.image} alt=""/>
+                            <img src={user.avatar} alt=""/>
                         </div>
                         <span>{user.name}</span>
                         {activeSubMenu === 'profile' ? (
@@ -132,7 +132,7 @@ const AuthHeader = () => {
                                 <ul>
                                     <li>
                                         <NavLink
-                                            to="/profile"
+                                            to={`user/${user.id}`}
                                             className={({ isActive }) => {
                                                 return isActive ? "_active" : ""
                                             }}

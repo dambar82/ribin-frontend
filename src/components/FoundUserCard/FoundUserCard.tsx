@@ -1,5 +1,7 @@
 import React from 'react';
 import styles from './FoundUserCard.module.scss';
+import {sendFriendRequest} from "../../store/peopleSlice";
+import {useAppDispatch} from "../../store/hooks";
 
 interface FoundUserCardProps {
     image: string;
@@ -7,9 +9,25 @@ interface FoundUserCardProps {
     level: number;
     age: number;
     desc: string;
+    id: number;
 }
 
-const FoundUserCard = ({image, name, age, level, desc}: FoundUserCardProps) => {
+
+const convertMillisecondsToYears = (milliseconds: number): number => {
+    const millisecondsInYear = 365.25 * 24 * 60 * 60 * 1000;
+    return Math.floor(milliseconds / millisecondsInYear);
+};
+
+const FoundUserCard = ({image, name, age, id, level, desc}: FoundUserCardProps) => {
+
+    const dispatch = useAppDispatch();
+
+    const ageInYears = convertMillisecondsToYears(age);
+
+    const handleFriendAdd = () => {
+        dispatch(sendFriendRequest({receiverId: id}))
+    }
+
     return (
         <div className={styles.card}>
             <div className={styles.card_up}>
@@ -18,7 +36,7 @@ const FoundUserCard = ({image, name, age, level, desc}: FoundUserCardProps) => {
                 </div>
                 <div className={styles.card_name}>
                     <h2>
-                        {name}, {age} лет
+                        {name}, {ageInYears} лет
                     </h2>
                     <div className={`orange_button_little`}>
                         Уровень {level}
@@ -28,7 +46,7 @@ const FoundUserCard = ({image, name, age, level, desc}: FoundUserCardProps) => {
                     {desc}
                 </div>
             </div>
-            <div className={`action_button`}>
+            <div className={`action_button`} onClick={handleFriendAdd}>
                 Добавить в друзья
             </div>
         </div>

@@ -15,11 +15,30 @@ const initialState: PeopleState = {
     error: null,
 };
 
+const token = JSON.parse(localStorage.getItem('token') || '0')
 
 export const fetchPeople = createAsyncThunk('people/fetchPeople', async () => {
     const response = await axios.get('https://api-rubin.multfilm.tatar/api/clients');
     return response.data.data as User[];
 });
+
+export const editClient = createAsyncThunk('people/editClient', async (data: {id: number, formData: any}) => {
+    const response = await axios.put(`https://api-rubin.multfilm.tatar/api/clients/${data.id}`, data.formData, {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    });
+    return response.data;
+})
+
+export const sendFriendRequest = createAsyncThunk('people/sendFriendRequest', async ({receiverId}: {receiverId: number}) => {
+    const response = await axios.post(`https://api-rubin.multfilm.tatar/api/friends/request/${receiverId}`, {}, {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    })
+    return response.data;
+})
 
 const peopleSlice = createSlice({
     name: 'people',
