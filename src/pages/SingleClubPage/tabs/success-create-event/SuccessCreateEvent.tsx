@@ -12,11 +12,15 @@ interface SuccessCreateEventProps {
 const SuccessCreateEvent = ({ active, setActive, setActiveTab }: SuccessCreateEventProps) => {
 
   const exit = () => {
-    setActiveTab(0)
+    setActive(false)
+    setTimeout(() => {
+      setActiveTab(0)
+    }, 100);
   }
 
   const createNewEvent = () => {
-    
+    setActiveTab(2)
+    setActive(false)
   }
 
   return (

@@ -56,14 +56,14 @@ export const editClub = createAsyncThunk('clubs/editClub', async ( data: { id: n
   return response.data
 });
 
-export const joinTheClub = createAsyncThunk('clubs/joinTheClub', async ( sendObj: TJoinTheClubRequest ) => {
-  const response = await $api.put<TJoinTheClubResponse>('')
+export const joinTheClub = createAsyncThunk('clubs/joinTheClub', async ( data: { sendObj: TJoinTheClubRequest, club_id: number } ) => {
+  const response = await $api.post<TJoinTheClubResponse>(`/api/club/${data.club_id}/join`, data.sendObj)
   return response.data
 });
 
-export const createClubEvent = createAsyncThunk('clubs/createClubEvent', async ( sendObj: TCreateClubEventRequest ) => {
+export const createClubEvent = createAsyncThunk('clubs/createClubEvent', async ( data: { sendObj: TCreateClubEventRequest, club_id: number } ) => {
   try {
-    const response = await $api.put<TCreateClubEventResponse>('')
+    const response = await $api.post<TCreateClubEventResponse>(`/api/event/${data.club_id}/create`, data.sendObj)
     return response.data
   } catch (error) {
     console.log(error);

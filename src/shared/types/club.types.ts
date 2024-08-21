@@ -17,15 +17,14 @@ export type TEditClubRequest = FormData
 export type TEditClubResponse = Clubs
 
 export type TJoinTheClubRequest = {
-
+  client_id: number
 }
 export type TJoinTheClubResponse = {
-
+  message: string
+  status?: 'error'
 }
 
-export type TCreateClubEventRequest = {
-
-}
+export type TCreateClubEventRequest = FormData
 export type TCreateClubEventResponse = {
 
 }
