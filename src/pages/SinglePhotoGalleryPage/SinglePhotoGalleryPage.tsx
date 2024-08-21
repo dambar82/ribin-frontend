@@ -21,15 +21,15 @@ const SinglePhotoGalleryPage = () => {
     const { id } = useParams()
 
     const gallery = useSelector((state: RootState) => state.photoGallery.photoGallery.find(gallery => gallery.id === parseInt(id)))
-    
+
   // Удалить когда у фотографий появятся разные id
   //////////////////////////////__dev__////////////////////////////////////
-  const photos = useMemo(() => {
-    return structuredClone(gallery?.photos || []).map(el => {
-      el.id = getRandom()
-      return el
-    })
-  }, [])
+  // const photos = useMemo(() => {
+  //   return structuredClone(gallery?.photos || []).map(el => {
+  //     el.id = getRandom()
+  //     return el
+  //   })
+  // }, [])
 
   function getRandom() {
     return Date.now() + Math.round(Math.random()*10000)
@@ -38,19 +38,27 @@ const SinglePhotoGalleryPage = () => {
 
     const [activeModal, setActiveModal] = useState(false)
     const [initialSlide, setInitialSlide] = useState(1)
-    
+
     const dispatch = useDispatch<AppDispatch>()
-      
+
     const swiperRef = useRef<SwiperRef>(null);
 
     useEffect(() => {
         dispatch(fetchPhotoGalleryById(id));
     }, [dispatch]);
 
+    // useEffect(() => {
+    //     console.log(photos)
+    // }, [photos])
+
     const openModalHandler = ( photoId: number ) => {
       setActiveModal(true)
-      const index = photos.findIndex(el => el.id === photoId)
+      const index = gallery.photos.findIndex(el => el.id === photoId)
       setInitialSlide(index)
+    }
+
+    if (!gallery.photos) {
+        return <p>Loading</p>
     }
 
     return (
@@ -70,7 +78,7 @@ const SinglePhotoGalleryPage = () => {
                 <div className={styles.photoGallery__grid}>
                     { gallery?.photos
                         ? (
-                           photos.map(photo => (
+                           gallery.photos.map(photo => (
                                 <div key={photo.id} className={styles.photoGallery__photoCard} onClick={() => openModalHandler(photo.id)} >
                                     <img src= {photo.imagePreview} alt="" />
                                 </div>
@@ -95,7 +103,7 @@ const SinglePhotoGalleryPage = () => {
                     modules={[EffectFade, Pagination, Navigation]}
                     className={styles.photogallery_swiper}
                   >
-                    {photos?.map(photo => (
+                    {gallery?.photos.map(photo => (
                       <SwiperSlide key={photo.id} className={styles.photogallery_slide} >
                         <img src={photo.imagePreview} alt="#" />
                       </SwiperSlide>

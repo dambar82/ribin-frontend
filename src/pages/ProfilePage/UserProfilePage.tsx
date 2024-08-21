@@ -123,11 +123,19 @@ const UserProfilePage = () => {
                 </div>
             </section>
             <section className="section">
-                <Wall
-                    type="profile"
-                    editable={false}
-                    posts={posts}
-                />
+                {yourPage ? (
+                    <Wall
+                        type="profile"
+                        // editable={false}
+                        posts={posts}
+                    />
+                ): (
+                    <Wall
+                        type="profile"
+                        editable={false}
+                        posts={posts}
+                    />
+                )}
             </section>
         </div>
     )

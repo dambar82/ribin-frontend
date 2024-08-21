@@ -18,25 +18,16 @@ export const fetchPhotoGallery = createAsyncThunk('photoGallery/fetchPhotoGaller
     const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
     const photosUrl = `https://api-rubin.multfilm.tatar/api/request/photos`;
 
-    const response = await axios.get(photosUrl, {
-        headers: {
-            'Origin': 'http://localhost:3000'
-        }
-    });
+    const response = await axios.get(photosUrl);
 
     return response.data as PhotoGallery[];
 });
 
 
 export const fetchPhotoGalleryById = createAsyncThunk('photoGallery/fetchPhotoGalleryById', async (id: string) => {
-    const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
-    const photosUrl = `${proxyUrl}https://loyalfans.rubin-kazan.ru/api/v1/bitrix/photos/${id}`;
+    const photosUrl = `https://api-rubin.multfilm.tatar/api/request/photos/${id}`;
 
-    const response = await axios.get(photosUrl, {
-        headers: {
-            'Origin': 'http://localhost:3000'
-        }
-    });
+    const response = await axios.get(photosUrl);
 
     return response.data as PhotoGallery;
 });
