@@ -59,9 +59,6 @@ const CreateClubEvent = ({ club, setActiveTab }: CreateClubEventProps) => {
 
     data.set('visible', 'all')
 
-    data.set('city', 'City')
-    data.set('location', 'Location')
-
     dispatch(createClubEvent({ sendObj: data, club_id: club.id }))
       .then(res => {
         if ( res.payload ) {

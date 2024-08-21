@@ -17,11 +17,11 @@ const Map = ({coordinates}) => {
                 //@ts-ignore
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             />
-            {/*<Marker position={coordinates}>*/}
-            {/*    <Popup>*/}
-            {/*        A pretty CSS3 popup. <br /> Easily customizable.*/}
-            {/*    </Popup>*/}
-            {/*</Marker>*/}
+            <Marker position={coordinates}>
+               <Popup>
+                   A pretty CSS3 popup. <br /> Easily customizable.
+               </Popup>
+            </Marker>
         </MapContainer>
     );
 };
