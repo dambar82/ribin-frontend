@@ -114,6 +114,16 @@
         cursor: pointer;
       }
 
+      .address_input_wrapper {
+        display: grid;
+        gap: 24px;
+        align-content: start;
+
+        input {
+          width: 100%;
+        }
+      }
+
       .map_wrapper {
         height: 100%;
       }

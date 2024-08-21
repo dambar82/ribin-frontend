@@ -57,7 +57,7 @@ const CreateClubEvent = ({ club, setActiveTab }: CreateClubEventProps) => {
     const time = `${startDate.getHours()}:${('0' + startDate.getMinutes()).slice(-2)}`
     data.set('time', time)
 
-    data.set('visible', 'true')
+    data.set('visible', 'all')
 
     data.set('city', 'City')
     data.set('location', 'Location')
@@ -303,10 +303,16 @@ const CreateClubEvent = ({ club, setActiveTab }: CreateClubEventProps) => {
 
               <div>
                 { !activeToggle &&
-                  <Textarea
-                    name='address'
-                    placeholder='Укажите город и полный адрес проведения мероприятия'
-                  />
+                  <div className={c.address_input_wrapper} >
+                    <Input
+                      name='city'
+                      placeholder='Укажите город'
+                    />
+                    <Input
+                      name='location'
+                      placeholder='Укажите полный адрес проведения мероприятия'
+                    />
+                  </div>
                 }
                 {activeToggle &&
                   <MapWrapper coordinates={[55.783063, 49.119782]}></MapWrapper>

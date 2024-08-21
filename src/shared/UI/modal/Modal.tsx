@@ -59,7 +59,7 @@ const Modal = ({ children, className, bodyClassName, active, setActive }: ModalP
     <div className={classNames(c.modal, className)} ref={modalRef} >
       <div className={classNames(c.modal_body, 'block', bodyClassName)} >
 
-        <button className={c.close} onClick={closeModal} ></button>
+        <button type="button" className={c.close} onClick={closeModal} ></button>
 
         {children}
 
