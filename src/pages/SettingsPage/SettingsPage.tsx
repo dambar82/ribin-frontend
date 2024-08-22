@@ -35,7 +35,8 @@ const SettingsPage = () => {
     const [email, setEmail] = useState('')
     const [startDate, setStartDate] = useState<Date | null>(user.birthdate ? new Date(user.birthdate) : null)
     const [password, setPassword] = useState('')
-    const [copyPassword, setCopyPassword] = useState('')
+    const [successMessage, setSuccessMessage] = useState('')
+    const [errorMessage, setErrorMessage] = useState('')
     
     const [hidePassword, setHidePassword] = useState(true)
     const [hideCopyPassword, setHideCopyPassword] = useState(true)
@@ -57,10 +58,16 @@ const SettingsPage = () => {
 
       dispatch(editUser(req))
       .then(() => {
-        alert('Настройки сохранены')
+        setSuccessMessage('Настройки сохранены')
+        setTimeout(() => {
+          setSuccessMessage('')
+        }, 3000);
       })
       .catch(() => {
-        alert('Что-то пошло не так')
+        setErrorMessage('Что-то пошло не так')
+        setTimeout(() => {
+          setErrorMessage('')
+        }, 3000);
       })
 
     }
@@ -71,6 +78,9 @@ const SettingsPage = () => {
                 <h1 className={styles.settings__title}>Персональные настройки</h1>
 
                 <form className="form" onSubmit={onSubmit} >
+
+                  {successMessage && <p className={styles.success_message} >{successMessage}</p>}
+                  {errorMessage && <p className={styles.error_message} >{errorMessage}</p>}
 
                   <div className="form__body">
                     <div className="form__column">
@@ -153,7 +163,7 @@ const SettingsPage = () => {
                                 { password ? <img width={20} src={ hidePassword ? hidePasswordIcon : showPasswordIcon } alt="" onClick={() => setHidePassword(state => !state)}/> : null }
                             </div>
                         </div>
-                        <div className={`${styles.form__control} form-control`}>
+                        {/* <div className={`${styles.form__control} form-control`}>
                             <div className="form-control__label">Повторите пароль</div>
                             <div className="form-control__field-wrapper">
                                 <input
@@ -166,7 +176,7 @@ const SettingsPage = () => {
                                 />
                                 {copyPassword ? <img width={20} src={ hideCopyPassword ? hidePasswordIcon : showPasswordIcon  } alt="" onClick={() => setHideCopyPassword(state => !state)}/> : null }
                             </div>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
 

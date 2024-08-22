@@ -2,6 +2,7 @@ import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
 import {Clubs} from "../types";
 import { TCreateClubEventRequest, TCreateClubEventResponse, TCreateClubRequest, TCreateClubResponse, TEditClubRequest, TEditClubResponse, TGetClubRequest, TGetClubResponse, TJoinTheClubRequest, TJoinTheClubResponse } from '../shared/types/club.types'
+import { User } from './userSlice'
 
 interface ClubsState {
     club: Clubs | null
@@ -56,9 +57,12 @@ export const editClub = createAsyncThunk('clubs/editClub', async ( data: { id: n
   return response.data
 });
 
-export const joinTheClub = createAsyncThunk('clubs/joinTheClub', async ( data: { sendObj: TJoinTheClubRequest, club_id: number } ) => {
+export const joinTheClub = createAsyncThunk('clubs/joinTheClub', async ( data: { sendObj: TJoinTheClubRequest, club_id: number, user: User } ) => {
   const response = await $api.post<TJoinTheClubResponse>(`/api/club/${data.club_id}/join`, data.sendObj)
-  return response.data
+  return {
+    ...response.data,
+    user: data.user
+  }
 });
 
 export const createClubEvent = createAsyncThunk('clubs/createClubEvent', async ( data: { sendObj: TCreateClubEventRequest, club_id: number } ) => {
@@ -92,9 +96,9 @@ const clubsSlice = createSlice({
             })
 
             .addCase(createClub.pending, (state) => {
-                state.status = 'loading';
             })
             .addCase(createClub.fulfilled, (state, action: PayloadAction<TCreateClubResponse>): any => {
+              console.log(action.payload?.id);
               if ( !action.payload?.id ) {
                 return
               }
@@ -102,21 +106,14 @@ const clubsSlice = createSlice({
               console.log(action.payload);
             })
             .addCase(createClub.rejected, (state, action) => {
-                state.status = 'failed';
-                state.error = action.error.message || null;
             })
 
             .addCase(getClub.pending, (state) => {
-                state.status = 'loading';
             })
             .addCase(getClub.fulfilled, (state, action: PayloadAction<TGetClubResponse['data']>) => {
                 state.club = action.payload
-                state.status = 'succeeded';
-                state.error = null;
             })
             .addCase(getClub.rejected, (state, action) => {
-                state.status = 'failed';
-                state.error = action.error.message || null;
             })
 
             .addCase(editClub.pending, (state) => {
@@ -129,8 +126,16 @@ const clubsSlice = createSlice({
 
             .addCase(joinTheClub.pending, (state) => {
             })
-            .addCase(joinTheClub.fulfilled, (state, action: PayloadAction<TJoinTheClubResponse>) => {
-              
+            .addCase(joinTheClub.fulfilled, (state, action: PayloadAction<TJoinTheClubResponse & { user: User }>) => {
+              const club = state.club
+              club.clients.push(action.payload.user)
+              state.clubs.map(el => {
+                if ( el.id === club.id ) {
+                  el.clients.push(action.payload.user)
+                }
+                return el
+              })
+              state.club = club
             })
             .addCase(joinTheClub.rejected, (state, action) => {
             })
@@ -141,6 +146,7 @@ const clubsSlice = createSlice({
               if ( !action.payload ) {
                 return
               }
+              state.club.events.push(action.payload)
             })
             .addCase(createClubEvent.rejected, (state, action) => {
             })

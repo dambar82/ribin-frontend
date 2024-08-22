@@ -44,6 +44,7 @@ import SingleEventPage from './pages/SingleEventPage/SingleEventPage';
 import { checkAuth } from './store/userSlice'
 import { ConfirmEmailModal } from './pages/Auth/components'
 import { Loader } from './shared/UI'
+import MainPage from './pages/Main/MainPage'
 
 
 export function postFormatDate(isoString) {
@@ -176,11 +177,11 @@ function App() {
                     element={
                       isAuth ? (
                             <MainAuthorizedLayout>
-                                <AuthorizedMain />
+                                <MainPage />
                             </MainAuthorizedLayout>
                         ) : (
                             <MainUnauthorizedLayout>
-                                <UnauthorizedMain />
+                                <MainPage />
                             </MainUnauthorizedLayout>
                         )
                     }

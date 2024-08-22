@@ -9,6 +9,31 @@
             margin: 0 0 46px;
         }
     }
+
+    form {
+      position: relative;
+    }
+
+    .success_message {
+      position: absolute;
+      left: 50%;
+      top: 20px;
+      transform: translate(-50%, 0);
+
+      color: #48903A;
+      font-size: 20px;
+      font-weight: 500;
+    }
+    .error_message {
+      position: absolute;
+      left: 50%;
+      top: 20px;
+      transform: translate(-50%, 0);
+
+      color: #E11F1F;
+      font-size: 20px;
+      font-weight: 500;
+    }
 }
 
 .confirm_button {
