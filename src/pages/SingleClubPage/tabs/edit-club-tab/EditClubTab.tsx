@@ -150,8 +150,7 @@ const EditClubTab = ({ club, setActiveTab }: EditClubTabProps) => {
             <h2 className='section__title'>Мероприятия клуба</h2>
             <div className='section__counter'>{club.events?.length}</div>
         </div>
-        <div className='section__body'>
-          <Row>
+        <div className={classNames('section__body', c.section_body)}>
 
             <div className={c.create_club_event} onClick={createEvent} >
               <span>Создать новое мероприятие</span>
@@ -180,7 +179,6 @@ const EditClubTab = ({ club, setActiveTab }: EditClubTabProps) => {
               />
             ))}
 
-          </Row>
         </div>
       </section>
 

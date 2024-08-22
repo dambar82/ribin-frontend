@@ -61,7 +61,8 @@ const CreateClubEvent = ({ club, setActiveTab }: CreateClubEventProps) => {
 
     dispatch(createClubEvent({ sendObj: data, club_id: club.id }))
       .then(res => {
-        if ( res.payload ) {
+        console.log(res);
+        if ( !res.payload?.errors && !res.payload?.exception ) {
           setActiveModal(true)
           //@ts-ignore
           setLoadedCover(null)

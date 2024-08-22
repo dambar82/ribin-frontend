@@ -19,6 +19,7 @@ import geoIcon from '../../images/svg/geo.svg'
 import banner from '../../images/default_club_banner.png'
 //@ts-ignore
 import avatar from '../../images/default_club_avatar.png'
+import { classNames } from '../../shared/utils'
 
 
 const SingleClubPage = () => {
@@ -85,19 +86,26 @@ const SingleClubPage = () => {
                             <div>
                                 <h1 className={c.clubInfo__title}>{club.name}</h1>
                             </div>
-                            {isAdmin
-                              ? <Button
-                                  onClick={() => {
-                                    setActiveTab(1)
-                                    setTimeout(
-                                      () => window.scrollTo({ top: 0, left: 0, behavior: "smooth" }),
-                                      100
-                                    )
-                                  }}
+                            {isAdmin &&
+                              <Button
+                                onClick={() => {
+                                  setActiveTab(1)
+                                  setTimeout(
+                                    () => window.scrollTo({ top: 0, left: 0, behavior: "smooth" }),
+                                    100
+                                  )
+                                }}
+                              >
+                                Редактировать клуб
+                              </Button>
+                            }
+                            { !isAdmin &&
+                              !club.clients?.some(el => el.id === id) &&
+                                <JoinTheClubButton
+                                  club_id={club.id}
                                 >
-                                  Редактировать клуб
-                                </Button>
-                              : <JoinTheClubButton club_id={club.id} >Вступить в клуб</JoinTheClubButton>
+                                  Вступить в клуб
+                                </JoinTheClubButton>
                             }
                         </div>
                         <div className={c.clubInfo__infoDesc}>
@@ -105,33 +113,18 @@ const SingleClubPage = () => {
                         </div>
                         <div className={c.clubInfo__infoFooter}>
                             <div className={c.clubInfo__author + " " + c.author}>
-                                {/* <div className={c.author__avatar}>
+                                <div className={c.author__avatar}>
                                     <img src="/images/club-owner.png" alt="" />
-                                </div> */}
+                                </div>
                                 <div className={c.author__position}>Организатор</div>
                                 <div className={c.author__name}>{club.created_by?.name} {club.created_by?.surname}</div>
                             </div>
                             <div className={c.clubInfo__clients}>
                                 {club.clients?.map((client, i) => (
                                   <div key={i} className={c.clubInfo__client}>
-                                    <img src="/images/club-client-01.png" alt="" />
+                                    <img src={client.avatar} />
                                   </div>
                                 ))}
-                                {/* <div className={c.clubInfo__client}>
-                                    <img src="/images/club-client-01.png" alt="" />
-                                </div>
-                                <div className={c.clubInfo__client}>
-                                    <img src="/images/club-client-02.png" alt="" />
-                                </div>
-                                <div className={c.clubInfo__client}>
-                                    <img src="/images/club-client-03.png" alt="" />
-                                </div>
-                                <div className={c.clubInfo__client}>
-                                    <img src="/images/club-client-04.png" alt="" />
-                                </div>
-                                <div className={c.clubInfo__client}>
-                                    <img src="/images/club-client-05.png" alt="" />
-                                </div> */}
                             </div>
                         </div>
                     </div>
@@ -143,22 +136,18 @@ const SingleClubPage = () => {
                     <h2 className='section__title'>Мероприятия</h2>
                     <div className='section__counter'>{club.events?.length}</div>
                 </div>
-                <div className='section__body'>
-                    <Row>
-                        {/* <div className='row'> */}
-                        {club.events?.map(event => (
-                            <Card
-                                key={event.id}
-                                date={`${event.date}, ${event.time}`}
-                                name={event.name}
-                                image={event.caption}
-                                desc={event.description}
-                                tagIcon={geoIcon}
-                                tagLabel={`${event.city} ${event.location}`}
-                            />
-                        ))}
-                        {/* </div> */}
-                    </Row>
+                <div className={classNames('section__body', c.section_body)}>
+                  {club.events?.map(event => (
+                      <Card
+                          key={event.id}
+                          date={`${event.date}, ${event.time}`}
+                          name={event.name}
+                          image={event.caption}
+                          desc={event.description}
+                          tagIcon={geoIcon}
+                          tagLabel={`${event.city} ${event.location}`}
+                      />
+                  ))}
                 </div>
             </section>
             <section className={`section ${c.feed}`}>

@@ -1,5 +1,6 @@
 import exp from "constants";
 import { IPost } from "./store/postSlice"
+import { User } from "./store/userSlice"
 
 export interface Client {
     rubick: number;
@@ -95,7 +96,7 @@ export interface Clubs {
   age: number;
   description: string;
   clients_count: number;
-  clients: any[];
+  clients: User[];
   events: any[];
   posts: IPost[]
 }

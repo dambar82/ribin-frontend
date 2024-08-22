@@ -11,14 +11,15 @@ interface JoinTheClubButtonProps {
 }
 const JoinTheClubButton = ({ children, club_id }: JoinTheClubButtonProps) => {
 
-  const { id } = useSelector((state: RootState) => state.user.user)
+  const user = useSelector((state: RootState) => state.user.user)
 
   const dispatch = useAppDispatch()
 
   const joinTheClubHandler = () => {
     dispatch(joinTheClub({
-      sendObj: { client_id: id },
-      club_id
+      sendObj: { client_id: user.id },
+      club_id,
+      user
     }))
   }
 

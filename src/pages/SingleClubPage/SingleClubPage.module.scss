@@ -110,6 +110,15 @@
     }
 }
 
+.section_body {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  & > div {
+    flex: 0 0 calc((100% - 2 * 20px) / 3);
+  }
+}
+
 .feed {
     &__nav {
         flex-basis: 100%;

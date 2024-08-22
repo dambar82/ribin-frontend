@@ -33,6 +33,9 @@ const Clubs = () => {
         return <p>{error}</p>;
     }
 
+    console.log(clubs);
+    
+
     return (
         <div className='page'>
             <div className={`${styles.hero} hero`}>
