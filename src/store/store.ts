@@ -9,6 +9,7 @@ import coachesReducer from './coachesSlice';
 import photoGalleryReducer from './photoGallerySlice';
 import sportReducer from './sportSlice';
 import postReducer from './postSlice';
+import eventsReducer from './eventsSlice'
 
 export const store = configureStore({
     reducer: {
@@ -21,7 +22,8 @@ export const store = configureStore({
         coaches: coachesReducer,
         photoGallery: photoGalleryReducer,
         sport: sportReducer,
-        post: postReducer
+        post: postReducer,
+        events: eventsReducer
     },
 });
 
