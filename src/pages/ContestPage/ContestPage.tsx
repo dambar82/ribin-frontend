@@ -212,7 +212,7 @@ const ContestPage = () => {
                                 <div className='section__title'>Результаты</div>
                             </div>
                             <div className='section_body'>
-                                {participating && (
+                                {participating && contest.status === 1 && (
                                     <div className={`shadowBlock ${styles.results_content}`}>
                                         <div className={`${styles.results_content_leftPart}`}>
                                             <h1>
