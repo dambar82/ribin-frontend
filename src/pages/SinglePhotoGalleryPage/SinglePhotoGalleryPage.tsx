@@ -20,21 +20,7 @@ const SinglePhotoGalleryPage = () => {
 
     const { id } = useParams()
 
-    const gallery = useSelector((state: RootState) => state.photoGallery.photoGallery.find(gallery => gallery.id === parseInt(id)))
-
-    // Удалить когда у фотографий появятся разные id
-    //////////////////////////////__dev__////////////////////////////////////
-    const photos = useMemo(() => {
-        return structuredClone(gallery?.photos || []).map(el => {
-            el.id = getRandom()
-            return el
-        })
-    }, [])
-
-    function getRandom() {
-        return Date.now() + Math.round(Math.random()*10000)
-    }
-    //////////////////////////////__dev__////////////////////////////////////
+    const gallery = useSelector((state: RootState) => state.photoGallery.photoGalleryData)
 
     const [activeModal, setActiveModal] = useState(false)
     const [initialSlide, setInitialSlide] = useState(1)
@@ -49,7 +35,7 @@ const SinglePhotoGalleryPage = () => {
 
     const openModalHandler = ( photoId: number ) => {
         setActiveModal(true)
-        const index = photos.findIndex(el => el.id === photoId)
+        const index = gallery.photos?.findIndex(el => el.id === photoId) || 0
         setInitialSlide(index)
     }
 
@@ -68,15 +54,11 @@ const SinglePhotoGalleryPage = () => {
                     </div>
                 </div>
                 <div className={styles.photoGallery__grid}>
-                    { gallery?.photos
-                        ? (
-                            photos.map(photo => (
-                                <div key={photo.id} className={styles.photoGallery__photoCard} onClick={() => openModalHandler(photo.id)} >
-                                    <img src= {photo.imagePreview} alt="" />
-                                </div>
-                            ))
-                        ) : <p>Loading.....</p>
-                    }
+                    {gallery?.photos?.map(photo => (
+                        <div key={photo.id} className={styles.photoGallery__photoCard} onClick={() => openModalHandler(photo.id)} >
+                            <img src= {photo.imagePreview} alt="" />
+                        </div>
+                    ))}
                 </div>
                 <Modal
                     active={activeModal}
@@ -95,7 +77,7 @@ const SinglePhotoGalleryPage = () => {
                         modules={[EffectFade, Pagination, Navigation]}
                         className={styles.photogallery_swiper}
                     >
-                        {photos?.map(photo => (
+                        {gallery?.photos?.map(photo => (
                             <SwiperSlide key={photo.id} className={styles.photogallery_slide} >
                                 <img src={photo.imagePreview} alt="#" />
                             </SwiperSlide>

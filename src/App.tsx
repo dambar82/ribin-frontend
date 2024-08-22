@@ -145,7 +145,7 @@ function App() {
         { path: '/awards', element: <AwardsPage /> },
         { path: '/programs', element: <ClubProgramsPage /> },
         { path: '/events', element: <EventsPage /> },
-        { path: '/events/event', element: <SingleEventPage /> },
+        { path: '/events/event/:id', element: <SingleEventPage /> },
         { path: '/clubs/events/new', element: <CreateEventPage /> },
     ];
 

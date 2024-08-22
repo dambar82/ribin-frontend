@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { RootState, AppDispatch } from '../../store/store';
-import { fetchPhotoGallery } from '../../store/photoGallerySlice';
+import { fetchPhotoGallery, setStatus } from '../../store/photoGallerySlice';
 import GalleryCard from '../../components/GalleryCard/GalleryCard';
 import { Filter } from './components'
 
@@ -32,9 +32,15 @@ const PhotoGalleryPage = () => {
 
   useEffect(() => {
     if (status === 'idle') {
-        dispatch(fetchPhotoGallery());
+      dispatch(fetchPhotoGallery());
     }
   }, [status, dispatch]);
+
+  useEffect(() => {
+    return () => {
+      dispatch(setStatus('idle'))
+    }
+  }, []);
 
   if (status === 'loading') {
       return <p>Loading...</p>;

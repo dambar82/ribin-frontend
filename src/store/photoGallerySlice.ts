@@ -4,17 +4,21 @@ import { PhotoGallery } from "../types";
 
 interface PhotoGalleryState {
     photoGallery: PhotoGallery[];
+    photoGalleryData: PhotoGallery | null
     status: 'idle' | 'loading' | 'succeeded' | 'failed';
     error: string | null;
 }
 
 const initialState: PhotoGalleryState = {
     photoGallery: [],
+    photoGalleryData: null,
     status: 'idle',
     error: null,
 };
 
 export const fetchPhotoGallery = createAsyncThunk('photoGallery/fetchPhotoGallery', async () => {
+  console.log('fetchPhotoGallery');
+  
     const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
     const photosUrl = `https://api-rubin.multfilm.tatar/api/request/photos`;
 
@@ -36,7 +40,11 @@ export const fetchPhotoGalleryById = createAsyncThunk('photoGallery/fetchPhotoGa
 const photoGallerySlice = createSlice({
     name: 'photoGallery',
     initialState,
-    reducers: {},
+    reducers: {
+      setStatus: ( state, data: PayloadAction<'idle'> ) => {
+        state.status = data.payload
+      }
+    },
     extraReducers: (builder) => {
         builder
             .addCase(fetchPhotoGallery.pending, (state) => {
@@ -51,16 +59,15 @@ const photoGallerySlice = createSlice({
                 state.status = 'failed';
                 state.error = action.error.message || null;
             })
+
             .addCase(fetchPhotoGalleryById.fulfilled, (state, action: PayloadAction<PhotoGallery>) => {
-                state.photoGallery.map(gallery => {
-                    if (gallery.id === action.payload.id) {
-                        gallery.photos = action.payload.photos;
-                    }
-                })
-                state.status = 'succeeded';
+              console.log(action.payload);
+              
+                state.photoGalleryData = action.payload
             })
     }
 })
 
+export const { setStatus } = photoGallerySlice.actions;
 
 export default photoGallerySlice.reducer;

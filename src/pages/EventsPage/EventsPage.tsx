@@ -1,26 +1,23 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../../store/hooks"
+import { fetchEvents } from "../../store/eventsSlice"
 
 import styles from "./EventsPage.module.scss";
 
 import EventCard from "../../components/EventCard/EventCard";
 
 const EventsPage = () => {
-    const [active, setActive] = useState(1)
+  
+  const events = useAppSelector((state) => state.events.events);
+  
+  const dispatch = useAppDispatch()
+  
+  const [active, setActive] = useState(1)
 
-    const events = [
-        { name: "Тренировка", image: "/images/event-01.png"},
-        { name: "Дружеский матч", image: "/images/event-02.png"},
-        { name: "Мастер-класс от профессионального тренера", image: "/images/event-03.png"},
-        { name: "Здоровье и выносливость", image: "/images/event-04.png", completed: true}
-    ]
-
-    // useEffect(() => {
-    //   (async () => {
-    //     const pages = await fetch('https://api-rubin.multfilm.tatar/api/events')
-    //     console.log(pages);
-    //   })()
-    // }, [])
+    useEffect(() => {
+      dispatch(fetchEvents())
+    }, [])
 
     return (
         <div className="page">
@@ -45,11 +42,13 @@ const EventsPage = () => {
                     ? (
                         <div className={styles.events__list}>
                             {events.map(event => (
-                                <Link key={event.name} to="/events/event" className={event.completed ? styles.disableLink : ""}>
+                                <Link
+                                  key={event.name}
+                                  to={`/events/event/${event.id}`}
+                                  // className={event.completed ? styles.disableLink : ""}
+                                >
                                     <EventCard
-                                        name={event.name}
-                                        image={event.image}
-                                        completed={event.completed}
+                                        event={event}
                                     />
                                 </Link>
                                 ))}

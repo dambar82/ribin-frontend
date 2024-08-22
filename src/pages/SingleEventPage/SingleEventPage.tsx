@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Map from '../../components/Map/Map';
 import Breadcrumbs from "../../components/Breadcrumbs/Breadcrumbs";
 import styles from '../SingleEventPage/SingleEventPage.module.scss';
@@ -10,9 +10,11 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules'
 import 'swiper/css';
 import 'swiper/css/navigation';
-import {Link} from "react-router-dom";
+import {Link, useParams} from "react-router-dom";
 import NewsCard from "../../components/NewsCard/NewsCard";
 import buttonArrow from "../../images/svg/button_arrow.svg";
+import { useAppDispatch, useAppSelector } from '../../store/hooks'
+import { getEvent, participateInEvent } from '../../store/eventsSlice'
 
 const photos = [
     '/images/6f05b9e6234fd9271db78f533dcfb2f7 (1).jpg',
@@ -28,8 +30,33 @@ const photos = [
 ]
 
 const SingleEventPage = () => {
+  
+  const event = useAppSelector((state) => state.events.event)
+  const user = useAppSelector((state) => state.user.user)
 
+  const dispatch = useAppDispatch()
+  const params = useParams()
 
+  useEffect(() => {
+    if ( params.id ) {
+      dispatch(getEvent({ id: params.id }))
+    }
+  }, [params])
+
+  const participateInEventHandler = () => {
+    dispatch(participateInEvent({
+      event_id: event.id,
+      user
+    }))
+    .then(res => {
+      const payload = res.payload as any
+      alert(payload?.response)
+    })
+  }
+
+  if ( !event ) {
+    return <div>Загрузка...</div>
+  }
 
     return (
         <div className='page'>
@@ -37,29 +64,29 @@ const SingleEventPage = () => {
             <div className={styles.eventPage}>
                 <div className={styles.eventPage_firstDeck}>
                     <div className={styles.eventBackground}>
-                        <img src={background} alt=""/>
+                        <img src={event.caption} alt=""/>
                     </div>
                     <div className={styles.eventInfo}>
                         <div className={styles.eventInfo_left}>
                             <h2 className={styles.eventHeader}>
-                                Тренировка
+                                {event.name}
                             </h2>
                             <div className={styles.eventTime}>
                                 <div className={styles.eventTime_block}>
                                     <img src={placeIcon} alt="placeIcon"/>
                                     <span>
-                                        Cтадион "Рубин", улица Спортивная, 15
+                                        {event.location}
                                     </span>
                                 </div>
                                 <div className={styles.eventTime_block}>
                                     <img src={timeIcon} alt="placeIcon"/>
                                     <span style={{fontFamily: 'Saira', fontWeight: 500}}>
-                                        12.07.2024, 16:00
+                                      {event.date}, {event.time}
                                     </span>
                                 </div>
                             </div>
                             <div className={styles.eventDescription}>
-                                Мероприятие для тех, кто хочет улучшить свою физическую форму через футбольные тренировки. Включает кардиотренировки, специальные упражнения и футбольные игры. Также проводятся занятия по правильному питанию и общему укреплению здоровья.
+                                {event.description}
                             </div>
                             <div className={styles.eventOrganization}>
                                 <div className={styles.eventClub}>
@@ -71,44 +98,39 @@ const SingleEventPage = () => {
                                             Организатор мероприятия
                                         </span>
                                         <span className={styles.eventClub_info_org}>
-                                            Фитнес клуб “Футбол и здоровье”
+                                          {event.created_by.name} {event.created_by.surname}
                                         </span>
                                     </div>
                                 </div>
                                 <div className={styles.clubInfo__clients_wrapper}>
                                     <div className={styles.clubInfo__clients}>
-                                        <div className={styles.clubInfo__client}>
-                                            <img src="/images/club-client-01.png" alt="" />
+                                      {event.clients?.map((client) => (
+                                        <div key={client.id} className={styles.clubInfo__client}>
+                                            <img src={client.avatar} alt="" />
                                         </div>
-                                        <div className={styles.clubInfo__client}>
-                                            <img src="/images/club-client-02.png" alt="" />
-                                        </div>
-                                        <div className={styles.clubInfo__client}>
-                                            <img src="/images/club-client-03.png" alt="" />
-                                        </div>
-                                        <div className={styles.clubInfo__client}>
-                                            <img src="/images/club-client-04.png" alt="" />
-                                        </div>
-                                        <div className={styles.clubInfo__client}>
-                                            <img src="/images/club-client-05.png" alt="" />
-                                        </div>
+                                      ))}
                                     </div>
-                                    <div className={styles.clubInfo__others}>
+                                      <div className={styles.clubInfo__others}>
                                         <span className={styles.eventClub_info_grey}>
                                             Участники
                                         </span>
                                         <span className={styles.eventClub_info_org} style={{fontFamily: 'Saira'}}>
-                                            +13
+                                            +{event.clients?.length || 0}
                                         </span>
-                                    </div>
+                                      </div>
                                 </div>
                             </div>
                         </div>
-                        <div className={styles.eventInfo_button}>
-                            <button className={styles.eventButton}>
-                                Участвовать
+                        { !event.clients?.some(el => el.id === user.id) &&
+                          <div className={styles.eventInfo_button}>
+                            <button
+                              className={styles.eventButton}
+                              onClick={participateInEventHandler}
+                            >
+                              Участвовать
                             </button>
-                        </div>
+                          </div>
+                        }
                     </div>
                 </div>
                 <div className={styles.eventPage_Deck}>
@@ -125,7 +147,7 @@ const SingleEventPage = () => {
                     </h2>
                     <div className={styles.eventPage_gallery}>
                         <div className='section__slider'>
-                            <Swiper
+                            {/* <Swiper
                                 spaceBetween={20}
                                 slidesPerView={4}
                                 modules={[Navigation]}
@@ -133,7 +155,7 @@ const SingleEventPage = () => {
                                     nextEl: '.button--next'
                                 }}
                             >
-                                {photos.map((photo, index) => {
+                                {event.photos?.map((photo, index) => {
                                         return (
                                             <SwiperSlide key={photo}>
                                                 <div className={styles.eventPage_gallery_photo}>
@@ -149,7 +171,7 @@ const SingleEventPage = () => {
                                     <span>Вперед</span>
                                     <img src={buttonArrow} alt="" />
                                 </button>
-                            </div>
+                            </div> */}
                         </div>
                     </div>
                 </div>

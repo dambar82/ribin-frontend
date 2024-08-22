@@ -1,43 +1,44 @@
 import styles from "./EventCard.module.scss"
+import { TEvent } from "../../shared/types/event.types"
 
 import geoIcon from "../../images/svg/geo.svg"
 import clockIcon from "../../images/svg/clock.svg"
 
 interface IEventCard {
-    name: string;
-    image?: string;
-    completed?: boolean;
+  event: TEvent
 }
-
-
-const EventCard = ({name, image, completed}: IEventCard) => {    
+const EventCard = ({ event }: IEventCard) => {    
     return (
-        <div className={completed ? `${styles.event} ${styles.event_completed}` : `${styles.event}`}>
+        <div
+          // className={event.completed ? `${styles.event} ${styles.event_completed}` : `${styles.event}`}
+          className={`${styles.event}`}
+        >
             <div className={styles.event__image}>
-                <img src={image} alt="" />
+                <img src={event.caption} />
             </div>
             <div className={styles.event__content}>
                 <div className={styles.event__header}>
-                    <div className={styles.event__title}>{ name }</div>
-                    <div className={styles.event__status}>{completed ? "Завершен" : "Актуально"}</div>
+                    <div className={styles.event__title}>{ event.name }</div>
+                    <div className={styles.event__status}>{"Актуально"}</div>
+                    {/* <div className={styles.event__status}>{event.completed ? "Завершен" : "Актуально"}</div> */}
                 </div>
                 <div className={styles.event__info}>
                     <div className={styles.event__location}>
                         <img src={geoIcon} alt="" />
-                        <span>Cтадион "Рубин", улица Спортивная, 15</span>
+                        <span>{event.location}</span>
                     </div>
                     <div className={styles.event__date}>
                         <img src={clockIcon} alt="" />
-                        <span>12.07.2024, 16:00</span>
+                        <span>{event.date}, {event.time}</span>
                     </div>
                 </div>
-                <p className={styles.event__text}>Мероприятие для тех, кто хочет улучшить свою физическую форму через футбольные тренировки. Включает кардиотренировки, специальные упражнения и футбольные игры. Также проводятся занятия по правильному питанию и общему укреплению здоровья. </p>
+                <p className={styles.event__text}>{event.description}</p>
                 <div className={styles.event__sponsor}>
                     <div className={styles.event__sponsorAvatar}>
                         <img src="/images/club-avatar.png" alt="" />
                     </div>
                     <div className={styles.event__sponsorLabel}>Организатор мероприятия</div>
-                    <div className={styles.event__sponsorName}>Фитнес-клуб “Футбол и здоровье”</div>
+                    <div className={styles.event__sponsorName}>{event.created_by.name} {event.created_by.surname}</div>
                 </div>
             </div>
         </div>
