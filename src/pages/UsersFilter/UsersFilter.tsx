@@ -18,7 +18,7 @@ const UsersFilter = () => {
     const user = useSelector((state: RootState) => state.user);
     const { people, status } = useSelector((state: RootState) => state.people)
     const [searchTerm, setSearchTerm] = useState('');
-    const [schoolId, setSchoolId] = useState('');
+    const [schoolName, setSchoolName] = useState('');
     const [filteredPeople, setFilteredPeople] = useState<User[]>([]);
 
     React.useEffect(() => {
@@ -26,45 +26,37 @@ const UsersFilter = () => {
     }, [dispatch]);
 
     useEffect(() => {
-        const filterPeople = () => {
-            return people
-                .filter((p) => p.id !== user.user.id) // Исключаем текущего пользователя
-                .filter((p) => {
-                    const matchesSchool = schoolId ? p.school === parseInt(schoolId) : true; // Фильтруем по школе, если указана
-                    const matchesName = searchTerm ? p.name.toLowerCase().includes(searchTerm.toLowerCase()) : true; // Фильтруем по имени, если указано
-                    return matchesSchool && matchesName;
-                })
-                .filter((p) => p.school !== null || !schoolId); // Исключаем пользователей с null в поле school, если фильтр по школе применен
-        };
-
-        setFilteredPeople(filterPeople());
-    }, [searchTerm, schoolId, people, user.user.id]);
+        setFilteredPeople(people.filter((p) => p.id !== user.user.id));
+    }, [people, user.user.id]);
 
     const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setSearchTerm(e.target.value);
+        if (e.target.value === '') {
+            setFilteredPeople(people.filter((p) => p.id !== user.user.id));
+        }
     };
 
+
     const handleSchoolChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setSchoolId(e.target.value);
+        setSchoolName(e.target.value);
+        if (e.target.value === '') {
+            setFilteredPeople(people.filter((p) => p.id !== user.user.id));
+        }
     };
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
+        const filtered = people
+            .filter((p) => p.id !== user.user.id) // Исключаем текущего пользователя
+            .filter((p) => {
+                const matchesSchool = schoolName ? p.school?.toLowerCase() === schoolName.toLowerCase() : true;
+                const matchesName = searchTerm ? p.name.toLowerCase().includes(searchTerm.toLowerCase()) : true;
+                return matchesSchool && matchesName;
+            })
+            .filter((p) => p.school !== null || !schoolName);
 
-        let filteredPeople;
-
-        if (searchTerm.trim() === '') {
-            // Если строка поиска пуста, сбрасываем фильтрацию и показываем всех пользователей (кроме текущего)
-            filteredPeople = people.filter((p) => p.id !== user.user.id);
-        } else {
-            // Фильтруем пользователей по имени и исключаем текущего пользователя
-            filteredPeople = people
-                .filter((p) => p.id !== user.user.id)
-                .filter((p) => p.name.toLowerCase().includes(searchTerm.toLowerCase()));
-        }
-
-        setFilteredPeople(filteredPeople);
-    }
+        setFilteredPeople(filtered);
+    };
 
     if (!filteredPeople) {
         return <p>Loading...</p>;
@@ -101,14 +93,14 @@ const UsersFilter = () => {
                             <label htmlFor="schoolFilter">Школа</label>
                             <div className={styles.searchBar}>
                                 <img src={loupe} alt=""/>
-                                <input type="number" id='schoolFilter' value={schoolId} onChange={handleSchoolChange} placeholder='Номер школы'/>
+                                <input type="text" id='schoolFilter' value={schoolName} onChange={handleSchoolChange} placeholder='Введите название или номер школы'/>
                             </div>
                         </div>
                     </div>
-                    {/*<button className={`action_button ${styles.actionButton}`} type='submit'>*/}
-                    {/*    Показать результат*/}
-                    {/*    <img src={buttonArrow} alt=""/>*/}
-                    {/*</button>*/}
+                    <button className={`action_button ${styles.actionButton}`} type='submit'>
+                        Показать результат
+                        <img src={buttonArrow} alt=""/>
+                    </button>
                 </form>
                 <div className={styles.image}>
                     <img src="/images/drakosha.jpg" alt=""/>
