@@ -101,8 +101,8 @@ const UserProfilePage = () => {
                             <div className="big-card__users">
                                 <ul className="big-card__users-list">
                                     {currentUser.friends.map(item => (
-                                        <li key={item} className="big-card__user">
-                                            <img src={`/images/club-client-0${item}.png`} alt="" />
+                                        <li key={item.id} className="big-card__user">
+                                            <img src={item.avatar} alt="" />
                                         </li>
                                     ))}
                                 </ul>

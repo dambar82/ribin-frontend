@@ -172,5 +172,6 @@ export interface IComment {
     created_at: string;
     liked_by: number[];
     likes_count: number;
+    created_by: number;
     child: IComment[];
 }

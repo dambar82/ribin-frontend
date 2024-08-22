@@ -4,28 +4,37 @@ import DropdownMenu from "../DropdownMenu/DropdownMenu"
 import likeIcon from '../../images/svg/likes.svg'
 import {Client} from "../../types";
 import {postFormatDate} from "../../App";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {useAppDispatch} from "../../store/hooks";
 import {commentLikeAsync} from "../../store/postSlice";
 import {useSelector} from "react-redux";
 import {RootState} from "../../store/store";
 import likeIconLiked from "../../images/svg/likes_red.svg";
+import {User} from "../../store/userSlice";
 
 interface IComment {
     id: number;
     liked_by: number[];
-    author: Client;
+    created_by: number;
     text: string;
     created_at: string;
     likes_count: number
 }
 
-const Comment = ({ id, liked_by, author, text, created_at, likes_count }: IComment) => {
+const Comment = ({ id, liked_by, created_by, text, created_at, likes_count }: IComment) => {
 
     const dispatch = useAppDispatch();
     const user = useSelector((state: RootState) => state.user);
+    const { people } = useSelector((state: RootState) => state.people);
     const [likes, setLikes] = useState(likes_count);
     const [isLiked, setIsLiked] = useState(liked_by.includes(user.user.id));
+
+    const [author, setAuthor] = useState<User | null>(null);
+
+
+    useEffect(() => {
+        setAuthor(people.find(user => user.id === created_by));
+    }, [author, people])
 
     const handleLikeClick = () => {
         if (!isLiked) {
@@ -33,6 +42,10 @@ const Comment = ({ id, liked_by, author, text, created_at, likes_count }: IComme
             setLikes(likes + 1);
             setIsLiked(true);
         }
+    }
+
+    if (!author) {
+        return <p>dasdasd</p>
     }
 
     return (

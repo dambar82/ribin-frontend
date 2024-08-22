@@ -18,15 +18,15 @@ export interface User {
     score: number | null;
     posts: Post[];
     level: number | null;
-    friends: any[];
+    friends: User[];
     contests: ContestUser[];
     image: string;
     description: string;
     clubs: any[];
     events: any[];
     rubick: any;
-    school: any;
-    school_number: any;
+    school: string;
+    school_number: number;
     status: any;
 }
 
