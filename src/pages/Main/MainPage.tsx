@@ -39,28 +39,22 @@ const MainPage: React.FC = () => {
     const isAuth = !!user?.email_confirmed
 
     useEffect(() => {
-        if (isAuth && status === 'idle') {
+        if (status === 'idle') {
             dispatch(fetchClubs());
         }
     }, [isAuth, status, dispatch]);
 
     useEffect(() => {
-        if (isAuth && status === 'idle') {
+        if (status === 'idle') {
             dispatch(fetchNewsAndNewsBack());
         }
     }, [isAuth, status, dispatch]);
 
     useEffect(() => {
-        if (isAuth && contestStatus === 'idle') {
+        if (contestStatus === 'idle') {
             dispatch(fetchContests());
         }
     }, [isAuth, contestStatus, dispatch])
-
-    useEffect(() => {
-        if (isAuth && clubStatus === 'idle') {
-            dispatch(fetchClubs());
-        }
-    }, [isAuth, clubStatus, dispatch])
 
     return (
         <div className={styles.main}>

@@ -39,8 +39,8 @@ const EditClubTab = ({ club, setActiveTab }: EditClubTabProps) => {
 
     const data = new FormData(e.currentTarget)
 
-    if ( loadedAvatar ) data.set('source', loadedAvatar.file, 'source')
-    if ( loadedBanner ) data.set('caption', loadedBanner.file, 'caption')
+    if ( loadedAvatar ) data.set('avatar', loadedAvatar.file, 'avatar.png')
+    if ( loadedBanner ) data.set('caption', loadedBanner.file, 'caption.png')
 
     dispatch(editClub({
       id: club.id,

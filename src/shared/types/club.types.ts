@@ -1,4 +1,5 @@
 import { Clubs } from "../../types"
+import { TEvent } from "./event.types"
 
 export type TCreateClubRequest = {
   name: string
@@ -14,7 +15,9 @@ export type TGetClubResponse = {
 }
 
 export type TEditClubRequest = FormData
-export type TEditClubResponse = Clubs
+export type TEditClubResponse = {
+  data: Clubs
+}
 
 export type TJoinTheClubRequest = {
   client_id: number
@@ -26,5 +29,5 @@ export type TJoinTheClubResponse = {
 
 export type TCreateClubEventRequest = FormData
 export type TCreateClubEventResponse = {
-
+  data: TEvent
 }

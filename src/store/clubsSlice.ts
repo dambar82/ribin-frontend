@@ -54,7 +54,7 @@ export const getClub = createAsyncThunk('clubs/getClub', async ( sendObj: TGetCl
 
 export const editClub = createAsyncThunk('clubs/editClub', async ( data: { id: number, formData: TEditClubRequest } ) => {
   const response = await $api.put<TEditClubResponse>(`/api/club/${data.id}`, data.formData);
-  return response.data
+  return response.data.data
 });
 
 export const joinTheClub = createAsyncThunk('clubs/joinTheClub', async ( data: { sendObj: TJoinTheClubRequest, club_id: number, user: User } ) => {
@@ -72,7 +72,7 @@ export const createClubEvent = createAsyncThunk('clubs/createClubEvent', async (
         'Content-Type': 'multipart/form-data'
       },
     })
-    return response.data
+    return response.data.data
   } catch (error) {
     console.log(error);
     return error?.response.data
@@ -122,7 +122,7 @@ const clubsSlice = createSlice({
 
             .addCase(editClub.pending, (state) => {
             })
-            .addCase(editClub.fulfilled, (state, action: PayloadAction<TEditClubResponse>) => {
+            .addCase(editClub.fulfilled, (state, action: PayloadAction<TEditClubResponse['data']>) => {
                 state.club = action.payload
             })
             .addCase(editClub.rejected, (state, action) => {
@@ -144,10 +144,12 @@ const clubsSlice = createSlice({
             .addCase(joinTheClub.rejected, (state, action) => {
             })
 
-            .addCase(createClubEvent.fulfilled, (state, action: PayloadAction<TCreateClubEventResponse>) => {
+            .addCase(createClubEvent.fulfilled, (state, action: PayloadAction<TCreateClubEventResponse['data']>) => {
               if ( !action.payload ) {
                 return
               }
+              console.log(action.payload);
+              
               const club = state.club
               club.events.push(action.payload)
               state.club = club

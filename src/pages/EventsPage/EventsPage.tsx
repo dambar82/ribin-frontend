@@ -28,6 +28,7 @@ const EventsPage = () => {
                     <nav className="tab-nav">
                         {["Список", "На карте"].map((item, index) => (
                             <button
+                              key={index}
                                 onClick={() => setActive(index + 1)}
                                 className={`tab-button ${active === index + 1 ? "tab-button--active" : ""} button button--white`}
                                 type="button"
@@ -43,7 +44,7 @@ const EventsPage = () => {
                         <div className={styles.events__list}>
                             {events.map(event => (
                                 <Link
-                                  key={event.name}
+                                  key={event.id}
                                   to={`/events/event/${event.id}`}
                                   // className={event.completed ? styles.disableLink : ""}
                                 >
