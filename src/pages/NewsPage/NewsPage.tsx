@@ -38,12 +38,9 @@ const NewsPage = () => {
                     <Grid totalItems={news.length}>
                         {
                             news.map((newsItem) => {
-                                // Проверяем, есть ли у newsItem свойство imagePreviewResized
                                 if ('imagePreviewResized' in newsItem) {
-                                    // Теперь TypeScript знает, что newsItem имеет тип News
                                     return (
-                                        // to={newsItem.url}
-                                        <Link key={newsItem.id} to={`/news/${newsItem.id}`} rel="noopener noreferrer">
+                                        <Link key={newsItem.id} to={newsItem.url} target='_blank' rel="noopener noreferrer">
                                             <NewsCard
                                                 title={newsItem.title}
                                                 date={newsItem.publishDate}

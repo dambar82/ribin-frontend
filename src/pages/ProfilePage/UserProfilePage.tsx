@@ -29,7 +29,6 @@ const UserProfilePage = () => {
 
     useEffect(() => {
         if (user && currentUser) {
-            console.log(currentUser)
             if (user.id === currentUser.id) {
                 setYourPage(true);
             }

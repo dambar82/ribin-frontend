@@ -24,7 +24,7 @@ import avatar from '../../images/default_club_avatar.png'
 const SingleClubPage = () => {
 
     const { id } = useSelector((state: RootState) => state.user.user)
-    const { posts } = useSelector((state: RootState) => state.post)
+    const { posts, status, error } = useSelector((state: RootState) => state.post)
     const club = useSelector((state: RootState) => state.clubs.club)
     
     const [activeTab, setActiveTab] = useState(3)
@@ -37,18 +37,17 @@ const SingleClubPage = () => {
     }, [])
 
     useEffect(() => {
-        // if (club) {
             dispatch(fetchPostsByClubId({clubId: Number(params.id)}));
-        // }
-    }, [dispatch]);
+    }, []);
 
 
-    useEffect(() => {
-        console.log(posts)
-    }, [posts])
 
-    if ( !club ) {
-      return <div>Клуб не найден</div>
+    if (status === 'loading' || !club) {
+        return <p>Loading...</p>;
+    }
+
+    if (status === 'failed') {
+        return <p>{error}</p>;
     }
 
     const isAdmin = id === club.created_by?.id
