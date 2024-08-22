@@ -22,11 +22,11 @@ const UsersFilter = () => {
 
     React.useEffect(() => {
         dispatch(fetchPeople());
-    }, [dispatch, people]);
+    }, [dispatch]);
 
     useEffect(() => {
-        setFilteredPeople(people);
-    }, [people])
+        setFilteredPeople(people); // Устанавливаем все элементы в filteredPeople при загрузке данных
+    }, [people]);
 
     const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setSearchTerm(e.target.value);
@@ -38,12 +38,12 @@ const UsersFilter = () => {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        const filteredPeople = people.filter((user) => {
+        const peopleFilter = filteredPeople.filter((user) => {
             return user.name.toLowerCase().includes(searchTerm.toLowerCase())
-            // user.school.toString() === schoolId
+         //   user.school.toString() === schoolId
         });
-        console.log(filteredPeople)
-        setFilteredPeople(filteredPeople);
+        console.log(peopleFilter)
+        setFilteredPeople(peopleFilter);
     }
 
     if (!filteredPeople) {
