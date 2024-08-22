@@ -41,6 +41,13 @@
       justify-self: center;
     }
 
+    .input_caption {
+      position: absolute;
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
   }
 }
 
@@ -309,6 +316,7 @@
 
   img {
     width: 100%;
+    max-height: 500px;
     height: auto;
     object-fit: contain;
     border-radius: 35px;
