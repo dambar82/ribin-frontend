@@ -23,7 +23,8 @@ export const fetchPeople = createAsyncThunk('people/fetchPeople', async () => {
 });
 
 export const editClient = createAsyncThunk('people/editClient', async (data: {id: number, formData: any}) => {
-    const response = await axios.put(`https://api-rubin.multfilm.tatar/api/clients/${data.id}`, data.formData, {
+    console.log(data.formData)
+    const response = await axios.post(`https://api-rubin.multfilm.tatar/api/clients/${data.id}`, data.formData, {
         headers: {
             'Authorization': `Bearer ${token}`
         }

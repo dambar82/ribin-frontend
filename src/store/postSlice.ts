@@ -170,6 +170,14 @@ const postSlice = createSlice({
                 };
                 state.status = 'loading';
             })
+            .addCase(fetchPostsByClubId.pending, (state) => {
+                state.posts = {
+                    all: [],
+                    video: [],
+                    image: []
+                };
+                state.status = 'loading';
+            })
             .addCase(fetchPosts.fulfilled, (state, action: PayloadAction<PostAnswer>) => {
                 // @ts-ignore
                 state.posts = action.payload;
@@ -181,11 +189,20 @@ const postSlice = createSlice({
                 state.status = 'succeeded';
                 state.error = null;
             })
+            .addCase(fetchPostsByClubId.fulfilled, (state, action: PayloadAction<PostAnswer>) => {
+                state.posts = action.payload;
+                state.status = 'succeeded';
+                state.error = null;
+            })
             .addCase(fetchPosts.rejected, (state, action) => {
                 state.status = 'failed';
                 state.error = action.error.message || null;
             })
             .addCase(fetchPostsByUserId.rejected, (state, action) => {
+                state.status = 'failed';
+                state.error = action.error.message || null;
+            })
+            .addCase(fetchPostsByClubId.rejected, (state, action) => {
                 state.status = 'failed';
                 state.error = action.error.message || null;
             })

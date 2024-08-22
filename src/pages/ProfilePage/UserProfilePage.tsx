@@ -29,7 +29,6 @@ const UserProfilePage = () => {
 
     useEffect(() => {
         if (user && currentUser) {
-            console.log(currentUser)
             if (user.id === currentUser.id) {
                 setYourPage(true);
             }
@@ -123,11 +122,19 @@ const UserProfilePage = () => {
                 </div>
             </section>
             <section className="section">
-                <Wall
-                    type="profile"
-                    editable={false}
-                    posts={posts}
-                />
+                {yourPage ? (
+                    <Wall
+                        type="profile"
+                        // editable={false}
+                        posts={posts}
+                    />
+                ): (
+                    <Wall
+                        type="profile"
+                        editable={false}
+                        posts={posts}
+                    />
+                )}
             </section>
         </div>
     )

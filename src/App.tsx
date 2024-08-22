@@ -129,7 +129,6 @@ function App() {
         { path: '/quizzes/:id', element: <SingleQuizPage /> },
         { path: '/news', element: <NewsPage /> },
         { path: '/news/:id', element: <SingleNewsPage /> },
-        // { path: '/profile', element: <ProfilePage /> },
         { path: '/user/:id/edit/', element: <EditProfilePage /> },
         { path: '/user/:id', element: <UserProfilePage /> },
         { path: '/feedback', element: <FeedbackPage /> },

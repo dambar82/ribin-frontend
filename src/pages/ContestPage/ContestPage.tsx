@@ -80,7 +80,6 @@ const ContestPage = () => {
     }, [participating])
 
     useEffect(() => {
-        console.log(contest)
         if (contest) {
             setTopParticipants(contest.participants.filter(participant =>
                 contest.prizes.some(prize => prize.client_id === participant.client.id)
@@ -212,7 +211,7 @@ const ContestPage = () => {
                                 <div className='section__title'>Результаты</div>
                             </div>
                             <div className='section_body'>
-                                {participating && (
+                                {participating && contest.status === 1 && (
                                     <div className={`shadowBlock ${styles.results_content}`}>
                                         <div className={`${styles.results_content_leftPart}`}>
                                             <h1>
@@ -249,7 +248,7 @@ const ContestPage = () => {
                                         </div>
                                     </div>
                                 )}
-                                {contest.status === 0 && (
+                                {contest.status === 0 && topParticipants.length > 0 && (
                                     <div className={`shadowBlock ${styles.results_content} ${styles.prizes_content}`}>
                                         {topParticipants.slice(0, 3).map((member, index) => (
                                             <Link to={`/user/${member.client.id}`}>

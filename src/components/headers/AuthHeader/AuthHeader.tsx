@@ -132,7 +132,7 @@ const AuthHeader = () => {
                                 <ul>
                                     <li>
                                         <NavLink
-                                            to={`user/${user.id}`}
+                                            to={`/user/${user.id}`}
                                             className={({ isActive }) => {
                                                 return isActive ? "_active" : ""
                                             }}

@@ -74,9 +74,17 @@ const EditProfilePage = () => {
 
         const data = new FormData(e.currentTarget)
 
-        if ( loadedAvatar ) data.set('avatar', loadedAvatar.file, 'caption')
-        if ( loadedBanner ) data.set('image', loadedBanner.file, 'banner')
+        if ( loadedAvatar ) {
+            data.set('avatar', loadedAvatar.file)
+        }
+
+        if ( loadedBanner ) {
+            data.set('image', loadedBanner.file)
+        }
         data.set('description', descriptionValue);
+        data.set('_method', 'put');
+
+        console.log(data);
 
         dispatch(editClient({
             id: currentUser.id,
