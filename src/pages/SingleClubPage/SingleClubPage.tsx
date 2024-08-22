@@ -37,8 +37,15 @@ const SingleClubPage = () => {
     }, [])
 
     useEffect(() => {
-            dispatch(fetchPostsByClubId({clubId: 1}));
+        // if (club) {
+            dispatch(fetchPostsByClubId({clubId: Number(params.id)}));
+        // }
     }, [dispatch]);
+
+
+    useEffect(() => {
+        console.log(posts)
+    }, [posts])
 
     if ( !club ) {
       return <div>Клуб не найден</div>
