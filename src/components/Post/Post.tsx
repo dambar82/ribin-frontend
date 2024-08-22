@@ -17,6 +17,7 @@ import Lightbox from 'react-image-lightbox';
 import {Button} from "../../shared/UI";
 import {postFormatDate} from "../../App";
 import {Link} from "react-router-dom";
+import {fetchPeople} from "../../store/peopleSlice";
 
 interface ICard {
     id: number;
@@ -84,7 +85,9 @@ const Post = ({ id, name, avatar, created_by, source, tags, comments, children, 
                     id: newPost.id,
                     text: newPost.text,
                     created_at: newPost.created_at,
+                    avatar: newPost.avatar,
                     created_by: newPost.created_by,
+                    name: newPost.name,
                     liked_by: [],
                     likes_count: 0,
                     child: []
@@ -134,14 +137,14 @@ const Post = ({ id, name, avatar, created_by, source, tags, comments, children, 
         <article className={styles.post}>
             <div className={styles.post__header}>
                 <div className={styles.post__mainInfo}>
-                        <div className={styles.post__avatar}>
-                            <Link to={`/user/${created_by}`}>
-                                {avatar ?
-                                    <img src={avatar} alt="" /> :
-                                    <img src="/images/club-image.png" alt="" />
-                                }
-                            </Link>
-                        </div>
+                    <div className={styles.post__avatar}>
+                        <Link to={`/user/${created_by}`}>
+                            {avatar ?
+                                <img src={avatar} alt="" /> :
+                                <img src="/images/club-image.png" alt="" />
+                            }
+                        </Link>
+                    </div>
                     <div className={styles.post__title}>{name}</div>
                     <div className={styles.post__createdAt}>{postFormatDate(post.created_at)}</div>
                 </div>
@@ -208,21 +211,23 @@ const Post = ({ id, name, avatar, created_by, source, tags, comments, children, 
             </div>
             { showCommentSection || postComments.length > 0 ? (
                 <div className={styles.post__comments}>
-                <ul className={styles.post__commentsList}>
-                    {commentsToDisplay.map((comment, index) => (
-                        <li key={comment.id}>
-                            <Comment
-                                key={comment.id}
-                                id = {comment.id}
-                                liked_by={comment.liked_by}
-                                created_by={comment.created_by}
-                                text={comment.text}
-                                created_at={comment.created_at}
-                                likes_count={comment.likes_count}
-                            />
-                        </li>
-                    ))}
-                </ul>
+                    <ul className={styles.post__commentsList}>
+                        {commentsToDisplay.map((comment, index) => (
+                            <li key={comment.id}>
+                                <Comment
+                                    key={comment.id}
+                                    id = {comment.id}
+                                    liked_by={comment.liked_by}
+                                    text={comment.text}
+                                    created_at={comment.created_at}
+                                    likes_count={comment.likes_count}
+                                    avatar={comment.avatar}
+                                    name={comment.name}
+                                    created_by={comment.created_by}
+                                />
+                            </li>
+                        ))}
+                    </ul>
                     {
                         postComments.length > 3 && (
                             <button
@@ -234,8 +239,8 @@ const Post = ({ id, name, avatar, created_by, source, tags, comments, children, 
                             </button>
                         )
                     }
-                <form onSubmit={onSubmit} className={styles.post__commentsForm}>
-                    <div className={styles.textarea_wrapper} >
+                    <form onSubmit={onSubmit} className={styles.post__commentsForm}>
+                        <div className={styles.textarea_wrapper} >
                         <textarea
                             name="commentText"
                             id=""
@@ -244,10 +249,10 @@ const Post = ({ id, name, avatar, created_by, source, tags, comments, children, 
                             value={commentText}
                             onChange={(e) => setCommentText(e.target.value)}
                         ></textarea>
-                        <Button className={styles.submit_button}>Отправить</Button>
-                    </div>
-                </form>
-            </div>
+                            <Button className={styles.submit_button}>Отправить</Button>
+                        </div>
+                    </form>
+                </div>
             ) : null}
             {isOpen && (
                 <Lightbox
@@ -264,3 +269,4 @@ const Post = ({ id, name, avatar, created_by, source, tags, comments, children, 
 }
 
 export default Post
+

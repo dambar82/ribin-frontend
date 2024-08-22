@@ -167,11 +167,13 @@ export interface PhotoGallery {
 }
 
 export interface IComment {
+    avatar: string | null;
     id: number;
     text: string;
     created_at: string;
+    created_by: number;
     liked_by: number[];
     likes_count: number;
-    created_by: number;
     child: IComment[];
+    name: string;
 }

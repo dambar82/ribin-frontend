@@ -11,30 +11,25 @@ import {useSelector} from "react-redux";
 import {RootState} from "../../store/store";
 import likeIconLiked from "../../images/svg/likes_red.svg";
 import {User} from "../../store/userSlice";
+import {fetchPeople} from "../../store/peopleSlice";
 
 interface IComment {
     id: number;
     liked_by: number[];
-    created_by: number;
     text: string;
     created_at: string;
-    likes_count: number
+    likes_count: number;
+    name: string;
+    created_by: number;
+    avatar: string | null;
 }
 
-const Comment = ({ id, liked_by, created_by, text, created_at, likes_count }: IComment) => {
+const Comment = ({ id, liked_by, text, created_at, likes_count, name, avatar, created_by }: IComment) => {
 
     const dispatch = useAppDispatch();
     const user = useSelector((state: RootState) => state.user);
-    const { people } = useSelector((state: RootState) => state.people);
     const [likes, setLikes] = useState(likes_count);
     const [isLiked, setIsLiked] = useState(liked_by.includes(user.user.id));
-
-    const [author, setAuthor] = useState<User | null>(null);
-
-
-    useEffect(() => {
-        setAuthor(people.find(user => user.id === created_by));
-    }, [author, people])
 
     const handleLikeClick = () => {
         if (!isLiked) {
@@ -44,39 +39,35 @@ const Comment = ({ id, liked_by, created_by, text, created_at, likes_count }: IC
         }
     }
 
-    if (!author) {
-        return <p>dasdasd</p>
-    }
-
     return (
         <div className={styles.comment}>
-        <div className={styles.comment__header}>
-            <div className={`${styles.comment__author} ${styles.author}`}>
-                <div className={styles.author__avatar}>
-                    <img src={author.avatar} alt="" />
+            <div className={styles.comment__header}>
+                <div className={`${styles.comment__author} ${styles.author}`}>
+                    <div className={styles.author__avatar}>
+                        <img src={avatar} alt="" />
+                    </div>
+                    <div className={styles.author__name}>{name}</div>
+                    <div className={styles.author__date}>{postFormatDate(created_at)}</div>
                 </div>
-                <div className={styles.author__name}>{author.name}</div>
-                <div className={styles.author__date}>{postFormatDate(created_at)}</div>
+                <DropdownMenu />
             </div>
-            <DropdownMenu />
-        </div>
-        <div className={styles.comment__body}>
-            <p>{text}</p>
-        </div>
-        <div className={styles.comment__footer}>
-            <div className={styles.comment__likes} onClick={handleLikeClick}>
-                <div className={styles.comment__likesIcon}>
-                    <img
-                        src={isLiked ? likeIconLiked : likeIcon}
-                        alt=""
-                    />
+            <div className={styles.comment__body}>
+                <p>{text}</p>
+            </div>
+            <div className={styles.comment__footer}>
+                <div className={styles.comment__likes} onClick={handleLikeClick}>
+                    <div className={styles.comment__likesIcon}>
+                        <img
+                            src={isLiked ? likeIconLiked : likeIcon}
+                            alt=""
+                        />
+                    </div>
+                    <span className={`${styles.comment__label} ${isLiked ? styles.comment__label_liked : ''}`}>{likes}</span>
                 </div>
-                <span className={`${styles.comment__label} ${isLiked ? styles.comment__label_liked : ''}`}>{likes}</span>
+                <button className={`${styles.comment__button} ${styles.comment__button_reply}`} type="button">Ответить</button>
+                <button className={`${styles.comment__button} ${styles.comment__button_share}`} type="button">Поделиться</button>
             </div>
-            <button className={`${styles.comment__button} ${styles.comment__button_reply}`} type="button">Ответить</button>
-            <button className={`${styles.comment__button} ${styles.comment__button_share}`} type="button">Поделиться</button>
         </div>
-    </div>
     )
 }
 
