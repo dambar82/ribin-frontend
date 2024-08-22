@@ -43,6 +43,27 @@
  }
 }
 
+.level {
+ font-family: Raleway;
+ font-size: 16px;
+ font-weight: 500;
+ line-height: 20px;
+ letter-spacing: -0.011em;
+ text-align: left;
+ background-color: #FF9900;
+ border-radius: 30px;
+ padding: 6px 13px;
+ color: white;
+ span {
+  font-family: Saira;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 20px;
+  letter-spacing: -0.011em;
+  text-align: left;
+ }
+}
+
 .card_description {
  font-family: Raleway;
  font-size: 16px;

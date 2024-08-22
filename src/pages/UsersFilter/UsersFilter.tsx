@@ -15,6 +15,7 @@ const UsersFilter = () => {
 
     const dispatch = useAppDispatch();
 
+    const user = useSelector((state: RootState) => state.user);
     const { people, status } = useSelector((state: RootState) => state.people)
     const [searchTerm, setSearchTerm] = useState('');
     const [schoolId, setSchoolId] = useState('');
@@ -25,8 +26,19 @@ const UsersFilter = () => {
     }, [dispatch]);
 
     useEffect(() => {
-        setFilteredPeople(people); // Устанавливаем все элементы в filteredPeople при загрузке данных
-    }, [people]);
+        const filterPeople = () => {
+            return people
+                .filter((p) => p.id !== user.user.id) // Исключаем текущего пользователя
+                .filter((p) => {
+                    const matchesSchool = schoolId ? p.school === parseInt(schoolId) : true; // Фильтруем по школе, если указана
+                    const matchesName = searchTerm ? p.name.toLowerCase().includes(searchTerm.toLowerCase()) : true; // Фильтруем по имени, если указано
+                    return matchesSchool && matchesName;
+                })
+                .filter((p) => p.school !== null || !schoolId); // Исключаем пользователей с null в поле school, если фильтр по школе применен
+        };
+
+        setFilteredPeople(filterPeople());
+    }, [searchTerm, schoolId, people, user.user.id]);
 
     const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setSearchTerm(e.target.value);
@@ -38,12 +50,20 @@ const UsersFilter = () => {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        const peopleFilter = filteredPeople.filter((user) => {
-            return user.name.toLowerCase().includes(searchTerm.toLowerCase())
-         //   user.school.toString() === schoolId
-        });
-        console.log(peopleFilter)
-        setFilteredPeople(peopleFilter);
+
+        let filteredPeople;
+
+        if (searchTerm.trim() === '') {
+            // Если строка поиска пуста, сбрасываем фильтрацию и показываем всех пользователей (кроме текущего)
+            filteredPeople = people.filter((p) => p.id !== user.user.id);
+        } else {
+            // Фильтруем пользователей по имени и исключаем текущего пользователя
+            filteredPeople = people
+                .filter((p) => p.id !== user.user.id)
+                .filter((p) => p.name.toLowerCase().includes(searchTerm.toLowerCase()));
+        }
+
+        setFilteredPeople(filteredPeople);
     }
 
     if (!filteredPeople) {
@@ -85,10 +105,10 @@ const UsersFilter = () => {
                             </div>
                         </div>
                     </div>
-                    <button className={`action_button ${styles.actionButton}`} type='submit'>
-                        Показать результат
-                        <img src={buttonArrow} alt=""/>
-                    </button>
+                    {/*<button className={`action_button ${styles.actionButton}`} type='submit'>*/}
+                    {/*    Показать результат*/}
+                    {/*    <img src={buttonArrow} alt=""/>*/}
+                    {/*</button>*/}
                 </form>
                 <div className={styles.image}>
                     <img src="/images/drakosha.jpg" alt=""/>
@@ -102,7 +122,7 @@ const UsersFilter = () => {
                 <div className={`section__body`}>
                     <Grid totalItems={filteredPeople.length}>
                         {filteredPeople && filteredPeople.map((user: User) => (
-                            <FoundUserCard key={user.id} image={user.avatar} name={user.name} age={user.birthdate} level={14} id={user.id} desc={'Обожаю играть в футбол и всегда рад новым друзьям. Давай играть вместе и достигать новых вершин вместе!'}/>
+                            <FoundUserCard key={user.id} image={user.avatar} name={user.name} age={user.birthdate} level={user.level} id={user.id} desc={user.description}/>
                         ))}
                     </Grid>
                 </div>

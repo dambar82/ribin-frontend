@@ -2,6 +2,7 @@ import React from 'react';
 import styles from './FoundUserCard.module.scss';
 import {sendFriendRequest} from "../../store/peopleSlice";
 import {useAppDispatch} from "../../store/hooks";
+import {Link} from "react-router-dom";
 
 interface FoundUserCardProps {
     image: string;
@@ -29,27 +30,31 @@ const FoundUserCard = ({image, name, age, id, level, desc}: FoundUserCardProps) 
     }
 
     return (
-        <div className={styles.card}>
-            <div className={styles.card_up}>
-                <div className={styles.card_avatar}>
-                    <img src={image} alt=""/>
-                </div>
-                <div className={styles.card_name}>
-                    <h2>
-                        {name}, {ageInYears} лет
-                    </h2>
-                    <div className={`orange_button_little`}>
-                        Уровень {level}
+        <>
+            <Link to={`/user/${id}`}>
+                <div className={styles.card}>
+                    <div className={styles.card_up}>
+                        <div className={styles.card_avatar}>
+                            <img src={image} alt=""/>
+                        </div>
+                        <div className={styles.card_name}>
+                            <h2>
+                                {name}, {ageInYears} лет
+                            </h2>
+                        </div>
+                        <div className={styles.level}>
+                            Уровень <span>{level}</span>
+                        </div>
+                        <div className={styles.card_description}>
+                            {desc}
+                        </div>
+                    </div>
+                    <div className={`action_button`} onClick={handleFriendAdd}>
+                        Добавить в друзья
                     </div>
                 </div>
-                <div className={styles.card_description}>
-                    {desc}
-                </div>
-            </div>
-            <div className={`action_button`} onClick={handleFriendAdd}>
-                Добавить в друзья
-            </div>
-        </div>
+            </Link>
+        </>
     );
 };
 
