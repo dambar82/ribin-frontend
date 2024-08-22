@@ -81,6 +81,7 @@ export const createPost = createAsyncThunk('post/createPost', async (formData: F
 });
 
 export const createComment = createAsyncThunk('post/createComment', async ({formData, postId} : {formData: FormData, postId: number}) => {
+    console.log(token)
     const response = await axios.post(`https://api-rubin.multfilm.tatar/api/posts/${postId}/comments`, formData, {
         headers: {
             'Authorization': `Bearer ${token}`

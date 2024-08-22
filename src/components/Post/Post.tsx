@@ -84,6 +84,7 @@ const Post = ({ id, name, avatar, created_by, source, tags, comments, children, 
                     id: newPost.id,
                     text: newPost.text,
                     created_at: newPost.created_at,
+                    created_by: newPost.created_by,
                     liked_by: [],
                     likes_count: 0,
                     child: []
@@ -214,7 +215,7 @@ const Post = ({ id, name, avatar, created_by, source, tags, comments, children, 
                                 key={comment.id}
                                 id = {comment.id}
                                 liked_by={comment.liked_by}
-                                author={post.client}
+                                created_by={comment.created_by}
                                 text={comment.text}
                                 created_at={comment.created_at}
                                 likes_count={comment.likes_count}
