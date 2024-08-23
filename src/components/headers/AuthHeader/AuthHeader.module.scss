@@ -28,6 +28,23 @@
   }
 }
 
+.cabinet_button {
+  cursor: pointer;
+  color: white;
+  padding: 18px 60px;
+  border-radius: 60px;
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 24.2px;
+  text-align: center;
+  background-color: #91172C;
+  white-space: nowrap;
+
+  @media (max-width: 1000px) {
+    padding: 16px 20px;
+  }
+}
+
 .authHeader_menu {
   position: relative;
   display: flex;

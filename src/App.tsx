@@ -176,15 +176,9 @@ function App() {
                 <Route
                     path="/"
                     element={
-                      isAuth ? (
-                            <MainAuthorizedLayout>
-                                <MainPage />
-                            </MainAuthorizedLayout>
-                        ) : (
-                            <MainUnauthorizedLayout>
-                                <MainPage />
-                            </MainUnauthorizedLayout>
-                        )
+                      <MainAuthorizedLayout>
+                        <MainPage />
+                      </MainAuthorizedLayout>
                     }
                 />
                 {privateRoutes.map(({ path, element }) => (

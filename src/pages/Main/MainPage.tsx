@@ -105,7 +105,7 @@ const MainPage: React.FC = () => {
                                                 // Теперь TypeScript знает, что newsItem имеет тип News
                                                 return (
                                                     <SwiperSlide key={newsItem.id}>
-                                                        <Link to={newsItem.url} target="_blank" rel="noopener noreferrer">
+                                                        <Link to={`/news/api/${newsItem.id}`}>
                                                             <NewsCard
                                                                 title={newsItem.title}
                                                                 date={newsItem.publishDate}
@@ -119,7 +119,7 @@ const MainPage: React.FC = () => {
                                                 // Здесь newsItem обрабатывается как NewsBack
                                                 return (
                                                     <SwiperSlide key={newsItem.id}>
-                                                        <Link to={`/news/${newsItem.id}`}>
+                                                        <Link to={`/news/api/${newsItem.id}`}>
                                                             <NewsCard
                                                                 date={newsItem.date}
                                                                 image={newsItem.images[0]}
