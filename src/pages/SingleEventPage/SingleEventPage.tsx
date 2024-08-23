@@ -54,6 +54,10 @@ const SingleEventPage = () => {
     })
   }
 
+  useEffect(() => {
+      console.log(event);
+  }, [event])
+
   const cancelParticipateInEventHandler = () => {
     dispatch(cancelParticipateInEvent({
       event_id: event.id,

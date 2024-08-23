@@ -2,6 +2,16 @@ import React from 'react';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
+import markerIcon from './marker-icon-2x.png'
+
+const customIcon = new L.Icon({
+    iconUrl: '/images/marker-icon-2x.png', // Вставьте сюда URL вашей иконки
+    iconSize: [25, 41], // Размер иконки
+    iconAnchor: [12, 41], // Анкер иконки
+    popupAnchor: [1, -34], // Анкер всплывающего окна
+    shadowUrl: require('leaflet/dist/images/marker-shadow.png'), // Тень метки
+    shadowSize: [41, 41] // Размер тени
+});
 
 const Map = ({coordinates}) => {
     return (
@@ -17,7 +27,7 @@ const Map = ({coordinates}) => {
                 //@ts-ignore
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             />
-            <Marker position={coordinates}>
+            <Marker position={coordinates} icon={customIcon}>
                <Popup>
                    A pretty CSS3 popup. <br /> Easily customizable.
                </Popup>
