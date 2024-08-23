@@ -129,8 +129,8 @@ const CreateClubEvent = ({ club, setActiveTab }: CreateClubEventProps) => {
     })
   }
 
-  const deletePhoto = ( index: number ) => {
-    setLoadedPhotos(prev => prev.filter((_, i) => i !== index))
+  const deletePhoto = ( url: string ) => {
+    setLoadedPhotos(prev => prev.filter(photo => photo.url !== url))
   }
 
   return (
@@ -151,7 +151,6 @@ const CreateClubEvent = ({ club, setActiveTab }: CreateClubEventProps) => {
       </div>
 
       <section className={c.section}>
-
 
         <form onSubmit={onSubmit} >
 
@@ -185,19 +184,20 @@ const CreateClubEvent = ({ club, setActiveTab }: CreateClubEventProps) => {
             <p>Фотографии</p>
 
             <div className={c.photos_wrapper} >
-              {arrayFromTo(0, 7).map(num => (
-                <div key={num} onClick={loadPhoto} >
-                  {loadedPhotos[num]
-                  ? <img
-                      src={loadedPhotos[num]?.url || ''}
-                      onClick={() => deletePhoto(num)}
-                    />
-                  : <input
-                      accept='.jpg,.jpeg,.png'
-                      type="file"
-                      onChange={onLoad}
-                    />
-                  }
+              <div onClick={loadPhoto} >
+                <input
+                  accept='.jpg,.jpeg,.png'
+                  type="file"
+                  onChange={onLoad}
+                />
+              </div>
+              {loadedPhotos.map(photo => (
+                <div className={c.loaded_img} >
+                  <img
+                    key={photo.url}
+                    src={photo.url}
+                    onClick={() => deletePhoto(photo.url)}
+                  />
                 </div>
               ))}
             </div>

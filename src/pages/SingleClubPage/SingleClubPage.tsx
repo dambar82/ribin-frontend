@@ -67,6 +67,11 @@ const SingleClubPage = () => {
       />
     }
 
+    const createEvent = () => {
+      setActiveTab(2)
+      setTimeout(() => window.scrollTo({ top: 0, left: 0, behavior: "smooth" }), 100)
+    }
+
     return (
         <div className='page'>
             <section className={`section ${c.clubInfo}`}>
@@ -137,6 +142,13 @@ const SingleClubPage = () => {
                     <div className='section__counter'>{club.events?.length}</div>
                 </div>
                 <div className={classNames('section__body', c.section_body)}>
+
+                  {isAdmin &&
+                    <div className={c.create_club_event} onClick={createEvent} >
+                      <span>Создать новое мероприятие</span>
+                    </div>
+                  }
+
                   {club.events?.map(event => (
                       <Card
                           key={event.id}
@@ -148,6 +160,7 @@ const SingleClubPage = () => {
                           tagLabel={`${event.city} ${event.location}`}
                       />
                   ))}
+                  
                 </div>
             </section>
             <section className={`section ${c.feed}`}>

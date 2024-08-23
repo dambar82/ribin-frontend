@@ -166,35 +166,18 @@ const userSlice = createSlice({
                 state.error = action.error.message || null;
             })
 
-            .addCase(confirmEmail.pending, (state) => {
-                state.status = 'loading';
-            })
             .addCase(confirmEmail.fulfilled, (state, action: PayloadAction<TConfirmEmailResponse>) => {
                 console.log(action.payload);
 
                 state.confirmEmailStatus = action.payload
             })
-            .addCase(confirmEmail.rejected, (state, action) => {
-                state.status = 'failed';
-                state.error = action.error.message || null;
-            })
 
-            .addCase(resendConfirmEmail.pending, (state) => {
-                state.status = 'loading';
-            })
             .addCase(resendConfirmEmail.fulfilled, (state, action: PayloadAction<TConfirmEmailResponse>) => {
                 console.log(action.payload);
 
-                state.confirmEmailStatus = action.payload
-            })
-            .addCase(resendConfirmEmail.rejected, (state, action) => {
-                state.status = 'failed';
-                state.error = action.error.message || null;
+                // state.confirmEmailStatus = action.payload
             })
 
-            .addCase(registerUser.pending, (state) => {
-                state.status = 'loading';
-            })
             .addCase(registerUser.fulfilled, (state, action: PayloadAction<TLoginUserResponse>) => {
                 if ( action.payload?.errors ) {
                   return
@@ -205,24 +188,11 @@ const userSlice = createSlice({
                 localStorage.setItem('user_id', JSON.stringify(action.payload.client.id));
                 state.error = null;
             })
-            .addCase(registerUser.rejected, (state, action) => {
-                console.log(action);
 
-                state.status = 'failed';
-                state.error = action.error.message || null;
-            })
-
-            .addCase(checkAuth.pending, (state) => {
-                state.status = 'loading';
-            })
             .addCase(checkAuth.fulfilled, (state, action: PayloadAction<TCheckAuthResponse['data']>) => {
                 state.user = action.payload;
                 state.status = 'succeeded';
                 state.error = null;
-            })
-            .addCase(checkAuth.rejected, (state, action) => {
-                state.status = 'failed';
-                state.error = action.error.message || null;
             })
 
             .addCase(editUser.pending, (state) => {

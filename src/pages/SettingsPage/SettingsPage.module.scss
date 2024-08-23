@@ -123,3 +123,13 @@
     }
   }
 }
+
+.school_input_wrapper {
+  display: grid;
+  grid-template-columns: 70% 30%;
+  gap: 0 10px;
+
+  div {
+    grid-column: 1/3;
+  }
+}

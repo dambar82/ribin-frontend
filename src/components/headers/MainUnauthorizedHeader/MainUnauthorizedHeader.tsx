@@ -41,7 +41,7 @@ const menuLinks: IMenuLink[] = [
         link: '/rubylife'
     },
     {
-        title: 'Активности клуба',
+        title: 'Активности',
         link: '/sportslife'
     },
 ]

@@ -10,11 +10,11 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules'
 import 'swiper/css';
 import 'swiper/css/navigation';
-import {Link, useParams} from "react-router-dom";
+import {Link, useNavigate, useParams} from "react-router-dom";
 import NewsCard from "../../components/NewsCard/NewsCard";
 import buttonArrow from "../../images/svg/button_arrow.svg";
 import { useAppDispatch, useAppSelector } from '../../store/hooks'
-import { getEvent, participateInEvent } from '../../store/eventsSlice'
+import { cancelParticipateInEvent, getEvent, participateInEvent } from '../../store/eventsSlice'
 
 const photos = [
     '/images/6f05b9e6234fd9271db78f533dcfb2f7 (1).jpg',
@@ -50,7 +50,18 @@ const SingleEventPage = () => {
     }))
     .then(res => {
       const payload = res.payload as any
-      alert(payload?.response)
+      // alert(payload?.response)
+    })
+  }
+
+  const cancelParticipateInEventHandler = () => {
+    dispatch(cancelParticipateInEvent({
+      event_id: event.id,
+      user
+    }))
+    .then(res => {
+      const payload = res.payload as any
+      // alert(payload?.response)
     })
   }
 
@@ -121,16 +132,24 @@ const SingleEventPage = () => {
                                 </div>
                             </div>
                         </div>
-                        { !event.clients?.some(el => el.id === user.id) &&
-                          <div className={styles.eventInfo_button}>
+                        <div className={styles.eventInfo_button}>
+                        { event.clients?.some(el => el.id === user.id)
+                        ?
+                          <button
+                            className={styles.eventButton}
+                            onClick={cancelParticipateInEventHandler}
+                          >
+                            Не участвовать
+                          </button>
+                        :
                             <button
                               className={styles.eventButton}
                               onClick={participateInEventHandler}
                             >
                               Участвовать
                             </button>
-                          </div>
                         }
+                        </div>
                     </div>
                 </div>
                 <div className={styles.eventPage_Deck}>

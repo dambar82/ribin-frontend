@@ -65,6 +65,11 @@ export const joinTheClub = createAsyncThunk('clubs/joinTheClub', async ( data: {
   }
 });
 
+export const deleteClub = createAsyncThunk('clubs/deleteClub', async ( data: { id: number } ) => {
+  const response = await $api.delete(`/api/club/${data.id}`);
+  return response.data
+});
+
 export const createClubEvent = createAsyncThunk('clubs/createClubEvent', async ( data: { sendObj: TCreateClubEventRequest, club_id: number } ) => {
   try {
     const response = await $api.post<TCreateClubEventResponse>(`/api/event/${data.club_id}/create`, data.sendObj, {
@@ -99,8 +104,6 @@ const clubsSlice = createSlice({
                 state.error = action.error.message || null;
             })
 
-            .addCase(createClub.pending, (state) => {
-            })
             .addCase(createClub.fulfilled, (state, action: PayloadAction<TCreateClubResponse>): any => {
               console.log(action.payload?.id);
               if ( !action.payload?.id ) {
@@ -109,27 +112,15 @@ const clubsSlice = createSlice({
               state.club = action.payload
               console.log(action.payload);
             })
-            .addCase(createClub.rejected, (state, action) => {
-            })
 
-            .addCase(getClub.pending, (state) => {
-            })
             .addCase(getClub.fulfilled, (state, action: PayloadAction<TGetClubResponse['data']>) => {
                 state.club = action.payload
             })
-            .addCase(getClub.rejected, (state, action) => {
-            })
 
-            .addCase(editClub.pending, (state) => {
-            })
             .addCase(editClub.fulfilled, (state, action: PayloadAction<TEditClubResponse['data']>) => {
                 state.club = action.payload
             })
-            .addCase(editClub.rejected, (state, action) => {
-            })
 
-            .addCase(joinTheClub.pending, (state) => {
-            })
             .addCase(joinTheClub.fulfilled, (state, action: PayloadAction<TJoinTheClubResponse & { user: User }>) => {
               const club = state.club
               club.clients.push(action.payload.user)
@@ -141,8 +132,6 @@ const clubsSlice = createSlice({
               })
               state.club = club
             })
-            .addCase(joinTheClub.rejected, (state, action) => {
-            })
 
             .addCase(createClubEvent.fulfilled, (state, action: PayloadAction<TCreateClubEventResponse['data']>) => {
               if ( !action.payload ) {
@@ -153,6 +142,10 @@ const clubsSlice = createSlice({
               const club = state.club
               club.events.push(action.payload)
               state.club = club
+            })
+
+            .addCase(deleteClub.fulfilled, (state, action: PayloadAction<unknown>) => {
+              state.club = null
             })
     }
 })

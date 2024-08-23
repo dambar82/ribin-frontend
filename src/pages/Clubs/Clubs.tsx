@@ -88,6 +88,7 @@ const Clubs = () => {
                 <div className='section__body'>
                     <Grid totalItems={clubs.length}>
                         {clubs.map((club, index) => (
+                          <Link to={`/clubs/${club.id}`} key={club.name + index}>
                             <ClubCard
                                 id={club.id}
                                 key={club.name + index}
@@ -96,6 +97,7 @@ const Clubs = () => {
                                 desc={club.short_description}
                                 participants={club.clients_count}
                             />
+                          </Link>
                         ))}
                     </Grid>
                 </div>
