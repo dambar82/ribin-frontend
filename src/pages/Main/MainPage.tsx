@@ -27,34 +27,42 @@ import NewsCard from "../../components/NewsCard/NewsCard";
 import ActiveUserCard from "../../components/ActiveUserCard/ActiveUserCard";
 import PostCard from '../../components/PostCard/PostCard';
 import ClubCard from '../../components/ClubCard/ClubCard';
+import {fetchPosts} from "../../store/postSlice";
+import {fetchPeople} from "../../store/peopleSlice";
 
 const MainPage: React.FC = () => {
 
     const dispatch = useDispatch<AppDispatch>();
-    const { status, news } = useSelector((state: RootState) => state.news);
+    const { news } = useSelector((state: RootState) => state.news);
     const { contestStatus, contests } = useSelector((state: RootState) => state.contests)
+    const { posts } = useSelector((state: RootState) => state.post)
+    const { people } = useSelector((state: RootState) => state.people)
     const {status: clubStatus, clubs } = useSelector((state: RootState) => state.clubs);
     const user = useSelector((state: RootState) => state.user.user);
 
     const isAuth = !!user?.email_confirmed
 
     useEffect(() => {
-        if (status === 'idle') {
+        if (clubStatus === 'idle') {
             dispatch(fetchClubs());
         }
-    }, [isAuth, status, dispatch]);
+    }, [isAuth, clubStatus, dispatch]);
 
     useEffect(() => {
-        if (status === 'idle') {
-            dispatch(fetchNewsAndNewsBack());
-        }
-    }, [isAuth, status, dispatch]);
+        dispatch(fetchNewsAndNewsBack());
+    }, [isAuth, dispatch]);
 
     useEffect(() => {
         if (contestStatus === 'idle') {
             dispatch(fetchContests());
         }
     }, [isAuth, contestStatus, dispatch])
+
+    useEffect(() => {
+        dispatch(fetchPosts())
+        dispatch(fetchPeople())
+    }, [])
+
 
     return (
         <div className={styles.main}>
@@ -201,7 +209,7 @@ const MainPage: React.FC = () => {
             <section className={`section section--big section--green section--vector-bg ${styles.blog}`}>
                 <div className='section__header'>
                     <h2 className={`${styles.blog__title} section__title`}>Пользовательские записи</h2>
-                    <Link to='/blogs'>
+                    <Link to='/posts'>
                         <div className="button button--white">
                             <span>Показать все</span>
                         </div>
@@ -217,22 +225,19 @@ const MainPage: React.FC = () => {
                                 nextEl: '.button--next'
                             }}
                         >
-                            {[
-                                { text: 'Футбольный клуб "Рубин" — это не просто команда, это целая история, наполненная триумфами, испытаниями и великими победами. В этой записи я расскажу вам о том, как начинался путь "Рубина" и как клуб стал тем, кем он является сегодня.', image: "/images/post-card-01.png" },
-                                { text: 'Успех на футбольном поле начинается с упорной работы на тренировках. В этом блоге мы расскажем вам, как проходят тренировки в нашем клубе и какие методы мы используем для подготовки наших игроков к матчам.', image: "/images/post-card-02.png"},
-                            ].map((item, index) => (
+                            {posts.image.map((item, index) => (
                                 <SwiperSlide key={index}>
-                                    <PostCard text={item.text} image={item.image} />
+                                    <PostCard text={item.title} image={item.source[0]} created_at={item.created_at} client={item.client}/>
                                 </SwiperSlide>
                             ))}
-                            {[
-                                { text: 'Футбольный клуб "Рубин" — это не просто команда, это целая история, наполненная триумфами, испытаниями и великими победами. В этой записи я расскажу вам о том, как начинался путь "Рубина" и как клуб стал тем, кем он является сегодня.', image: "/images/post-card-01.png" },
-                                { text: 'Успех на футбольном поле начинается с упорной работы на тренировках. В этом блоге мы расскажем вам, как проходят тренировки в нашем клубе и какие методы мы используем для подготовки наших игроков к матчам.', image: "/images/post-card-02.png"},
-                            ].map((item, index) => (
-                                <SwiperSlide key={index}>
-                                    <PostCard text={item.text} image={item.image} />
-                                </SwiperSlide>
-                            ))}
+                            {/*{[*/}
+                            {/*    { text: 'Футбольный клуб "Рубин" — это не просто команда, это целая история, наполненная триумфами, испытаниями и великими победами. В этой записи я расскажу вам о том, как начинался путь "Рубина" и как клуб стал тем, кем он является сегодня.', image: "/images/post-card-01.png" },*/}
+                            {/*    { text: 'Успех на футбольном поле начинается с упорной работы на тренировках. В этом блоге мы расскажем вам, как проходят тренировки в нашем клубе и какие методы мы используем для подготовки наших игроков к матчам.', image: "/images/post-card-02.png"},*/}
+                            {/*].map((item, index) => (*/}
+                            {/*    <SwiperSlide key={index}>*/}
+                            {/*        <PostCard text={item.text} image={item.image} />*/}
+                            {/*    </SwiperSlide>*/}
+                            {/*))}*/}
                         </Swiper>
                         <div className="section__sliderControls">
                             <button className="button button--black button--next" type="button">
@@ -268,7 +273,7 @@ const MainPage: React.FC = () => {
             <section className={`section section--big section--orange section--vector-bg ${styles.users}`}>
                 <div className="section__header">
                     <h2 className={`section__title ${styles.users__title}`}>Активные пользователи</h2>
-                    <Link to='/blogs'>
+                    <Link to='/people'>
                         <div className="button button--white">
                             <span>Показать все</span>
                         </div>
@@ -276,8 +281,8 @@ const MainPage: React.FC = () => {
                 </div>
                 <div className="section__body">
                     <div className={styles.users__content}>
-                        {[1, 2, 3, 4, 5].map(item => (
-                            <ActiveUserCard key={item} image={pacan} name={'Дмитрий Иванов'} level={25} points={2000}/>
+                        {people.slice(0, 5).map(item => (
+                            <ActiveUserCard key={item.id} image={item.avatar} name={item.name} surname={item.surname} level={item.level} points={item.score}/>
                         ))}
                     </div>
                 </div>
@@ -332,7 +337,7 @@ const MainPage: React.FC = () => {
                                 >
                                     {clubs.map((club, index) => (
                                         <SwiperSlide key={club.name + index}>
-                                            <Link to={`/clubs/${index}`}>
+                                            <Link to={`/clubs/${club.id}`}>
                                                 <ClubCard
                                                   id={club.id}
                                                     name={club.name}

@@ -303,6 +303,7 @@ const ContestPage = () => {
                                                 <ActiveUserCard
                                                     image={participant.client.image}
                                                     name={participant.client.name}
+                                                    surname={participant.client.surname}
                                                     level={participant.client.level}
                                                     points={participant.client.score}
                                                     key={participant.id}></ActiveUserCard>

@@ -294,11 +294,11 @@ const UnauthorizedMain: React.FC = () => {
                             </div>
                         </Link>
                     </div>
-                    <div className={styles.flexZone}>
-                        <ActiveUserCard image={pacan} name={'Дмитрий Иванов'} level={25} points={2000}/>
-                        <ActiveUserCard image={pacan} name={'Дмитрий Иванов'} level={25} points={2000}/>
-                        <ActiveUserCard image={pacan} name={'Дмитрий Иванов'} level={25} points={2000}/>
-                    </div>
+                    {/*<div className={styles.flexZone}>*/}
+                    {/*    <ActiveUserCard image={pacan} name={'Дмитрий Иванов'} level={25} points={2000}/>*/}
+                    {/*    <ActiveUserCard image={pacan} name={'Дмитрий Иванов'} level={25} points={2000}/>*/}
+                    {/*    <ActiveUserCard image={pacan} name={'Дмитрий Иванов'} level={25} points={2000}/>*/}
+                    {/*</div>*/}
                 </div>
             </div>
             <div className={styles.contestZone}>

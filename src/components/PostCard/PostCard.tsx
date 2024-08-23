@@ -1,4 +1,5 @@
 import styles from "./PostCard.module.scss"
+import {postFormatDate} from "../../App";
 
 type Author = {
     author: string;
@@ -8,17 +9,19 @@ interface IPostCard {
     // date: string;
     text: string;
     image?: string;
+    created_at: string;
+    client: any;
 }
 
-const PostCard = ({text, image}: IPostCard) => {
+const PostCard = ({text, image, created_at, client}: IPostCard) => {
     return (
         <div className={styles.post}>
             <div className={`${styles.post__author} ${styles.author}`}>
                 <div className={styles.author__avatar}>
                     <img src="/images/club-image.png" alt="" />
                 </div>
-                <div className={styles.author__name}>Иван Иванов</div>
-                <div className={styles.author__date}>2ч назад</div>
+                <div className={styles.author__name}>{client.name} {client.surname}</div>
+                <div className={styles.author__date}>{postFormatDate(created_at)}</div>
             </div>
             <p className={styles.post__text}>{text}</p>
             {
