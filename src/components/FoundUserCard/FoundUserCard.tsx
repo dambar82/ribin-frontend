@@ -49,9 +49,9 @@ const FoundUserCard = ({image, name, age, id, level, desc}: FoundUserCardProps) 
                             {desc}
                         </div>
                     </div>
-                    <div className={`action_button`} onClick={handleFriendAdd}>
-                        Добавить в друзья
-                    </div>
+                    {/*<div className={`action_button`} onClick={handleFriendAdd}>*/}
+                    {/*    Добавить в друзья*/}
+                    {/*</div>*/}
                 </div>
             </Link>
         </>
