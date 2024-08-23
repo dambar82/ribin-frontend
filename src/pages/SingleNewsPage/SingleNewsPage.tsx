@@ -164,12 +164,10 @@ const SingleNewsPage = () => {
                                 }}
                             >
                                 {news.map((newsItem, index) => {
-                                    // Проверяем, есть ли у newsItem свойство imagePreviewResized
                                     if ('imagePreviewResized' in newsItem) {
-                                        // Теперь TypeScript знает, что newsItem имеет тип News
                                         return (
                                             <SwiperSlide key={newsItem.id}>
-                                                <Link to={newsItem.url} target="_blank" rel="noopener noreferrer">
+                                                <Link to={`/news/api/${newsItem.id}`}>
                                                     <NewsCard
                                                         title={newsItem.title}
                                                         date={newsItem.publishDate}

@@ -35,6 +35,11 @@ export const fetchNewsAndNewsBack = createAsyncThunk('news/fetchNewsAndNewsBack'
     return [...newsData, ...newsBackData];
 });
 
+export const fetchNewsApiById = createAsyncThunk('news/fetchNewsApiById', async ({newsId} : {newsId: number}) => {
+    const response = await axios.get(`https://api-rubin.multfilm.tatar/api/request/news/${newsId}`);
+    return response.data;
+})
+
 export const newsLikeAsync = createAsyncThunk('news/newsLike', async ({newsId} : {newsId: number}) => {
     try {
         await axios.post(
@@ -81,6 +86,19 @@ const newsSlice = createSlice({
                 state.error = null;
             })
             .addCase(fetchNewsAndNewsBack.rejected, (state, action) => {
+                state.status = 'failed';
+                state.error = action.error.message || null;
+            })
+            .addCase(fetchNewsApiById.pending, (state) => {
+                state.status = 'loading';
+            })
+            .addCase(fetchNewsApiById.fulfilled, (state, action: PayloadAction<News>) => {
+                console.log(action.payload)
+                state.news = [action.payload];
+                state.status = 'succeeded';
+                state.error = null;
+            })
+            .addCase(fetchNewsApiById.rejected, (state, action) => {
                 state.status = 'failed';
                 state.error = action.error.message || null;
             });

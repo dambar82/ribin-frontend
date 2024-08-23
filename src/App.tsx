@@ -45,6 +45,7 @@ import { checkAuth } from './store/userSlice'
 import { ConfirmEmailModal } from './pages/Auth/components'
 import { Loader } from './shared/UI'
 import MainPage from './pages/Main/MainPage'
+import SingleNewsPageApi from "./pages/SingleNewsPageApi/SingleNewsPageApi";
 
 
 export function postFormatDate(isoString) {
@@ -129,6 +130,7 @@ function App() {
         { path: '/quizzes/:id', element: <SingleQuizPage /> },
         { path: '/news', element: <NewsPage /> },
         { path: '/news/:id', element: <SingleNewsPage /> },
+        {path: '/news/api/:id', element: <SingleNewsPageApi/>},
         { path: '/user/:id/edit/', element: <EditProfilePage /> },
         { path: '/user/:id', element: <UserProfilePage /> },
         { path: '/feedback', element: <FeedbackPage /> },

@@ -17,10 +17,8 @@ const NewsPage = () => {
     const { status, news } = useSelector((state: RootState) => state.news);
 
     useEffect(() => {
-        if (status === 'idle') {
-            dispatch(fetchNewsAndNewsBack());
-        }
-    }, [status, dispatch]);
+        dispatch(fetchNewsAndNewsBack());
+    }, [dispatch]);
 
     return (
         <div className="page">
@@ -32,7 +30,7 @@ const NewsPage = () => {
             <div className='section'>
                 <div className='section__header'>
                     <div className='section__title'>Все новости</div>
-                    <div className='section__counter'>2303</div>
+                    <div className='section__counter'>{news.length}</div>
                 </div>
                 <div className='section__body'>
                     <Grid totalItems={news.length}>
@@ -40,7 +38,7 @@ const NewsPage = () => {
                             news.map((newsItem) => {
                                 if ('imagePreviewResized' in newsItem) {
                                     return (
-                                        <Link key={newsItem.id} to={newsItem.url} target='_blank' rel="noopener noreferrer">
+                                        <Link key={newsItem.id} to={`/news/api/${newsItem.id}`}>
                                             <NewsCard
                                                 title={newsItem.title}
                                                 date={newsItem.publishDate}
