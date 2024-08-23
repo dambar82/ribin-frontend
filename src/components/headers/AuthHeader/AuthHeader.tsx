@@ -241,7 +241,7 @@ const AuthHeader = () => {
                 </div>
                 <div ref={clubActivitiesSubMenuRef} className={styles.menuLink} onClick={(event) => toggleSubMenu('clubActivities', event)}>
                   <div>
-                    Активности клуба
+                    Активности
                     {activeSubMenu === 'clubActivities' ? <img src={blackArrowUp} alt=""/> : <img src={blackArrowDown} alt=""/>}
                   </div>
                     {activeSubMenu === 'clubActivities' && (

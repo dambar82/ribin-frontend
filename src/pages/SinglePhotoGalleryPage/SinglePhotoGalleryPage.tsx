@@ -23,7 +23,7 @@ const SinglePhotoGalleryPage = () => {
     const gallery = useSelector((state: RootState) => state.photoGallery.photoGalleryData)
 
     const [activeModal, setActiveModal] = useState(false)
-    const [initialSlide, setInitialSlide] = useState(1)
+    const [activePhoto, setActivePhoto] = useState(0)
 
     const dispatch = useDispatch<AppDispatch>()
 
@@ -35,8 +35,7 @@ const SinglePhotoGalleryPage = () => {
 
     const openModalHandler = ( photoId: number ) => {
         setActiveModal(true)
-        const index = gallery.photos?.findIndex(el => el.id === photoId) || 0
-        setInitialSlide(index)
+        setActivePhoto(photoId)
     }
 
     return (
@@ -56,7 +55,7 @@ const SinglePhotoGalleryPage = () => {
                 <div className={styles.photoGallery__grid}>
                     {gallery?.photos?.map(photo => (
                         <div key={photo.id} className={styles.photoGallery__photoCard} onClick={() => openModalHandler(photo.id)} >
-                            <img src= {photo.imagePreview} alt="" />
+                            <img src= {photo.imagePreviewResized} alt="" />
                         </div>
                     ))}
                 </div>
@@ -66,31 +65,9 @@ const SinglePhotoGalleryPage = () => {
                     className={styles.photogallery_modal}
                     bodyClassName={styles.photogallery_modal_body}
                 >
-                    <Swiper
-                        ref={swiperRef}
-                        navigation={true}
-                        pagination={{ type: 'fraction' }}
-                        effect={'fade'}
-                        slidesPerView={1}
-                        initialSlide={initialSlide}
-                        loop={true}
-                        modules={[EffectFade, Pagination, Navigation]}
-                        className={styles.photogallery_swiper}
-                    >
-                        {gallery?.photos?.map(photo => (
-                            <SwiperSlide key={photo.id} className={styles.photogallery_slide} >
-                                <img src={photo.imagePreview} alt="#" />
-                            </SwiperSlide>
-                        ))}
-                    </Swiper>
-                    <div
-                        className="swiper-button-prev"
-                        onClick={() => swiperRef.current?.swiper?.slidePrev()}
-                    ></div>
-                    <div
-                        className="swiper-button-next"
-                        onClick={() => swiperRef.current?.swiper?.slideNext()}
-                    ></div>
+                  <div className={styles.photogallery_slide} >
+                    <img src={gallery?.photos?.find(el => el.id === activePhoto).imagePreview} alt="#" />
+                  </div>
                 </Modal>
             </div>
         </div>

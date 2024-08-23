@@ -14,9 +14,10 @@ import { classNames } from '../../../../shared/utils'
 import { isFileSizeAllowed } from '../../../../shared/utils/validators/isFileSizeAllowed'
 import { TEditClubRequest } from '../../../../shared/types/club.types'
 import { useAppDispatch } from '../../../../store/hooks'
-import { editClub } from '../../../../store/clubsSlice'
+import { deleteClub, editClub } from '../../../../store/clubsSlice'
 import Row from '../../../../components/Row/Row'
 import Card from '../../../../components/Card/Card'
+import { useNavigate } from 'react-router-dom'
 
 
 
@@ -29,6 +30,7 @@ const EditClubTab = ({ club, setActiveTab }: EditClubTabProps) => {
   const [loadedBanner, setLoadedBanner] = useState<{ file: Blob, url: string } | null>(null)
   const [loadedAvatar, setLoadedAvatar] = useState<{ file: Blob, url: string } | null>(null)
 
+  const navigate = useNavigate()
   const dispatch = useAppDispatch()
 
   const bannerRef = useRef<HTMLInputElement>(null)
@@ -75,12 +77,14 @@ const EditClubTab = ({ club, setActiveTab }: EditClubTabProps) => {
       url: URL.createObjectURL(file)
     })
 	}
-  
-  const createEvent = () => {
-    setActiveTab(2)
-    setTimeout(() => window.scrollTo({ top: 0, left: 0, behavior: "smooth" }), 100)
+
+  const deleteClubHandler = () => {
+    dispatch(deleteClub({ id: club.id }))
+      .then(() => {
+        navigate('/clubs')
+      })
   }
-  
+
   return (
     <div className='page' >
 
@@ -145,16 +149,18 @@ const EditClubTab = ({ club, setActiveTab }: EditClubTabProps) => {
         </div>
       </section>
 
-      <section className="section">
+      <div className={c.delete_club_button_wrapper} >
+        <Button onClick={deleteClubHandler} >Удалить клуб</Button>
+      </div>
+
+      {/* <section className="section">
         <div className='section__header'>
             <h2 className='section__title'>Мероприятия клуба</h2>
             <div className='section__counter'>{club.events?.length}</div>
         </div>
         <div className={classNames('section__body', c.section_body)}>
 
-            <div className={c.create_club_event} onClick={createEvent} >
-              <span>Создать новое мероприятие</span>
-            </div>
+            
 
             {(club.events?.length <= 1) &&
               <div className={classNames(c.create_club_event, c.disabled)} >
@@ -180,7 +186,7 @@ const EditClubTab = ({ club, setActiveTab }: EditClubTabProps) => {
             ))}
 
         </div>
-      </section>
+      </section> */}
 
     </div>
   )

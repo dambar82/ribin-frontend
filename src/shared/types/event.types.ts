@@ -23,5 +23,9 @@ export type TGetEventResponse = {
 }
 
 export type TParticipateInEventResponse = {
-  
+  message?: string
+}
+
+export type TCancelParticipateInEventResponse = {
+  message?: string
 }

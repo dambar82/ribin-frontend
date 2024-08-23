@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { TEvent, TGetEventResponse, TGetEventsResponse, TParticipateInEventResponse } from '../shared/types/event.types'
+import { TCancelParticipateInEventResponse, TEvent, TGetEventResponse, TGetEventsResponse, TParticipateInEventResponse } from '../shared/types/event.types'
 import { User } from './userSlice'
 
 interface ClubsState {
@@ -40,6 +40,11 @@ export const participateInEvent = createAsyncThunk('clubs/participateInEvent', a
   return { response: response.data, user }
 })
 
+export const cancelParticipateInEvent = createAsyncThunk('clubs/cancelParticipateInEvent', async ( { event_id, user }: { event_id: number, user: User } ) => {
+  const response = await $api.post<TCancelParticipateInEventResponse>('');
+  return { response: response.data, user }
+})
+
 const eventsSlice = createSlice({
     name: 'events',
     initialState,
@@ -57,6 +62,12 @@ const eventsSlice = createSlice({
 
         .addCase(participateInEvent.fulfilled, (state, action: PayloadAction<TParticipateInEventResponse & { user: User }>) => {
           state.event.clients.push(action.payload.user)
+        })
+
+        .addCase(cancelParticipateInEvent.fulfilled, (state, action: PayloadAction<TCancelParticipateInEventResponse & { user: User }>) => {
+          const clients = state.event.clients
+          clients.filter(el => el.id !== action.payload.user.id)
+          state.event.clients = clients
         })
     }
 })

@@ -33,6 +33,8 @@ const SettingsPage = () => {
     const [name, setName] = useState('')
     const [surname, setSurname] = useState('')
     const [email, setEmail] = useState('')
+    const [school, setSchool] = useState('')
+    const [schoolNumber, setSchoolNumber] = useState('')
     const [startDate, setStartDate] = useState<Date | null>(user.birthdate ? new Date(user.birthdate) : null)
     const [password, setPassword] = useState('')
     const [successMessage, setSuccessMessage] = useState('')
@@ -54,6 +56,8 @@ const SettingsPage = () => {
       if ( name ) req.name = name
       if ( surname ) req.surname = surname
       if ( email ) req.email = email
+      if ( school ) req.school = school
+      if ( schoolNumber ) req.school_number = schoolNumber
       if ( password ) req.password = password
 
       dispatch(editUser(req))
@@ -138,6 +142,25 @@ const SettingsPage = () => {
                         </div>
                     </div>
                     <div className="form__column">
+                        <div className={`${styles.form__control} form-control ${styles.school_input_wrapper}`}>
+                            <div className="form-control__label">Название и номер школы</div>
+                            <input
+                              className="form-control__field"
+                              type="text"
+                              placeholder={user.school}
+                              autoComplete="off"
+                              value={school}
+                              onChange={e => setSchool(e.target.value)}
+                            />
+                            <input
+                              className="form-control__field"
+                              type="text"
+                              placeholder={''+user.school_number}
+                              autoComplete="off"
+                              value={schoolNumber}
+                              onChange={e => setSchoolNumber(e.target.value)}
+                            />
+                        </div>
                         <div className={`${styles.form__control} form-control`}>
                             <div className="form-control__label">Почта</div>
                             <input

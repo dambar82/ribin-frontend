@@ -31,14 +31,14 @@ const ClubCard = ({ id, name, image, desc, participants }: IClubCard) => {
                 <h3 className={styles.card__title}>{ name }</h3>
                 <p className={styles.card__desc}>{ desc }</p>
             </div>
-            <Link
+            {/* <Link
               to={`/clubs/${id}`}
               className={`${styles.card__button} button button--black`}
               type="button"
               onClick={() => setTimeout(() => window.scrollTo({ top: 0, left: 0, behavior: "smooth" }), 100)}
             >
                 <span>Вступить в клуб</span>
-            </Link>
+            </Link> */}
         </div>
     );
 };
