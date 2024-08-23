@@ -105,6 +105,13 @@ const AuthHeader = () => {
                             <img src={rubyLogo} alt=""/>
                         </Link>
                     </div>
+                    { !user &&
+                      <Link to='/login'>
+                        <div className={styles.cabinet_button}>
+                            Личный кабинет
+                        </div>
+                      </Link>
+                    }
                 {/* <button onClick={async () => {
                   const $api = axios.create({
                     baseURL: 'https://api-rubin.multfilm.tatar'

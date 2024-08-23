@@ -5,6 +5,7 @@ export type TEvent = {
   name: string
   description: string
   caption: string
+  source: string[]
   date: string
   time: string
   city: string

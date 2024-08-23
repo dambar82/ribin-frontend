@@ -17,7 +17,7 @@ const ContestForm = () => {
     const [userId, setUserId] = useState(null)
     const [workDescription, setWorkDescription] = useState('');
     const [urlVideo, setUrlVideo] = useState('');
-    const [selectedFile, setSelectedFile] = useState<File[] | null>(null);
+    const [files, setFiles] = useState<{ id: string, file: File }[]>([])
     const [isDragOver, setIsDragOver] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
 
@@ -30,15 +30,35 @@ const ContestForm = () => {
     const onFileDrop = useCallback((event: React.DragEvent<HTMLDivElement>) => {
         event.preventDefault();
         const files = Array.from(event.dataTransfer.files);
-        setSelectedFile(prevFiles => [...(prevFiles || []), ...files])
+        files.forEach(file => {
+          setFiles(prev => {
+            prev.push({
+              id: file.name,
+              file
+            })
+            return [...prev]
+          })
+        })
         setIsDragOver(false);
     }, []);
 
     const onFileSelect = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
         const files = Array.from(event.target.files);
-            setSelectedFile(prevFiles => [...(prevFiles || []), ...files]);
-            setErrorMessage('');
-    }, []);
+        files.forEach(file => {
+          setFiles(prev => {
+            prev.push({
+              id: file.name,
+              file
+            })
+            return [...prev]
+          })
+        })
+        setErrorMessage('');
+    }, [])
+    
+    const deleteFile = ( fileId: string ) => {
+      setFiles(prev => prev.filter(el => el.id !== fileId))
+    }
 
     const handleDragOver = (event: React.DragEvent<HTMLDivElement>) => {
         event.preventDefault();
@@ -55,7 +75,10 @@ const ContestForm = () => {
         try {
             await dispatch(sendWorkForContest({
                 description: workDescription,
-                source: selectedFile,
+                source: files.reduce((acc, file) => {
+                  acc.push(file.file)
+                  return acc
+                }, []),
                 video: urlVideo,
                 contest_id: Number(contestId),
                 client_id: userId
@@ -98,29 +121,42 @@ const ContestForm = () => {
                             />
                         </div>
                     </div>
-                    <div className={`${styles.filesDropzone} ${isDragOver ? styles.dragOver : ''}`}
-                         onDrop={onFileDrop}
-                         onDragOver={handleDragOver}
-                         onDragLeave={handleDragLeave}
-                    >
-                        <div className={styles.filesDropzone_column}>
-                            <div className={styles.filesDropzone_cloud}>
-                                <img src={cloud} alt=""/>
-                                <p>
-                                    Выберите нужный файл или перетащите его сюда
-                                </p>
-                            </div>
-                            <input type="file" multiple
-                                   style={{ display: 'none' }}
-                                   onChange={onFileSelect}
-                                   ref={fileInputRef} />
-                            <div className='green_button'
-                                 onClick={() => fileInputRef.current?.click()}>
-                                Выбрать файл(-ы)
-                            </div>
-                        </div>
+                    <div className={styles.dropzone_wrapper} >
+                      <div className={`${styles.filesDropzone} ${isDragOver ? styles.dragOver : ''}`}
+                          onDrop={onFileDrop}
+                          onDragOver={handleDragOver}
+                          onDragLeave={handleDragLeave}
+                      >
+                          <div className={styles.filesDropzone_column}>
+                              <div className={styles.filesDropzone_cloud}>
+                                  <img src={cloud} alt=""/>
+                                  <p>
+                                      Выберите нужный файл или перетащите его сюда
+                                  </p>
+                              </div>
+                              <input type="file" multiple
+                                    style={{ display: 'none' }}
+                                    onChange={onFileSelect}
+                                    ref={fileInputRef} />
+                              <div className='green_button'
+                                  onClick={() => fileInputRef.current?.click()}>
+                                  Выбрать файл(-ы)
+                              </div>
+                          </div>
+                      </div>
+
+                      <div className={styles.choosed_files_wrapper} >
+                        {files.map(file => (
+                          <div key={file.id} >
+                            <span>{file.file?.name}</span>
+                            <button type='button' onClick={() => deleteFile(file.id)}></button>
+                          </div>
+                        ))}
+                      </div>
                     </div>
+
                     {errorMessage && <p className={styles.error}>{errorMessage}</p>}
+
                 </div>
                 <div className={styles.grayPart}>
                     <button className='action_button' type='submit'>

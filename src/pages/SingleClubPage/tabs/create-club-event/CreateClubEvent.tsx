@@ -48,7 +48,7 @@ const CreateClubEvent = ({ club, setActiveTab }: CreateClubEventProps) => {
     if ( loadedCover ) data.set('caption', loadedCover.file, 'caption.png')
       
     loadedPhotos.forEach((photo, i) => {
-      data.append('photos', photo.file, `photo${i+1}.png`)
+      data.append('source[]', photo.file, `photo${i+1}.png`)
     })
 
     const date = `${startDate.getFullYear()}-${('0' + (startDate.getMonth()+1)).slice(-2)}-${('0' + startDate.getDate()).slice(-2)}`
@@ -118,7 +118,10 @@ const CreateClubEvent = ({ club, setActiveTab }: CreateClubEventProps) => {
 
 		const file = e.target.files[0]!
 
-		if ( !isFileSizeAllowed(file.size) ) return
+		if ( file.size / 1024 / 1024 >= 2 ) {
+      alert('Файл дожен быть не более 2 MB')
+      return
+    }
 
     setLoadedPhotos(prev => {
       prev.push({

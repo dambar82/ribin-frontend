@@ -165,33 +165,13 @@ const SingleEventPage = () => {
                         Фотогалерея
                     </h2>
                     <div className={styles.eventPage_gallery}>
-                        <div className='section__slider'>
-                            {/* <Swiper
-                                spaceBetween={20}
-                                slidesPerView={4}
-                                modules={[Navigation]}
-                                navigation={{
-                                    nextEl: '.button--next'
-                                }}
-                            >
-                                {event.photos?.map((photo, index) => {
-                                        return (
-                                            <SwiperSlide key={photo}>
-                                                <div className={styles.eventPage_gallery_photo}>
-                                                    <img src={photo} alt=""/>
-                                                </div>
-                                            </SwiperSlide>
-                                        );
-                                    }
-                                )}
-                            </Swiper>
-                            <div className="section__sliderControls">
-                                <button className="button button--black button--next" type="button">
-                                    <span>Вперед</span>
-                                    <img src={buttonArrow} alt="" />
-                                </button>
-                            </div> */}
-                        </div>
+                      {event.source?.map((photo, index) => {
+                        return (
+                          <div key={photo} className={styles.eventPage_gallery_photo}>
+                              <img src={photo} />
+                          </div>
+                        )}
+                      )}
                     </div>
                 </div>
             </div>
