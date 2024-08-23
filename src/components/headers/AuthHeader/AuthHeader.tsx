@@ -100,9 +100,11 @@ const AuthHeader = () => {
     return (
         <div className={styles.authHeader}>
             <div className={`${styles.authHeader_up}`}>
-                <div className={styles.logo_wrapper} >
-                  <img src={rubyLogo} alt=""/>
-                </div>
+                    <div className={styles.logo_wrapper} >
+                        <Link to='/'>
+                            <img src={rubyLogo} alt=""/>
+                        </Link>
+                    </div>
                 {/* <button onClick={async () => {
                   const $api = axios.create({
                     baseURL: 'https://api-rubin.multfilm.tatar'

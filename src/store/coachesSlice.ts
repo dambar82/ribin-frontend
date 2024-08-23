@@ -15,7 +15,6 @@ const initialState: CoachesState = {
 };
 
 export const fetchCoaches = createAsyncThunk('coaches/fetchCoaches', async () => {
-    const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
     const studentsUrl = `https://api-rubin.multfilm.tatar/api/request/academy-coaches`;
 
     const response = await axios.get(studentsUrl, {
@@ -26,6 +25,12 @@ export const fetchCoaches = createAsyncThunk('coaches/fetchCoaches', async () =>
 
     return response.data as Coach[];
 });
+
+export const fetchCoachById = createAsyncThunk('coaches/fetchCoachById', async ({coachId}: {coachId: number}) => {
+    const response = await axios.get(`https://api-rubin.multfilm.tatar/api/request/academy-coaches${coachId}`)
+
+    return response.data as Coach;
+})
 
 const coachesSlice = createSlice({
     name: 'coaches',
@@ -44,7 +49,19 @@ const coachesSlice = createSlice({
             .addCase(fetchCoaches.rejected, (state, action) => {
                 state.status = 'failed';
                 state.error = action.error.message || null;
-            });
+            })
+            .addCase(fetchCoachById.pending, (state) => {
+                state.status = 'loading';
+            })
+            .addCase(fetchCoachById.fulfilled, (state, action: PayloadAction<Coach>) => {
+                state.coaches = [action.payload];
+                state.status = 'succeeded';
+                state.error = null;
+            })
+            .addCase(fetchCoachById.rejected, (state, action) => {
+                state.status = 'failed';
+                state.error = action.error.message || null;
+            })
     }
 })
 

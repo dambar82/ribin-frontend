@@ -1,11 +1,18 @@
 import styles from './PersonCard.module.scss';
+import {useEffect} from "react";
+import {useDispatch, useSelector} from "react-redux";
+import {AppDispatch, RootState} from "../../store/store";
 
 interface IPersonalCard {
     name: string;
     imageUrl: string;
+    id: number;
+    type: string;
+    details: any;
 }
 
-const PersonCard = ({name, imageUrl}: IPersonalCard) => {
+const PersonCard = ({name, id, type, details, imageUrl}: IPersonalCard) => {
+
     return (
         <div className={styles.card}>
             <div className={styles.card__image}>
@@ -14,8 +21,11 @@ const PersonCard = ({name, imageUrl}: IPersonalCard) => {
             <div className={styles.card__content}>
                 <div className={styles.card__name}>{name}</div>
                 <div className={styles.card__info}>
-                    <span>Выпуск - 1991г.р</span>
-                    <span>Клубы: Волгарь, КАМАЗ, Шинник, Пюник (Армения)</span>
+                    <span
+                        dangerouslySetInnerHTML={{
+                        __html: details.body
+                    }}
+                    />
                 </div>
             </div>
         </div>

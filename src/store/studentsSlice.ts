@@ -4,18 +4,19 @@ import {Student} from "../types";
 
 interface StudentsState {
     students: Student[];
+    studentDetails: { [id: string]: Student }; // Кэширование данных студентов по id
     status: 'idle' | 'loading' | 'succeeded' | 'failed';
     error: string | null;
 }
 
 const initialState: StudentsState = {
     students: [],
+    studentDetails: {},
     status: 'idle',
     error: null,
 };
 
 export const fetchStudents = createAsyncThunk('students/fetchStudents', async () => {
-    const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
     const studentsUrl = `https://api-rubin.multfilm.tatar/api/request/students`;
 
     const response = await axios.get(studentsUrl, {
