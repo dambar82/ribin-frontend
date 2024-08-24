@@ -24,7 +24,7 @@ const EventsPage = () => {
             <div className={styles.events}>
                 <div className={styles.events__header}>
                     <h1 className={styles.events__title}>Все мероприятия</h1>
-                    <div className={styles.events__counter}>230</div>
+                    <div className={styles.events__counter}>{events.length}</div>
                     <nav className="tab-nav">
                         {["Список", "На карте"].map((item, index) => (
                             <button

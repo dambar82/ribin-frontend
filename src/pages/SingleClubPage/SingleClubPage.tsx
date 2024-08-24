@@ -170,7 +170,7 @@ const SingleClubPage = () => {
                 </div>
                 <div className={`section__body`}>
                     <Wall
-                        type="club"
+                        type="post"
                         posts={posts}
                     />
                 </div>
