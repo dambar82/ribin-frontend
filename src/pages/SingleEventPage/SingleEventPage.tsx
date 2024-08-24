@@ -74,9 +74,9 @@ const SingleEventPage = () => {
             <Breadcrumbs/>
             <div className={styles.eventPage}>
                 <div className={styles.eventPage_firstDeck}>
-                    <div className={styles.eventBackground}>
+                    {/* <div className={styles.eventBackground}>
                         <img src={event.caption} alt=""/>
-                    </div>
+                    </div> */}
                     <div className={styles.eventInfo}>
                         <div className={styles.eventInfo_left}>
                             <h2 className={styles.eventHeader}>
