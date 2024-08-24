@@ -1,12 +1,15 @@
-
 .authHeader {
   display: flex;
   flex-direction: column;
   row-gap: 8px;
+
+  @media (max-width: 375px) {
+    padding: 0 20px;
+  }
 }
 
 .exitMenu {
-  border-top: 2px solid #F8F8F8
+  border-top: 2px solid #f8f8f8;
 }
 
 .authHeader_up {
@@ -14,6 +17,10 @@
   gap: 16px;
   padding-top: 24px;
   padding-bottom: 12px;
+
+  @media (max-width: 375px) {
+    gap: 8px;
+  }
 }
 
 .logo_wrapper {
@@ -23,7 +30,11 @@
 
   img {
     @media (max-width: 768px) {
-      width: 185px; 
+      width: 185px;
+    }
+
+    @media (max-width: 375px) {
+      width: 168px;
     }
   }
 }
@@ -36,11 +47,13 @@
   column-gap: 12px;
   border-radius: 50px;
   padding: 8px;
-  background-color: #F8F8F8;
+  background-color: #f8f8f8;
 
   @media (max-width: 1300px) {
     position: absolute;
-    right: 0;
+    top: 0;
+    right: -400px;
+    opacity: 0;
     width: 400px;
     min-height: 100vh;
     z-index: 100;
@@ -53,19 +66,25 @@
     background-color: var(--main-color);
     border-radius: 0;
 
-    transition: all .5s ease;
-    transform: translate(150%, 0);
+    transition: all 0.5s ease;
+    // transform: translate(150%, 0);
 
     &._active {
-      transform: translate(0%, 0);
+      // transform: translate(0%, 0);
+      opacity: 1;
+      right: 0;
     }
   }
-  
+
+  @media (max-width: 375px) {
+    width: 375px;
+  }
+
   & > a {
     width: 100%;
     display: flex;
     justify-content: center;
-    
+
     @media (max-width: 1300px) {
       justify-content: start;
     }
@@ -83,18 +102,19 @@
 
     cursor: pointer;
 
-    &::before, &::after {
-        content: '';
-        position: absolute;
-        width: 12px;
-        height: 2px;
-        background-color: var(--white);
+    &::before,
+    &::after {
+      content: "";
+      position: absolute;
+      width: 12px;
+      height: 2px;
+      background-color: var(--white);
     }
     &::before {
-        transform: rotate(45deg);
+      transform: rotate(45deg);
     }
     &::after {
-        transform: rotate(-45deg);
+      transform: rotate(-45deg);
     }
   }
 }
@@ -112,7 +132,7 @@
   border-radius: 50px;
   background-color: white;
   white-space: nowrap;
-  
+
   & > div:first-child {
     display: flex;
     gap: 20px;
@@ -122,18 +142,17 @@
     font-size: 15px;
     padding: 8px 18px;
   }
-  @media (max-width: 1300px)  {
+  @media (max-width: 1300px) {
     background-color: transparent;
     color: var(--white);
     font-size: 18px;
     display: grid;
     gap: 20px;
-
   }
 
   &_active {
-    background-color: #91172C;
-    color: #FFFFFF;
+    background-color: #91172c;
+    color: #ffffff;
   }
 
   :global(.submenu) {
@@ -169,10 +188,10 @@
 
   @media (max-width: 1500px) {
     width: 60px;
-    background-color: #FFFFFF;
+    background-color: #ffffff;
     border-radius: 50px;
   }
-  @media (max-width: 1300px)  {
+  @media (max-width: 1300px) {
     width: 100%;
   }
 }
@@ -180,8 +199,8 @@
 .menuSearchbar input {
   width: 100%;
   padding: 12px 12px 12px 2vw;
-  color: #6F6F6F;
-  background-color: #EEEEEE;
+  color: #6f6f6f;
+  background-color: #eeeeee;
   border-radius: 50px;
   outline: none;
   border: none;
@@ -189,7 +208,7 @@
   @media (max-width: 1500px) {
     opacity: 0;
   }
-  @media (max-width: 1300px)  {
+  @media (max-width: 1300px) {
     opacity: 1;
     padding-left: 40px;
   }
@@ -207,7 +226,7 @@
     left: 50%;
     transform: translate(-50%, -50%);
   }
-  @media (max-width: 1300px)  {
+  @media (max-width: 1300px) {
     left: 10px;
     transform: translateY(-50%);
   }
