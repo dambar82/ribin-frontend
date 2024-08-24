@@ -52,6 +52,7 @@ import { ConfirmEmailModal } from "./pages/Auth/components";
 import { Loader } from "./shared/UI";
 import MainPage from "./pages/Main/MainPage";
 import SingleNewsPageApi from "./pages/SingleNewsPageApi/SingleNewsPageApi";
+import Page404 from "./pages/404/404";
 
 export function postFormatDate(isoString) {
   const date = new Date(isoString);
@@ -205,13 +206,13 @@ function App() {
             key={path}
             path={path}
             element={
-              <PrivateRoute>
-                <AuthLayout>{element}</AuthLayout>
-              </PrivateRoute>
+              // <PrivateRoute>
+              <AuthLayout>{element}</AuthLayout>
+              // </PrivateRoute>
             }
           />
         ))}
-        <Route path="*" element={<Navigate to={isAuth ? "/" : "/login"} />} />
+        <Route path="*" element={<Page404 />} />
       </Routes>
     </BrowserRouter>
   );

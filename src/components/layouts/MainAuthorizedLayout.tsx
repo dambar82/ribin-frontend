@@ -14,8 +14,8 @@ const MainAuthorizedLayout: React.FC<MainAuthorizedLayoutProps> = ({
     <div>
       <div className={`content`}>
         <AuthHeader />
+        <main>{children}</main>
       </div>
-      <main>{children}</main>
       {/* <div className={`content`}> */}
       <Footer></Footer>
       {/* </div> */}

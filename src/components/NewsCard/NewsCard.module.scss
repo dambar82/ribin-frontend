@@ -1,85 +1,152 @@
 .card {
-    background-color: #898989;
+  background-color: #898989;
+  border-radius: 50px;
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  width: 100%;
+  height: 100%;
+  min-height: 540px;
+  cursor: pointer;
+  overflow: hidden;
+  &__date {
+    font-family: "Saira", sans-serif;
+    background-color: rgba($color: #686868, $alpha: 0.6);
     border-radius: 50px;
-    position: relative;
-    display: flex;
-    align-items: flex-end;
-    width: 100%;
-    height: 100%;
-    min-height: 540px;
-    cursor: pointer;
-    overflow: hidden;
-    &__date {
-        font-family: 'Saira', sans-serif;
-        background-color: rgba($color: #686868, $alpha: 0.6);
-        border-radius: 50px;
-        color: white;
-        font-size: 20px;
-        font-weight: 500;
-        line-height: calc(24 / 20);
-        padding: 6px 14px;
-        position: absolute;
-        top: 26px;
-        left: 26px;
-        z-index: 1;
-        span {
-            font-family: "Saira", "sans-serif";
-        }
-    }
-    &__title {
-        color: white;
-        font-size: 28px;
-        font-weight: 500;
-        line-height: calc(32 / 28);
-        padding: 32px;
-        width: 100%;
-        position: relative;
-        z-index: 1;
-    }
-    &__image {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        z-index: 0;
-    }
-}
-
-.newsBlock {
-    max-width: 540px;
-    max-height: 540px;
-    height: 60vh;
-
-    padding: 26px 32px 32px 32px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
-
-  .newsBlock_header {
-    display: flex;
-    justify-content: flex-start;
-  }
-
-  .newsBlock_date {
-    font-family: 'Saira', sans-serif;
     color: white;
     font-size: 20px;
     font-weight: 500;
-    line-height: 24px;
-    letter-spacing: -0.011em;
-    text-align: center;
+    line-height: calc(24 / 20);
     padding: 6px 14px;
-    border-radius: 50px;
-    background: #68686899;
+    position: absolute;
+    top: 26px;
+    left: 26px;
+    z-index: 1;
+    span {
+      font-family: "Saira", "sans-serif";
+    }
+  }
+  &__title {
+    color: white;
+    font-size: 28px;
+    font-weight: 500;
+    line-height: calc(32 / 28);
+    padding: 32px;
+    width: 100%;
+    position: relative;
+    z-index: 1;
+  }
+  &__image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
   }
 
-  .newsBlock_footer {
-    color: white;
-    font-size: 1.4vw;
-    font-weight: 500;
-    line-height: 2vw;
-    text-align: left;
+  @media (max-width: 1440px) {
+    min-height: 430px;
+    height: 430px;
+    border-radius: 36px;
+
+    &__date {
+      font-size: 18px;
+      padding: 5px 12px;
+      top: 24px;
+      left: 24px;
+    }
+    &__title {
+      font-size: 24px;
+      line-height: calc(28 / 24);
+      padding: 28px;
+    }
   }
+
+  @media (max-width: 768px) {
+    min-height: 360px;
+    height: 360px;
+    &__date {
+      font-size: 16px;
+      padding: 4px 10px;
+      top: 20px;
+      left: 20px;
+    }
+    &__title {
+      font-size: 20px;
+      line-height: calc(24 / 20);
+      padding: 24px;
+    }
+  }
+
+  @media (max-width: 540px) {
+    min-height: 300px;
+    height: 300px;
+    &__date {
+      font-size: 14px;
+      padding: 3px 8px;
+      top: 16px;
+      left: 16px;
+    }
+    &__title {
+      font-size: 16px;
+      line-height: calc(20 / 16);
+      padding: 20px;
+    }
+  }
+
+  @media (max-width: 375px) {
+    min-height: 200px;
+    height: 200px !important;
+    border-radius: 26px;
+    &__date {
+      font-size: 12px;
+      padding: 2px 6px;
+      top: 12px;
+      left: 16px;
+    }
+    &__title {
+      font-size: 14px;
+      line-height: calc(18 / 14);
+      padding: 16px;
+    }
+  }
+}
+
+.newsBlock {
+  max-width: 540px;
+  max-height: 540px;
+  height: 60vh;
+
+  padding: 26px 32px 32px 32px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.newsBlock_header {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.newsBlock_date {
+  font-family: "Saira", sans-serif;
+  color: white;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 24px;
+  letter-spacing: -0.011em;
+  text-align: center;
+  padding: 6px 14px;
+  border-radius: 50px;
+  background: #68686899;
+}
+
+.newsBlock_footer {
+  color: white;
+  font-size: 1.4vw;
+  font-weight: 500;
+  line-height: 2vw;
+  text-align: left;
+}
