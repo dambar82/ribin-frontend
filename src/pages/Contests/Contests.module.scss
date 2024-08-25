@@ -3,6 +3,11 @@
     font-weight: 500;
     font-size: 40px;
     line-height: 48px;
+
+    @media (max-width: 375px) {
+      font-size: 32px;
+      line-height: 38px;
+    }
   }
 }
 
@@ -14,6 +19,12 @@
   color: white;
   padding: 12px 30px;
   font-family: "Saira", sans-serif;
+
+  @media (max-width: 375px) {
+    font-size: 16px;
+    line-height: 20px;
+    padding: 8px 20px;
+  }
 }
 
 .contest_list {
@@ -28,6 +39,30 @@
   box-shadow: 0px 0px 8px 0px #0000001f;
   padding: 80px;
   border-radius: 50px;
+
+  @media (max-width: 1440px) {
+    padding: 65px 50px;
+
+    div {
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 20px;
+    }
+  }
+
+  @media (max-width: 1024px) {
+    padding: 50px 40px;
+  }
+
+  @media (max-width: 768px) {
+    padding: 40px 30px;
+    border-radius: 36px;
+  }
+
+  @media (max-width: 375px) {
+    padding: 26px 18px;
+    border-radius: 20px 18px 20px 18px;
+  }
 }
 
 .faq_question {
@@ -46,6 +81,54 @@
     cursor: pointer;
   }
   &_hiddenAnswer {
+  }
+  @media (max-width: 1440px) {
+    p {
+      font-size: 26px;
+      font-weight: 500;
+      line-height: 32px;
+    }
+
+    > div {
+      font-size: 18px;
+      font-weight: 400;
+      line-height: 22px;
+    }
+  }
+
+  @media (max-width: 1024px) {
+    p {
+      font-size: 24px !important;
+      font-weight: 500;
+      line-height: 30px;
+    }
+
+    div {
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 20px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    p {
+      font-size: 24px !important;
+      font-weight: 500;
+      line-height: 30px;
+    }
+    div {
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 18px;
+    }
+  }
+
+  @media (max-width: 375px) {
+    p {
+      font-size: 22px !important;
+      font-weight: 500;
+      line-height: 26px;
+    }
   }
 }
 

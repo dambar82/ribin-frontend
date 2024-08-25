@@ -1071,11 +1071,27 @@ li {
     background-color: #368826;
     color: white;
     font-family: "Saira", sans-serif;
+    @media (max-width: 1024px) {
+      padding: 10px 20px;
+      font-size: 18px;
+      font-weight: 500;
+      line-height: 22px;
+    }
   }
   & > span {
     font-family: "Raleway", sans-serif;
     font-size: 24px;
     line-height: 28px;
+
+    @media (max-width: 1024px) {
+      font-size: 18px;
+      font-weight: 500;
+      line-height: 22px;
+    }
+  }
+
+  @media (max-width: 1024px) {
+    padding: 6px 6px 6px 20px;
   }
 }
 
@@ -1319,6 +1335,11 @@ li {
   text-align: center;
   border-radius: 50px;
   padding: 12px 30px;
+
+  @media (max-width: 1024px) {
+    padding: 7px 35px;
+    font-size: 18px;
+  }
 }
 
 .orange_button_little {
@@ -1344,6 +1365,11 @@ li {
   text-align: center;
   border-radius: 50px;
   padding: 12px 30px;
+
+  @media (max-width: 1024px) {
+    padding: 7px 35px;
+    font-size: 18px;
+  }
 }
 
 .green_button {
