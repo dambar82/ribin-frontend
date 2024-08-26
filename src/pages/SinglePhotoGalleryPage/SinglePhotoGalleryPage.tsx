@@ -33,9 +33,11 @@ const SinglePhotoGalleryPage = () => {
         dispatch(fetchPhotoGalleryById(id));
     }, [dispatch]);
 
-    const openModalHandler = ( photoId: number ) => {
+    const openModalHandler = ( index: number ) => {
+      setActivePhoto(index)
+      setTimeout(() => {
         setActiveModal(true)
-        setActivePhoto(photoId)
+      }, 100)
     }
 
     return (
@@ -53,9 +55,13 @@ const SinglePhotoGalleryPage = () => {
                     </div>
                 </div>
                 <div className={styles.photoGallery__grid}>
-                    {gallery?.photos?.map(photo => (
-                        <div key={photo.id} className={styles.photoGallery__photoCard} onClick={() => openModalHandler(photo.id)} >
-                            <img src= {photo.imagePreviewResized} alt="" />
+                    {gallery?.photos?.map((photo, index) => (
+                        <div
+                          key={index}
+                          className={styles.photoGallery__photoCard}
+                          onClick={() => openModalHandler(index)}
+                        >
+                          <img src= {photo.imagePreviewResized} alt="" />
                         </div>
                     ))}
                 </div>
@@ -66,7 +72,7 @@ const SinglePhotoGalleryPage = () => {
                     bodyClassName={styles.photogallery_modal_body}
                 >
                   <div className={styles.photogallery_slide} >
-                    <img src={gallery?.photos?.find(el => el.id === activePhoto).imagePreview} alt="#" />
+                    <img src={gallery?.photos?.find((_, i) => i === activePhoto).imagePreview} alt="#" />
                   </div>
                 </Modal>
             </div>

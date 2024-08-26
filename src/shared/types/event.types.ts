@@ -4,7 +4,6 @@ export type TEvent = {
   id: number
   name: string
   description: string
-  caption: string
   source: string[]
   date: string
   time: string
@@ -29,4 +28,9 @@ export type TParticipateInEventResponse = {
 
 export type TCancelParticipateInEventResponse = {
   message?: string
+}
+
+export type TCreateEventRequest = FormData
+export type TCreateEventResponse = {
+  data: TEvent
 }

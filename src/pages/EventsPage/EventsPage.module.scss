@@ -4,7 +4,7 @@
         align-items: center;
         gap: 20px;
         &:not(:last-child) {
-            margin: 0 0 100px;
+            // margin: 0 0 100px;
         }
     }
     &__title {
@@ -48,4 +48,12 @@
 
 .disableLink {
     pointer-events: none;
+}
+
+.create_event_button_wrapper {
+  margin: 50px 0 100px 0;
+
+  button {
+    padding: 26px 60px;
+  }
 }

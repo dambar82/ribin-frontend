@@ -15,6 +15,7 @@ import NewsCard from "../../components/NewsCard/NewsCard";
 import buttonArrow from "../../images/svg/button_arrow.svg";
 import { useAppDispatch, useAppSelector } from '../../store/hooks'
 import { cancelParticipateInEvent, getEvent, participateInEvent } from '../../store/eventsSlice'
+import { classNames } from '../../shared/utils'
 
 const photos = [
     '/images/6f05b9e6234fd9271db78f533dcfb2f7 (1).jpg',
@@ -48,10 +49,6 @@ const SingleEventPage = () => {
       event_id: event.id,
       user
     }))
-    .then(res => {
-      const payload = res.payload as any
-      // alert(payload?.response)
-    })
   }
 
   useEffect(() => {
@@ -63,10 +60,6 @@ const SingleEventPage = () => {
       event_id: event.id,
       user
     }))
-    .then(res => {
-      const payload = res.payload as any
-      // alert(payload?.response)
-    })
   }
 
   if ( !event ) {
@@ -140,7 +133,7 @@ const SingleEventPage = () => {
                         { event.clients?.some(el => el.id === user.id)
                         ?
                           <button
-                            className={styles.eventButton}
+                            className={classNames(styles.eventButton, styles.cancelParticipate)}
                             onClick={cancelParticipateInEventHandler}
                           >
                             Не участвовать

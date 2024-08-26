@@ -78,6 +78,10 @@
   background-color: #91172C;
   color: white;
   cursor: pointer;
+
+  &.cancelParticipate {
+    background-color: #817E7E;
+  }
 }
 
 .eventOrganization {

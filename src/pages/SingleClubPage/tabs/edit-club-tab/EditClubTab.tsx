@@ -29,6 +29,8 @@ const EditClubTab = ({ club, setActiveTab }: EditClubTabProps) => {
 
   const [loadedBanner, setLoadedBanner] = useState<{ file: Blob, url: string } | null>(null)
   const [loadedAvatar, setLoadedAvatar] = useState<{ file: Blob, url: string } | null>(null)
+  const [name, setName] = useState(club.name)
+  const [description, setDescription] = useState(club.description)
 
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
@@ -41,13 +43,18 @@ const EditClubTab = ({ club, setActiveTab }: EditClubTabProps) => {
 
     const data = new FormData(e.currentTarget)
 
-    if ( loadedAvatar ) data.set('avatar', loadedAvatar.file, 'avatar.png')
-    if ( loadedBanner ) data.set('caption', loadedBanner.file, 'caption.png')
+    if ( loadedAvatar ) data.set('avatar', loadedAvatar.file)
+    if ( loadedBanner ) data.set('caption', loadedBanner.file)
+
+    data.set('_method', 'put');
 
     dispatch(editClub({
       id: club.id,
       formData: data
     }))
+    .then(() => {
+      goBack()
+    })
   }
 
   const loadBanner = async (e: ChangeEvent<HTMLInputElement>): Promise<void> => {
@@ -85,6 +92,10 @@ const EditClubTab = ({ club, setActiveTab }: EditClubTabProps) => {
       })
   }
 
+  const goBack = () => {
+    setActiveTab(0)
+  }
+
   return (
     <div className='page' >
 
@@ -107,7 +118,7 @@ const EditClubTab = ({ club, setActiveTab }: EditClubTabProps) => {
 
             <div className={classNames(c2.clubInfo__avatar, c.club_info_avatar)}>
                 <div>
-                  <img src={loadedAvatar?.url || club.caption || avatar} alt="" />
+                  <img src={loadedAvatar?.url || club.avatar || avatar} alt="" />
                   <div className={c.button_wrapper} >
                     <input
                       accept='.jpg,.jpeg,.png' type="file"
@@ -129,6 +140,8 @@ const EditClubTab = ({ club, setActiveTab }: EditClubTabProps) => {
                     <Input
                       name='name'
                       placeholder={club.name}
+                      value={name}
+                      onChange={e => setName(e.target.value)}
                     />
                   </div>
 
@@ -137,13 +150,15 @@ const EditClubTab = ({ club, setActiveTab }: EditClubTabProps) => {
                     <Input
                       name='description'
                       placeholder={club.description}
+                      value={description}
+                      onChange={e => setDescription(e.target.value)}
                     />
                   </div>
 
                   <Button type='submit' >Сохранить изменения</Button>
                 </form>
 
-                <Button onClick={() => setActiveTab(0)} >Вернуться</Button>
+                <Button onClick={goBack} >Вернуться</Button>
             </div>
 
         </div>

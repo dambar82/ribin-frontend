@@ -1,19 +1,18 @@
-import { Clubs } from '../../../../types'
-import c from './createClubEvent.module.scss'
-import c2 from '../../SingleClubPage.module.scss'
-import { Button, Input, Modal, Textarea } from '../../../../shared/UI'
+import { Clubs } from '../../../types'
+import c from './createEvent.module.scss'
+import { Button, Input, Modal, Textarea } from '../../../shared/UI'
 import { ChangeEvent, useRef, useState } from 'react'
-import { isFileSizeAllowed } from '../../../../shared/utils/validators/isFileSizeAllowed'
-import { arrayFromTo, classNames } from '../../../../shared/utils'
-import { MONTHS } from '../../../../shared/constants'
+import { isFileSizeAllowed } from '../../../shared/utils/validators/isFileSizeAllowed'
+import { arrayFromTo, classNames } from '../../../shared/utils'
+import { MONTHS } from '../../../shared/constants'
 import { getMonth, getYear } from 'date-fns'
 import DatePicker, { ReactDatePickerCustomHeaderProps, registerLocale } from 'react-datepicker'
 import ru from "date-fns/locale/ru";
-import { useAppDispatch } from '../../../../store/hooks'
-import { createClubEvent } from '../../../../store/clubsSlice'
+import { useAppDispatch } from '../../../store/hooks'
 import { createPortal } from 'react-dom'
 import { SuccessCreateEvent } from '../success-create-event/SuccessCreateEvent'
-import Map from '../../../../components/Map/Map'
+import Map from '../../../components/Map/Map'
+import { createEvent } from '../../../store/eventsSlice'
 
 //@ts-ignore
 registerLocale('ru', ru)
@@ -21,13 +20,11 @@ registerLocale('ru', ru)
 const YEARS = arrayFromTo(1990, getYear(new Date()) + 1);
 
 
-interface CreateClubEventProps {
-  club: Clubs
+interface CreateEventProps {
   setActiveTab: React.Dispatch<React.SetStateAction<number>>
 }
-const CreateClubEvent = ({ club, setActiveTab }: CreateClubEventProps) => {
+const CreateEvent = ({ setActiveTab }: CreateEventProps) => {
 
-  // const [loadedCover, setLoadedCover] = useState<{ file: Blob, url: string } | null>(null)
   const [loadedPhotos, setLoadedPhotos] = useState<{ file: Blob, url: string }[]>([])
   const [startDate, setStartDate] = useState<Date | null>(new Date())
   const [activeToggle, setActiveToggle] = useState(false)
@@ -59,8 +56,8 @@ const CreateClubEvent = ({ club, setActiveTab }: CreateClubEventProps) => {
 
     data.set('visible', 'all')
 
-    dispatch(createClubEvent({ sendObj: data, club_id: club.id }))
-      .then(res => {
+    dispatch(createEvent(data))
+      .then((res: any) => {
         console.log(res);
         if ( !res.payload?.errors && !res.payload?.exception ) {
           setActiveModal(true)
@@ -71,40 +68,6 @@ const CreateClubEvent = ({ club, setActiveTab }: CreateClubEventProps) => {
         }
       })
   }
-
-  // const onDragOver = ( e: React.DragEvent<HTMLDivElement> ) => {
-  //   e.preventDefault()
-  //   e.stopPropagation()
-  // }
-
-  // const onDrop = ( e: React.DragEvent<HTMLDivElement> ) => {
-  //   e.preventDefault()
-  //   const file = e.dataTransfer.files[0]
-
-  //   if ( !isFileSizeAllowed(file.size) ) return
-
-  //   setLoadedCover({
-  //     file,
-  //     url: URL.createObjectURL(file)
-  //   })
-  // }
-
-  // const loadCover = ( e: ChangeEvent<HTMLInputElement> ) => {
-  //   if ( !e.target.files ) return
-
-	// 	const file = e.target.files[0]!
-
-	// 	if ( !isFileSizeAllowed(file.size) ) return
-
-  //   setLoadedCover({
-  //     file,
-  //     url: URL.createObjectURL(file)
-  //   })
-  // }
-
-  // const cancelLoadedCover = () => {
-  //   setLoadedCover(null)
-  // }
 
   const loadPhoto = ( e: React.MouseEvent<HTMLDivElement, MouseEvent> ) => {
     const input = e.currentTarget.querySelector('input')
@@ -154,32 +117,6 @@ const CreateClubEvent = ({ club, setActiveTab }: CreateClubEventProps) => {
       <section className={c.section}>
 
         <form onSubmit={onSubmit} >
-
-          {/* {loadedCover
-          ?
-          <div className={c.loaded_cover_wrapper} >
-              <img src={loadedCover?.url} />
-              <Button onClick={cancelLoadedCover} >Удалить</Button>
-            </div>
-          :
-            <div
-              className={c.drop_area}
-              onDrop={onDrop}
-              onDragOver={onDragOver}
-            >
-              <input
-                accept='.jpg,.jpeg,.png'
-                // name='caption'
-                type="file"
-                ref={coverRef}
-                onChange={loadCover}
-                className={c.input_caption}
-              />
-              <svg width="101" height="100" viewBox="0 0 101 100" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M62.9993 8.33325H25.4993C23.2892 8.33325 21.1696 9.21123 19.6068 10.774C18.044 12.3368 17.166 14.4564 17.166 16.6666V83.3333C17.166 85.5434 18.044 87.663 19.6068 89.2258C21.1696 90.7886 23.2892 91.6666 25.4993 91.6666H75.4993C77.7095 91.6666 79.8291 90.7886 81.3919 89.2258C82.9547 87.663 83.8327 85.5434 83.8327 83.3333V29.1666L62.9993 8.33325Z" stroke="#2A2A2A" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round"/><path d="M58.834 8.33325V24.9999C58.834 27.2101 59.712 29.3297 61.2748 30.8925C62.8376 32.4553 64.9572 33.3333 67.1673 33.3333H83.834" stroke="#2A2A2A" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round"/><path d="M42.1673 58.3334C46.7697 58.3334 50.5006 54.6025 50.5006 50.0001C50.5006 45.3977 46.7697 41.6667 42.1673 41.6667C37.5649 41.6667 33.834 45.3977 33.834 50.0001C33.834 54.6025 37.5649 58.3334 42.1673 58.3334Z" stroke="#2A2A2A" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round"/><path d="M83.8333 70.8333L78.4333 65.4333C76.5502 63.5504 73.9963 62.4927 71.3333 62.4927C68.6704 62.4927 66.1165 63.5504 64.2333 65.4333L38 91.6666" stroke="#2A2A2A" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round"/></svg>
-              <p>Выберите файл для обложки или перетащите его сюда</p>
-              <Button type='button' onClick={() => coverRef.current?.click()} >Выбрать файл(-ы)</Button>
-            </div>
-          } */}
 
           <div className={c.photos} >
             <p>Фотографии</p>
@@ -409,4 +346,4 @@ const MapWrapper = ({ coordinates }: MapWrapperProps) => {
   </>
 }
 
-export { CreateClubEvent }
+export { CreateEvent }

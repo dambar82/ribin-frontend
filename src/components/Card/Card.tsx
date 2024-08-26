@@ -1,3 +1,4 @@
+import { classNames } from '../../shared/utils'
 import styles from './Card.module.scss';
 
 interface IClubCard {
@@ -9,12 +10,14 @@ interface IClubCard {
     tagLabel: string,
     buttonLabel?: string;
     // participants: number;
+    className?: string
+    onClick?: () => void
 }
 
 
-const Card = ({ date, name, image, desc, tagIcon, tagLabel, buttonLabel }: IClubCard) => {
+const Card = ({ date, name, image, desc, tagIcon, tagLabel, buttonLabel, className, onClick }: IClubCard) => {
     return (
-        <div className={styles.card}>
+        <div className={classNames(styles.card, className)} onClick={onClick} >
             { date && <div className={styles.card__date}>{date}</div>}
             <div className={styles.card__image}>
                 { image && <img src={image} alt=''/>}

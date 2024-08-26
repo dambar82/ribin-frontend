@@ -54,7 +54,7 @@ const Clubs = () => {
                                 <ClubCard
                                     id={club.id}
                                     name={club.name}
-                                    image={club.caption}
+                                    image={club.avatar}
                                     desc={club.short_description}
                                     participants={club.clients_count}
                                 />
@@ -93,7 +93,7 @@ const Clubs = () => {
                                 id={club.id}
                                 key={club.name + index}
                                 name={club.name}
-                                image={club.caption}
+                                image={club.avatar}
                                 desc={club.short_description}
                                 participants={club.clients_count}
                             />

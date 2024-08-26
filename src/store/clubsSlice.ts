@@ -53,7 +53,7 @@ export const getClub = createAsyncThunk('clubs/getClub', async ( sendObj: TGetCl
 });
 
 export const editClub = createAsyncThunk('clubs/editClub', async ( data: { id: number, formData: TEditClubRequest } ) => {
-  const response = await $api.put<TEditClubResponse>(`/api/club/${data.id}`, data.formData);
+  const response = await $api.post<TEditClubResponse>(`/api/club/${data.id}`, data.formData);
   return response.data.data
 });
 
