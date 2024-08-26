@@ -34,3 +34,9 @@ export type TCreateEventRequest = FormData
 export type TCreateEventResponse = {
   data: TEvent
 }
+
+export type TDeleteEventResponse = {
+  data: {
+    message: string
+  }
+}

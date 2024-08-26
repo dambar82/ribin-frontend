@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { TCancelParticipateInEventResponse, TCreateEventRequest, TCreateEventResponse, TEvent, TGetEventResponse, TGetEventsResponse, TParticipateInEventResponse } from '../shared/types/event.types'
+import { TCancelParticipateInEventResponse, TCreateEventRequest, TCreateEventResponse, TDeleteEventResponse, TEvent, TGetEventResponse, TGetEventsResponse, TParticipateInEventResponse } from '../shared/types/event.types'
 import { User } from './userSlice'
 
 interface ClubsState {
@@ -50,6 +50,11 @@ export const createEvent = createAsyncThunk('clubs/createEvent', async ( formDat
   return response.data.data
 })
 
+export const deleteEvent = createAsyncThunk('clubs/deleteEvent', async ( event_id: number ) => {
+  const response = await $api.delete<TDeleteEventResponse>(`/api/event/${event_id}/delete`);
+  return response.data.data
+})
+
 const eventsSlice = createSlice({
     name: 'events',
     initialState,
@@ -81,6 +86,12 @@ const eventsSlice = createSlice({
           events.push(action.payload)
           state.event = action.payload
         })
+
+        .addCase(deleteEvent.fulfilled, (state, action: PayloadAction<TDeleteEventResponse['data']>) => {
+          console.log(action.payload);
+          
+        })
+
     }
 })
 

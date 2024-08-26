@@ -130,7 +130,7 @@ const CreateEvent = ({ setActiveTab }: CreateEventProps) => {
                 />
               </div>
               {loadedPhotos.map(photo => (
-                <div className={c.loaded_img} >
+                <div className={c.loaded_img} key={photo.url} >
                   <img
                     key={photo.url}
                     src={photo.url}
