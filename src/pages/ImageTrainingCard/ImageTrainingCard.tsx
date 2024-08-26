@@ -1,14 +1,17 @@
 
+import { classNames } from '../../shared/utils'
 import c from './ImageTrainingCard.module.scss'
 
 interface ImageTrainingCardProps {
   title: string
   image: string
   description: string
+  className?: string
+  onClick?: () => void
 }
-const ImageTrainingCard = ({ title, image, description }: ImageTrainingCardProps) => {
+const ImageTrainingCard = ({ title, image, description, className, onClick }: ImageTrainingCardProps) => {
   return (
-    <div className={c.image_wrapper} >
+    <div className={classNames(c.image_wrapper, className)} onClick={onClick} >
       <img src={image} alt="#" />
       <p>{description}</p>
     </div>

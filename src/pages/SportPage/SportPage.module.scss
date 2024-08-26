@@ -38,3 +38,59 @@
         margin-left: 20px;
     }
 }
+
+.image_card {
+  cursor: pointer;
+}
+
+.training_videos_modal {
+  z-index: 1000;
+  
+  @media (max-width: 1400px) {
+    padding: 0;
+  }
+
+  .training_videos_modal_body {
+    position: relative;
+    background-color: transparent!important;
+    
+    @media (max-width: 1400px) {
+      max-width: 80vw;
+      height: 100vh;
+      top: auto;
+      transform: translate(-50%, 0);
+    }
+  
+    & > button {
+      background-color: var(--black)!important;
+
+      &::before, &::after {
+        background-color: var(--white)!important;
+      }
+    }
+
+    & > div {
+      height: 90vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      @media (max-width: 1400px) {
+          height: 100vh;
+      }
+
+      video {
+        width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+      }
+
+      img {
+        width: 100%;
+        max-height: 90vh;
+        height: auto;
+        object-fit: contain;
+      }
+    }
+  }
+}
