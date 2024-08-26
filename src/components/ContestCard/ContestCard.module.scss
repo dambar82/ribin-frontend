@@ -21,7 +21,7 @@
     padding-top: 85px;
   }
 
-  @media (max-width: 375px) {
+  @media (max-width: 480px) {
     padding: 20px;
     border-radius: 26px;
     column-gap: 16px;
@@ -65,7 +65,7 @@
     }
   }
 
-  @media (max-width: 375px) {
+  @media (max-width: 480px) {
     border-radius: 16px;
     width: 302px;
     height: 132px;
@@ -124,7 +124,7 @@
     }
   }
 
-  @media (max-width: 375px) {
+  @media (max-width: 480px) {
     h3 {
       font-size: 22px;
       font-weight: 500;
@@ -164,7 +164,7 @@
 
   //375
 
-  @media (max-width: 375px) {
+  @media (max-width: 480px) {
     p {
       font-size: 16px;
       font-weight: 400;
@@ -183,7 +183,7 @@
     gap: 16px;
   }
 
-  @media (max-width: 375px) {
+  @media (max-width: 480px) {
     flex-direction: column;
 
     > div {

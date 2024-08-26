@@ -4,7 +4,7 @@
     font-size: 40px;
     line-height: 48px;
 
-    @media (max-width: 375px) {
+    @media (max-width: 480px) {
       font-size: 32px;
       line-height: 38px;
     }
@@ -20,7 +20,7 @@
   padding: 12px 30px;
   font-family: "Saira", sans-serif;
 
-  @media (max-width: 375px) {
+  @media (max-width: 480px) {
     font-size: 16px;
     line-height: 20px;
     padding: 8px 20px;
@@ -59,7 +59,7 @@
     border-radius: 36px;
   }
 
-  @media (max-width: 375px) {
+  @media (max-width: 480px) {
     padding: 26px 18px;
     border-radius: 20px 18px 20px 18px;
   }
@@ -79,6 +79,10 @@
   }
   img {
     cursor: pointer;
+  }
+
+  > div {
+    align-items: flex-start;
   }
   &_hiddenAnswer {
   }
@@ -123,7 +127,7 @@
     }
   }
 
-  @media (max-width: 375px) {
+  @media (max-width: 480px) {
     p {
       font-size: 22px !important;
       font-weight: 500;
@@ -146,7 +150,7 @@
   }
 }
 
-@media (max-width: 375px) {
+@media (max-width: 480px) {
   .images > .image {
     display: none;
   }

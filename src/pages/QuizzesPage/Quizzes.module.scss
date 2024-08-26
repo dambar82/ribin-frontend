@@ -7,7 +7,7 @@
     transform: rotate(-13deg);
     transform-origin: center;
 
-    @media (max-width: 375px) {
+    @media (max-width: 480px) {
       top: 3 2px;
       left: 8px;
       font-size: 20px;
@@ -24,13 +24,29 @@
     right: calc(20 / 1660 * 100%);
     bottom: 0;
 
-    @media (max-width: 375px) {
+    @media (max-width: 480px) {
       right: 0;
       height: 180px;
     }
   }
 
-  @media (max-width: 375px) {
+  @media (max-width: 480px) {
     height: 220px;
+  }
+}
+
+.section_body {
+  > div > :first-child {
+    @media (max-width: 1024px) {
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)) !important;
+    }
+
+    @media (max-width: 768px) {
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)) !important;
+    }
+
+    @media (max-width: 480px) {
+      grid-template-columns: repeat(1, 100%) !important;
+    }
   }
 }

@@ -6,7 +6,7 @@
   border-radius: 26px;
   padding-bottom: 46px;
 
-  @media (max-width: 375px) {
+  @media (max-width: 480px) {
     margin-top: 80px;
     gap: 32px;
     padding-bottom: 32px;
@@ -29,7 +29,7 @@
       padding: 50px;
     }
 
-    @media (max-width: 375px) {
+    @media (max-width: 480px) {
       padding: 24px 18px 24px 18px;
       gap: 32px;
       border-radius: 26px 26px 0px 0px;
@@ -47,7 +47,7 @@
       margin-bottom: 36px;
     }
 
-    @media (max-width: 375px) {
+    @media (max-width: 480px) {
       text-align: center;
       display: flex;
       align-items: center;
@@ -59,7 +59,7 @@
     border-radius: 50px;
     padding: 12px 30px;
 
-    @media (max-width: 375px) {
+    @media (max-width: 480px) {
       position: absolute;
       top: 170px;
       left: 20px;
@@ -85,7 +85,7 @@
     @media (max-width: 1024px) {
       font-size: 24px;
     }
-    @media (max-width: 375px) {
+    @media (max-width: 480px) {
       font-size: 18px;
       line-height: 22px;
       font-weight: 500;
@@ -96,7 +96,12 @@
     grid-template-columns: 612px 768px;
     justify-content: space-between;
 
-    @media (max-width: 768px) {
+    @media (max-width: 1620px) {
+      grid-template-columns: 480px 1fr;
+    }
+
+    @media (max-width: 1200px) {
+      gap: 32px;
       grid-template-columns: repeat(1, 1fr);
     }
   }
@@ -105,11 +110,15 @@
     font-weight: 500;
     line-height: calc(38 / 32);
 
+    @media (max-width: 1620px) {
+      font-size: 24px;
+    }
+
     @media (max-width: 1024px) {
       font-size: 24px;
     }
 
-    @media (max-width: 375px) {
+    @media (max-width: 480px) {
       font-size: 18px;
       line-height: 22px;
       font-weight: 500;
@@ -125,7 +134,7 @@
       grid-template-columns: repeat(1, 1fr);
     }
 
-    @media (max-width: 375px) {
+    @media (max-width: 480px) {
       gap: 16px;
     }
   }
@@ -139,7 +148,7 @@
     padding: 32px;
     text-align: center;
 
-    @media (max-width: 375px) {
+    @media (max-width: 480px) {
       padding: 24px;
       font-size: 18px;
       line-height: 22px;
@@ -164,7 +173,7 @@
       color: #91172c;
     }
 
-    @media (max-width: 375px) {
+    @media (max-width: 480px) {
       padding: 14px 30px;
       font-size: 18px;
       line-height: 22px;
@@ -200,7 +209,7 @@
       line-height: calc(24 / 20);
     }
 
-    @media (max-width: 375px) {
+    @media (max-width: 480px) {
       padding: 16px;
       font-size: 18px;
       line-height: 22px;
@@ -246,7 +255,7 @@
           font-size: 64px;
         }
 
-        @media (max-width: 375px) {
+        @media (max-width: 480px) {
           font-size: 48px;
         }
       }
@@ -260,7 +269,7 @@
         margin: 0 0 46px;
       }
 
-      @media (max-width: 375px) {
+      @media (max-width: 480px) {
         font-size: 16px;
       }
     }

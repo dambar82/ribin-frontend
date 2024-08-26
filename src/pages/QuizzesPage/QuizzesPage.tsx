@@ -31,7 +31,7 @@ const QuizzesPage = () => {
           <h2 className="section__title">Все викторины</h2>
           <div className="section__counter">10</div>
         </div>
-        <div className="section__body">
+        <div className={"section__body "+styles.section_body}>
           <Grid totalItems={12}>
             {[1, 2, 3, 4].map(() =>
               quizzes.map((quiz, index) => (
