@@ -5,7 +5,7 @@
   display: flex;
   column-gap: 46px;
 
-  @media (max-width: 1024px) {
+  @media (max-width: 1200px) {
     padding: 30px;
     border-radius: 26px;
     column-gap: 36px;
@@ -21,8 +21,8 @@
     padding-top: 85px;
   }
 
-  @media (max-width: 480px) {
-    padding: 20px;
+  @media (max-width: 568px) {
+    padding: 10px;
     border-radius: 26px;
     column-gap: 16px;
     padding-top: 73px;
@@ -44,7 +44,7 @@
     object-fit: cover;
   }
 
-  @media (max-width: 1024px) {
+  @media (max-width: 1200px) {
     max-width: 280px;
     height: 190px;
     width: 280px !important;
@@ -79,7 +79,7 @@
 .card__right {
   width: 70%;
 
-  @media (max-width: 1024px) {
+  @media (max-width: 1200px) {
     display: flex;
     flex-direction: column;
     gap: 16px;
@@ -99,7 +99,7 @@
     text-align: left;
   }
 
-  @media (max-width: 1024px) {
+  @media (max-width: 1200px) {
     h3 {
       font-size: 24px;
       font-weight: 500;
@@ -150,7 +150,7 @@
     line-height: 24px;
   }
 
-  @media (max-width: 1024px) {
+  @media (max-width: 1200px) {
     padding-top: 0;
     padding-bottom: 0;
     gap: 16px;
@@ -179,7 +179,7 @@
   column-gap: 36px;
   margin-top: auto;
 
-  @media (max-width: 1024px) {
+  @media (max-width: 1200px) {
     gap: 16px;
   }
 

@@ -79,6 +79,10 @@
   }
   img {
     cursor: pointer;
+
+    @media (max-width: 480px) {
+      width: 24px;
+    }
   }
 
   > div {

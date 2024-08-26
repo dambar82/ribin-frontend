@@ -175,29 +175,33 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+  }
 
-    @media (max-width: 480px) {
-      > :nth-child(2) {
-        font-size: 16px;
-        font-weight: 500;
-        line-height: 20px;
-        letter-spacing: -0.011em;
-        padding: 8px 20px !important;
-      }
+  @media (max-width: 480px) {
+    > :nth-child(2) {
+      font-size: 16px;
+      font-weight: 500;
+      line-height: 20px;
+      letter-spacing: -0.011em;
+      padding: 8px 20px !important;
     }
   }
   &_text {
-    white-space: nowrap;
     font-size: 24px;
     line-height: 28px;
     font-weight: 500;
+
+    @media (max-width: 968px) {
+      font-size: 20px;
+      line-height: 24px;
+      white-space: wrap;
+    }
 
     @media (max-width: 480px) {
       font-size: 18px;
       font-weight: 500;
       line-height: 22px;
       max-width: 125px;
-      white-space: wrap;
       inline-size: 125px;
     }
   }
@@ -273,7 +277,7 @@
     background-color: #fbfbfb;
     border-radius: 50px;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-between !important;
     align-items: center;
     &_place {
       font-family: Saira;
@@ -338,8 +342,9 @@
     }
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 856px) {
     flex-direction: column !important;
+    justify-content: space-between !important;
 
     > a {
       width: 100%;
@@ -384,7 +389,7 @@
     }
   }
 
-  @media (max-width: 480px) {
+  @media (max-width: 568px) {
     &_block {
       padding: 10px;
       row-gap: 10px;
@@ -674,6 +679,7 @@
 .participants_content {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  justify-content: space-between;
   flex-wrap: wrap;
   gap: 20px;
   height: 1000px;
@@ -683,75 +689,54 @@
   background: url("../../images/activeUsers-bg.svg");
 
   @media (max-width: 1440px) {
-    height: auto;
     padding: 50px;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-    grid-template-rows: repeat(auto-fill, 300px);
+  }
 
-    div {
-      height: auto !important;
-    }
+  @media (max-width: 1280px) {
+    padding: 30px;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  }
 
-    > a > div {
-      height: 300px !important;
-    }
-    a {
-      height: 300px !important;
-    }
-
-    img {
-      aspect-ratio: 1/1 !important ;
-      height: auto !important;
-    }
+  @media (max-width: 1024px) {
+    padding: 20px;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   }
 
   @media (max-width: 768px) {
-    grid-template-columns: 1fr 1fr 1fr;
-    padding: 40px;
-  }
-
-  @media (max-width: 480px) {
-    grid-template-columns: repeat(2, 155px);
-    justify-content: space-between;
     padding: 20px;
-    width: calc(100% + 40px);
-    margin-left: -20px !important;
-    border-radius: 26px;
-
-    img {
-      border-radius: 8px !important;
-    }
+    grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+    justify-content: space-between;
 
     > a {
-      height: 260px !important;
+      margin: 0;
 
       > div {
-        padding: 10px !important;
-        border-radius: 16px !important;
-        height: 260px !important;
+        max-width: 100%;
+        width: 100%;
+      }
+    }
+  }
 
-        > :nth-child(2) {
-          > :nth-child(1) {
-            font-size: 20px;
-            font-weight: 600;
-            line-height: 24px;
-            text-align: center;
-          }
+  @media (max-width: 568px) {
+    width: calc(100% + 40px);
+    margin-left: -20px !important;
+    padding: 10px;
+    border-radius: 26px;
 
-          > :nth-child(2) > div {
-            > span {
-              font-size: 14px;
-              font-weight: 500;
-              line-height: 16px;
-            }
-            > div {
-              font-size: 20px;
-              font-weight: 500;
-              line-height: 24px;
-            }
-          }
+    a {
+      > div {
+        padding: 10px;
+        border-radius: 16px;
+
+        img {
+          aspect-ratio: 1/1;
+          border-radius: 8px;
         }
       }
     }
+  }
+
+  @media (max-width: 480px) {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
   }
 }

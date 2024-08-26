@@ -319,7 +319,7 @@ li {
   justify-content: space-between;
 
   @media (max-width: 1440px) {
-    grid-template-columns: repeat(3, 430px);
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
   }
 
   @media (max-width: 1000px) {

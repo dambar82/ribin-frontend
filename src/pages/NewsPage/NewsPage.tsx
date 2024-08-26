@@ -40,7 +40,7 @@ const NewsPage = () => {
           <div className="section__title">Все новости</div>
           <div className="section__counter">{news.length}</div>
         </div>
-        <div className={"gridElements section__body"}>
+        <div className={"gridElements section__body " + styles.section_body}>
           <Grid totalItems={news.length}>
             {news.map((newsItem) => {
               if ("imagePreviewResized" in newsItem) {

@@ -91,3 +91,24 @@
     }
   }
 }
+
+@media (max-width: 1024px) {
+  .section_body > div > :first-child {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)) !important;
+
+    > a {
+      height: 300px !important;
+
+      > div {
+        min-height: 300px;
+        height: 300px !important;
+      }
+    }
+  }
+}
+
+.section_body > div > :first-child {
+  @media (max-width: 768px) {
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  }
+}
