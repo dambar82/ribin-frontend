@@ -12,6 +12,31 @@
 
     form {
       position: relative;
+
+      .form_select {
+        position: relative;
+        width: 100%;
+        border: none;
+        outline: none;
+        background-color: var(--light-grey);
+        border-radius: 50px;
+        padding: 20px 30px;
+        color: #817E7E;
+        font-family: "Raleway";
+        font-size: 18px;
+        font-weight: 400;
+        line-height: calc(22 / 18);
+        cursor: pointer;
+
+        option {
+          cursor: pointer;
+          
+          &:checked {
+            background-color: #838383;
+            color: #fff;
+          }
+        }
+      }
     }
 
     .success_message {
