@@ -152,7 +152,7 @@ const AuthHeader = () => {
                                     </li>
                                     <li>
                                         <NavLink
-                                            to="/messages"
+                                            to={`/chat/${user.id}`}
                                             className={({ isActive }) => {
                                                 return isActive ? "_active" : ""
                                             }}
