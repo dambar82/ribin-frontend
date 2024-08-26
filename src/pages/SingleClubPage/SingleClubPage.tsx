@@ -2,7 +2,7 @@ import {useEffect, useState} from 'react'
 import c from './SingleClubPage.module.scss';
 import { useAppDispatch } from '../../store/hooks'
 import { getClub } from '../../store/clubsSlice'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import {fetchPostsByClubId, fetchPostsByUserId} from "../../store/postSlice";
 import { useSelector } from 'react-redux'
 import { RootState } from '../../store/store'
@@ -28,10 +28,11 @@ const SingleClubPage = () => {
     const { posts, status, error } = useSelector((state: RootState) => state.post)
     const club = useSelector((state: RootState) => state.clubs.club)
     
-    const [activeTab, setActiveTab] = useState(3)
+    const [activeTab, setActiveTab] = useState(0)
 
     const params = useParams()
-    const dispatch = useAppDispatch();
+    const dispatch = useAppDispatch()
+    const navigate = useNavigate()
 
     useEffect(() => {
       dispatch(getClub({ id: params.id }))
@@ -40,8 +41,6 @@ const SingleClubPage = () => {
     useEffect(() => {
             dispatch(fetchPostsByClubId({clubId: Number(params.id)}));
     }, []);
-
-
 
     if (status === 'loading' || !club) {
         return <p>Loading...</p>;
@@ -82,7 +81,7 @@ const SingleClubPage = () => {
 
                     <div className={c.clubInfo__avatar}>
                         <div>
-                            <img src={club.source || avatar} alt="" />
+                            <img src={club.avatar || avatar} alt="" />
                         </div>
                     </div>
 
@@ -154,10 +153,15 @@ const SingleClubPage = () => {
                           key={event.id}
                           date={`${event.date}, ${event.time}`}
                           name={event.name}
-                          image={event.caption}
+                          image={event.source?.[0] || ''}
                           desc={event.description}
                           tagIcon={geoIcon}
                           tagLabel={`${event.city} ${event.location}`}
+                          className={c.club_event}
+                          onClick={() => {
+                            navigate(`/events/event/${event.id}`)
+                            setTimeout(() => window.scrollTo({ top: 0, left: 0, behavior: "smooth" }), 100)
+                          }}
                       />
                   ))}
                   

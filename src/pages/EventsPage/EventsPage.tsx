@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../store/hooks"
 import { fetchEvents } from "../../store/eventsSlice"
+import { Button } from "../../shared/UI"
+import { CreateEvent } from "./create-event/CreateEvent"
 
 import styles from "./EventsPage.module.scss";
 
@@ -9,15 +11,27 @@ import EventCard from "../../components/EventCard/EventCard";
 
 const EventsPage = () => {
   
-  const events = useAppSelector((state) => state.events.events);
+  const events = useAppSelector((state) => state.events.events)
   
-  const dispatch = useAppDispatch()
-  
+  const [activeTab, setActiveTab] = useState(0)
   const [active, setActive] = useState(1)
+
+  const dispatch = useAppDispatch()
 
     useEffect(() => {
       dispatch(fetchEvents())
     }, [])
+
+    if ( activeTab === 1 ) {
+      return <CreateEvent
+        setActiveTab={setActiveTab}
+      />
+    }
+
+    const createEvent = () => {
+      setActiveTab(1)
+      setTimeout(() => window.scrollTo({ top: 0, left: 0, behavior: "smooth" }), 100)
+    }
 
     return (
         <div className="page">
@@ -38,11 +52,14 @@ const EventsPage = () => {
                         ))}
                     </nav>
                 </div>
+                <div className={styles.create_event_button_wrapper} >
+                  <Button onClick={createEvent} >Создать мероприятие</Button>
+                </div>
                 <div className={styles.events__body}>
                 {active === 1
                     ? (
                         <div className={styles.events__list}>
-                            {events.map(event => (
+                            {[...events].reverse().map(event => (
                                 <Link
                                   key={event.id}
                                   to={`/events/event/${event.id}`}

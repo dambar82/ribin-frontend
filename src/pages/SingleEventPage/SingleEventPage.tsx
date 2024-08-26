@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Map from '../../components/Map/Map';
 import Breadcrumbs from "../../components/Breadcrumbs/Breadcrumbs";
 import styles from '../SingleEventPage/SingleEventPage.module.scss';
@@ -14,7 +14,8 @@ import {Link, useNavigate, useParams} from "react-router-dom";
 import NewsCard from "../../components/NewsCard/NewsCard";
 import buttonArrow from "../../images/svg/button_arrow.svg";
 import { useAppDispatch, useAppSelector } from '../../store/hooks'
-import { cancelParticipateInEvent, getEvent, participateInEvent } from '../../store/eventsSlice'
+import { cancelParticipateInEvent, deleteEvent, getEvent, participateInEvent } from '../../store/eventsSlice'
+import { classNames } from '../../shared/utils'
 
 const photos = [
     '/images/6f05b9e6234fd9271db78f533dcfb2f7 (1).jpg',
@@ -34,8 +35,13 @@ const SingleEventPage = () => {
   const event = useAppSelector((state) => state.events.event)
   const user = useAppSelector((state) => state.user.user)
 
+  const [confirmDelete, setConfirmDelete] = useState(false)
+
   const dispatch = useAppDispatch()
+  const navigate = useNavigate()
   const params = useParams()
+
+  const isAdmin = event?.created_by?.id === user.id
 
   useEffect(() => {
     if ( params.id ) {
@@ -48,10 +54,6 @@ const SingleEventPage = () => {
       event_id: event.id,
       user
     }))
-    .then(res => {
-      const payload = res.payload as any
-      // alert(payload?.response)
-    })
   }
 
   useEffect(() => {
@@ -63,10 +65,21 @@ const SingleEventPage = () => {
       event_id: event.id,
       user
     }))
-    .then(res => {
-      const payload = res.payload as any
-      // alert(payload?.response)
-    })
+  }
+
+  const deleteEventHandler = () => {
+    if ( confirmDelete ) {
+      dispatch(deleteEvent(event.id))
+        .then(() => {
+          navigate('/events')
+        })
+    }
+    else {
+      setConfirmDelete(true)
+      setTimeout(() => {
+        setConfirmDelete(false)
+      }, 2000)
+    }
   }
 
   if ( !event ) {
@@ -113,7 +126,7 @@ const SingleEventPage = () => {
                                             Организатор мероприятия
                                         </span>
                                         <span className={styles.eventClub_info_org}>
-                                          {event.created_by.name} {event.created_by.surname}
+                                          {event.created_by?.name} {event.created_by?.surname}
                                         </span>
                                     </div>
                                 </div>
@@ -137,21 +150,31 @@ const SingleEventPage = () => {
                             </div>
                         </div>
                         <div className={styles.eventInfo_button}>
-                        { event.clients?.some(el => el.id === user.id)
-                        ?
+                        { !isAdmin &&
+                        (event.clients?.some(el => el.id === user.id)
+                          ?
+                            <button
+                              className={classNames(styles.eventButton, styles.cancelParticipate)}
+                              onClick={cancelParticipateInEventHandler}
+                            >
+                              Не участвовать
+                            </button>
+                          :
+                              <button
+                                className={styles.eventButton}
+                                onClick={participateInEventHandler}
+                              >
+                                Участвовать
+                              </button>
+                          )
+                        }
+                        {isAdmin &&
                           <button
                             className={styles.eventButton}
-                            onClick={cancelParticipateInEventHandler}
+                            onClick={deleteEventHandler}
                           >
-                            Не участвовать
+                            {confirmDelete ? 'Подтвердить' : 'Удалить мероприятие'}
                           </button>
-                        :
-                            <button
-                              className={styles.eventButton}
-                              onClick={participateInEventHandler}
-                            >
-                              Участвовать
-                            </button>
                         }
                         </div>
                     </div>

@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { TCancelParticipateInEventResponse, TEvent, TGetEventResponse, TGetEventsResponse, TParticipateInEventResponse } from '../shared/types/event.types'
+import { TCancelParticipateInEventResponse, TCreateEventRequest, TCreateEventResponse, TDeleteEventResponse, TEvent, TGetEventResponse, TGetEventsResponse, TParticipateInEventResponse } from '../shared/types/event.types'
 import { User } from './userSlice'
 
 interface ClubsState {
@@ -41,8 +41,18 @@ export const participateInEvent = createAsyncThunk('clubs/participateInEvent', a
 })
 
 export const cancelParticipateInEvent = createAsyncThunk('clubs/cancelParticipateInEvent', async ( { event_id, user }: { event_id: number, user: User } ) => {
-  const response = await $api.post<TCancelParticipateInEventResponse>('');
+  const response = await $api.post<TCancelParticipateInEventResponse>(`/api/event/${event_id}/refuse_part`);
   return { response: response.data, user }
+})
+
+export const createEvent = createAsyncThunk('clubs/createEvent', async ( formData: TCreateEventRequest ) => {
+  const response = await $api.post<TCreateEventResponse>('/api/event/create', formData);
+  return response.data.data
+})
+
+export const deleteEvent = createAsyncThunk('clubs/deleteEvent', async ( event_id: number ) => {
+  const response = await $api.delete<TDeleteEventResponse>(`/api/event/${event_id}/delete`);
+  return response.data.data
 })
 
 const eventsSlice = createSlice({
@@ -65,10 +75,23 @@ const eventsSlice = createSlice({
         })
 
         .addCase(cancelParticipateInEvent.fulfilled, (state, action: PayloadAction<TCancelParticipateInEventResponse & { user: User }>) => {
+          console.log(action.payload);
+          
           const clients = state.event.clients
-          clients.filter(el => el.id !== action.payload.user.id)
-          state.event.clients = clients
+          state.event.clients = clients.filter(el => el.id !== action.payload.user.id)
         })
+
+        .addCase(createEvent.fulfilled, (state, action: PayloadAction<TCreateEventResponse['data']>) => {
+          const events = state.events
+          events.push(action.payload)
+          state.event = action.payload
+        })
+
+        .addCase(deleteEvent.fulfilled, (state, action: PayloadAction<TDeleteEventResponse['data']>) => {
+          console.log(action.payload);
+          
+        })
+
     }
 })
 

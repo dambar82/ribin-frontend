@@ -1,8 +1,9 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
-import {ContestUser, Post} from "../types";
+import {Clubs, ContestUser, Post} from "../types";
 import { TEditUserRequest, TEditUserResponse } from '../shared/types/user.types'
 import { TCheckAuthResponse, TLoginUserResponse, TConfirmEmailResponse, TRegisterUserRequest, TRegisterUserResponse, TConfirmEmailRequest } from '../shared/types/auth.types'
+import { TEvent } from '../shared/types/event.types'
 
 export interface User {
     avatar: string | null;
@@ -22,8 +23,8 @@ export interface User {
     contests: ContestUser[];
     image: string;
     description: string;
-    clubs: any[];
-    events: any[];
+    clubs: Clubs[];
+    events: TEvent[];
     rubick: any;
     school: string;
     school_number: number;

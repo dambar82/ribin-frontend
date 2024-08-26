@@ -1,6 +1,7 @@
 import exp from "constants";
 import { IPost } from "./store/postSlice"
 import { User } from "./store/userSlice"
+import { TEvent } from "./shared/types/event.types"
 
 export interface Client {
     rubick: number;
@@ -85,7 +86,7 @@ export interface NewsBack {
 export interface Clubs {
   id: number
   name: string;
-  source: string
+  avatar: string
   caption: string;
   created_by: {
     id: number
@@ -97,7 +98,7 @@ export interface Clubs {
   description: string;
   clients_count: number;
   clients: User[];
-  events: any[];
+  events: TEvent[];
   posts: IPost[]
 }
 

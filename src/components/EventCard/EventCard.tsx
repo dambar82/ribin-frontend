@@ -8,13 +8,19 @@ interface IEventCard {
   event: TEvent
 }
 const EventCard = ({ event }: IEventCard) => {    
+
+  const onErrorImage = ( e: React.SyntheticEvent<HTMLImageElement, Event> ) => {
+    const parent = e.currentTarget.parentNode
+    parent.parentNode.removeChild(parent)
+  }
+
     return (
         <div
           // className={event.completed ? `${styles.event} ${styles.event_completed}` : `${styles.event}`}
           className={`${styles.event}`}
         >
             <div className={styles.event__image}>
-                <img src={event.caption} />
+                <img src={event.source?.[0] || ''} onError={onErrorImage} />
             </div>
             <div className={styles.event__content}>
                 <div className={styles.event__header}>
