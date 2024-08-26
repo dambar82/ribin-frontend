@@ -46,6 +46,7 @@ import { ConfirmEmailModal } from './pages/Auth/components'
 import { Loader } from './shared/UI'
 import MainPage from './pages/Main/MainPage'
 import SingleNewsPageApi from "./pages/SingleNewsPageApi/SingleNewsPageApi";
+import Chat from "./components/Chat/Chat";
 
 
 export function postFormatDate(isoString) {
@@ -137,6 +138,7 @@ function App() {
         { path: '/settings', element: <SettingsPage /> },
         { path: '/clubs', element: <Clubs /> },
         { path: '/clubs/:id', element: <SingleClubPage /> },
+        { path: '/chat/:userId', element: <Chat/>},
         { path: '/rubylife', element: <RubyLife /> },
         { path: '/sportslife', element: <SportPage /> },
         { path: '/students', element: <StudentsPage /> },
