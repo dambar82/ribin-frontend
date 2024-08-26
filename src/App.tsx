@@ -47,6 +47,7 @@ import { Loader } from './shared/UI'
 import MainPage from './pages/Main/MainPage'
 import SingleNewsPageApi from "./pages/SingleNewsPageApi/SingleNewsPageApi";
 import Chat from "./components/Chat/Chat";
+import Pusher from 'pusher-js';
 
 
 export function postFormatDate(isoString) {
@@ -103,6 +104,10 @@ export const formatDate = (dateStr: string) => {
     //@ts-ignore
     return `${parseInt(day)} ${months[month]}`;
 };
+
+const pusher = new Pusher('05817bdeb548cb607678', {
+    cluster: 'mt1',
+});
 
 function App() {
 
@@ -164,6 +169,23 @@ function App() {
           })
       }
     }, [])
+
+    useEffect(() => {
+        if (isAuth) {
+            const channelName = `notification.${user.id}`;
+            const channel = pusher.subscribe(channelName);
+
+            console.log(channelName);
+
+            channel.bind('friendship.add_friend', (data) => {
+                console.log(data);
+            })
+
+            channel.bind('friendship.friend_request_accepted', (data) => {
+                console.log(data);
+            })
+        }
+    }, [isAuth])
 
     if ( token && (loading || !user) ) {
       return <Loader />
