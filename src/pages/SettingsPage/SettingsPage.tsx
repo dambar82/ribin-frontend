@@ -42,7 +42,7 @@ const SettingsPage = () => {
     const [successMessage, setSuccessMessage] = useState('')
     const [errorMessage, setErrorMessage] = useState('')
     const [districtOptions, setDistrictOptions] = useState(null);
-    const [district, setDistrict] = useState('');
+    const [district, setDistrict] = useState(user.district.id);
     const [hidePassword, setHidePassword] = useState(true)
     const [hideCopyPassword, setHideCopyPassword] = useState(true)
 
@@ -51,10 +51,15 @@ const SettingsPage = () => {
     useEffect(() => {
         const fetchDistricts = async () => {
             const response = await axios.get('https://api-rubin.multfilm.tatar/api/districts');
-            setDistrictOptions(response.data.data);
+            setDistrictOptions(response.data);
         }
         fetchDistricts();
     }, [])
+
+
+    useEffect(() => {
+        console.log(districtOptions)
+    }, [districtOptions])
 
 
     const onSubmit = async ( e: React.FormEvent<HTMLFormElement> ) => {
@@ -65,7 +70,7 @@ const SettingsPage = () => {
       const req: TEditUserRequest = {
         id: user.id,
         birthdate: startDate?.getTime() || null,
-        district: data.get('district') as string | null
+        districts_id: Number(data.get('district')) as number | null
       }
 
       if ( name ) req.name = name
@@ -74,7 +79,7 @@ const SettingsPage = () => {
       if ( school ) req.school = school
       if ( schoolNumber ) req.school_number = schoolNumber
       if ( password ) req.password = password
-      if ( district ) req.district = district
+      if ( district ) req.districts_id = district
 
       dispatch(editUser(req))
       .then(() => {
@@ -185,11 +190,18 @@ const SettingsPage = () => {
                         {districtOptions && (
                             <div className={`${styles.form__control} form-control`}>
                                 <div className="form-control__label">Населенный пункт</div>
-                                <select name="district" className={styles.form_select} onChange={e => setDistrict(e.target.value)} size={1} >
+                                <select name="district" className={styles.form_select}
+                                        value={district}
+                                        onChange={e => {
+                                            const selectedId = e.target.value;
+                                            const selectedDistrict = districtOptions.find(district => district.id === selectedId);
+                                            setDistrict(selectedDistrict);
+                                        }}
+                                        size={1} >
                                     {districtOptions.map((value, index) => (
                                         <option
                                             key={index}
-                                            defaultValue={district}
+                                            value={value.id}
                                         >
                                             {value.title}
                                         </option>

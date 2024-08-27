@@ -8,7 +8,7 @@ export type TEditUserRequest = {
   surname?: string
   school?: string
   school_number?: string
-  district?: string | null
+  districts_id?: number | null
   birthdate: number
   password?: string
 }

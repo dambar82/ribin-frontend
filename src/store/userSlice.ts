@@ -23,6 +23,7 @@ export interface User {
     contests: ContestUser[];
     image: string;
     description: string;
+    district: any;
     clubs: Clubs[];
     events: TEvent[];
     rubick: any;
