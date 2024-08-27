@@ -18,7 +18,7 @@ const PostCard = ({text, image, created_at, client}: IPostCard) => {
         <div className={styles.post}>
             <div className={`${styles.post__author} ${styles.author}`}>
                 <div className={styles.author__avatar}>
-                    <img src="/images/club-image.png" alt="" />
+                    <img src={client.avatar} alt="" />
                 </div>
                 <div className={styles.author__name}>{client.name} {client.surname}</div>
                 <div className={styles.author__date}>{postFormatDate(created_at)}</div>
