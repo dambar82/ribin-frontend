@@ -11,6 +11,18 @@ import NewsCard from '../../components/NewsCard/NewsCard';
 import {News} from "../../types";
 import {fetchNewsAndNewsBack} from "../../store/newsSlice";
 
+function normalizeDate(dateStr) {
+    if (dateStr.includes('.')) {
+        // Если дата в формате "23.08.2024 21:59:43"
+        const [day, month, yearTime] = dateStr.split('.');
+        const [year, time] = yearTime.split(' ');
+        return new Date(`${year}-${month}-${day}T${time || '00:00:00'}`);
+    } else {
+        // Если дата в формате "2024-03-12"
+        return new Date(dateStr);
+    }
+}
+
 const NewsPage = () => {
     const dispatch = useDispatch<AppDispatch>();
 
@@ -19,6 +31,15 @@ const NewsPage = () => {
     useEffect(() => {
         dispatch(fetchNewsAndNewsBack());
     }, [dispatch]);
+
+    const sortedNews = news.slice().sort((a, b) => {
+        // @ts-ignore
+        const dateA = a.createdAt ? normalizeDate(a.createdAt) : normalizeDate(a.date);
+        // @ts-ignore
+        const dateB = b.createdAt ? normalizeDate(b.createdAt) : normalizeDate(b.date);
+        // @ts-ignore
+        return dateB - dateA;
+    });
 
     return (
         <div className="page">
@@ -35,7 +56,7 @@ const NewsPage = () => {
                 <div className='section__body'>
                     <Grid totalItems={news.length}>
                         {
-                            news.map((newsItem) => {
+                            sortedNews.map((newsItem) => {
                                 if ('imagePreviewResized' in newsItem) {
                                     return (
                                         <Link key={newsItem.id} to={`/news/api/${newsItem.id}`}>
