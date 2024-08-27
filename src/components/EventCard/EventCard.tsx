@@ -41,7 +41,7 @@ const EventCard = ({ event }: IEventCard) => {
                 <p className={styles.event__text}>{event.description}</p>
                 <div className={styles.event__sponsor}>
                     <div className={styles.event__sponsorAvatar}>
-                        <img src="/images/club-avatar.png" alt="" />
+                        <img src={'https://api-rubin.multfilm.tatar/storage/'+event.created_by.avatar} alt="" />
                     </div>
                     <div className={styles.event__sponsorLabel}>Организатор мероприятия</div>
                     <div className={styles.event__sponsorName}>{event.created_by.name} {event.created_by.surname}</div>
