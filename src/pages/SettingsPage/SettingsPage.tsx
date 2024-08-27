@@ -23,6 +23,14 @@ registerLocale('ru', ru)
 
 const YEARS = arrayFromTo(1990, getYear(new Date()) + 1);
 
+const districtOptions = [
+  'Населенный пункт 1',
+  'Населенный пункт 2',
+  'Населенный пункт 3',
+  'Населенный пункт 4',
+  'Населенный пункт 5',
+]
+
 
 const SettingsPage = () => {
 
@@ -48,9 +56,12 @@ const SettingsPage = () => {
     const onSubmit = async ( e: React.FormEvent<HTMLFormElement> ) => {
       e.preventDefault()
 
+      const data = new FormData(e.currentTarget)
+
       const req: TEditUserRequest = {
         id: user.id,
-        birthdate: startDate?.getTime() || null
+        birthdate: startDate?.getTime() || null,
+        district: data.get('district') as string | null
       }
 
       if ( name ) req.name = name
@@ -161,6 +172,19 @@ const SettingsPage = () => {
                               value={schoolNumber}
                               onChange={e => setSchoolNumber(e.target.value)}
                             />
+                        </div>
+                        <div className={`${styles.form__control} form-control`}>
+                            <div className="form-control__label">Населенный пункт</div>
+                            <select name="district" className={styles.form_select} size={1} >
+                              {districtOptions.map(value => (
+                                <option
+                                  key={value}
+                                  defaultValue={value}
+                                >
+                                  {value}
+                                </option>
+                              ))}
+                            </select>
                         </div>
                     </div>
                     <div className="form__column">

@@ -11,12 +11,18 @@ import { fetchSport } from '../../store/sportSlice';
 import { arrayFromTo } from '../../shared/utils'
 import { Sport } from '../../types'
 import { ImageTrainingCard } from '../ImageTrainingCard/ImageTrainingCard'
+import { Modal } from '../../shared/UI'
 
 const SportPage = () => {
     const dispatch = useDispatch<AppDispatch>();
     const [tabPage, setTabPage] = useState(0)
 
     const { sports, status, error } = useSelector((state: RootState) => state.sport);
+
+    const [activePhotoModal, setActivePhotoModal] = useState(false)
+    const [activePhoto, setActivePhoto] = useState(0)
+    const [activeVideoModal, setActiveVideoModal] = useState(false)
+    const [activeVideo, setActiveVideo] = useState(0)
 
     useEffect(() => {
         if (status === 'idle') {
@@ -69,7 +75,19 @@ const SportPage = () => {
       }, [])
     }
 
-    
+    const openPhotoModalHandler = ( index: number ) => {
+      setActivePhoto(index)
+      setTimeout(() => {
+        setActivePhotoModal(true)
+      }, 100)
+    }
+
+    const openVideoModalHandler = ( index: number ) => {
+      setActiveVideo(index)
+      setTimeout(() => {
+        setActiveVideoModal(true)
+      }, 100)
+    }
     
     return (
         <div className="page">
@@ -94,22 +112,23 @@ const SportPage = () => {
                         {tabPage === 0 && 
                           <div className='tab-page'>
                               <Grid totalItems={sports["training_videos"]?.length}>
-                                  {sports["training_videos"]?.map(video => (
+                                  {sports["training_videos"]?.map((video, index) => (<>
                                       <VideoTrainingCard 
                                           key={video.id}
                                           title={video.name}
                                           description={video.description}
                                           image={video.source}
+                                          onClick={() => openVideoModalHandler(index)}
                                       />
-                                  ))}
-                              </Grid>          
+                                  </>))}
+                              </Grid>
                           </div>
                         }
 
                         {tabPage === 1 && 
                           <div className='tab-page'>
                             <Grid totalItems={sports["healthy_eating_video"]?.length}>
-                              {healthyEatingElems().map(elem => {
+                              {healthyEatingElems().map((elem, index) => {
                                 if ( elem.source.includes('.mp4') ) {
                                   return (
                                     <VideoTrainingCard 
@@ -117,6 +136,7 @@ const SportPage = () => {
                                       title={elem.name}
                                       description={elem.description}
                                       image={elem.source}
+                                      onClick={() => openVideoModalHandler(index)}
                                     />
                                   )
                                 }
@@ -126,12 +146,39 @@ const SportPage = () => {
                                     title={elem.name}
                                     description={elem.description}
                                     image={elem.source}
+                                    className={styles.image_card}
+                                    onClick={() => openPhotoModalHandler(index)}
                                   />
                                 )
                               })}
-                            </Grid>          
+                            </Grid>       
                           </div>
                         }
+
+                            <Modal
+                              active={activePhotoModal}
+                              setActive={setActivePhotoModal}
+                              className={styles.training_videos_modal}
+                              bodyClassName={styles.training_videos_modal_body}
+                            >
+                              <div>
+                                <img src={healthyEatingElems()?.find((_, i) => i === activePhoto)?.source} alt="#" />
+                              </div>
+                            </Modal>   
+
+                            <Modal
+                              active={activeVideoModal}
+                              setActive={setActiveVideoModal}
+                              className={styles.training_videos_modal}
+                              bodyClassName={styles.training_videos_modal_body}
+                            >
+                              <div>
+                                <VideoTrainingCard 
+                                  key={sports["training_videos"]?.find((_, i) => i === activeVideo)?.id}
+                                  image={sports["training_videos"]?.find((_, i) => i === activeVideo)?.source}
+                                />
+                              </div>
+                            </Modal>
 
                     </div>    
                 </div>

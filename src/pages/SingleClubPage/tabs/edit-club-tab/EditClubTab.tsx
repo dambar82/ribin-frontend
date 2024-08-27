@@ -163,10 +163,10 @@ const EditClubTab = ({ club, setActiveTab }: EditClubTabProps) => {
 
         </div>
       </section>
-
+{/* 
       <div className={c.delete_club_button_wrapper} >
         <Button onClick={deleteClubHandler} >Удалить клуб</Button>
-      </div>
+      </div> */}
 
       {/* <section className="section">
         <div className='section__header'>

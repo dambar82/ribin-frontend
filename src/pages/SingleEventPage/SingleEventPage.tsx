@@ -16,6 +16,7 @@ import buttonArrow from "../../images/svg/button_arrow.svg";
 import { useAppDispatch, useAppSelector } from '../../store/hooks'
 import { cancelParticipateInEvent, deleteEvent, getEvent, participateInEvent } from '../../store/eventsSlice'
 import { classNames } from '../../shared/utils'
+import { Modal } from '../../shared/UI'
 
 const photos = [
     '/images/6f05b9e6234fd9271db78f533dcfb2f7 (1).jpg',
@@ -36,6 +37,8 @@ const SingleEventPage = () => {
   const user = useAppSelector((state) => state.user.user)
 
   const [confirmDelete, setConfirmDelete] = useState(false)
+  const [activeModal, setActiveModal] = useState(false)
+    const [activePhoto, setActivePhoto] = useState(0)
 
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
@@ -80,6 +83,13 @@ const SingleEventPage = () => {
         setConfirmDelete(false)
       }, 2000)
     }
+  }
+
+  const openModalHandler = ( index: number ) => {
+    setActivePhoto(index)
+    setTimeout(() => {
+      setActiveModal(true)
+    }, 100)
   }
 
   if ( !event ) {
@@ -194,11 +204,25 @@ const SingleEventPage = () => {
                     <div className={styles.eventPage_gallery}>
                       {event.source?.map((photo, index) => {
                         return (
-                          <div key={photo} className={styles.eventPage_gallery_photo}>
-                              <img src={photo} />
+                          <div
+                            key={photo}
+                            className={styles.eventPage_gallery_photo}
+                            onClick={() => openModalHandler(index)}
+                          >
+                            <img src={photo} />
                           </div>
                         )}
                       )}
+                      <Modal
+                        active={activeModal}
+                        setActive={setActiveModal}
+                        className={styles.photogallery_modal}
+                        bodyClassName={styles.photogallery_modal_body}
+                      >
+                        <div className={styles.photogallery_slide} >
+                          <img src={event.source?.find((_, i) => i === activePhoto)} alt="#" />
+                        </div>
+                      </Modal>
                     </div>
                 </div>
             </div>

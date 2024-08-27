@@ -4,12 +4,13 @@ import stopIcon from '../../images/svg/stopIcon.svg';
 import {useState, useRef} from "react";
 
 interface IVideoTrainingCard {
-    title: string;
+    title?: string;
     image: string; // Предполагается, что это URL видео
-    description: string;
+    description?: string;
+    onClick?: () => void
 }
 
-const VideoTrainingCard = ({ title, image, description }: IVideoTrainingCard) => {
+const VideoTrainingCard = ({ title, image, description, onClick }: IVideoTrainingCard) => {
     const [isPlaying, setIsPlaying] = useState(false);
     const [isHovered, setIsHovered] = useState(false);
     const [duration, setDuration] = useState(0);
@@ -45,7 +46,7 @@ const VideoTrainingCard = ({ title, image, description }: IVideoTrainingCard) =>
                 className={`${styles.card__video} ${styles.video}`}
                 onMouseEnter={() => setIsHovered(true)}
                 onMouseLeave={() => setIsHovered(false)}
-                onClick={togglePlayPause}
+                onClick={onClick || togglePlayPause}
             >
                 {image && (
                     <video
@@ -66,10 +67,12 @@ const VideoTrainingCard = ({ title, image, description }: IVideoTrainingCard) =>
                     !isPlaying && <div className={styles.video__duration}>{formatDuration(duration)}</div>
                 }
             </div>
-            <div className={styles.card__content}>
+            {title || description &&
+              <div className={styles.card__content}>
                 <h3 className={styles.card__title}>{title}</h3>
                 <p className={styles.card__desc}>{description}</p>
-            </div>
+              </div>
+            }
         </div>
     );
 };
