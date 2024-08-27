@@ -144,7 +144,7 @@ const SingleEventPage = () => {
                                     <div className={styles.clubInfo__clients}>
                                       {event.clients?.map((client) => (
                                         <div key={client.id} className={styles.clubInfo__client}>
-                                            <img src={'https://api-rubin.multfilm.tatar/storage/'+client.avatar} alt="" />
+                                            <img src={'https://api-rubin.multfilm.tatar/storage/'+client?.avatar} alt="" />
                                         </div>
                                       ))}
                                     </div>

@@ -92,6 +92,7 @@ export interface Clubs {
     id: number
     name: string
     surname: string
+    avatar: string
   }
   short_description: string;
   age: number;
@@ -104,21 +105,19 @@ export interface Clubs {
 
 export interface TrainingVideo {
     id: number;
-    name: string;
     source: string;
+    name: string;
     description: string;
     created_at: string;
     updated_at: string
+    thumbnail: string
 }
 
 export interface TrainingImage {
     id: number;
-    name: string;
-    type: number;
     source: string;
+    name: string;
     description: string;
-    created_at: string;
-    updated_at: string
 }
 
 export interface Sport {
