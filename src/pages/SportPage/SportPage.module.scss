@@ -53,12 +53,20 @@
   .training_videos_modal_body {
     position: relative;
     background-color: transparent!important;
+    display: flex;
+    justify-content: center;
     
     @media (max-width: 1400px) {
       max-width: 80vw;
       height: 100vh;
       top: auto;
       transform: translate(-50%, 0);
+    }
+
+    &.image_modal_body {
+      & > div {
+        height: max-content;
+      }
     }
   
     & > button {
@@ -70,14 +78,45 @@
     }
 
     & > div {
+      position: relative;
+      width: max-content;
       height: 90vh;
       display: flex;
       align-items: center;
       justify-content: center;
 
       @media (max-width: 1400px) {
-          height: 100vh;
+        height: 100vh;
       }
+
+      &.image_body {
+        display: grid;
+        align-content: start;
+        gap: 30px;
+        background-color: var(--white);
+        border-radius: 50px;
+        padding-bottom: 60px;
+
+        img {
+          border-radius: 50px 50px 30px 30px;
+          width: 100%;
+          height: 300px;
+          object-fit: cover;
+        }
+
+        b {
+          font-size: 64px;
+          font-weight: 600;
+          margin: 0 100px;
+        }
+  
+        p {
+          font-size: 24px;
+          line-height: 32px;
+          margin: 0 100px;
+        }
+      }
+
 
       video {
         width: 100%;

@@ -6,11 +6,12 @@ import {useState, useRef} from "react";
 interface IVideoTrainingCard {
     title?: string;
     image: string; // Предполагается, что это URL видео
+    thumbnail?: string
     description?: string;
     onClick?: () => void
 }
 
-const VideoTrainingCard = ({ title, image, description, onClick }: IVideoTrainingCard) => {
+const VideoTrainingCard = ({ title, image, thumbnail, description, onClick }: IVideoTrainingCard) => {
     const [isPlaying, setIsPlaying] = useState(false);
     const [isHovered, setIsHovered] = useState(false);
     const [duration, setDuration] = useState(0);
@@ -52,6 +53,7 @@ const VideoTrainingCard = ({ title, image, description, onClick }: IVideoTrainin
                     <video
                         ref={videoRef}
                         src={image}
+                        poster={thumbnail}
                         className={styles.video__poster}
                         onPause={() => setIsPlaying(false)}
                         onPlay={() => setIsPlaying(true)}

@@ -8,7 +8,7 @@ import Grid from '../../components/Grid/Grid';
 import VideoTrainingCard from '../../components/VideoTrainingCard/VideoTrainingCard';
 
 import { fetchSport } from '../../store/sportSlice';
-import { arrayFromTo } from '../../shared/utils'
+import { arrayFromTo, classNames } from '../../shared/utils'
 import { Sport } from '../../types'
 import { ImageTrainingCard } from '../ImageTrainingCard/ImageTrainingCard'
 import { Modal } from '../../shared/UI'
@@ -100,7 +100,10 @@ const SportPage = () => {
             <div className={`${styles.training} section`}>
                 <div className='section__header'>
                     <div className='section__title'>{tabPage === 0 ? 'Видео-тренировки' : 'Здоровое питание'}</div>
-                    <div className='section__counter'>2303</div>
+                    <div className='section__counter'>
+                      {tabPage === 0 && sports.training_videos?.length}
+                      {tabPage === 1 && sports.healthy_eating_video?.length + sports.healthy_eating_img?.length}
+                    </div>
                     <nav className='tab-nav' style={{ marginLeft: "auto" }}>
                         <button className={`button button--white tab-button ${tabPage === 0 ? "tab-button--active" : ""}`} type='button' onClick={() => setTabPage(0)}><span>Тренировки</span></button>
                         <button className={`button button--white tab-button ${tabPage === 1 ? "tab-button--active" : ""}`} type='button' onClick={() => setTabPage(1)}><span>Здоровое питание</span></button>
@@ -118,10 +121,24 @@ const SportPage = () => {
                                           title={video.name}
                                           description={video.description}
                                           image={video.source}
+                                          thumbnail={video.thumbnail}
                                           onClick={() => openVideoModalHandler(index)}
                                       />
                                   </>))}
                               </Grid>
+                              <Modal
+                                active={activeVideoModal}
+                                setActive={setActiveVideoModal}
+                                className={styles.training_videos_modal}
+                                bodyClassName={styles.training_videos_modal_body}
+                              >
+                                <div>
+                                  <VideoTrainingCard 
+                                    key={sports["training_videos"]?.find((_, i) => i === activeVideo)?.id}
+                                    image={sports["training_videos"]?.find((_, i) => i === activeVideo)?.source}
+                                  />
+                                </div>
+                              </Modal>
                           </div>
                         }
 
@@ -144,42 +161,45 @@ const SportPage = () => {
                                   <ImageTrainingCard 
                                     key={elem.id}
                                     title={elem.name}
-                                    description={elem.description}
                                     image={elem.source}
                                     className={styles.image_card}
                                     onClick={() => openPhotoModalHandler(index)}
                                   />
                                 )
                               })}
-                            </Grid>       
-                          </div>
-                        }
-
+                            </Grid>
                             <Modal
                               active={activePhotoModal}
                               setActive={setActivePhotoModal}
                               className={styles.training_videos_modal}
-                              bodyClassName={styles.training_videos_modal_body}
+                              bodyClassName={classNames(styles.training_videos_modal_body, styles.image_modal_body)}
                             >
-                              <div>
-                                <img src={healthyEatingElems()?.find((_, i) => i === activePhoto)?.source} alt="#" />
-                              </div>
-                            </Modal>   
-
-                            <Modal
-                              active={activeVideoModal}
-                              setActive={setActiveVideoModal}
-                              className={styles.training_videos_modal}
-                              bodyClassName={styles.training_videos_modal_body}
-                            >
-                              <div>
-                                <VideoTrainingCard 
-                                  key={sports["training_videos"]?.find((_, i) => i === activeVideo)?.id}
-                                  image={sports["training_videos"]?.find((_, i) => i === activeVideo)?.source}
-                                />
-                              </div>
+                              {(() => {
+                                const data = sports['healthy_eating_img']?.find((_, i) => i === activePhoto)
+                                return (
+                                  <div className={styles.image_body} >
+                                    <img src={data?.source} alt="#" />
+                                    <b>{data?.name}</b>
+                                    <p>{data?.description}</p>
+                                  </div>
+                                )
+                              })()}
                             </Modal>
-
+                            <Modal
+                                active={activeVideoModal}
+                                setActive={setActiveVideoModal}
+                                className={styles.training_videos_modal}
+                                bodyClassName={styles.training_videos_modal_body}
+                              >
+                                <div>
+                                  <VideoTrainingCard 
+                                    key={sports['healthy_eating_video']?.find((_, i) => i === activeVideo)?.id}
+                                    image={sports["healthy_eating_video"]?.find((_, i) => i === activeVideo)?.source}
+                                  />
+                                </div>
+                              </Modal>
+                          </div>
+                        }
                     </div>    
                 </div>
             </div>

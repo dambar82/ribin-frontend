@@ -85,12 +85,12 @@ const EditClubTab = ({ club, setActiveTab }: EditClubTabProps) => {
     })
 	}
 
-  const deleteClubHandler = () => {
-    dispatch(deleteClub({ id: club.id }))
-      .then(() => {
-        navigate('/clubs')
-      })
-  }
+  // const deleteClubHandler = () => {
+  //   dispatch(deleteClub({ id: club.id }))
+  //     .then(() => {
+  //       navigate('/clubs')
+  //     })
+  // }
 
   const goBack = () => {
     setActiveTab(0)

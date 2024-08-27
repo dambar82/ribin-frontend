@@ -5,7 +5,7 @@ import c from './ImageTrainingCard.module.scss'
 interface ImageTrainingCardProps {
   title: string
   image: string
-  description: string
+  description?: string
   className?: string
   onClick?: () => void
 }
@@ -13,7 +13,7 @@ const ImageTrainingCard = ({ title, image, description, className, onClick }: Im
   return (
     <div className={classNames(c.image_wrapper, className)} onClick={onClick} >
       <img src={image} alt="#" />
-      <p>{description}</p>
+      <p>{title}</p>
     </div>
   )
 }

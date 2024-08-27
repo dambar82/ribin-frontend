@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 
 import drakon from '../../images/svg/Drakon.svg';
@@ -17,6 +17,7 @@ import {Contest, News, NewsBack} from "../../types";
 import {formatDate, formatDateToDayMonth, parseAndFormatDate} from "../../App";
 
 import styles from '../UnauthorizedMain/UnauthorizedMain.module.scss';
+import c from './mainPage.module.scss'
 
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules'
@@ -29,6 +30,7 @@ import PostCard from '../../components/PostCard/PostCard';
 import ClubCard from '../../components/ClubCard/ClubCard';
 import {fetchPosts} from "../../store/postSlice";
 import {fetchPeople} from "../../store/peopleSlice";
+import { classNames } from '../../shared/utils'
 
 const MainPage: React.FC = () => {
 
@@ -41,6 +43,8 @@ const MainPage: React.FC = () => {
     const user = useSelector((state: RootState) => state.user.user);
 
     const isAuth = !!user?.email_confirmed
+
+    const navigate = useNavigate()
 
     useEffect(() => {
         if (clubStatus === 'idle') {
@@ -66,6 +70,23 @@ const MainPage: React.FC = () => {
 
     return (
         <div className={styles.main}>
+            {isAuth
+            ?
+              <div className='content'>
+                <div className={classNames(styles.greenZone, c.authorized_hellow_section)}>
+                    <div className={styles.greenZone_leftPart}>
+                        <div className={styles.greenZone_text}>
+                            <h1>
+                              Привет, {user.name}!
+                            </h1>
+                            <p>
+                            Читай последние новости, находи новых друзей и единомышленников, участвуй в крутых конкурсах, пиши о том, что тебя волнует, и развивайся вместе с "Рубином".
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            :
             <div className='content'>
                 <div className={styles.greenZone}>
                     <div className={styles.greenZone_leftPart}>
@@ -77,15 +98,16 @@ const MainPage: React.FC = () => {
                                 Наш клуб — место, где каждый ребёнок находит игру, друзей и развивает свои таланты.
                             </p>
                         </div>
-                        <div className='white_button'>
+                        <button className='white_button' onClick={() => navigate('/login')} >
                             Присоединиться к клубу
-                        </div>
+                        </button>
                     </div>
                     <div className={styles.greenZone_rightPart}>
                         <img src={drakon} alt=""/>
                     </div>
                 </div>
             </div>
+            }
             <section className={`section section--big section--orange section--vector-bg ${styles.news}`}>
                 <div className='section__header'>
                     <h2 className={`${styles.news__title} section__title`}>Новости</h2>
