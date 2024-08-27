@@ -1,4 +1,4 @@
-import { useState, useRef } from "react"
+import {useState, useRef, useEffect} from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { AppDispatch, RootState } from "../../store/store"
 import { arrayFromTo, classNames } from "../../shared/utils"
@@ -15,6 +15,7 @@ import hidePasswordIcon from "../../images/svg/hide-password.svg"
 import showPasswordIcon from "../../images/svg/views.svg"
 import { MONTHS } from "../../shared/constants"
 import { TEditUserRequest } from "../../shared/types/user.types"
+import axios from "axios";
 
 
 //@ts-ignore
@@ -23,13 +24,6 @@ registerLocale('ru', ru)
 
 const YEARS = arrayFromTo(1990, getYear(new Date()) + 1);
 
-const districtOptions = [
-  'Населенный пункт 1',
-  'Населенный пункт 2',
-  'Населенный пункт 3',
-  'Населенный пункт 4',
-  'Населенный пункт 5',
-]
 
 
 const SettingsPage = () => {
@@ -47,11 +41,21 @@ const SettingsPage = () => {
     const [password, setPassword] = useState('')
     const [successMessage, setSuccessMessage] = useState('')
     const [errorMessage, setErrorMessage] = useState('')
-    
+    const [districtOptions, setDistrictOptions] = useState(null);
+    const [district, setDistrict] = useState('');
     const [hidePassword, setHidePassword] = useState(true)
     const [hideCopyPassword, setHideCopyPassword] = useState(true)
 
     const dataPickerEl = useRef(null)
+
+    useEffect(() => {
+        const fetchDistricts = async () => {
+            const response = await axios.get('https://api-rubin.multfilm.tatar/api/districts');
+            setDistrictOptions(response.data.data);
+        }
+        fetchDistricts();
+    }, [])
+
 
     const onSubmit = async ( e: React.FormEvent<HTMLFormElement> ) => {
       e.preventDefault()
@@ -70,6 +74,7 @@ const SettingsPage = () => {
       if ( school ) req.school = school
       if ( schoolNumber ) req.school_number = schoolNumber
       if ( password ) req.password = password
+      if ( district ) req.district = district
 
       dispatch(editUser(req))
       .then(() => {
@@ -85,6 +90,10 @@ const SettingsPage = () => {
         }, 3000);
       })
 
+    }
+
+    if (!districtOptions) {
+        return <p>Загрузка...</p>
     }
 
     return (
@@ -173,19 +182,21 @@ const SettingsPage = () => {
                               onChange={e => setSchoolNumber(e.target.value)}
                             />
                         </div>
-                        <div className={`${styles.form__control} form-control`}>
-                            <div className="form-control__label">Населенный пункт</div>
-                            <select name="district" className={styles.form_select} size={1} >
-                              {districtOptions.map(value => (
-                                <option
-                                  key={value}
-                                  defaultValue={value}
-                                >
-                                  {value}
-                                </option>
-                              ))}
-                            </select>
-                        </div>
+                        {districtOptions && (
+                            <div className={`${styles.form__control} form-control`}>
+                                <div className="form-control__label">Населенный пункт</div>
+                                <select name="district" className={styles.form_select} onChange={e => setDistrict(e.target.value)} size={1} >
+                                    {districtOptions.map((value, index) => (
+                                        <option
+                                            key={index}
+                                            defaultValue={district}
+                                        >
+                                            {value.title}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
+                        )}
                     </div>
                     <div className="form__column">
                         
