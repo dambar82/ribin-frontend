@@ -6,7 +6,7 @@ import attachmentIcon from '../../images/svg/attachment.svg'
 
 import Select from 'react-select';
 
-import {addPost, createPost, IPost, PostAnswer} from "../../store/postSlice";
+import {addPost, createPost, createPostInClub, IPost, PostAnswer} from "../../store/postSlice";
 import Post from '../Post/Post';
 import {Button} from '../../shared/UI'
 import {useAppDispatch} from "../../store/hooks";
@@ -20,6 +20,7 @@ interface IWall {
     posts: PostAnswer;
     type: string;
     editable?: boolean;
+    clubId?: number;
 }
 
 interface IUser {
@@ -60,7 +61,7 @@ const sortPosts = (posts: IPost[], sortType: number) => {
     }
 }
 
-const Wall = ({type, posts, editable = true}: IWall) => {
+const Wall = ({type, posts, editable = true, clubId}: IWall) => {
     const optionsMap = {
         'public': { value: 'public', label: 'Опубликовать для всех' },
         'private': { value: 'private', label: 'Опубликовать для друзей' },
@@ -146,9 +147,16 @@ const Wall = ({type, posts, editable = true}: IWall) => {
 
 
         try {
-            const newPost = await dispatch(createPost(formData)).unwrap();
-            console.log(newPost);
-            dispatch(addPost(newPost));
+            if (type !== 'club') {
+                const newPost = await dispatch(createPost(formData)).unwrap();
+                console.log(newPost);
+                dispatch(addPost(newPost));
+            } else {
+                const newPost = await dispatch(createPostInClub({clubId, formData})).unwrap();
+                console.log(newPost);
+               // @ts-ignore
+                dispatch(addPost(newPost));
+            }
             setFiles([]);
             setTextareaValue('');
         } catch (error) {
@@ -174,7 +182,7 @@ const Wall = ({type, posts, editable = true}: IWall) => {
             <div className={styles.wall__content}>
                 {feedType === 0 && (
                     <div className={styles.wall__feed}>
-                        { type === "post" || (type ==="profile" && editable) ?
+                        { type === "post" || type === "club" || (type ==="profile" && editable) ?
                             <form className={styles.wall__feedForm} onSubmit={onSubmit} >
                                 <div className={styles.textarea_wrapper} >
                                   <textarea
@@ -298,7 +306,7 @@ const Wall = ({type, posts, editable = true}: IWall) => {
                     </div>
                 )}
             </div>
-            <aside className={ type === "post" || type ==="profile" ? styles.wall__aside : `${styles.wall__aside} ${styles.wall__aside_sticky}`}>
+            <aside className={ type === "post" || type === "club" || type ==="profile" ? styles.wall__aside : `${styles.wall__aside} ${styles.wall__aside_sticky}`}>
                 <div className={styles.wall__asideBlock}>
                     <form method="GET" action="#" className={styles.wall__form}>
                         <button type="button">

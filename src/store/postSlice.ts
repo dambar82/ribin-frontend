@@ -70,6 +70,16 @@ export const fetchPostsByClubId = createAsyncThunk('post/fetchPostsByClubId', as
     return response.data as PostAnswer;
 })
 
+export const createPostInClub = createAsyncThunk('post/createPostInClub', async ({clubId, formData} : {clubId: number, formData: FormData}) => {
+    const response = await axios.post(`https://api-rubin.multfilm.tatar/api/club/${clubId}/posts`, formData, {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    })
+    console.log(response);
+    return response.data as PostAnswer;
+})
+
 export const createPost = createAsyncThunk('post/createPost', async (formData: FormData) => {
     const response = await axios.post('https://api-rubin.multfilm.tatar/api/posts', formData, {
         headers: {
@@ -77,11 +87,12 @@ export const createPost = createAsyncThunk('post/createPost', async (formData: F
             'Authorization': `Bearer ${token}`
         },
     });
-    return response.data.data;
+    console.log(response.data)
+    return response.data;
 });
 
 export const createComment = createAsyncThunk('post/createComment', async ({formData, postId} : {formData: FormData, postId: number}) => {
-    console.log(token)
+  //  console.log(token)
     const response = await axios.post(`https://api-rubin.multfilm.tatar/api/posts/${postId}/comments`, formData, {
         headers: {
             'Authorization': `Bearer ${token}`

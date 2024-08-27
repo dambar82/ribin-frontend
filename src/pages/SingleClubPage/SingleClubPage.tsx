@@ -170,12 +170,13 @@ const SingleClubPage = () => {
             <section className={`section ${c.feed}`}>
                 <div className="section__header">
                     <h2 className="section__title">Лента клуба</h2>
-                    <div className="section__counter">5</div>
+                    <div className="section__counter">{posts.all.length}</div>
                 </div>
                 <div className={`section__body`}>
                     <Wall
-                        type="post"
+                        type="club"
                         posts={posts}
+                        clubId={club.id}
                     />
                 </div>
             </section>

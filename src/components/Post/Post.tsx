@@ -94,6 +94,8 @@ const Post = ({ id, name, avatar, created_by, source, tags, comments, children, 
                 }
             ])
 
+            console.log(newPost);
+
             setCommentText('');
             setShowAllComments(true);
 
