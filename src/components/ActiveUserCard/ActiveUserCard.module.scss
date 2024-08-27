@@ -13,8 +13,12 @@
 }
 
 .card_image {
-  height: 60%;
+  height: 200px;
+  width: auto;
+  aspect-ratio: 1/1;
   border-radius: 20px;
+  overflow: hidden;
+
   img {
     border-radius: 20px;
     width: 100%;
@@ -28,6 +32,7 @@
 }
 
 .card_info_name {
+  min-height: 80px;
   color: #2A2A2A;
   text-align: center;
   font-size: 32px;
