@@ -125,11 +125,6 @@ const ClubModal = ({ active, setActive }: ClubModalProps) => {
     const name = data.get('name') as string | null
     const description = data.get('description') as string | null
 
-    if ( description.length > 120 ) {
-      alert('Описание должно быть не более 120 символов')
-      return
-    }
-
     dispatch(createClub({
       name,
       description
