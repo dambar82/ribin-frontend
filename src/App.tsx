@@ -125,20 +125,6 @@ function App() {
         { path: '/restore', element: <Restore />, layout: RestoreLayout },
         { path: '/restore/password', element: <NewPassword />, layout: RestoreLayout },
         { path: '/email-confirmation/:hash', element: <ConfirmEmailModal email='' />, layout: UnauthLayout },
-<<<<<<< HEAD
-    ];
-
-    const privateRoutes = [
-        { path: '/contests', element: <Contests /> },
-        { path: '/contests/:contestId', element: <ContestPage /> },
-        { path: '/contests/:contestId/form', element: <ContestForm /> },
-        { path: '/people', element: <UsersFilter /> },
-        { path: '/quizzes', element: <QuizzesPage /> },
-        { path: '/quizzes/:id', element: <SingleQuizPage /> },
-        { path: '/news', element: <NewsPage /> },
-        { path: '/news/:id', element: <SingleNewsPage /> },
-        {path: '/news/api/:id', element: <SingleNewsPageApi/>},
-=======
         { path: '/contests', element: <Contests />, layout: UnauthLayout },
         { path: '/contests/:contestId', element: <ContestPage />, layout: UnauthLayout },
         { path: '/news', element: <NewsPage />, layout: UnauthLayout },
@@ -160,30 +146,13 @@ function App() {
         { path: '/quizzes', element: <QuizzesPage /> },
         { path: '/quizzes/:id', element: <SingleQuizPage /> },
         { path: '/clubs/:id', element: <SingleClubPage /> },
->>>>>>> origin/anauthorized-access
         { path: '/user/:id/edit/', element: <EditProfilePage /> },
         { path: '/user/:id', element: <UserProfilePage /> },
         { path: '/feedback', element: <FeedbackPage /> },
         { path: '/settings', element: <SettingsPage /> },
-<<<<<<< HEAD
-        { path: '/clubs', element: <Clubs /> },
-        { path: '/clubs/:id', element: <SingleClubPage /> },
         { path: '/chat/:userId', element: <Chat/>},
-        { path: '/rubylife', element: <RubyLife /> },
-        { path: '/sportslife', element: <SportPage /> },
-        { path: '/students', element: <StudentsPage /> },
-        { path: '/academy-coaches', element: <CoachesPage /> },
-        { path: '/photogallery', element: <PhotoGalleryPage /> },
         { path: '/photogallery/:id', element: <SinglePhotoGalleryPage /> },
         { path: '/posts', element: <PostsPage /> },
-        { path: '/awards', element: <AwardsPage /> },
-        { path: '/programs', element: <ClubProgramsPage /> },
-=======
-        { path: '/chat/:userId', element: <Chat/>},
-
-        { path: '/photogallery/:id', element: <SinglePhotoGalleryPage /> },
-        { path: '/posts', element: <PostsPage /> },
->>>>>>> origin/anauthorized-access
         { path: '/events', element: <EventsPage /> },
         { path: '/events/event/:id', element: <SingleEventPage /> },
         { path: '/clubs/events/new', element: <CreateEventPage /> },
