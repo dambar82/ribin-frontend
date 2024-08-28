@@ -1,0 +1,11 @@
+.counter {
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 30px;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.counter__value {
+    color: var(--color-accent);
+}

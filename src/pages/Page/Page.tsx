@@ -2,12 +2,24 @@ import React, {useEffect, useState} from 'react';
 import styles from '../SingleNewsPage/SingleNewsPage.module.scss';
 import Tag from "../../components/Tag/Tag";
 import calendarIcon from "../../images/svg/calendar.svg";
-import {useParams} from "react-router-dom";
+import {useLocation, useParams} from "react-router-dom";
 import axios from "axios";
 import {formatDate} from "../../App";
+import {MemoryGame} from "../../components/MemoryGame/MemoryGame";
 
 
 const Page = () => {
+
+    const location = useLocation();
+    const { component } = location.state || {};
+
+    useEffect(() => {
+        console.log(component)
+    }, [component])
+
+    useEffect(() => {
+        console.log(location.state)
+    }, [])
 
     const [page, setPage] = useState(null);
 
@@ -56,6 +68,13 @@ const Page = () => {
                                     __html: page?.full_content
                                 }}
                             />
+                        </div>
+                        <div>
+                            {url === 'game-memory' && <MemoryGame
+                                titleText="Игра в память"
+                                winMessage="Поздравляем! Вы выиграли!"
+                                loseMessage="Вы проиграли. Попробуйте снова!"
+                            />}
                         </div>
                     </div>
                 </div>

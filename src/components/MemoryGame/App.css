@@ -1,0 +1,13 @@
+.memory {
+    margin-top: 109px;
+    display: grid;
+    grid-template-columns: 193px 500px 193px;
+    justify-content: center;
+    column-gap: 85px;
+}
+
+.memory__cards {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 13.5px;
+}

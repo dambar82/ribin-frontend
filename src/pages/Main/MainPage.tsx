@@ -31,6 +31,7 @@ import ClubCard from '../../components/ClubCard/ClubCard';
 import {fetchPosts} from "../../store/postSlice";
 import {fetchPeople} from "../../store/peopleSlice";
 import { classNames } from '../../shared/utils'
+import {MemoryGame} from "../../components/MemoryGame/MemoryGame";
 
 const MainPage: React.FC = () => {
 
@@ -45,6 +46,10 @@ const MainPage: React.FC = () => {
     const isAuth = !!user?.email_confirmed
 
     const navigate = useNavigate()
+
+    // const toGame = () => {
+    //     navigate('/page/game-memory', { state: { component: 'memoryGame' } });
+    // }
 
     useEffect(() => {
         if (clubStatus === 'idle') {
