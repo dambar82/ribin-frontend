@@ -30,10 +30,7 @@ const Comment = ({ id, liked_by, text, created_at, likes_count, name, avatar, cr
     const user = useSelector((state: RootState) => state.user);
     const [likes, setLikes] = useState(likes_count);
     const [isLiked, setIsLiked] = useState(liked_by.includes(user.user.id));
-<<<<<<< HEAD
     const [isAuthor, setIsAuthor] = useState(false);
-=======
->>>>>>> origin/anauthorized-access
 
     const handleLikeClick = () => {
         if (!isLiked) {
@@ -43,15 +40,12 @@ const Comment = ({ id, liked_by, text, created_at, likes_count, name, avatar, cr
         }
     }
 
-<<<<<<< HEAD
     useEffect(() => {
         if (user.user.id === created_by) {
             setIsAuthor(true);
         }
     }, [])
 
-=======
->>>>>>> origin/anauthorized-access
     return (
         <div className={styles.comment}>
             <div className={styles.comment__header}>
@@ -62,11 +56,7 @@ const Comment = ({ id, liked_by, text, created_at, likes_count, name, avatar, cr
                     <div className={styles.author__name}>{name}</div>
                     <div className={styles.author__date}>{postFormatDate(created_at)}</div>
                 </div>
-<<<<<<< HEAD
                 <DropdownMenu isAuthor={isAuthor}/>
-=======
-                <DropdownMenu />
->>>>>>> origin/anauthorized-access
             </div>
             <div className={styles.comment__body}>
                 <p>{text}</p>

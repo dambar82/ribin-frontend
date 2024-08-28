@@ -7,10 +7,7 @@ export type TLoginUserRequest = {
 export type TLoginUserResponse = {
   client: User
   token: string
-<<<<<<< HEAD
   message: string
-=======
->>>>>>> origin/anauthorized-access
   errors?: any
 }
 

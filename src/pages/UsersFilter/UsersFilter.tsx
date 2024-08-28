@@ -15,11 +15,7 @@ const UsersFilter = () => {
 
     const dispatch = useAppDispatch();
 
-<<<<<<< HEAD
-    const user = useSelector((state: RootState) => state.user);
-=======
     const user = useSelector((state: RootState) => state.user || null);
->>>>>>> origin/anauthorized-access
     const { people, status } = useSelector((state: RootState) => state.people)
     const [searchTerm, setSearchTerm] = useState('');
     const [schoolName, setSchoolName] = useState('');

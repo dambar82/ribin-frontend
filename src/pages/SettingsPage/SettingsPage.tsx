@@ -42,11 +42,7 @@ const SettingsPage = () => {
     const [successMessage, setSuccessMessage] = useState('')
     const [errorMessage, setErrorMessage] = useState('')
     const [districtOptions, setDistrictOptions] = useState(null);
-<<<<<<< HEAD
     const [district, setDistrict] = useState(user.district ? user.district.id : 1);
-=======
-    const [district, setDistrict] = useState(user.district.id ? user.district.id : 0);
->>>>>>> origin/anauthorized-access
     const [hidePassword, setHidePassword] = useState(true)
     const [hideCopyPassword, setHideCopyPassword] = useState(true)
 
@@ -329,8 +325,4 @@ const DatePickerHeader = ({
   )
 }
 
-<<<<<<< HEAD
 export default SettingsPage
-=======
-export default SettingsPage
->>>>>>> origin/anauthorized-access

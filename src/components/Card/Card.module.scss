@@ -11,7 +11,7 @@
         background-color: rgba($color: #686868, $alpha: 0.6);
         backdrop-filter: blur(12px);
         border-radius: 50px;
-        color: #FFFFFF;
+        color: #ffffff;
         font-family: "Saira", "sans-serif";
         font-size: 20px;
         font-weight: 500;
@@ -26,7 +26,7 @@
         }
     }
     &__image {
-        background-color: #DEDEDE;
+        background-color: #dedede;
         aspect-ratio: calc(540 / 350);
         img {
             width: 100%;
@@ -38,7 +38,7 @@
             margin: 0 0 20px;
         }
     }
-    
+
     &__content {
         margin: 0 0 auto;
         padding: 0 24px;
@@ -79,6 +79,10 @@
         &:not(:last-child) {
             margin: 0 0 12px;
         }
+
+        @media (max-width: 375px) {
+            font-size: 24px;
+        }
     }
     &__desc {
         font-size: 20px;
@@ -86,14 +90,18 @@
         line-height: calc(24 / 20);
         max-height: calc(1em * 1.2 * 4);
         overflow: hidden;
-
     }
     &__button {
         cursor: pointer;
         padding-left: 50px;
         padding-right: 50px;
+        background: var(--main-color);
         &:not(:first-child) {
             margin: 36px auto 0;
         }
+    }
+
+    @media (max-width: 375px) {
+        border-radius: 26px;
     }
 }

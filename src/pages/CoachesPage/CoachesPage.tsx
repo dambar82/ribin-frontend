@@ -18,11 +18,7 @@ const CoachesPage = () => {
                 // Сначала получаем всех тренеров
                 const response = await axios.get('https://api-rubin.multfilm.tatar/api/request/academy-coaches');
                 const coaches = response.data;
-<<<<<<< HEAD
-
-=======
                 // TODO: переделать - слишком много запросов
->>>>>>> origin/anauthorized-access
                 // Далее получаем подробности по каждому тренеру
                 const detailedCoaches = await Promise.all(coaches.map(async (coach) => {
                     const details = await axios.get(`https://api-rubin.multfilm.tatar/api/request/academy-coaches/${coach.id}`);
@@ -55,8 +51,4 @@ const CoachesPage = () => {
     )
 }
 
-<<<<<<< HEAD
 export default CoachesPage
-=======
-export default CoachesPage
->>>>>>> origin/anauthorized-access
