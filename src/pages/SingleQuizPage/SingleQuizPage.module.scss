@@ -1,4 +1,234 @@
+
 .quiz {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 46px;
+  box-shadow: 0px 0px 8px 0px #0000001f;
+  border-radius: 26px;
+  padding-bottom: 46px;
+
+  @media (max-width: 480px) {
+      margin-top: 80px;
+      gap: 32px;
+      padding-bottom: 32px;
+  }
+
+  .button {
+    background-color: #ffffff;
+    border-radius: 50px;
+    padding: 12px 30px;
+    cursor: pointer;
+    font-size: 20px;
+    font-weight: 500;
+
+    @media (max-width: 480px) {
+        position: absolute;
+        top: 170px;
+        left: 20px;
+        background: #f4f4f4;
+        margin-bottom: 20px;
+    }
+  }
+
+  .next_button {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+
+  .end_button {
+    background-color: transparent;
+    border: 2px solid #91172c;
+    color: #91172c;
+  }
+
+}
+
+.top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  &:not(:last-child) {
+      margin: 0 0 46px;
+  }
+
+  @media (max-width: 1440px) {
+      margin-bottom: 36px;
+  }
+
+  @media (max-width: 480px) {
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+  }
+}
+
+.quiz_counter {
+  font-size: 20px;
+  font-weight: 500;
+  line-height: calc(24 / 20);
+  span {
+      font-family: "Saira", "sans-serif";
+  }
+}
+
+.quiz_content {
+  align-self: stretch;
+  background-color: #91172c;
+  border-top-left-radius: 50px;
+  border-top-right-radius: 50px;
+  color: #ffffff;
+  padding: 70px;
+  min-height: 572px;
+
+  @media (max-width: 1440px) {
+      padding: 50px;
+      border-radius: 36px 36px 0px 0px;
+  }
+
+  @media (max-width: 768px) {
+      padding: 50px;
+  }
+
+  @media (max-width: 480px) {
+      padding: 24px 18px 24px 18px;
+      gap: 32px;
+      border-radius: 26px 26px 0px 0px;
+      min-height: auto;
+  }
+
+  &.quiz_result {
+    display: grid;
+    justify-items: center;
+    align-content: start;
+    gap: 16px;
+
+    b {
+      font-size: 36px;
+      font-weight: 600;
+    }
+
+    p {
+      font-size: 24px;
+      text-align: center;
+      max-width: 1060px;
+    }
+
+    div {
+      font-size: 96px;
+      font-weight: 500;
+      font-family: "Saira", "sans-serif";
+    }
+  }
+}
+
+.quiz_body {
+  p {
+    font-size: 32px;
+    font-weight: 500;
+    line-height: calc(38 / 32);
+
+    @media (max-width: 1024px) {
+        font-size: 24px;
+    }
+    @media (max-width: 480px) {
+        font-size: 18px;
+        line-height: 22px;
+        font-weight: 500;
+    }
+  }
+}
+
+.question_body {
+  display: grid;
+  grid-template-columns: 612px 768px;
+  justify-content: space-between;
+
+  @media (max-width: 1620px) {
+      grid-template-columns: 480px 1fr;
+  }
+
+  @media (max-width: 1200px) {
+      gap: 32px;
+      grid-template-columns: repeat(1, 1fr);
+  }
+
+  p {
+    font-size: 32px;
+    font-weight: 500;
+    line-height: calc(38 / 32);
+
+    @media (max-width: 1024px) {
+        font-size: 24px;
+    }
+    @media (max-width: 480px) {
+        font-size: 18px;
+        line-height: 22px;
+        font-weight: 500;
+    }
+  }
+
+  .answers {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+
+    button {
+      width: 100%;
+      background-color: #fff;
+      border-radius: 20px;
+      padding: 35px;
+      cursor: pointer;
+
+      font-size: 20px;
+      font-weight: 500;
+    }
+  }
+
+  .result {
+    display: grid;
+    gap: 32px;
+
+    &.incorrect {
+      & > div {
+        span {
+          background-color: #E11F1F;
+        }
+      }
+    }
+   
+    & > div {
+      display: grid;
+      justify-items: start;
+      gap: 17px;
+      background-color: #fff;
+      padding: 32px;
+      border-radius: 20px;
+
+      span {
+        background-color: #368826;
+        border-radius: 16px;
+        padding: 8px 20px;
+      }
+
+      p {
+        color: var(--black);
+        font-size: 20px;
+        font-weight: 500;
+      }
+    }
+
+    button {
+      justify-self: end;
+    }
+  }
+}
+
+
+.quiz2 {
     display: flex;
     flex-direction: column;
     gap: 46px;
