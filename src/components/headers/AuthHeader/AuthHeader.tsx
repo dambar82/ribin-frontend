@@ -97,38 +97,6 @@ const AuthHeader = () => {
         setActiveMenu(false)
     }
 
-        const deleteUser = async () => {
-        try {
-            const $api = axios.create({
-                baseURL: 'https://api-rubin.multfilm.tatar'
-            });
-
-            $api.interceptors.request.use(config => {
-                const token = JSON.parse(localStorage.getItem('token') || '0');
-                if (token) {
-                    config.headers.Authorization = `Bearer ${token}`;
-                }
-                return config;
-            });
-
-            const res = await $api.delete(`/api/clients/${user.id}`);
-
-            // Проверка успешности удаления
-            if (res.status === 200 || res.status === 204) {
-                // Очистка localStorage
-                localStorage.removeItem('token');
-                localStorage.removeItem('user_id');
-
-                // Перенаправление на главную страницу
-                window.location.href = '/';
-            } else {
-                console.error('Ошибка при удалении пользователя');
-            }
-        } catch (error) {
-            console.error('Ошибка при удалении пользователя:', error);
-        }
-    };
-
     return (
         <div className={styles.authHeader}>
             <div className={`${styles.authHeader_up}`}>
@@ -144,8 +112,7 @@ const AuthHeader = () => {
                         </div>
                     </Link>
                 }
-                    {/* <button onClick={deleteUser} >Удалить</button> */}
-                    {/* <button onClick={async () => {
+                {/* <button onClick={async () => {
                   const $api = axios.create({
                     baseURL: 'https://api-rubin.multfilm.tatar'
                   })
@@ -158,87 +125,87 @@ const AuthHeader = () => {
                   })
                 const res = await $api.delete(`https://api-rubin.multfilm.tatar/api/clients/${user.id}`)
               }} >Удалить</button> */}
-                    {user && (
-                        <div className='profile_button' onClick={(event) => toggleSubMenu('profile', event)}>
-                            <div className={`profile_button_avatar`}>
-                                <img src={user.avatar} alt=""/>
-                            </div>
-                            <span>{user.name}</span>
-                            {activeSubMenu === 'profile' ? (
-                                <img src={buttonArrowUp} alt=""/>
-                            ) : (
-                                <img src={buttonArrowDown} alt=""/>
-                            )}
-                            {activeSubMenu === 'profile' && (
-                                <div className='profile_button_subMenu' ref={profileSubMenuRef} onClick={handleSubMenuClick}>
-                                    <ul>
-                                        <li>
-                                            <NavLink
-                                                to={`/user/${user.id}`}
-                                                className={({ isActive }) => {
-                                                    return isActive ? "_active" : ""
-                                                }}
-                                            >
-                                                <img src={myProfile} alt=""/>
-                                                <span>Мой профиль</span>
-                                            </NavLink>
-                                        </li>
-                                        <li>
-                                            <NavLink
-                                                to={`/chat/${user.id}`}
-                                                className={({ isActive }) => {
-                                                    return isActive ? "_active" : ""
-                                                }}
-                                            >
-                                                <img src={messages} alt=""/>
-                                                <span>Сообщения</span>
-                                            </NavLink>
-                                        </li>
-                                        <li>
-                                            <NavLink
-                                                to="/settings"
-                                                className={({ isActive }) => {
-                                                    return isActive ? "_active" : ""
-                                                }}
-                                            >
-                                                <img src={options} alt=""/>
-                                                <span>Настройки</span>
-                                            </NavLink>
-                                        </li>
-                                        <li>
-                                            <NavLink
-                                                to="/feedback"
-                                                className={({ isActive }) => {
-                                                    return isActive ? "_active" : ""
-                                                }}
-                                            >
-                                                <img src='/images/heart.svg' alt=""/>
-                                                <span>Обратная связь</span>
-                                            </NavLink>
-                                        </li>
-                                        <li>
-                                            <NavLink
-                                                to="/help"
-                                                className={({ isActive }) => {
-                                                    return isActive ? "_active" : ""
-                                                }}
-                                            >
-                                                <img src='/images/question.svg' alt=""/>
-                                                <span>Помощь</span>
-                                            </NavLink>
-                                        </li>
-                                        <li className={styles.exitMenu} onClick={handleLogout}>
-                                            <img src='/images/exit.svg' alt=""/>
-                                            <span>Выйти из аккаунта</span>
-                                        </li>
-                                    </ul>
-                                </div>
-                            )}
+                {user && (
+                    <div className='profile_button' onClick={(event) => toggleSubMenu('profile', event)}>
+                        <div className={`profile_button_avatar`}>
+                            <img src={user.avatar} alt=""/>
                         </div>
-                    )}
-                    <div className={styles.sub_menu_button} onClick={openMobileMenu} >
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 12H20" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/><path d="M4 6H20" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/><path d="M4 18H20" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                        <span>{user.name}</span>
+                        {activeSubMenu === 'profile' ? (
+                            <img src={buttonArrowUp} alt=""/>
+                        ) : (
+                            <img src={buttonArrowDown} alt=""/>
+                        )}
+                        {activeSubMenu === 'profile' && (
+                            <div className='profile_button_subMenu' ref={profileSubMenuRef} onClick={handleSubMenuClick}>
+                                <ul>
+                                    <li>
+                                        <NavLink
+                                            to={`/user/${user.id}`}
+                                            className={({ isActive }) => {
+                                                return isActive ? "_active" : ""
+                                            }}
+                                        >
+                                            <img src={myProfile} alt=""/>
+                                            <span>Мой профиль</span>
+                                        </NavLink>
+                                    </li>
+                                    <li>
+                                        <NavLink
+                                            to={`/chat/${user.id}`}
+                                            className={({ isActive }) => {
+                                                return isActive ? "_active" : ""
+                                            }}
+                                        >
+                                            <img src={messages} alt=""/>
+                                            <span>Сообщения</span>
+                                        </NavLink>
+                                    </li>
+                                    <li>
+                                        <NavLink
+                                            to="/settings"
+                                            className={({ isActive }) => {
+                                                return isActive ? "_active" : ""
+                                            }}
+                                        >
+                                            <img src={options} alt=""/>
+                                            <span>Настройки</span>
+                                        </NavLink>
+                                    </li>
+                                    <li>
+                                        <NavLink
+                                            to="/feedback"
+                                            className={({ isActive }) => {
+                                                return isActive ? "_active" : ""
+                                            }}
+                                        >
+                                            <img src='/images/heart.svg' alt=""/>
+                                            <span>Обратная связь</span>
+                                        </NavLink>
+                                    </li>
+                                    <li>
+                                        <NavLink
+                                            to="/help"
+                                            className={({ isActive }) => {
+                                                return isActive ? "_active" : ""
+                                            }}
+                                        >
+                                            <img src='/images/question.svg' alt=""/>
+                                            <span>Помощь</span>
+                                        </NavLink>
+                                    </li>
+                                    <li className={styles.exitMenu} onClick={handleLogout}>
+                                        <img src='/images/exit.svg' alt=""/>
+                                        <span>Выйти из аккаунта</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        )}
                     </div>
+                )}
+                <div className={styles.sub_menu_button} onClick={openMobileMenu} >
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 12H20" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/><path d="M4 6H20" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/><path d="M4 18H20" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                </div>
             </div>
 
             <div
@@ -316,7 +283,7 @@ const AuthHeader = () => {
                 </div> */}
             </div>
         </div>
-);
+    );
 };
 
 export default AuthHeader;
