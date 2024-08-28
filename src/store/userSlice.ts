@@ -125,9 +125,9 @@ export const resetPassword = createAsyncThunk('user/resetPassword', async ( send
   }
 });
 
-export const restorePassword = createAsyncThunk('user/restorePassword', async ( sendObj: TRestorePasswordRequest ) => {
+export const restorePassword = createAsyncThunk('user/restorePassword', async (data: { req: TRestorePasswordRequest, token: string }) => {
   try {
-    const response = await $api.post<TRestorePasswordResponse>('/api/restore-password', sendObj);
+    const response = await $api.put<TRestorePasswordResponse>(`/api/restore-password/${data.token}`, data.req);
     return response.data
   } catch (error) {
     console.log(error);

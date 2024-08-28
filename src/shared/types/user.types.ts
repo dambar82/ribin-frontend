@@ -28,6 +28,7 @@ export type TResetPasswordResponse = {
 
 export type TRestorePasswordRequest = {
   password: string
+  password_confirmation: string
 }
 export type TRestorePasswordResponse = {
   data: {

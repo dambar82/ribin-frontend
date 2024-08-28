@@ -1,12 +1,13 @@
 import React, {useState} from 'react';
 import {loginUser, restorePassword} from "../../store/userSlice";
 import {useAppDispatch} from "../../store/hooks";
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 
 const Restore = () => {
 
     const dispatch = useAppDispatch();
     const navigate = useNavigate()
+    const params = useParams()
 
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
@@ -15,8 +16,15 @@ const Restore = () => {
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         if(password === confirmPassword) {
-          dispatch(restorePassword({ password }))
+          dispatch(restorePassword({ req: {
+              password,
+              password_confirmation: confirmPassword
+            },
+            token: params.token
+          }))
             .then((action) => {
+              console.log(action.payload);
+              
               if ( action.payload.status === 'error' ) {
                 setError(action.payload.message)
                 return
