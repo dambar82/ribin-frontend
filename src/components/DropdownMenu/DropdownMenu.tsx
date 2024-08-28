@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import {useEffect, useState} from 'react'
 import styles from './DropdownMenu.module.scss'
 import {PostAnswer} from "../../store/postSlice";
 
@@ -8,6 +8,7 @@ interface IDropdownMenu {
 
 const DropdownMenu = ({isAuthor}: IDropdownMenu) => {
     const [open, setOpen] = useState(false)
+
     return (
         <div className={` ${styles.dropdown} ${open ? styles.dropdown_open : ''}`}>
         <button 
