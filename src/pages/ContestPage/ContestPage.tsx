@@ -30,7 +30,11 @@ const ContestPage = () => {
     const { contestId } = useParams();
 
     const { contests, contestStatus, error } = useSelector((state: RootState) => state.contests);
+<<<<<<< HEAD
     const { user } = useSelector((state: RootState) => state.user);
+=======
+    const { user } = useSelector((state: RootState) => state.user || null);
+>>>>>>> origin/anauthorized-access
 
     const [participating, setParticipating] = useState(false);
     const [topParticipants, setTopParticipants] = useState([]);
@@ -70,7 +74,11 @@ const ContestPage = () => {
     }, [contest]);
 
     useEffect(() => {
+<<<<<<< HEAD
         if (user.contests?.find(item => item.id === Number(contestId))) {
+=======
+        if (user?.contests?.find(item => item.id === Number(contestId))) {
+>>>>>>> origin/anauthorized-access
             setParticipating(true);
         }
     }, [user, contest])

@@ -58,19 +58,25 @@ const Post = ({ id, name, avatar, created_by, source, tags, comments, children, 
     const [showCommentSection, setShowCommentSection] = useState(false);
     const [commentText, setCommentText] = useState('');
     const [postComments, setPostComments] = useState(comments);
+<<<<<<< HEAD
     const [isAuthor, setIsAuthor] = useState(false);
+=======
+>>>>>>> origin/anauthorized-access
 
     const post = useSelector((state: RootState) => state.post.posts[type].find(post => post.id === id));
     const user = useSelector((state: RootState) => state.user);
 
     const [isLiked, setIsLiked] = useState(liked_by.includes(user.user.id));
 
+<<<<<<< HEAD
     useEffect(() => {
         if (user.user.id === created_by) {
             setIsAuthor(true);
         }
     }, [])
 
+=======
+>>>>>>> origin/anauthorized-access
     const handleCommentSection = () => {
 
     }
@@ -157,7 +163,11 @@ const Post = ({ id, name, avatar, created_by, source, tags, comments, children, 
                     <div className={styles.post__title}>{name}</div>
                     <div className={styles.post__createdAt}>{postFormatDate(post.created_at)}</div>
                 </div>
+<<<<<<< HEAD
                 <DropdownMenu isAuthor={isAuthor}/>
+=======
+                <DropdownMenu />
+>>>>>>> origin/anauthorized-access
             </div>
             <div className={styles.post__body}>
                 <div className={styles.post__content}>

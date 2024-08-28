@@ -35,7 +35,11 @@ const Chat = () => {
         const fetchContacts = async () => {
             try {
                 const response = await axios.get('https://api-rubin.multfilm.tatar/api/messages/contacts', {
+<<<<<<< HEAD
                     headers: { 'Authorization': `Bearer ${token}` }
+=======
+                    headers: { Authorization: `${token}` }
+>>>>>>> origin/anauthorized-access
                 });
                 setContacts(response.data.data.map(contact => ({ ...contact, unreadCount: 0 })));
             } catch (error) {

@@ -157,17 +157,12 @@ const userSlice = createSlice({
                 if ( action.payload?.status === 'error' ) {
                   return
                 }
-                if (action.payload?.token) {
-                    state.user = action.payload.client;
-                    state.status = 'succeeded';
-                    localStorage.setItem('token', JSON.stringify(action.payload.token));
-                    localStorage.setItem('user_id', JSON.stringify(action.payload.client.id));
-                    state.error = null;
-                } else {
-                    // Если токен отсутствует, это может быть ошибка
-                    state.status = 'failed';
-                    state.error = action.payload?.message || 'Ошибка авторизации';
-                }
+
+                state.user = action.payload.client;
+                state.status = 'succeeded';
+                localStorage.setItem('token', JSON.stringify(action.payload.token));
+                localStorage.setItem('user_id', JSON.stringify(action.payload.client.id));
+                state.error = null;
             })
             .addCase(loginUser.rejected, (state, action) => {
                 state.status = 'failed';
@@ -190,17 +185,12 @@ const userSlice = createSlice({
                 if ( action.payload?.errors ) {
                   return
                 }
-                if (action.payload?.token) {
+
                 state.user = action.payload.client;
                 state.status = 'succeeded';
                 localStorage.setItem('token', JSON.stringify(action.payload.token));
                 localStorage.setItem('user_id', JSON.stringify(action.payload.client.id));
                 state.error = null;
-                } else {
-                    // Если токен отсутствует, это может быть ошибка
-                    state.status = 'failed';
-                    state.error = action.payload?.message || 'Ошибка авторизации';
-                }
             })
 
             .addCase(checkAuth.fulfilled, (state, action: PayloadAction<TCheckAuthResponse['data']>) => {

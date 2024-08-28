@@ -15,7 +15,11 @@ const UsersFilter = () => {
 
     const dispatch = useAppDispatch();
 
+<<<<<<< HEAD
     const user = useSelector((state: RootState) => state.user);
+=======
+    const user = useSelector((state: RootState) => state.user || null);
+>>>>>>> origin/anauthorized-access
     const { people, status } = useSelector((state: RootState) => state.people)
     const [searchTerm, setSearchTerm] = useState('');
     const [schoolName, setSchoolName] = useState('');
@@ -26,13 +30,13 @@ const UsersFilter = () => {
     }, [dispatch]);
 
     useEffect(() => {
-        setFilteredPeople(people.filter((p) => p.id !== user.user.id));
-    }, [people, user.user.id]);
+        setFilteredPeople(people.filter((p) => p.id !== user?.user?.id));
+    }, [people, user?.user?.id]);
 
     const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setSearchTerm(e.target.value);
         if (e.target.value === '') {
-            setFilteredPeople(people.filter((p) => p.id !== user.user.id));
+            setFilteredPeople(people.filter((p) => p.id !== user?.user?.id));
         }
     };
 
@@ -40,14 +44,14 @@ const UsersFilter = () => {
     const handleSchoolChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setSchoolName(e.target.value);
         if (e.target.value === '') {
-            setFilteredPeople(people.filter((p) => p.id !== user.user.id));
+            setFilteredPeople(people.filter((p) => p.id !== user?.user?.id));
         }
     };
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         const filtered = people
-            .filter((p) => p.id !== user.user.id) // Исключаем текущего пользователя
+            .filter((p) => p.id !== user?.user?.id) // Исключаем текущего пользователя
             .filter((p) => {
                 const matchesSchool = schoolName ? p.school?.toLowerCase() === schoolName.toLowerCase() : true;
                 const matchesName = searchTerm ? p.name.toLowerCase().includes(searchTerm.toLowerCase()) : true;

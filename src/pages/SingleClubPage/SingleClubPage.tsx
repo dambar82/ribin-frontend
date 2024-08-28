@@ -27,7 +27,11 @@ const SingleClubPage = () => {
     const { id } = useSelector((state: RootState) => state.user.user)
     const { posts, status, error } = useSelector((state: RootState) => state.post)
     const club = useSelector((state: RootState) => state.clubs.club)
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> origin/anauthorized-access
     const [activeTab, setActiveTab] = useState(0)
 
     const params = useParams()
@@ -164,7 +168,11 @@ const SingleClubPage = () => {
                           }}
                       />
                   ))}
+<<<<<<< HEAD
                   
+=======
+
+>>>>>>> origin/anauthorized-access
                 </div>
             </section>
             <section className={`section ${c.feed}`}>

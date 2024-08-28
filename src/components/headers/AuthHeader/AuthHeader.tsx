@@ -97,6 +97,7 @@ const AuthHeader = () => {
       setActiveMenu(false)
     }
 
+<<<<<<< HEAD
     const deleteUser = async () => {
     try {
         const $api = axios.create({
@@ -129,6 +130,8 @@ const AuthHeader = () => {
     }
 };
 
+=======
+>>>>>>> origin/anauthorized-access
     return (
         <div className={styles.authHeader}>
             <div className={`${styles.authHeader_up}`}>
@@ -144,7 +147,23 @@ const AuthHeader = () => {
                         </div>
                       </Link>
                     }
+<<<<<<< HEAD
                 {/* <button onClick={deleteUser} >Удалить</button> */}
+=======
+                {/* <button onClick={async () => {
+                  const $api = axios.create({
+                    baseURL: 'https://api-rubin.multfilm.tatar'
+                  })
+                  $api.interceptors.request.use(config => {
+                    const token = JSON.parse(localStorage.getItem('token') || '0')
+                    if (token) {
+                      config.headers.Authorization = `Bearer ${token}`
+                    }
+                    return config
+                  })
+                const res = await $api.delete(`https://api-rubin.multfilm.tatar/api/clients/${user.id}`)
+              }} >Удалить</button> */}
+>>>>>>> origin/anauthorized-access
                 {user && (
                     <div className='profile_button' onClick={(event) => toggleSubMenu('profile', event)}>
                         <div className={`profile_button_avatar`}>
