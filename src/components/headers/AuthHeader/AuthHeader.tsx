@@ -227,7 +227,6 @@ const AuthHeader = () => {
                         <div className='submenu' onClick={handleSubMenuClick}>
                             <ul>
                                 {[
-                                    { name: "Активисты клуба", path: "/students" },
                                     { name: "Тренерский состав", path: "/academy-coaches" },
                                     { name: "Программы и предложения клуба", path: "/programs" },
                                     { name: "Достижения", path: "/awards" },
