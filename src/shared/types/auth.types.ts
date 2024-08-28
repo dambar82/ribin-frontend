@@ -7,6 +7,7 @@ export type TLoginUserRequest = {
 export type TLoginUserResponse = {
   client: User
   token: string
+  message: string
   errors?: any
 }
 
