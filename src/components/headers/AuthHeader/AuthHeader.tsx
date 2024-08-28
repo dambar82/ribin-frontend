@@ -97,6 +97,38 @@ const AuthHeader = () => {
       setActiveMenu(false)
     }
 
+    const deleteUser = async () => {
+    try {
+        const $api = axios.create({
+            baseURL: 'https://api-rubin.multfilm.tatar'
+        });
+
+        $api.interceptors.request.use(config => {
+            const token = JSON.parse(localStorage.getItem('token') || '0');
+            if (token) {
+                config.headers.Authorization = `Bearer ${token}`;
+            }
+            return config;
+        });
+
+        const res = await $api.delete(`/api/clients/${user.id}`);
+
+        // Проверка успешности удаления
+        if (res.status === 200 || res.status === 204) {
+            // Очистка localStorage
+            localStorage.removeItem('token');
+            localStorage.removeItem('user_id');
+
+            // Перенаправление на главную страницу
+            window.location.href = '/';
+        } else {
+            console.error('Ошибка при удалении пользователя');
+        }
+    } catch (error) {
+        console.error('Ошибка при удалении пользователя:', error);
+    }
+};
+
     return (
         <div className={styles.authHeader}>
             <div className={`${styles.authHeader_up}`}>
@@ -112,19 +144,7 @@ const AuthHeader = () => {
                         </div>
                       </Link>
                     }
-                {/* <button onClick={async () => {
-                  const $api = axios.create({
-                    baseURL: 'https://api-rubin.multfilm.tatar'
-                  })
-                  $api.interceptors.request.use(config => {
-                    const token = JSON.parse(localStorage.getItem('token') || '0')
-                    if (token) {
-                      config.headers.Authorization = `Bearer ${token}`
-                    }
-                    return config
-                  })
-                const res = await $api.delete(`https://api-rubin.multfilm.tatar/api/clients/${user.id}`)
-              }} >Удалить</button> */}
+                 <button onClick={deleteUser} >Удалить</button>
                 {user && (
                     <div className='profile_button' onClick={(event) => toggleSubMenu('profile', event)}>
                         <div className={`profile_button_avatar`}>

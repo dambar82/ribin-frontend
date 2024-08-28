@@ -42,7 +42,7 @@ const SettingsPage = () => {
     const [successMessage, setSuccessMessage] = useState('')
     const [errorMessage, setErrorMessage] = useState('')
     const [districtOptions, setDistrictOptions] = useState(null);
-    const [district, setDistrict] = useState(user.district.id ? user.district.id : 0);
+    const [district, setDistrict] = useState(user.district ? user.district.id : 1);
     const [hidePassword, setHidePassword] = useState(true)
     const [hideCopyPassword, setHideCopyPassword] = useState(true)
 
@@ -128,7 +128,7 @@ const SettingsPage = () => {
                             <div className="form-control__label">Фамилия</div>
                             <input
                               className="form-control__field"
-                              type="text" 
+                              type="text"
                               placeholder={user.surname}
                               autoComplete="off"
                               value={surname}
@@ -211,7 +211,7 @@ const SettingsPage = () => {
                         )}
                     </div>
                     <div className="form__column">
-                        
+
                         <div className={`${styles.form__control} form-control`}>
                             <div className="form-control__label">Почта</div>
                             <input
@@ -290,7 +290,7 @@ const DatePickerHeader = ({
 
       <p onClick={() => setActive(true)} >{MONTHS[getMonth(date)]} {getYear(date)}</p>
 
-      {active && 
+      {active &&
         <div className={styles.select_wrapper} >
           <select
             value={MONTHS[getMonth(date)]}

@@ -1,4 +1,7 @@
-import React, {useEffect, useState} from 'react';
+import React, {
+    useEffect,
+    useState
+} from 'react';
 import styles from './ContestPage.module.scss';
 import {Link, useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
@@ -70,10 +73,9 @@ const ContestPage = () => {
     }, [contest]);
 
     useEffect(() => {
-        if (user?.contests?.find(item => item.id === Number(contestId))) {
-            setParticipating(true);
-        }
-    }, [user, contest])
+        setParticipating(true);
+    }, [user, contest]);
+
 
     useEffect(() => {
         console.log(participating);

@@ -145,13 +145,11 @@ function App() {
         { path: '/contests/:contestId/form', element: <ContestForm /> },
         { path: '/quizzes', element: <QuizzesPage /> },
         { path: '/quizzes/:id', element: <SingleQuizPage /> },
-        { path: '/clubs/:id', element: <SingleClubPage /> },
         { path: '/user/:id/edit/', element: <EditProfilePage /> },
         { path: '/user/:id', element: <UserProfilePage /> },
         { path: '/feedback', element: <FeedbackPage /> },
         { path: '/settings', element: <SettingsPage /> },
         { path: '/chat/:userId', element: <Chat/>},
-
         { path: '/photogallery/:id', element: <SinglePhotoGalleryPage /> },
         { path: '/posts', element: <PostsPage /> },
         { path: '/events', element: <EventsPage /> },
