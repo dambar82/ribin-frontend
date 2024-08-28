@@ -1,6 +1,6 @@
 .card {
-    width: 114.86px;
-    height: 114.86px;
+    width: 250px;
+    height: 250px;
     perspective: 1000px;
     overflow: hidden;
     cursor: pointer;

@@ -100,8 +100,9 @@ export const MemoryGame: React.FC<MemoryGameProps> = ({
 
     return (
         <div className="memory-game">
-            <h1>{titleText}</h1>
+            {/*<h1>{titleText}</h1>*/}
             <div className="memory">
+                <Counter text="Осталось попыток" value={numberOfAttempts - step} />
                 <Counter text="Сделано ходов" value={step} />
                 <div className="memory__cards">
                     {cards.map((item) => (
@@ -116,7 +117,6 @@ export const MemoryGame: React.FC<MemoryGameProps> = ({
                         />
                     ))}
                 </div>
-                <Counter text="Осталось попыток" value={numberOfAttempts - step} />
                 <Modal
                     title={title}
                     description={description}
