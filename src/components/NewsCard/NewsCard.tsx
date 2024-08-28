@@ -1,0 +1,28 @@
+import styles from './NewsCard.module.scss';
+import {formatDate, formatDateToDayMonth, parseAndFormatDate} from "../../App";
+
+interface INewsCard {
+    title: string,
+    date: string,
+    image: string,
+    newsBack: boolean
+}
+
+const NewsCard = ({title, image, date, newsBack}: INewsCard) => {
+    return (
+        <div className={styles.card}>
+            { image && <img src={image} alt="" className={styles.card__image} /> }
+            <div className={styles.card__date}>
+                {
+                    newsBack ?
+                        formatDate(date)
+                         :
+                        formatDateToDayMonth(parseAndFormatDate(date))
+                }
+            </div>
+            <div className={styles.card__title}>{title}</div>
+        </div>
+    )
+}
+
+export default NewsCard;

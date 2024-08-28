@@ -1,0 +1,148 @@
+
+
+.banner_wrapper {
+  position: relative;
+
+  .button_wrapper {
+    position: absolute;
+    top: 32px;
+    right: 32px;
+
+    input {
+      position: absolute;
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    button {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+  
+      background-color: var(--black);
+      border-radius: 50px;
+      padding: 12px 30px;
+      cursor: pointer;
+  
+      color: var(--white);
+      font-size: 20px;
+      font-weight: 500;
+  
+      &:active {
+        transform: scale(0.99);
+      }
+    }
+  }
+
+}
+
+.section_body {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  & > div {
+    flex: 0 0 calc((100% - 2 * 20px) / 3);
+  }
+}
+
+.club_info_avatar {
+  position: relative;
+  overflow: visible;
+
+  img {
+    border-radius: 50%;
+  }
+
+  .button_wrapper {
+    position: absolute;
+    bottom: -5px;
+    right: -5px;
+    border: 6px solid var(--white);
+    border-radius: 50%;
+
+    input {
+      position: absolute;
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    button {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+  
+      background-color: var(--black);
+      border-radius: 50px;
+      padding: 14px;
+      cursor: pointer;
+  
+      color: var(--white);
+      font-size: 20px;
+      font-weight: 500;
+  
+      &:active {
+        transform: scale(0.99);
+      }
+    }
+  }
+}
+
+.club_info_content {
+  div:first-child {
+    z-index: 10;
+  }
+}
+
+.club_info_section {
+  margin-bottom: 60px!important;
+}
+
+.club_info {
+  display: flex;
+  justify-content: space-between;
+  flex-grow: 1;
+  gap: 20px;
+  padding: 20px 0;
+
+  form {
+    justify-self: stretch;
+    width: 100%;
+    max-width: 900px;
+    display: grid;
+    gap: 32px;
+
+    .input_wrapper {
+      display: grid;
+      gap: 12px;
+
+      & > span {
+        color: var(--black);
+        font-size: 24px;
+        font-weight: 500;
+      }
+
+      input {
+        width: 100%;
+      }
+    }
+  }
+
+  & > button {
+    height: max-content;
+  }
+}
+
+.delete_club_button_wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  padding: 0 70px;
+
+  button {
+    background-color: transparent;
+    border: 2px solid var(--main-color);
+    color: var(--main-color);
+  }
+}

@@ -1,0 +1,87 @@
+.wrapper {
+  margin-top: 60px;
+}
+
+.filterBlock {
+  display: flex;
+  justify-content: space-between;
+  column-gap: 4vw;
+}
+
+.form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  row-gap: 32px;
+  h2 {
+    font-size: 36px;
+    font-weight: 600;
+    line-height: 44px;
+    text-align: left;
+  }
+}
+
+.form_inputField {
+  display: flex;
+  column-gap: 18px;
+}
+
+.input {
+  display: flex;
+  flex-direction: column;
+  row-gap: 12px;
+  width: 100%;
+  .searchBar {
+    min-width: 100%;
+    position: relative;
+    input {
+      width: 100%;
+      padding: 19px 64px;
+      color: #6F6F6F;
+      background-color: #EEEEEE;
+      border-radius: 50px;
+      outline: none;
+      border: none;
+      font-size: 18px;
+      font-weight: 500;
+      line-height: 22px;
+      letter-spacing: -0.011em;
+    }
+    select {
+      -webkit-appearance: none; /* Для Safari */
+      -moz-appearance: none;    /* Для Firefox */
+      background-size: contain;
+      appearance: none;
+      width: 100%;
+      color: #2A2A2A;
+      padding: 19px 30px;
+      background-color: #EEEEEE;
+      border-radius: 50px;
+      outline: none;
+      border: none;
+      font-size: 18px;
+      font-weight: 500;
+      line-height: 22px;
+      letter-spacing: -0.011em;
+    }
+    img {
+      position: absolute;
+      top: 50%;
+      left: 30px;
+      transform: translateY(-50%);
+      width: 20px;
+      height: 20px;
+    }
+  }
+  label {
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 28px;
+  }
+}
+
+.actionButton {
+  margin-right: auto;
+  margin-top: auto;
+}

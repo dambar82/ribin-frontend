@@ -1,0 +1,116 @@
+.photogallery {
+    &__filter {
+        z-index: 10;
+    }
+    &__grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 32px 20px;
+        
+        @media (max-width: 1440px) {
+          gap: 26px 20px; 
+        }
+        @media (max-width: 768px) {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 24px 16px;
+        }
+        @media (max-width: 600px) {
+          grid-template-columns: 1fr;
+        }
+
+        & > a {
+          flex: 0 0 calc((100% - 2 * 20px) / 3)
+        }
+        &:not(:first-child) {
+            margin: 100px 0 0;
+        }
+    }
+
+    :global(.tab-nav) {
+      position: relative;
+      padding-right: calc(60px + 18px);
+    }
+}
+
+.photogallery_filter {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+
+  z-index: 10;
+
+  :global(.filter__menu-item) {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    padding: 18px 30px 18px 0;
+
+    &._active {
+      .filter_select {
+        height: 300px;
+        margin-top: 18px;
+      }
+    }
+  }
+
+  :global(.filter__button) {
+    @media (max-width: 1440px) {
+      width: 50px;
+      height: 50px; 
+    }
+
+    img {
+      @media (max-width: 1440px) {
+        width: 17px;
+        height: 17px; 
+      }
+    }
+  }
+}
+
+.filter_item_title {
+  display: flex;
+  justify-content: space-between;
+  padding-left: 30px;
+
+  @media (max-width: 1440px) {
+    span {
+      font-size: 18px;
+    }
+  }
+  @media (max-width: 1200px) {
+    span {
+      font-size: 16px;
+    }
+  }
+}
+
+.filter_select {
+  height: 0;
+  margin-top: 0;
+  overflow-y: auto;
+  transition: all .3s ease;
+
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  &::-webkit-scrollbar-track {
+    background-color: #F8F8F8;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: var(--main-color);
+  }
+
+  & > div {
+    padding: 18px 16px 18px 46px;
+    font-size: 18px;
+    color: var(--black);
+    font-weight: 500;
+
+    &:hover {
+      background-color: #F8F8F8;
+    }
+  }
+}

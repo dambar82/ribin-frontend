@@ -1,0 +1,129 @@
+.awards {
+    &__body {
+        background-color: #91172C;
+        background-image: url(../../../public/images/awards-bg.svg);
+        background-repeat: no-repeat;
+        background-position: center bottom;
+        background-size: contain;
+        border-radius: 50px;
+        padding: 70px;
+
+        @media (max-width: 1440px) {
+          padding: 30px;
+        }
+
+        & > div > div {
+            flex: 0 0 calc((100% - 20px) / 2);
+        }
+    }
+    &__list {
+        display: flex;
+        gap: 20px;
+        flex-wrap: wrap;
+
+        @media (max-width: 768px) {
+          display: grid;
+        }
+    }
+}
+
+.award {
+    background-color: #FFFFFF;
+    border-radius: 35px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 32px;
+    position: relative;
+    height: 350px;
+    overflow: hidden;
+
+    @media (max-width: 1440px) {
+      padding: 24px;      
+    }
+
+    &::after {
+        background-color: rgba($color: #91172C, $alpha: 0.5);
+        content: "";
+        position: absolute;
+        inset: 0;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease 0s;
+        z-index: 0;
+    }
+    &__image {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease 0s;
+        z-index: 0;
+    }
+    &__years, &__name, &__cup {
+        position: relative;
+        z-index: 1;
+    }
+    &__years {
+        font-family: "Saira", "sans-serif";
+        font-size: 20px;
+        font-weight: 500;
+        line-height: calc(24 / 20);
+
+        @media (max-width: 1440px) {
+          font-size: 18px;
+        }
+    }
+    &__name {
+        font-size: 32px;
+        font-weight: 500;
+        line-height: calc(38 / 32);
+        max-width: 425px;
+
+        @media (max-width: 1440px) {
+          font-size: 28px;
+        }
+    }
+    &__cup {
+        width: 80px;
+        height: 100px;
+
+        @media (max-width: 1440px) {
+          width: max-content;
+          height: 54px; 
+        }
+
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            object-position: center bottom
+        }
+    }
+    &__content {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        gap: 30px;
+    }
+    @media screen and (any-hover: hover) {
+        &:hover {
+            color: white;
+            &::after {
+                opacity: 1;
+                visibility: visible;
+            }
+            .award__image {
+                opacity: 1;
+                visibility: visible;
+                transform: scale(1.05);
+            }
+        }
+    }
+}

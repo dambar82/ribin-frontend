@@ -1,0 +1,99 @@
+.card {
+    background-color: white;
+    border-radius: 50px;
+    box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.16);
+    display: flex;
+    flex-direction: column;
+    padding: 0 0 32px;
+    position: relative;
+    overflow: hidden;
+    &__date {
+        background-color: rgba($color: #686868, $alpha: 0.6);
+        backdrop-filter: blur(12px);
+        border-radius: 50px;
+        color: #FFFFFF;
+        font-family: "Saira", "sans-serif";
+        font-size: 20px;
+        font-weight: 500;
+        line-height: calc(24 / 20);
+        letter-spacing: -0.01em;
+        padding: 6px 14px;
+        position: absolute;
+        top: 26px;
+        left: 26px;
+        span {
+            font-family: "Raleway", "sans-serif";
+        }
+    }
+    &__image {
+        background-color: #DEDEDE;
+        aspect-ratio: calc(540 / 350);
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            vertical-align: top;
+        }
+        &:not(:last-child) {
+            margin: 0 0 20px;
+        }
+    }
+    
+    &__content {
+        margin: 0 0 auto;
+        padding: 0 24px;
+    }
+    &__tag {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        &:not(:last-child) {
+            margin: 0 0 16px;
+        }
+    }
+    &__tagIcon {
+        background-color: #368826;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 32px;
+        height: 32px;
+        svg {
+            width: 20px;
+            height: 20px;
+        }
+    }
+    &__tagLabel {
+        font-size: 20px;
+        font-weight: 500;
+        line-height: 24px;
+        span {
+            font-family: "Saira", "sans-serif";
+        }
+    }
+    &__title {
+        font-size: 28px;
+        font-weight: 600;
+        line-height: calc(32 / 28);
+        &:not(:last-child) {
+            margin: 0 0 12px;
+        }
+    }
+    &__desc {
+        font-size: 20px;
+        font-weight: 400;
+        line-height: calc(24 / 20);
+        max-height: calc(1em * 1.2 * 4);
+        overflow: hidden;
+
+    }
+    &__button {
+        cursor: pointer;
+        padding-left: 50px;
+        padding-right: 50px;
+        &:not(:first-child) {
+            margin: 36px auto 0;
+        }
+    }
+}

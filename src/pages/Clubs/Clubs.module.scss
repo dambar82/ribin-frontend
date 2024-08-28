@@ -1,0 +1,113 @@
+.hero {
+    background-color: #51CC39;
+    // background-image: url();
+    &__title {
+        background-color: #FF7A00;
+        top: calc(84 / 560 * 100%);
+        left: calc(48 / 1660 * 100%);
+        transform: rotate(-15deg);
+        transform-origin: center;
+    }
+    &__bg {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        mix-blend-mode: soft-light;
+    }
+    &__ruby {
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+}
+
+.clubs {
+    &__row {
+        display: flex;
+        gap: 20px;
+        & > * {
+            flex-basis: calc((100% - 2 * 20px) / 3);
+        }
+        & > a > * {
+            height: 100%;
+        }
+    }
+    // &__grid {
+    //     display: flex;
+    //     flex-wrap: wrap;
+    //     gap: 20px;
+    //     & > div {
+    //         flex-basis: calc((100% - 2 * 20px) / 3);
+    //     }
+    // }
+}
+
+.article {
+    background-color: #51CC39;
+    // background-image: url(images/article-bg.png);
+    border-radius: 50px;
+    position: relative;
+    img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 0;
+    }
+    &__content {
+        display: flex;
+        flex-direction: column;
+        gap: 36px;
+        align-items: center;
+        margin: 0 auto;
+        padding: 160px 40px 190px;
+        position: relative;
+        max-width: 780px;
+        z-index: 1;
+    }
+    &__slogan {
+        color: #FFFFFF;
+        font-size: 32px;
+        font-weight: 500;
+        line-height: calc(38 / 32);
+        text-align: center;
+    }
+    &__button {
+    }
+}
+
+.create_club_modal {
+
+  & > div {
+    padding: 70px;
+    border-radius: 50px;
+  }
+
+  form {
+    display: grid;
+    gap: 32px;
+
+    :global(.form-control__label) {
+      margin: 0 0 12px!important;
+    }
+
+    button {
+      justify-self: center;
+
+      cursor: pointer;
+      width: max-content;
+      padding: 18px 60px;
+      border-radius: 50px;
+      background-color: var(--main-color);
+
+      color: var(--white);
+      font-size: 20px;
+      font-weight: 500;
+
+      &:active {
+        transform: scale(0.99);
+      }
+    }
+  }
+}

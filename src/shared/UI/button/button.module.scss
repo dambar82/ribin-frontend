@@ -1,0 +1,16 @@
+
+.button {
+  width: max-content;
+  padding: 18px 60px;
+  border-radius: 50px;
+  background-color: var(--main-color);
+  cursor: pointer;
+
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--white);
+
+  &:active {
+    transform: scale(0.99);
+  }
+}

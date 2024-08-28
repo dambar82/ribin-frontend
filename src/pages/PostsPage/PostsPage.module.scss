@@ -1,0 +1,32 @@
+.hero {
+    // background-image: url();
+    background: linear-gradient(228deg, #f23e5d 0%, #91172c 100%);
+    &__title {
+        background-color: #91172C;
+        backdrop-filter: blur(40px);
+        border: 6px solid #FFFFFF;
+        top: calc(90 / 560 * 100%);
+        left: calc(48 / 1660 * 100%);
+        transform: rotate(-15deg);
+        transform-origin: center;
+    }
+    &__subtitle {
+        background-color: #FFB800;
+        top: calc(155 / 560 * 100%);
+        left: calc(167 / 1660 * 100%);
+        transform: rotate(-15deg);
+        transform-origin: center;
+        text-transform: capitalize;
+    }
+    &__bg {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        mix-blend-mode: screen;
+    }
+    &__ruby {
+        top: 50%;
+        right: calc(78 / 1660 * 100%);
+        transform: translate(0, -50%);
+    }
+}

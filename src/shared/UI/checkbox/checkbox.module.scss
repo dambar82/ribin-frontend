@@ -1,0 +1,42 @@
+
+.checkbox {
+	display: grid;
+
+	label, input {
+		grid-row: 1/2;
+		grid-column: 1/2;
+	}
+
+	input {
+		width: 22px;
+		height: 22px;
+		opacity: 0;
+		cursor: pointer;
+
+      &:focus-visible + label {
+         outline: 1px solid var(--color-text);
+      }
+	}
+
+	input:checked + label svg {
+		opacity: 1;
+		visibility: visible;
+	}
+
+	label {
+		width: 22px;
+		height: 22px;
+		background: var(--color-bg);
+		box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, .4), inset 0px 0px 6px 2px rgba(0, 0, 0, .2);
+      border: 1px solid var(--color-border);
+      border-radius: 5px;
+	}
+
+	svg {
+		opacity: 0;
+		visibility: hidden;
+      pointer-events: none;
+		transition: all .3s ease 0s;
+      transform: translate(3px, -2px);
+	}
+}

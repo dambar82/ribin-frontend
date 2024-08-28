@@ -1,0 +1,160 @@
+.settings {
+    &__title {
+        color: #000000;
+        font-size: 40px;
+        font-weight: 500;
+        line-height: calc(48 / 40);
+        overflow: hidden;
+        &:not(:last-child) {
+            margin: 0 0 46px;
+        }
+    }
+
+    form {
+      position: relative;
+
+      .form_select {
+        position: relative;
+        width: 100%;
+        border: none;
+        outline: none;
+        background-color: var(--light-grey);
+        border-radius: 50px;
+        padding: 20px 30px;
+        color: #817E7E;
+        font-family: "Raleway";
+        font-size: 18px;
+        font-weight: 400;
+        line-height: calc(22 / 18);
+        cursor: pointer;
+
+        option {
+          cursor: pointer;
+          
+          &:checked {
+            background-color: #838383;
+            color: #fff;
+          }
+        }
+      }
+    }
+
+    .success_message {
+      position: absolute;
+      left: 50%;
+      top: 20px;
+      transform: translate(-50%, 0);
+
+      color: #48903A;
+      font-size: 20px;
+      font-weight: 500;
+    }
+    .error_message {
+      position: absolute;
+      left: 50%;
+      top: 20px;
+      transform: translate(-50%, 0);
+
+      color: #E11F1F;
+      font-size: 20px;
+      font-weight: 500;
+    }
+}
+
+.confirm_button {
+  cursor: pointer;
+}
+
+.datepicker_wrapper {
+  display: grid;
+  align-items: center;
+
+  & > div {
+    grid-area: 1/1;
+  }
+
+  svg {
+    grid-area: 1/1;
+    justify-self: end;
+    z-index: 1;
+    margin-right: 30px;
+    pointer-events: none;
+  }
+}
+
+.datepicker_header {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+
+  font-size: 20px;
+  font-weight: 600;
+
+  p {
+    cursor: pointer;
+  }
+
+  button {
+    font-size: 20px;
+    font-weight: 600;
+  }
+}
+
+.select_wrapper {
+  justify-self: center;
+  
+  position: absolute;
+  display: flex;
+  align-items: center;
+  height: 100%;
+  background-color: #fff;
+
+  select {
+    padding: 2px;
+    cursor: pointer;
+    
+    font-size: 20px;
+    font-weight: 600;
+
+    &:nth-child(1) {
+      border-radius: 8px 0 0 8px;
+    }
+    &:nth-child(2) {
+      border-radius: 0 8px 8px 0;
+    }
+  }
+
+  button {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    margin-left: 20px;
+
+    &::before, &::after {
+      content: '';
+      position: absolute;
+      width: 15px;
+      height: 2px;
+      background-color: #000000;
+    }
+    &::before {
+      transform: rotate(45deg);
+    }
+    &::after {
+      transform: rotate(-45deg);
+    }
+  }
+}
+
+.school_input_wrapper {
+  display: grid;
+  grid-template-columns: 70% 30%;
+  gap: 0 10px;
+
+  div {
+    grid-column: 1/3;
+  }
+}

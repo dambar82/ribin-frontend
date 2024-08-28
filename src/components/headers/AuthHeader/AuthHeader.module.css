@@ -1,0 +1,66 @@
+.authHeader {
+  display: flex;
+  flex-direction: column;
+  row-gap: 8px;
+}
+
+.exitMenu {
+  border-top: 2px solid #F8F8F8;
+}
+
+.authHeader_up {
+  padding-top: 24px;
+  padding-bottom: 12px;
+}
+
+.authHeader_menu {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  -moz-column-gap: 12px;
+       column-gap: 12px;
+  border-radius: 50px;
+  padding: 8px;
+  background-color: #F8F8F8;
+}
+
+.menuLink {
+  display: flex;
+  align-items: center;
+  -moz-column-gap: 20px;
+       column-gap: 20px;
+  position: relative;
+  cursor: pointer;
+  padding: 12px 24px;
+  font-size: 18px;
+  line-height: 22px;
+  color: black;
+  border-radius: 50px;
+  background-color: white;
+  white-space: nowrap;
+}
+
+.menuSearchbar {
+  width: 100%;
+  max-width: 360px;
+  position: relative;
+}
+
+.menuSearchbar input {
+  width: 100%;
+  padding: 12px 12px 12px 2vw;
+  color: #6F6F6F;
+  background-color: #EEEEEE;
+  border-radius: 50px;
+  outline: none;
+  border: none;
+}
+
+.menuSearchbar img {
+  position: absolute;
+  top: 50%;
+  left: 10px;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+}/*# sourceMappingURL=AuthHeader.module.css.map */

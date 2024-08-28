@@ -1,0 +1,10 @@
+.row {
+    display: flex;
+    column-gap: 20px;
+    & > div {
+        flex: 0 0 calc((100% - 2 * 20px) / 3);
+    }
+    &_wrapped {
+        flex-wrap: wrap;
+    }
+}
