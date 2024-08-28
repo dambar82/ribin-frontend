@@ -124,7 +124,7 @@ function App() {
         { path: '/login', element: <Login />, layout: UnauthLayout },
         { path: '/register', element: <Register />, layout: UnauthLayout },
         { path: '/restore', element: <Restore />, layout: RestoreLayout },
-        { path: '/restore/password', element: <NewPassword />, layout: RestoreLayout },
+        { path: '/restore/password/:token', element: <NewPassword />, layout: RestoreLayout },
         { path: '/email-confirmation/:hash', element: <ConfirmEmailModal email='' />, layout: UnauthLayout },
         { path: '/contests', element: <Contests />, layout: UnauthLayout },
         { path: '/contests/:contestId', element: <ContestPage />, layout: UnauthLayout },

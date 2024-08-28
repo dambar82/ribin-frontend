@@ -15,3 +15,23 @@ export type TEditUserRequest = {
 export type TEditUserResponse = {
   data: User
 }
+
+export type TResetPasswordRequest = {
+  email: string
+}
+export type TResetPasswordResponse = {
+  data: {
+    staus: string
+    message: string
+  }
+}
+
+export type TRestorePasswordRequest = {
+  password: string
+}
+export type TRestorePasswordResponse = {
+  data: {
+    staus: string
+    message: string
+  }
+}

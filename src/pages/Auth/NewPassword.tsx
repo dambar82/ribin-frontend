@@ -1,19 +1,29 @@
 import React, {useState} from 'react';
-import {loginUser} from "../../store/userSlice";
+import {loginUser, restorePassword} from "../../store/userSlice";
 import {useAppDispatch} from "../../store/hooks";
+import { useNavigate } from 'react-router-dom'
 
 const Restore = () => {
 
     const dispatch = useAppDispatch();
+    const navigate = useNavigate()
 
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
+    const [error, setError] = useState('')
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         if(password === confirmPassword) {
-            // Здесь должен быть вызов действия для восстановления пароля
-            // dispatch(restorePassword({ password }));
+          dispatch(restorePassword({ password }))
+            .then((action) => {
+              if ( action.payload.status === 'error' ) {
+                setError(action.payload.message)
+                return
+              }
+              setError('')
+              navigate('/login')
+            })
         } else {
             // Обработка случая, когда пароли не совпадают
             alert('Пароли не совпадают!');
@@ -21,7 +31,8 @@ const Restore = () => {
     };
 
     return (
-        <div className='authBlock__restore gap-26'>
+        <div className='authBlock__restore gap-26' style={{ position: 'relative' }} >
+            {error && <span style={{ position: 'absolute', top: '40px', left: '50%', transform: 'translate(-50%, 0)', color: 'red', fontSize: '24px' }} >{error}</span>}
             <div className='authBlock__restore_text'>
                 <h1 className='h1_36_44'>
                     Изменение пароля
