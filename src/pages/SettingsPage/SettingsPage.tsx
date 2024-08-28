@@ -42,7 +42,7 @@ const SettingsPage = () => {
     const [successMessage, setSuccessMessage] = useState('')
     const [errorMessage, setErrorMessage] = useState('')
     const [districtOptions, setDistrictOptions] = useState(null);
-    const [district, setDistrict] = useState(user.district.id ? user.district.id : 0);
+    const [district, setDistrict] = useState(user.district ? user.district.id : 1);
     const [hidePassword, setHidePassword] = useState(true)
     const [hideCopyPassword, setHideCopyPassword] = useState(true)
 
