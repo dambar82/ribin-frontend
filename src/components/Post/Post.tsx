@@ -58,11 +58,18 @@ const Post = ({ id, name, avatar, created_by, source, tags, comments, children, 
     const [showCommentSection, setShowCommentSection] = useState(false);
     const [commentText, setCommentText] = useState('');
     const [postComments, setPostComments] = useState(comments);
+    const [isAuthor, setIsAuthor] = useState(false);
 
     const post = useSelector((state: RootState) => state.post.posts[type].find(post => post.id === id));
     const user = useSelector((state: RootState) => state.user);
 
     const [isLiked, setIsLiked] = useState(liked_by.includes(user.user.id));
+
+    useEffect(() => {
+        if (user.user.id === created_by) {
+            setIsAuthor(true);
+        }
+    }, [])
 
     const handleCommentSection = () => {
 
@@ -150,7 +157,7 @@ const Post = ({ id, name, avatar, created_by, source, tags, comments, children, 
                     <div className={styles.post__title}>{name}</div>
                     <div className={styles.post__createdAt}>{postFormatDate(post.created_at)}</div>
                 </div>
-                <DropdownMenu />
+                <DropdownMenu isAuthor={isAuthor}/>
             </div>
             <div className={styles.post__body}>
                 <div className={styles.post__content}>

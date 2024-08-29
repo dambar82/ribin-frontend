@@ -27,7 +27,6 @@ const SingleClubPage = () => {
     const { id } = useSelector((state: RootState) => state.user.user)
     const { posts, status, error } = useSelector((state: RootState) => state.post)
     const club = useSelector((state: RootState) => state.clubs.club)
-
     const [activeTab, setActiveTab] = useState(0)
 
     const params = useParams()
@@ -184,4 +183,4 @@ const SingleClubPage = () => {
     )
 }
 
-export default SingleClubPage;
+export default SingleClubPage

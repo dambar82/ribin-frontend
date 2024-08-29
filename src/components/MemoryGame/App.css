@@ -1,0 +1,14 @@
+.memory {
+    margin-top: 109px;
+    display: flex;
+    row-gap: 20px;
+    flex-direction: column;
+    justify-content: center;
+    column-gap: 85px;
+}
+
+.memory__cards {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 13.5px;
+}

@@ -1,20 +1,33 @@
 import React, {useState} from 'react';
-import {loginUser} from "../../store/userSlice";
+import {loginUser, resetPassword} from "../../store/userSlice";
 import {useAppDispatch} from "../../store/hooks";
 
 const Restore = () => {
 
     const dispatch = useAppDispatch();
 
-    const [email, setEmail] = useState('');
+    const [email, setEmail] = useState('')
+    const [error, setError] = useState('')
+    const [success, setSuccess] = useState('')
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        // dispatch(restorePassword({ password }));
+        dispatch(resetPassword({ email }))
+          .then((action) => {
+            if ( action.payload.status === 'error' ) {
+              setError(action.payload.message)
+              setSuccess('')
+              return
+            }
+            setSuccess(action.payload.message)
+            setError('')
+          })
     };
 
     return (
-        <div className='authBlock__restore gap-26'>
+        <div className='authBlock__restore gap-26' style={{ position: 'relative' }} >
+            {error && <span style={{ position: 'absolute', top: '40px', left: '50%', transform: 'translate(-50%, 0)', color: 'red', fontSize: '24px' }} >{error}</span>}
+            {success && <span style={{ position: 'absolute', top: '40px', left: '50%', transform: 'translate(-50%, 0)', fontSize: '24px' }} >{success}</span>}
             <div className='authBlock__restore_text'>
                 <h1 className='h1_36_44'>
                     Восстановление пароля

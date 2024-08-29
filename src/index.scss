@@ -3,6 +3,8 @@
   --white: #FFFFFF;
   --black: #2A2A2A;
   --light-grey: #F8F8F8;
+  --color-primary: #0083FC;
+  --color-accent: #FF5533;
   --box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.12);
 }
 
@@ -134,10 +136,10 @@ li {
     }
   }
   &__sliderControls {
-      display: flex;
-      justify-content: flex-end;
-      gap: 20px;
-      margin: 46px 0 0;
+    display: flex;
+    justify-content: flex-end;
+    gap: 20px;
+    margin: 46px 0 0;
   }
   &__sliderButton {
 
@@ -285,30 +287,30 @@ li {
 }
 
 .popup {
-    background-color: rgba(0, 0, 0, 0.5);
-    position: fixed;
-    top: 0;
-    left: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  // opacity: 0;
+  // visibility: hidden;
+  // transition: all 0.3s ease 0s;
+  z-index: 15;
+  &__container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1.5rem;
+    min-height: 100%;
+  }
+  &__content {
+    background-color: #FFFFFF;
+    position: relative;
     width: 100%;
-    height: 100%;
-    overflow: auto;
-    // opacity: 0;
-    // visibility: hidden;
-    // transition: all 0.3s ease 0s;
-    z-index: 15;
-    &__container {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding: 1.5rem;
-        min-height: 100%;
-    }
-    &__content {
-        background-color: #FFFFFF;
-        position: relative;
-        width: 100%;
-        transition: all 0.3s ease 0s;
-    }
+    transition: all 0.3s ease 0s;
+  }
 }
 .pagination {
   &__list {
@@ -440,10 +442,10 @@ li {
     position: relative;
     overflow: hidden;
     img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        vertical-align: top;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      vertical-align: top;
     }
   }
   &__edit-cover {
@@ -472,9 +474,9 @@ li {
       height: 100%;
       overflow: hidden;
       img {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
       }
     }
     &--profile {
@@ -526,7 +528,7 @@ li {
       }
     }
     &:not(:last-child) {
-        margin: 0 0 32px;
+      margin: 0 0 32px;
     }
   }
   &__title {
@@ -543,7 +545,7 @@ li {
     line-height: calc(24 / 20);
     padding: 6px 20px;
     span {
-        font-family: "Saira", "sans-serif";
+      font-family: "Saira", "sans-serif";
     }
   }
   &__actions {
@@ -554,28 +556,28 @@ li {
   &__info-body {
     &:not(:last-child) {
       margin: 0 0 32px;
-  }
+    }
   }
   &__form {
     max-width: 904px;
     textarea {
-        background-color: #F8F8F8;
-        border: 2px solid #F2F2F2;
-        border-radius: 25px;
-        color: #6F6F6F;
-        font-size: 20px;
-        font-weight: 500;
-        line-height: calc(24 / 20);
-        padding: 32px 30px;
-        width: 100%;
-        height: 220px;
-        resize: none;
-        &:not(:last-child) {
-            margin: 0 0 32px
-        }
+      background-color: #F8F8F8;
+      border: 2px solid #F2F2F2;
+      border-radius: 25px;
+      color: #6F6F6F;
+      font-size: 20px;
+      font-weight: 500;
+      line-height: calc(24 / 20);
+      padding: 32px 30px;
+      width: 100%;
+      height: 220px;
+      resize: none;
+      &:not(:last-child) {
+        margin: 0 0 32px
+      }
     }
     button[type="submit"] {
-        cursor: pointer;
+      cursor: pointer;
     }
   }
   &__info-desc {
@@ -612,13 +614,13 @@ li {
     position: relative;
     overflow: hidden;
     &:not(:last-child) {
-        margin-right: -20px;
+      margin-right: -20px;
     }
     img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        vertical-align: top;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      vertical-align: top;
     }
   }
   &__users-qty {
@@ -652,13 +654,13 @@ li {
       top: 32px;
       right: 32px;
       img {
-          width: 20px;
-          height: 20px;
+        width: 20px;
+        height: 20px;
       }
       span {
-          font-size: 20px;
-          font-weight: 500;
-          line-height: calc(24 / 20);
+        font-size: 20px;
+        font-weight: 500;
+        line-height: calc(24 / 20);
       }
     }
     .big-card__avatar-status {
@@ -744,16 +746,16 @@ li {
   &__field-wrapper {
     position: relative;
     img {
-        position: absolute;
-        top: 20px;
-        right: 30px;
+      position: absolute;
+      top: 20px;
+      right: 30px;
     }
-}
+  }
   &__inner-body {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 20px;
-}
+  }
   &__switch {
     display: flex;
     align-items: center;
@@ -774,21 +776,21 @@ li {
     height: 28px;
     transition: background-color 0.2s ease 0s;
     &::after {
-        background-color: #FFFFFF;
-        border-radius: 50px;
-        content: "";
-        position: absolute;
-        top: 2px;
-        left: 2px;
-        width: 24px;
-        height: 24px;
-        transition: left 0.2s ease 0s;
+      background-color: #FFFFFF;
+      border-radius: 50px;
+      content: "";
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      width: 24px;
+      height: 24px;
+      transition: left 0.2s ease 0s;
     }
     &_on {
-        background-color: #91172C;
-        &::after {
-            left: calc(100% - 26px);
-        }
+      background-color: #91172C;
+      &::after {
+        left: calc(100% - 26px);
+      }
     }
   }
   input.form-control__field {
@@ -798,7 +800,7 @@ li {
     padding: 30px;
     resize: none;
     height: 218px;
-}
+  }
   &__field-wrapper {
 
   }
@@ -1391,9 +1393,9 @@ input:-webkit-autofill {
     font-weight: 500;
     line-height: calc(48 / 40);
     &:not(:last-child) {
-        margin: 0 0 46px;
+      margin: 0 0 46px;
     }
-}
+  }
 }
 
 .image {

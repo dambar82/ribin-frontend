@@ -1,7 +1,10 @@
 import styles from './VideoTrainingCard.module.scss';
-import playIcon from '../../images/svg/play-button.svg';
-import stopIcon from '../../images/svg/stopIcon.svg';
 import {useState, useRef} from "react";
+
+
+const playIcon = <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 3.88638C5 2.25963 6.83874 1.31339 8.16248 2.25891L16.7215 8.37253C17.8382 9.17017 17.8382 10.8298 16.7215 11.6275L8.16248 17.7411C6.83874 18.6866 5 17.7404 5 16.1136V3.88638Z" fill="#91172C"/></svg>
+const stopIcon = <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5.83301 16.25V3.75" stroke="#91172C" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><path d="M14.167 16.25V3.75" stroke="#91172C" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+
 
 interface IVideoTrainingCard {
     title?: string;
@@ -62,14 +65,14 @@ const VideoTrainingCard = ({ title, image, thumbnail, description, onClick }: IV
                 )}
                 {(isHovered || !isPlaying) && ( // Показываем иконку, если мышь наведена или видео остановлено
                     <div className={styles.video__playbutton}>
-                        <img src={isPlaying ? stopIcon : playIcon} alt={isPlaying ? "Stop" : "Play"} />
+                        {isPlaying ? stopIcon : playIcon}
                     </div>
                 )}
                 {
                     !isPlaying && <div className={styles.video__duration}>{formatDuration(duration)}</div>
                 }
             </div>
-            {title || description &&
+            {(!!title || !!description) &&
               <div className={styles.card__content}>
                 <h3 className={styles.card__title}>{title}</h3>
                 <p className={styles.card__desc}>{description}</p>

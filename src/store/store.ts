@@ -10,6 +10,7 @@ import photoGalleryReducer from './photoGallerySlice';
 import sportReducer from './sportSlice';
 import postReducer from './postSlice';
 import eventsReducer from './eventsSlice'
+import quizzesReducer from './quizzesSlice'
 
 export const store = configureStore({
     reducer: {
@@ -23,7 +24,8 @@ export const store = configureStore({
         photoGallery: photoGalleryReducer,
         sport: sportReducer,
         post: postReducer,
-        events: eventsReducer
+        events: eventsReducer,
+        quizzes: quizzesReducer
     },
 });
 

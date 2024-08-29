@@ -48,6 +48,7 @@ import MainPage from './pages/Main/MainPage'
 import SingleNewsPageApi from "./pages/SingleNewsPageApi/SingleNewsPageApi";
 import Chat from "./components/Chat/Chat";
 import Pusher from 'pusher-js';
+import Page from "./pages/Page/Page";
 
 
 export function postFormatDate(isoString) {
@@ -119,17 +120,15 @@ function App() {
 
     const dispatch = useDispatch<AppDispatch>()
 
-
-
     const publicRoutes = [
         { path: '/login', element: <Login />, layout: UnauthLayout },
         { path: '/register', element: <Register />, layout: UnauthLayout },
         { path: '/restore', element: <Restore />, layout: RestoreLayout },
-        { path: '/restore/password', element: <NewPassword />, layout: RestoreLayout },
+        { path: '/restore/password/:token', element: <NewPassword />, layout: RestoreLayout },
         { path: '/email-confirmation/:hash', element: <ConfirmEmailModal email='' />, layout: UnauthLayout },
         { path: '/contests', element: <Contests />, layout: UnauthLayout },
         { path: '/contests/:contestId', element: <ContestPage />, layout: UnauthLayout },
-        { path: '/news', element: <NewsPage />, layout: UnauthLayout},
+        { path: '/news', element: <NewsPage />, layout: UnauthLayout },
         { path: '/news/:id', element: <SingleNewsPage />, layout: UnauthLayout },
         {path: '/news/api/:id', element: <SingleNewsPageApi/>, layout: UnauthLayout },
         { path: '/people', element: <UsersFilter />, layout: UnauthLayout },
@@ -140,13 +139,15 @@ function App() {
         { path: '/students', element: <StudentsPage /> , layout: UnauthLayout },
         { path: '/academy-coaches', element: <CoachesPage /> , layout: UnauthLayout },
         { path: '/awards', element: <AwardsPage /> , layout: UnauthLayout },
-        { path: '/programs', element: <ClubProgramsPage /> , layout: UnauthLayout},
+        { path: '/programs', element: <ClubProgramsPage /> , layout: UnauthLayout },
+        { path: '/page/:url', element: <Page/>, layout: UnauthLayout }
     ];
 
     const privateRoutes = [
         { path: '/contests/:contestId/form', element: <ContestForm /> },
         { path: '/quizzes', element: <QuizzesPage /> },
         { path: '/quizzes/:id', element: <SingleQuizPage /> },
+        { path: '/clubs/:id', element: <SingleClubPage /> },
         { path: '/user/:id/edit/', element: <EditProfilePage /> },
         { path: '/user/:id', element: <UserProfilePage /> },
         { path: '/feedback', element: <FeedbackPage /> },

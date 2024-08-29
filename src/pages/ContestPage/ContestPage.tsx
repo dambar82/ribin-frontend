@@ -35,6 +35,7 @@ const ContestPage = () => {
     const { contests, contestStatus, error } = useSelector((state: RootState) => state.contests);
     const { user } = useSelector((state: RootState) => state.user || null);
 
+
     const [participating, setParticipating] = useState(false);
     const [topParticipants, setTopParticipants] = useState([]);
     const [timeLeft, setTimeLeft] = useState<TimeLeft>(defaultTimeLeft);
@@ -73,9 +74,10 @@ const ContestPage = () => {
     }, [contest]);
 
     useEffect(() => {
-        setParticipating(true);
-    }, [user, contest]);
-
+        if (user?.contests?.find(item => item.id === Number(contestId))) {
+            setParticipating(true);
+        }
+    }, [user, contest])
 
     useEffect(() => {
         console.log(participating);

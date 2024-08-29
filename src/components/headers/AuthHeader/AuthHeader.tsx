@@ -37,21 +37,21 @@ const menuLinks: IMenuLink[] = [
 
 const AuthHeader = () => {
 
-  const { user } = useSelector((state: RootState) => state.user);
+    const { user } = useSelector((state: RootState) => state.user);
 
-  const [activeSubMenu, setActiveSubMenu] = useState(null);
-  const [activeMenu, setActiveMenu] = useState(false);
+    const [activeSubMenu, setActiveSubMenu] = useState(null);
+    const [activeMenu, setActiveMenu] = useState(false);
 
-  const profileSubMenuRef = useRef(null);
-  const rubinLifeSubMenuRef = useRef(null);
-  const clubActivitiesSubMenuRef = useRef(null);
-  const menuRef = useRef(null);
+    const profileSubMenuRef = useRef(null);
+    const rubinLifeSubMenuRef = useRef(null);
+    const clubActivitiesSubMenuRef = useRef(null);
+    const menuRef = useRef(null);
 
-  useEffect(() => {
-      console.log(user)
-  }, [user])
+    useEffect(() => {
+        console.log(user)
+    }, [user])
 
-  const dispatch = useAppDispatch();
+    const dispatch = useAppDispatch();
 
     const handleLogout = () => {
         dispatch(logout());
@@ -64,10 +64,10 @@ const AuthHeader = () => {
 
     const handleClickOutside = (event) => {
         if (
-          activeSubMenu &&
-          (!profileSubMenuRef.current || !profileSubMenuRef.current.contains(event.target)) &&
-          (!rubinLifeSubMenuRef.current || !rubinLifeSubMenuRef.current.contains(event.target)) &&
-          (!clubActivitiesSubMenuRef.current || !clubActivitiesSubMenuRef.current.contains(event.target))
+            activeSubMenu &&
+            (!profileSubMenuRef.current || !profileSubMenuRef.current.contains(event.target)) &&
+            (!rubinLifeSubMenuRef.current || !rubinLifeSubMenuRef.current.contains(event.target)) &&
+            (!clubActivitiesSubMenuRef.current || !clubActivitiesSubMenuRef.current.contains(event.target))
         ) {
             setActiveSubMenu(null);
         }
@@ -132,13 +132,13 @@ const AuthHeader = () => {
     return (
         <div className={styles.authHeader}>
             <div className={`${styles.authHeader_up}`}>
-                    <div className={styles.logo_wrapper} >
-                        <Link to='/'>
-                            <img src={rubyLogo} alt=""/>
-                        </Link>
-                    </div>
-                    { !user &&
-                      <Link to='/login'>
+                <div className={styles.logo_wrapper} >
+                    <Link to='/'>
+                        <img src={rubyLogo} alt=""/>
+                    </Link>
+                </div>
+                { !user &&
+                    <Link to='/login'>
                         <div className={styles.cabinet_button}>
                             Личный кабинет
                         </div>
@@ -224,13 +224,13 @@ const AuthHeader = () => {
                     </div>
                 )}
                 <div className={styles.sub_menu_button} onClick={openMobileMenu} >
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 12H20" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/><path d="M4 6H20" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/><path d="M4 18H20" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 12H20" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/><path d="M4 6H20" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/><path d="M4 18H20" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
                 </div>
             </div>
 
             <div
-              className={classNames(styles.authHeader_menu, activeMenu ? styles._active : '')}
-              ref={menuRef}
+                className={classNames(styles.authHeader_menu, activeMenu ? styles._active : '')}
+                ref={menuRef}
             >
                 <div className={styles.close} onClick={closeMobileMenu} ></div>
 
@@ -240,14 +240,13 @@ const AuthHeader = () => {
 
                 <div ref={rubinLifeSubMenuRef} className={styles.menuLink} onClick={(event) => toggleSubMenu('rubinLife', event)}>
                     <div>
-                      Жизнь “Рубина”
-                      {activeSubMenu === 'rubinLife' ? <img src={blackArrowUp} alt=""/> : <img src={blackArrowDown} alt=""/>}
+                        Жизнь “Рубина”
+                        {activeSubMenu === 'rubinLife' ? <img src={blackArrowUp} alt=""/> : <img src={blackArrowDown} alt=""/>}
                     </div>
                     {activeSubMenu === 'rubinLife' && (
                         <div className='submenu' onClick={handleSubMenuClick}>
                             <ul>
                                 {[
-                                    { name: "Активисты клуба", path: "/students" },
                                     { name: "Тренерский состав", path: "/academy-coaches" },
                                     { name: "Программы и предложения клуба", path: "/programs" },
                                     { name: "Достижения", path: "/awards" },
@@ -269,10 +268,10 @@ const AuthHeader = () => {
                     )}
                 </div>
                 <div ref={clubActivitiesSubMenuRef} className={styles.menuLink} onClick={(event) => toggleSubMenu('clubActivities', event)}>
-                  <div>
-                    Активности
-                    {activeSubMenu === 'clubActivities' ? <img src={blackArrowUp} alt=""/> : <img src={blackArrowDown} alt=""/>}
-                  </div>
+                    <div>
+                        Активности
+                        {activeSubMenu === 'clubActivities' ? <img src={blackArrowUp} alt=""/> : <img src={blackArrowDown} alt=""/>}
+                    </div>
                     {activeSubMenu === 'clubActivities' && (
                         <div className='submenu' onClick={handleSubMenuClick}>
                             <ul>

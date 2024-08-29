@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect, ReactElement } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState, AppDispatch } from '../../store/store';
 
@@ -180,7 +180,7 @@ const SportPage = () => {
                                   <div className={styles.image_body} >
                                     <img src={data?.source} alt="#" />
                                     <b>{data?.name}</b>
-                                    <p>{data?.description}</p>
+                                    <p dangerouslySetInnerHTML={{ __html: data?.description || '' }} ></p>
                                   </div>
                                 )
                               })()}

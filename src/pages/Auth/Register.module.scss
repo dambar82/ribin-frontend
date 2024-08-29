@@ -1,24 +1,21 @@
-
 .authBlock__form {
-
   :global(.authBlock__form-group) {
     display: grid;
     justify-content: stretch;
 
     input {
       &._invalid {
-        border: 2px solid #E11F1F;
+        border: 2px solid #e11f1f;
       }
     }
 
     span {
-      color: #E11F1F;
+      color: #e11f1f;
       font-size: 18px;
       font-weight: 500;
       margin-bottom: 10px;
     }
   }
-
 }
 
 .politics {
@@ -37,12 +34,12 @@
   }
 
   .checkbox {
-    color: var(--main-color)!important;
+    color: var(--main-color) !important;
   }
 
   .checkbox_error {
     grid-column: 1/3;
-    color: #E11F1F;
+    color: #e11f1f;
     font-size: 18px;
     font-weight: 500;
     margin-bottom: 10px;

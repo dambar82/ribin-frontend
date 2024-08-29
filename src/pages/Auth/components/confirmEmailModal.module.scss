@@ -1,4 +1,5 @@
 
+
 .modal {
   position: fixed;
   top: 0;
@@ -82,13 +83,13 @@
     :global(.authBlock__form-group) {
       display: grid;
       justify-content: stretch;
-  
+
       input {
         &._invalid {
           border: 2px solid #E11F1F;
         }
       }
-  
+
       span {
         color: #E11F1F;
         font-size: 18px;

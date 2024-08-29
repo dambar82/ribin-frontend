@@ -5,7 +5,6 @@ import {useDispatch, useSelector} from "react-redux";
 import drakon from '../../images/svg/Drakon.svg';
 import orangeZone from '../../images/orange_background.svg';
 import buttonArrow from '../../images/svg/button_arrow.svg';
-import sponsor from '../../images/svg/sponsor.svg'
 import rubyStore from '../../images/ruby_store.jpg';
 import pacan from '../../images/pacan.jpg';
 
@@ -31,6 +30,7 @@ import ClubCard from '../../components/ClubCard/ClubCard';
 import {fetchPosts} from "../../store/postSlice";
 import {fetchPeople} from "../../store/peopleSlice";
 import { classNames } from '../../shared/utils'
+import {MemoryGame} from "../../components/MemoryGame/MemoryGame";
 
 const MainPage: React.FC = () => {
 
@@ -45,6 +45,10 @@ const MainPage: React.FC = () => {
     const isAuth = !!user?.email_confirmed
 
     const navigate = useNavigate()
+
+    // const toGame = () => {
+    //     navigate('/page/game-memory', { state: { component: 'memoryGame' } });
+    // }
 
     useEffect(() => {
         if (clubStatus === 'idle') {
@@ -391,7 +395,7 @@ const MainPage: React.FC = () => {
                     <div className={styles.sponsors__row}>
                         {[1, 2, 3, 4].map((item => (
                             <div key={item} className={styles.sponsors__sponsor}>
-                                <img src={sponsor} alt="" />
+                                <img src='/images/kazanorgsintez.png' alt="" />
                             </div>
                         )))}
                     </div>

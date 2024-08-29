@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
 import {Clubs, ContestUser, Post} from "../types";
-import { TEditUserRequest, TEditUserResponse } from '../shared/types/user.types'
+import { TEditUserRequest, TEditUserResponse, TResetPasswordRequest, TResetPasswordResponse, TRestorePasswordRequest, TRestorePasswordResponse } from '../shared/types/user.types'
 import { TCheckAuthResponse, TLoginUserResponse, TConfirmEmailResponse, TRegisterUserRequest, TRegisterUserResponse, TConfirmEmailRequest } from '../shared/types/auth.types'
 import { TEvent } from '../shared/types/event.types'
 
@@ -115,6 +115,26 @@ export const editUser = createAsyncThunk('user/editUser', async ( sendObj: TEdit
   return response.data.data
 });
 
+export const resetPassword = createAsyncThunk('user/resetPassword', async ( sendObj: TResetPasswordRequest ) => {
+  try {
+    const response = await $api.post<TResetPasswordResponse>('/api/reset-password', sendObj);
+    return response.data
+  } catch (error) {
+    console.log(error);
+    return error?.response.data
+  }
+});
+
+export const restorePassword = createAsyncThunk('user/restorePassword', async (data: { req: TRestorePasswordRequest, token: string }) => {
+  try {
+    const response = await $api.put<TRestorePasswordResponse>(`/api/restore-password/${data.token}`, data.req);
+    return response.data
+  } catch (error) {
+    console.log(error);
+    return error?.response.data
+  }
+});
+
 const userSlice = createSlice({
     name: 'user',
     initialState,
@@ -221,6 +241,14 @@ const userSlice = createSlice({
             .addCase(editUser.rejected, (state, action) => {
                 state.status = 'failed';
                 state.error = action.error.message || null;
+            })
+
+            .addCase(resetPassword.fulfilled, (state, action: PayloadAction<TResetPasswordResponse>) => {
+              console.log(action.payload);
+            })
+
+            .addCase(restorePassword.fulfilled, (state, action: PayloadAction<TRestorePasswordResponse>) => {
+              console.log(action.payload);
             })
     },
 });

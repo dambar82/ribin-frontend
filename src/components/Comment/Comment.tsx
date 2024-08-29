@@ -30,6 +30,7 @@ const Comment = ({ id, liked_by, text, created_at, likes_count, name, avatar, cr
     const user = useSelector((state: RootState) => state.user);
     const [likes, setLikes] = useState(likes_count);
     const [isLiked, setIsLiked] = useState(liked_by.includes(user.user.id));
+    const [isAuthor, setIsAuthor] = useState(false);
 
     const handleLikeClick = () => {
         if (!isLiked) {
@@ -38,6 +39,12 @@ const Comment = ({ id, liked_by, text, created_at, likes_count, name, avatar, cr
             setIsLiked(true);
         }
     }
+
+    useEffect(() => {
+        if (user.user.id === created_by) {
+            setIsAuthor(true);
+        }
+    }, [])
 
     return (
         <div className={styles.comment}>
@@ -49,7 +56,7 @@ const Comment = ({ id, liked_by, text, created_at, likes_count, name, avatar, cr
                     <div className={styles.author__name}>{name}</div>
                     <div className={styles.author__date}>{postFormatDate(created_at)}</div>
                 </div>
-                <DropdownMenu />
+                <DropdownMenu isAuthor={isAuthor}/>
             </div>
             <div className={styles.comment__body}>
                 <p>{text}</p>

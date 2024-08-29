@@ -11,10 +11,15 @@
           padding: 50px;
         }
         @media (max-width: 1200px) {
-          gap: 50px; 
+          gap: 50px;
         }
         @media (max-width: 1000px) {
-          flex-direction: column-reverse;
+            flex-direction: column-reverse;
+            padding: 36px;
+            border-radius: 36px;
+        }
+        @media (max-width: 375px) {
+            padding: 18px;
         }
     }
     &__content {
@@ -29,7 +34,7 @@
         line-height: calc(44 / 36);
 
         @media (max-width: 1440px) {
-          font-size: 32px; 
+          font-size: 32px;
         }
         @media (max-width: 1000px) {
           font-size: 28px;
@@ -39,7 +44,7 @@
         font-size: 24px;
         font-weight: 400;
         line-height: calc(28 / 24);
-        
+
         @media (max-width: 1440px) {
           font-size: 18px;
         }
@@ -162,10 +167,10 @@
         margin: 0 0 auto;
 
         @media (max-width: 1440px) {
-          font-size: 18px; 
+          font-size: 18px;
         }
         @media (max-width: 1200px) {
-          font-size: 16px; 
+          font-size: 16px;
         }
     };
     &__phone {
@@ -175,10 +180,10 @@
         line-height: calc(38 / 32);
 
         @media (max-width: 1440px) {
-          font-size: 24px; 
+          font-size: 24px;
         }
         @media (max-width: 1200px) {
-          font-size: 20px; 
+          font-size: 20px;
         }
     }
     &__coach {
@@ -187,10 +192,10 @@
         line-height: calc(32 / 28);
 
         @media (max-width: 1440px) {
-          font-size: 20px; 
+          font-size: 20px;
         }
         @media (max-width: 1200px) {
-          font-size: 16px; 
+          font-size: 16px;
         }
     }
     @media screen and (any-hover: hover) {
@@ -209,7 +214,7 @@
         padding: 70px;
 
         @media (max-width: 1440px) {
-          padding: 50px; 
+          padding: 50px;
         }
     }
     &__title {
@@ -219,9 +224,9 @@
 
         @media (max-width: 1440px) {
           font-size: 32px;
-        } 
+        }
         @media (max-width: 1200px) {
-          font-size: 28px; 
+          font-size: 28px;
         }
 
         &:not(:last-child) {
@@ -234,10 +239,10 @@
         line-height: calc(28 / 24);
 
         @media (max-width: 1440px) {
-          font-size: 18px; 
+          font-size: 18px;
         }
         @media (max-width: 1200px) {
-          font-size: 16px; 
+          font-size: 16px;
         }
     }
 }

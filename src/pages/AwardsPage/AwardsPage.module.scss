@@ -1,6 +1,6 @@
 .awards {
     &__body {
-        background-color: #91172C;
+        background-color: #91172c;
         background-image: url(../../../public/images/awards-bg.svg);
         background-repeat: no-repeat;
         background-position: center bottom;
@@ -9,7 +9,11 @@
         padding: 70px;
 
         @media (max-width: 1440px) {
-          padding: 30px;
+            padding: 30px;
+        }
+
+        @media (max-width: 375px) {
+            border-radius: 26px;
         }
 
         & > div > div {
@@ -22,13 +26,13 @@
         flex-wrap: wrap;
 
         @media (max-width: 768px) {
-          display: grid;
+            display: grid;
         }
     }
 }
 
 .award {
-    background-color: #FFFFFF;
+    background-color: #ffffff;
     border-radius: 35px;
     cursor: pointer;
     display: flex;
@@ -41,11 +45,18 @@
     overflow: hidden;
 
     @media (max-width: 1440px) {
-      padding: 24px;      
+        padding: 24px;
+    }
+
+    @media (max-width: 375px) {
+        border-radius: 16px;
+        gap: 70px;
+        height: auto;
+        padding: 18px;
     }
 
     &::after {
-        background-color: rgba($color: #91172C, $alpha: 0.5);
+        background-color: rgba($color: #91172c, $alpha: 0.5);
         content: "";
         position: absolute;
         inset: 0;
@@ -66,7 +77,9 @@
         transition: all 0.3s ease 0s;
         z-index: 0;
     }
-    &__years, &__name, &__cup {
+    &__years,
+    &__name,
+    &__cup {
         position: relative;
         z-index: 1;
     }
@@ -77,7 +90,11 @@
         line-height: calc(24 / 20);
 
         @media (max-width: 1440px) {
-          font-size: 18px;
+            font-size: 18px;
+        }
+
+        @media (max-width: 375px) {
+            font-size: 16px;
         }
     }
     &__name {
@@ -87,7 +104,13 @@
         max-width: 425px;
 
         @media (max-width: 1440px) {
-          font-size: 28px;
+            font-size: 28px;
+        }
+
+        @media (max-width: 375px) {
+            font-size: 22px;
+            line-height: 26px;
+            max-width: 238px;
         }
     }
     &__cup {
@@ -95,15 +118,15 @@
         height: 100px;
 
         @media (max-width: 1440px) {
-          width: max-content;
-          height: 54px; 
+            width: max-content;
+            height: 54px;
         }
 
         img {
             width: 100%;
             height: 100%;
             object-fit: contain;
-            object-position: center bottom
+            object-position: center bottom;
         }
     }
     &__content {

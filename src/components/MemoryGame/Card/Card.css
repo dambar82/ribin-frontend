@@ -1,0 +1,64 @@
+.card {
+    width: 250px;
+    height: 250px;
+    perspective: 1000px;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.card__container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.4s;
+    transform-style: preserve-3d;
+    display: grid;
+    grid-template-areas: "card-container";
+}
+
+.card--open .card__container {
+    transform: rotateY(180deg);
+}
+
+.card__front {
+    background-color: var(--color-primary);
+}
+
+.card__inner {
+    background-color: #E5E5E5;
+}
+
+.card__inner img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.card__front,
+.card__inner {
+    display: grid;
+    place-content: center;
+    grid-area: card-container;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+}
+
+.card__inner {
+    transform: rotateY(180deg);
+}
+
+.card--solved {
+    animation: opacityCard .5s forwards;
+    animation-delay: .5s;
+}
+
+@keyframes opacityCard {
+    0% {
+        transform: scale(1);
+    }
+    100% {
+        transform: scale(0);
+    }
+}

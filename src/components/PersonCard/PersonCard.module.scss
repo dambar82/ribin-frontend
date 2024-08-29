@@ -1,15 +1,19 @@
 .card {
-    background-color: #FFFFFF;
+    background-color: #ffffff;
     border-radius: 35px;
     box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.12);
     padding: 20px;
     // width: calc((100% - 3 * 40px) / 4);
 
     @media (max-width: 1200px) {
-      width: calc((100% - 2 * 40px) / 3)!important;
+        width: calc((100% - 2 * 40px) / 3) !important;
     }
     @media (max-width: 900px) {
-      width: calc((100% - 1 * 40px) / 2)!important;
+        width: calc((100% - 1 * 40px) / 2) !important;
+    }
+    @media (max-width: 375px) {
+        width: 100% !important;
+        border-radius: 26px;
     }
 
     &__image {
@@ -18,13 +22,16 @@
         overflow: hidden;
 
         @media (max-width: 1440px) {
-          height: 340px;
+            height: 340px;
         }
         @media (max-width: 900px) {
-          height: 480px;
+            height: 480px;
         }
         @media (max-width: 768px) {
-          height: 340px;
+            height: 340px;
+        }
+        @media (max-width: 375px) {
+            border-radius: 16px;
         }
 
         &:not(:last-child) {
@@ -37,9 +44,8 @@
             object-fit: cover;
             vertical-align: top;
         }
-    } 
+    }
     &__content {
-        
     }
     &__name {
         font-size: 32px;
@@ -47,7 +53,7 @@
         line-height: calc(38 / 32);
 
         @media (max-width: 1440px) {
-          font-size: 24px; 
+            font-size: 24px;
         }
 
         &:not(:last-child) {
@@ -62,7 +68,7 @@
         line-height: calc(24 / 20);
 
         @media (max-width: 1440px) {
-          font-size: 18px; 
+            font-size: 18px;
         }
     }
 }
