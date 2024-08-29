@@ -26,7 +26,7 @@ export const getQuizById = createAsyncThunk('quizzes/getQuizById', async ( id: s
     return response.data.data
 });
 
-export const sendQuizResult = createAsyncThunk('quizzes/sendQuizResult', async ( sendObj: TSendQuizResultRequest ) => {
+export const sendQuizResult = createAsyncThunk('quizzes/sendQuizResult', async ( data: {  sendObj: TSendQuizResultRequest, quiz_id: number } ) => {
   $api.interceptors.request.use(config => {
     const token = JSON.parse(localStorage.getItem('token') || '0')
     if (token) {
@@ -35,7 +35,7 @@ export const sendQuizResult = createAsyncThunk('quizzes/sendQuizResult', async (
     return config
   })
 
-  const response = await $api.post<TSendQuizResultResponse>('api/quiz', sendObj);
+  const response = await $api.post<TSendQuizResultResponse>(`/api/result/${data.quiz_id}`, data.sendObj);
   return response.data.data
 });
 

@@ -24,7 +24,6 @@ export type TGetQuizByIdResponse = {
 
 export type TSendQuizResultRequest = {
   result: number
-  title: string
 }
 export type TSendQuizResultResponse = {
   data: {

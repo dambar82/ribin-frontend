@@ -6,8 +6,8 @@ interface IClubCard {
     name: string;
     image: string;
     desc?: string;
-    tagIcon: string;
-    tagLabel: string,
+    tagIcon?: string;
+    tagLabel?: string,
     buttonLabel?: string;
     // participants: number;
     className?: string
@@ -23,12 +23,14 @@ const Card = ({ date, name, image, desc, tagIcon, tagLabel, buttonLabel, classNa
                 { image && <img src={image} alt=''/>}
             </div>
             <div className={styles.card__content}>
-                <div className={styles.card__tag}>
+                {tagIcon && tagLabel &&
+                  <div className={styles.card__tag}>
                     <div className={styles.card__tagIcon}>
                         <img src={tagIcon} />
                     </div>
                     <div className={styles.card__tagLabel}>{tagLabel}</div>
-                </div>
+                  </div>
+                }
                 <h3 className={styles.card__title}>{ name }</h3>
                 { desc && <p className={styles.card__desc}>{ desc }</p>}
                 { buttonLabel && <button className={`${styles.card__button} button button--black`} type="button">
