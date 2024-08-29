@@ -119,7 +119,6 @@ const SportPage = () => {
                                       <VideoTrainingCard 
                                           key={video.id}
                                           title={video.name}
-                                          description={video.description}
                                           image={video.source}
                                           thumbnail={video.thumbnail}
                                           onClick={() => openVideoModalHandler(index)}
@@ -136,6 +135,8 @@ const SportPage = () => {
                                   <VideoTrainingCard 
                                     key={sports["training_videos"]?.find((_, i) => i === activeVideo)?.id}
                                     image={sports["training_videos"]?.find((_, i) => i === activeVideo)?.source}
+                                    title={sports["training_videos"]?.find((_, i) => i === activeVideo)?.name}
+                                    description={sports["training_videos"]?.find((_, i) => i === activeVideo)?.description}
                                   />
                                 </div>
                               </Modal>

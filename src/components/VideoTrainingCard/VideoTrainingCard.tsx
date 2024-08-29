@@ -72,10 +72,10 @@ const VideoTrainingCard = ({ title, image, thumbnail, description, onClick }: IV
                     !isPlaying && <div className={styles.video__duration}>{formatDuration(duration)}</div>
                 }
             </div>
-            {(!!title || !!description) &&
+            {!!title &&
               <div className={styles.card__content}>
-                <h3 className={styles.card__title}>{title}</h3>
-                <p className={styles.card__desc}>{description}</p>
+                <h3 className={styles.card__title} dangerouslySetInnerHTML={{ __html: title || '' }}  ></h3>
+                {!!description && <p className={styles.card__desc} dangerouslySetInnerHTML={{ __html: description || '' }} ></p>}
               </div>
             }
         </div>

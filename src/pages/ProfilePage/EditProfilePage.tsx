@@ -10,8 +10,15 @@ import {ChangeEvent, useEffect, useRef, useState} from "react";
 import {User} from "../../store/userSlice";
 import {editClient, fetchPeople} from "../../store/peopleSlice";
 import {useAppDispatch} from "../../store/hooks";
-import {isFileSizeAllowed} from "../../shared/utils/validators/isFileSizeAllowed";
 import {editClub} from "../../store/clubsSlice";
+import { getResizedImg } from "../../shared/utils"
+
+
+const BANNER_WIDTH = 2000
+const BANNER_HEIGHT = 400
+const AVATAR_WIDTH = 512
+const AVATAR_HEIGHT = 512
+
 
 const EditProfilePage = () => {
     const navigate = useNavigate();
@@ -45,28 +52,56 @@ const EditProfilePage = () => {
 
         if ( !e.target.files ) return
 
-        const file = e.target.files[0]!
+        const file = e.target.files[0]
 
-        if ( !isFileSizeAllowed(file.size) ) return
+        if ( !file ) return
 
-        setLoadedBanner({
-            file,
-            url: URL.createObjectURL(file)
-        })
+        const img: HTMLImageElement = new Image()
+        img.src = URL.createObjectURL(file)
+
+        img.onload = async () => {
+          try {
+            const imgWidth = img.width
+            const imgHeight = img.height
+
+            const resizedImg: Blob = await getResizedImg({img, newWidth: BANNER_WIDTH, newHeight: BANNER_HEIGHT, imgWidth, imgHeight})
+
+            setLoadedBanner({
+              file: resizedImg,
+              url: URL.createObjectURL(resizedImg)
+            })
+          } catch ( err ) {
+            console.log(err)
+          }
+        }
     }
 
     const loadAvatar = async (e: ChangeEvent<HTMLInputElement>): Promise<void> => {
 
         if ( !e.target.files ) return
 
-        const file = e.target.files[0]!
+        const file = e.target.files[0]
 
-        if ( !isFileSizeAllowed(file.size) ) return
+        if ( !file ) return
 
-        setLoadedAvatar({
-            file,
-            url: URL.createObjectURL(file)
-        })
+        const img: HTMLImageElement = new Image()
+        img.src = URL.createObjectURL(file)
+
+        img.onload = async () => {
+          try {
+            const imgWidth = img.width
+            const imgHeight = img.height
+
+            const resizedImg: Blob = await getResizedImg({img, newWidth: AVATAR_WIDTH, newHeight: AVATAR_HEIGHT, imgWidth, imgHeight})
+
+            setLoadedAvatar({
+              file: resizedImg,
+              url: URL.createObjectURL(resizedImg)
+            })
+          } catch ( err ) {
+            console.log(err)
+          }
+        }
     }
 
     const handleSubmit = (e) => {
@@ -75,11 +110,11 @@ const EditProfilePage = () => {
         const data = new FormData(e.currentTarget)
 
         if ( loadedAvatar ) {
-            data.set('avatar', loadedAvatar.file)
+            data.set('avatar', loadedAvatar.file, 'avatar.png')
         }
 
         if ( loadedBanner ) {
-            data.set('image', loadedBanner.file)
+            data.set('image', loadedBanner.file, 'image.png')
         }
         data.set('description', descriptionValue);
         data.set('_method', 'put');
