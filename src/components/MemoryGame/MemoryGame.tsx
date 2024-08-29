@@ -21,7 +21,7 @@ interface MemoryGameProps {
 }
 
 export const MemoryGame: React.FC<MemoryGameProps> = ({
-                                                          numberOfAttempts = 40,
+                                                          numberOfAttempts = 30,
                                                           titleText = 'MEMORY',
                                                           winMessage = 'Ура, ВЫ выиграли!',
                                                           loseMessage = 'УВЫ, ВЫ ПРОИГРАЛИ'
