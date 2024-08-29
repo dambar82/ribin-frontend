@@ -1,4 +1,4 @@
-import {useState, useRef, useEffect} from "react"
+import React, {useState, useRef, useEffect} from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { AppDispatch, RootState } from "../../store/store"
 import { arrayFromTo, classNames } from "../../shared/utils"
@@ -56,10 +56,44 @@ const SettingsPage = () => {
         fetchDistricts();
     }, [])
 
+    const handleDeleteClick = () => {
+        const confirmed = window.confirm('Вы уверены, что хотите удалить аккаунт? Это действие необратимо.');
+        if (confirmed) {
+            deleteUser();
+        }
+    };
 
-    useEffect(() => {
-        console.log(districtOptions)
-    }, [districtOptions])
+    const deleteUser = async () => {
+        try {
+            const $api = axios.create({
+                baseURL: 'https://api-rubin.multfilm.tatar'
+            });
+
+            $api.interceptors.request.use(config => {
+                const token = JSON.parse(localStorage.getItem('token') || '0');
+                if (token) {
+                    config.headers.Authorization = `Bearer ${token}`;
+                }
+                return config;
+            });
+
+            const res = await $api.delete(`/api/clients/${user.id}`);
+
+            // Проверка успешности удаления
+            if (res.status === 200 || res.status === 204) {
+                // Очистка localStorage
+                localStorage.removeItem('token');
+                localStorage.removeItem('user_id');
+
+                // Перенаправление на главную страницу
+                window.location.href = '/';
+            } else {
+                console.error('Ошибка при удалении пользователя');
+            }
+        } catch (error) {
+            console.error('Ошибка при удалении пользователя:', error);
+        }
+    };
 
 
     const onSubmit = async ( e: React.FormEvent<HTMLFormElement> ) => {
@@ -237,6 +271,7 @@ const SettingsPage = () => {
                                 { password ? <img width={20} src={ hidePassword ? hidePasswordIcon : showPasswordIcon } alt="" onClick={() => setHidePassword(state => !state)}/> : null }
                             </div>
                         </div>
+                        <button className={styles.deleteAccout} onClick={handleDeleteClick}>Удалить аккаунт</button>
                         {/* <div className={`${styles.form__control} form-control`}>
                             <div className="form-control__label">Повторите пароль</div>
                             <div className="form-control__field-wrapper">
