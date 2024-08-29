@@ -1,5 +1,6 @@
 
 .quiz {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -48,7 +49,7 @@
 .top {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-end;
 
   &:not(:last-child) {
       margin: 0 0 46px;
@@ -305,8 +306,6 @@
             font-family: "Saira", "sans-serif";
         }
     }
-    &__body {
-    }
     &__invitation {
         font-size: 32px;
         font-weight: 500;
@@ -504,4 +503,15 @@
             }
         }
     }
+}
+
+.success_message {
+  background-color: #91172c;
+  padding: 20px 90px;
+  border-radius: 35px;
+  pointer-events: none;
+
+  color: var(--white);
+  font-size: 22px;
+  text-align: center;
 }

@@ -1,18 +1,16 @@
 import { useEffect, useState } from "react"
-
-import c from "./SingleQuizPage.module.scss"
-
-import arrowIcon from "../../images/svg/button_arrow.svg"
+import { useNavigate, useParams } from "react-router-dom"
 import { useAppDispatch, useAppSelector } from "../../store/hooks"
 import { getQuizById, sendQuizResult } from "../../store/quizzesSlice"
-import { useNavigate, useParams } from "react-router-dom"
 import { TQuiz } from "../../shared/types/quiz.types"
 import { Button } from "../../shared/UI"
 import { classNames } from "../../shared/utils"
 
+import c from "./SingleQuizPage.module.scss"
+import { Alert } from "@mui/material"
+
 
 type TAnswer = TQuiz['questions'][number]['answers'][number]
-type TQuestion = TQuiz['questions'][number]
 
 
 const SingleQuizPage = () => {
@@ -21,11 +19,12 @@ const SingleQuizPage = () => {
 
   const [currentQuestion, setCurrentQuestion] = useState(0)
   const [answers, setAnswers] = useState<{ id: number, answer: boolean }[]>([])
-  
-  const [result, setResult] = useState<number | null>(null)
+  const [result, setResult] = useState<{ correct_answers: number, incorrect_answers: number } | null>(null)
+  const [successMessage, setSuccessMessage] = useState('')
 
   const dispatch = useAppDispatch()
   const params = useParams()
+  const navigate = useNavigate()
 
   useEffect(() => {
     setAnswers(quiz?.questions?.reduce<{ id: number, answer: boolean }[]>((acc, question) => {
@@ -44,9 +43,10 @@ const SingleQuizPage = () => {
 
     if ( currentQuestion === quiz.questions.length && direction ) {
       setResult(answers.reduce((acc, el) => {
-        if ( el.answer ) return ++acc
+        if ( el.answer ) ++acc.correct_answers;
+        else ++acc.incorrect_answers;
         return acc
-      }, 0))
+      }, { correct_answers: 0, incorrect_answers: 0 }))
       setCurrentQuestion(0)
       return
     }
@@ -59,9 +59,12 @@ const SingleQuizPage = () => {
 
   const finishQuiz = () => {
     dispatch(sendQuizResult({
-      result,
-      title: quiz.title
+      sendObj: { result: result.correct_answers },
+      quiz_id: quiz.id
     }))
+    .then(() => {
+      setSuccessMessage('Ваши результаты успешно сохранены')
+    })
   }
 
   if ( !quiz ) return <></>
@@ -97,6 +100,7 @@ const SingleQuizPage = () => {
                 questionsCount={quiz.questions.length}
                 result={result}
                 finishQuiz={finishQuiz}
+                successMessage={successMessage}
               />
             }
 
@@ -111,21 +115,18 @@ interface StartQuizProps {
   changeQuestion: ( direction: number ) => void
 }
 const StartQuiz = ({ quiz, changeQuestion }: StartQuizProps) => {
-
-  const navigate = useNavigate()
-
   return (
     <div className={c.quiz}>
 
       <div className={c.quiz_content} >
 
         <div className={c.top} >
-          <button
+          {/* <button
             className={c.button}
             onClick={() => navigate(-1)}
           >
             Выйти
-          </button>
+          </button> */}
           <div className={c.quiz_counter}>
             Вопросов: {quiz.questions.length}
           </div>
@@ -186,12 +187,12 @@ const Question = ({ quiz, currentQuestion, answers, changeQuestion, setAnswers, 
       <div className={c.quiz_content} >
 
         <div className={c.top} >
-          <button
+          {/* <button
             className={c.button}
             onClick={() => changeQuestion(-1)}
           >
             Назад
-          </button>
+          </button> */}
           <div className={c.quiz_counter}>
             Вопрос: {currentQuestion} из {quiz.questions.length}
           </div>
@@ -228,12 +229,12 @@ const Question = ({ quiz, currentQuestion, answers, changeQuestion, setAnswers, 
 
       </div>
 
-      <Button
+      {/* <Button
         className={c.end_button}
         onClick={finishQuiz}
       >
         <span>Завершить викторину</span>
-     </Button>
+     </Button> */}
 
     </div>
   )
@@ -317,17 +318,18 @@ const QuestionError = ({ changeQuestion, finishQuiz }: QuestionErrorProps) => {
 
 interface QuizResultProps {
   questionsCount: number
-  result: number
+  result: { correct_answers: number, incorrect_answers: number }
+  successMessage: string
   finishQuiz: () => void
 }
-const QuizResult = ({ result, questionsCount, finishQuiz }: QuizResultProps) => {
+const QuizResult = ({ result, questionsCount, successMessage, finishQuiz }: QuizResultProps) => {
 
   let text = 'Поздравляем! Вы отлично справились с викториной и ответили на большинство (или все) вопросов. Потрясающий результат! Вы настоящий знаток. Не забывайте делиться своими достижениями с друзьями и пригласите их принять участие.'
 
-  if ( result / questionsCount < 0.5 ) {
+  if ( result.correct_answers / questionsCount < 0.5 ) {
     text = 'Поздравляем с завершением викторины! Вы ответили на несколько вопросов, и это уже хороший старт. Не расстраивайтесь, если не всё получилось, ведь каждый вопрос - это возможность узнать что-то новое.'
   }
-  else if ( result / questionsCount < 0.7 ) {
+  else if ( result.correct_answers / questionsCount < 0.7 ) {
     text = 'Поздравляем! Вы успешно прошли викторину и ответили на значительное количество вопросов. Отличный результат! Вы на верном пути к званию настоящего эксперта!'
   }
 
@@ -338,16 +340,21 @@ const QuizResult = ({ result, questionsCount, finishQuiz }: QuizResultProps) => 
         <b>Викторина завершена!</b>
         <p>{text}</p>
         <div>
-          {result}/{questionsCount}
+          {result.correct_answers}/{questionsCount}
         </div>
       </div>
 
-      <Button
-        className={c.end_button}
-        onClick={finishQuiz}
-      >
-        <span>Завершить викторину</span>
-     </Button>
+      {successMessage
+      ?
+        <div className={c.success_message} >{successMessage}</div>
+      :
+        <Button
+          className={c.end_button}
+          onClick={finishQuiz}
+        >
+          <span>Завершить викторину</span>
+        </Button>
+     }
 
     </div>
   )

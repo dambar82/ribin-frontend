@@ -39,8 +39,6 @@ const QuizzesPage = () => {
                                 key={quiz.id}
                                 name={quiz.title}
                                 image={'https://api-rubin.multfilm.tatar/storage/'+quiz.image}
-                                tagIcon={questionIcon}
-                                tagLabel={`${quiz.questions?.length} ${getQuastionsWord(quiz.questions?.length)}`}
                                 buttonLabel="Начать викторину"
                                 onClick={() => {
                                   navigate(`/quizzes/${quiz.id}`)
