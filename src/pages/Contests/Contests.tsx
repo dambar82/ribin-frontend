@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import styles from './Contests.module.scss';
-import contestImg from '../../images/svg/contestImg.svg'
+import contestImg from '../../images/contestImg.jpg'
 import {useDispatch, useSelector} from "react-redux";
 import {AppDispatch, RootState} from "../../store/store";
 import {fetchContests} from "../../store/contestSlice";
