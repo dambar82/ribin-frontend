@@ -32,7 +32,7 @@ import {fetchPeople} from "../../store/peopleSlice";
 import { classNames } from '../../shared/utils'
 import {MemoryGame} from "../../components/MemoryGame/MemoryGame";
 import kazanorgsintez from '../../images/svg/sponsor-koc.svg';
-import neftehim from '../../images/svg/sponsor.svg';
+import neftehim from '../../images/svg/sponsor-nzkmsk.svg';
 
 const sponsors = [
     kazanorgsintez, neftehim
