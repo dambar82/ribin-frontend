@@ -21,7 +21,7 @@ const menuLinks: IMenuLink[] = [
         link: '/'
     },
     {
-        title: 'Люди',
+        title: 'Пользователи',
         link: '/people'
     },
     {
@@ -33,8 +33,8 @@ const menuLinks: IMenuLink[] = [
         link: '/news'
     },
     {
-        title: 'Блог',
-        link: '/blog'
+        title: 'Записи',
+        link: '/posts'
     },
     {
         title: 'Клубы',
@@ -42,11 +42,11 @@ const menuLinks: IMenuLink[] = [
     },
     {
         title: 'Спорт для школьников',
-        link: '/sport'
+        link: '/sportslife'
     },
     {
-        title: 'Жизнь спортивного клуба',
-        link: '/sportslife'
+        title: 'Мероприятия',
+        link: '/events'
     },
 ]
 
@@ -75,46 +75,46 @@ const Footer = () => {
                         </div>
                     </div>
                     <div className={styles.footer_links}>
-                        <h3>
-                            +7 (123) 456-78-90
+                        <h3 className={styles.footer_number}>
+                            8 800 550 1958
                         </h3>
+                        {/*<div className={styles.footer_links_flex}>*/}
+                        {/*    <div className={styles.footer_link}>*/}
+                        {/*        Адрес: ул. Спортивная, д. 1, г. Казань*/}
+                        {/*    </div>*/}
+                        {/*</div>*/}
                         <div className={styles.footer_links_flex}>
                             <div className={styles.footer_link}>
-                                Адрес: ул. Спортивная, д. 1, г. Казань
+                                rubinkids@yandex.ru
                             </div>
                         </div>
-                        <div className={styles.footer_links_flex}>
-                            <div className={styles.footer_link}>
-                                info@rubinclub.ru
-                            </div>
-                        </div>
-                        <div className={styles.socialMedia_flex}>
-                            <a href='https://vk.com'>
-                                <div className={styles.socialMedia}>
-                                    <img src={vk} alt=""/>
-                                </div>
-                            </a>
-                            <a href='https://web.telegram.org/'>
-                                <div className={styles.socialMedia}>
-                                    <img src={tg} alt=""/>
-                                </div>
-                            </a>
-                            <a href='https://web.telegram.org/'>
-                                <div className={styles.socialMedia}>
-                                    <img src={youtube} alt=""/>
-                                </div>
-                            </a>
-                            <a href='https://web.telegram.org/'>
-                                <div className={styles.socialMedia}>
-                                    <img src={tiktok} alt=""/>
-                                </div>
-                            </a>
-                            <a href='https://web.telegram.org/'>
-                                <div className={styles.socialMedia}>
-                                    <img src={twitter} alt=""/>
-                                </div>
-                            </a>
-                        </div>
+                        {/*<div className={styles.socialMedia_flex}>*/}
+                        {/*    <a href='https://vk.com'>*/}
+                        {/*        <div className={styles.socialMedia}>*/}
+                        {/*            <img src={vk} alt=""/>*/}
+                        {/*        </div>*/}
+                        {/*    </a>*/}
+                        {/*    <a href='https://web.telegram.org/'>*/}
+                        {/*        <div className={styles.socialMedia}>*/}
+                        {/*            <img src={tg} alt=""/>*/}
+                        {/*        </div>*/}
+                        {/*    </a>*/}
+                        {/*    <a href='https://web.telegram.org/'>*/}
+                        {/*        <div className={styles.socialMedia}>*/}
+                        {/*            <img src={youtube} alt=""/>*/}
+                        {/*        </div>*/}
+                        {/*    </a>*/}
+                        {/*    <a href='https://web.telegram.org/'>*/}
+                        {/*        <div className={styles.socialMedia}>*/}
+                        {/*            <img src={tiktok} alt=""/>*/}
+                        {/*        </div>*/}
+                        {/*    </a>*/}
+                        {/*    <a href='https://web.telegram.org/'>*/}
+                        {/*        <div className={styles.socialMedia}>*/}
+                        {/*            <img src={twitter} alt=""/>*/}
+                        {/*        </div>*/}
+                        {/*    </a>*/}
+                        {/*</div>*/}
                     </div>
                 </div>
                 <div className={`${styles.footer_redPart} `}>
