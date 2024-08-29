@@ -82,7 +82,7 @@ const Chat = () => {
         if (selectedContact) {
             try {
                 const response = await axios.get(`https://api-rubin.multfilm.tatar/api/messages/get/${selectedContact.id}`, {
-                    headers: { Authorization: `${token}` }
+                    headers: { 'Authorization': `Bearer ${token}` }
                 });
                 setMessages(response.data.data);
                 scrollToBottom(); // Прокрутка вниз при открытии чата
@@ -102,7 +102,7 @@ const Chat = () => {
             setIsSending(true); // Устанавливаем состояние отправки сообщения
             try {
                 const answer = await axios.post(`https://api-rubin.multfilm.tatar/api/messages/send/${selectedContact.id}`, { message: newMessage }, {
-                    headers: { Authorization: `${token}` }
+                    headers: { 'Authorization': `Bearer ${token}` }
                 });
                 setMessages(prevMessages => [...prevMessages, answer.data.data]);
                 setNewMessage('');
@@ -142,7 +142,7 @@ const Chat = () => {
     const deleteMessage = async (messageId) => {
         try {
             await axios.delete(`https://api-rubin.multfilm.tatar/api/messages/delete-message/${messageId}`, {
-                headers: { Authorization: `${token}` }
+                headers: { 'Authorization': `Bearer ${token}` }
             });
             setMessages(prevMessages => prevMessages.filter(msg => msg.id !== messageId));
             setContextMenu({ isVisible: false });
@@ -154,7 +154,7 @@ const Chat = () => {
     const editMessage = async (messageId, newContent) => {
         try {
             await axios.put(`https://api-rubin.multfilm.tatar/api/messages/edit-message/${messageId}`, { message: newContent }, {
-                headers: { Authorization: `${token}` }
+                headers: { 'Authorization': `Bearer ${token}` }
             });
             setMessages(prevMessages => prevMessages.map(msg => msg.id === messageId ? { ...msg, message: newContent } : msg));
             setContextMenu({ isVisible: false });
