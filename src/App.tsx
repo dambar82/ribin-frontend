@@ -119,6 +119,8 @@ function App() {
 
     const dispatch = useDispatch<AppDispatch>()
 
+
+
     const publicRoutes = [
         { path: '/login', element: <Login />, layout: UnauthLayout },
         { path: '/register', element: <Register />, layout: UnauthLayout },
@@ -127,7 +129,7 @@ function App() {
         { path: '/email-confirmation/:hash', element: <ConfirmEmailModal email='' />, layout: UnauthLayout },
         { path: '/contests', element: <Contests />, layout: UnauthLayout },
         { path: '/contests/:contestId', element: <ContestPage />, layout: UnauthLayout },
-        { path: '/news', element: <NewsPage />, layout: UnauthLayout },
+        { path: '/news', element: <NewsPage />, layout: UnauthLayout},
         { path: '/news/:id', element: <SingleNewsPage />, layout: UnauthLayout },
         {path: '/news/api/:id', element: <SingleNewsPageApi/>, layout: UnauthLayout },
         { path: '/people', element: <UsersFilter />, layout: UnauthLayout },
@@ -138,7 +140,7 @@ function App() {
         { path: '/students', element: <StudentsPage /> , layout: UnauthLayout },
         { path: '/academy-coaches', element: <CoachesPage /> , layout: UnauthLayout },
         { path: '/awards', element: <AwardsPage /> , layout: UnauthLayout },
-        { path: '/programs', element: <ClubProgramsPage /> , layout: UnauthLayout },
+        { path: '/programs', element: <ClubProgramsPage /> , layout: UnauthLayout},
     ];
 
     const privateRoutes = [
