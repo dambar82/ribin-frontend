@@ -9,7 +9,7 @@ import DropdownMenu from '../DropdownMenu/DropdownMenu'
 import {IComment} from "../../types";
 import {useSelector} from "react-redux";
 import {useAppDispatch} from "../../store/hooks";
-import {addComment, createComment, deletePost, toggleLikeAsync} from "../../store/postSlice";
+import {addComment, createComment, deletePost, deletePostAsync, toggleLikeAsync} from "../../store/postSlice";
 import {RootState} from "../../store/store";
 import {useEffect, useState} from "react";
 import 'react-image-lightbox/style.css'; // Импорт стилей для lightbox
@@ -71,10 +71,6 @@ const Post = ({ id, name, avatar, created_by, source, tags, comments, children, 
         }
     }, [])
 
-    const handleCommentSection = () => {
-
-    }
-
     const onSubmit = async ( e: React.FormEvent<HTMLFormElement> ) => {
         e.preventDefault()
 
@@ -100,8 +96,6 @@ const Post = ({ id, name, avatar, created_by, source, tags, comments, children, 
                     child: []
                 }
             ])
-
-            console.log(newPost);
 
             setCommentText('');
             setShowAllComments(true);
@@ -144,7 +138,13 @@ const Post = ({ id, name, avatar, created_by, source, tags, comments, children, 
 
     const handleDeleteClick = () => {
         dispatch(deletePost({postId: id}));
+        dispatch(deletePostAsync({postId: id}));
+    }
 
+    const handleDeleteComment = (id) => {
+        setPostComments(postComments.filter(comment => {
+            return comment.id !== id;
+        }))
     }
 
     return (
@@ -238,6 +238,7 @@ const Post = ({ id, name, avatar, created_by, source, tags, comments, children, 
                                     avatar={comment.avatar}
                                     name={comment.name}
                                     created_by={comment.created_by}
+                                    deleteComment={handleDeleteComment}
                                 />
                             </li>
                         ))}

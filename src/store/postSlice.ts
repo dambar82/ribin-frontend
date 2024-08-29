@@ -80,7 +80,7 @@ export const createPostInClub = createAsyncThunk('post/createPostInClub', async 
     return response.data as PostAnswer;
 })
 
-export const deletePost = createAsyncThunk('post/deletePost', async ({postId}: {postId: number}) => {
+export const deletePostAsync = createAsyncThunk('post/deletePost', async ({postId}: {postId: number}) => {
     const response = await axios.delete(`https://api-rubin.multfilm.tatar/api/posts/${postId}`, {
         headers: {
             'Authorization': `Bearer ${token}`
@@ -107,6 +107,14 @@ export const createComment = createAsyncThunk('post/createComment', async ({form
         }
     })
     return response.data.comment;
+})
+
+export const deleteCommentAsync = createAsyncThunk('post/deleteCommentAsync', async ({commentId}: {commentId: number}) => {
+    const response = await axios.delete(`https://api-rubin.multfilm.tatar/api/comments/${commentId}`, {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    })
 })
 
 export const commentLikeAsync = createAsyncThunk(
@@ -171,6 +179,12 @@ const postSlice = createSlice({
                 }
             }
         },
+        deletePost: (state, action: PayloadAction<{ postId: number }>) => {
+            const { postId } = action.payload;
+            state.posts.all = state.posts.all.filter(post => post.id !== postId);
+            state.posts.image = state.posts.image.filter(post => post.id !== postId);
+            state.posts.video = state.posts.video.filter(post => post.id !== postId);
+        },
     },
     extraReducers: (builder) => {
         builder
@@ -229,6 +243,6 @@ const postSlice = createSlice({
     }
 });
 
-export const { addLike, addPost, addComment } = postSlice.actions;
+export const { addLike, addPost, addComment, deletePost } = postSlice.actions;
 
 export default postSlice.reducer;

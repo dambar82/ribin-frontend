@@ -6,7 +6,7 @@ import {Client} from "../../types";
 import {postFormatDate} from "../../App";
 import {useEffect, useState} from "react";
 import {useAppDispatch} from "../../store/hooks";
-import {commentLikeAsync} from "../../store/postSlice";
+import {commentLikeAsync, deleteCommentAsync} from "../../store/postSlice";
 import {useSelector} from "react-redux";
 import {RootState} from "../../store/store";
 import likeIconLiked from "../../images/svg/likes_red.svg";
@@ -22,9 +22,10 @@ interface IComment {
     name: string;
     created_by: number;
     avatar: string | null;
+    deleteComment: (number) => void;
 }
 
-const Comment = ({ id, liked_by, text, created_at, likes_count, name, avatar, created_by }: IComment) => {
+const Comment = ({ id, liked_by, text, created_at, likes_count, name, avatar, created_by, deleteComment }: IComment) => {
 
     const dispatch = useAppDispatch();
     const user = useSelector((state: RootState) => state.user);
@@ -41,7 +42,8 @@ const Comment = ({ id, liked_by, text, created_at, likes_count, name, avatar, cr
     }
 
     const handleDeleteClick = () => {
-
+        deleteComment(id)
+        dispatch(deleteCommentAsync({commentId: id}))
     }
 
     useEffect(() => {
@@ -60,7 +62,7 @@ const Comment = ({ id, liked_by, text, created_at, likes_count, name, avatar, cr
                     <div className={styles.author__name}>{name}</div>
                     <div className={styles.author__date}>{postFormatDate(created_at)}</div>
                 </div>
-                <DropdownMenu deleteClick={handleLikeClick} isAuthor={isAuthor}/>
+                <DropdownMenu deleteClick={handleDeleteClick} isAuthor={isAuthor}/>
             </div>
             <div className={styles.comment__body}>
                 <p>{text}</p>
