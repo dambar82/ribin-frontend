@@ -3,8 +3,7 @@ import c from './createClubEvent.module.scss'
 import c2 from '../../SingleClubPage.module.scss'
 import { Button, Input, Modal, Textarea } from '../../../../shared/UI'
 import { ChangeEvent, useRef, useState } from 'react'
-import { isFileSizeAllowed } from '../../../../shared/utils/validators/isFileSizeAllowed'
-import { arrayFromTo, classNames } from '../../../../shared/utils'
+import { arrayFromTo, classNames, getResizedImg } from '../../../../shared/utils'
 import { MONTHS } from '../../../../shared/constants'
 import { getMonth, getYear } from 'date-fns'
 import DatePicker, { ReactDatePickerCustomHeaderProps, registerLocale } from 'react-datepicker'
@@ -19,6 +18,8 @@ import Map from '../../../../components/Map/Map'
 registerLocale('ru', ru)
 
 const YEARS = arrayFromTo(1990, getYear(new Date()) + 1);
+const PHOTO_WIDTH = 1000
+const PHOTO_HEIGHT = 1000
 
 
 interface CreateClubEventProps {
@@ -112,22 +113,33 @@ const CreateClubEvent = ({ club, setActiveTab }: CreateClubEventProps) => {
   }
 
   const onLoad = ( e: ChangeEvent<HTMLInputElement> ) => {
-    if ( !e.target.files ) return
+    
+    const file = e.target.files[0]
+    
+    if ( !file ) return
 
-		const file = e.target.files[0]!
+    const img: HTMLImageElement = new Image()
+    img.src = URL.createObjectURL(file)
 
-		if ( file.size / 1024 / 1024 >= 2 ) {
-      alert('Файл дожен быть не более 2 MB')
-      return
+    img.onload = async () => {
+      try {
+        const imgWidth = img.width
+        const imgHeight = img.height
+
+        const resizedImg: Blob = await getResizedImg({img, newWidth: PHOTO_WIDTH, newHeight: PHOTO_HEIGHT, imgWidth, imgHeight})
+
+        setLoadedPhotos(prev => {
+          prev.push({
+            file: resizedImg,
+            url: URL.createObjectURL(resizedImg)
+          })
+          return [...prev]
+        })
+      } catch ( err ) {
+        console.log(err)
+      }
     }
-
-    setLoadedPhotos(prev => {
-      prev.push({
-        file,
-        url: URL.createObjectURL(file)
-      })
-      return [...prev]
-    })
+    
   }
 
   const deletePhoto = ( url: string ) => {

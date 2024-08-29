@@ -10,8 +10,7 @@ import avatar from '../../../../images/default_club_avatar.png'
 import { Clubs } from '../../../../types'
 import { Button, Input } from '../../../../shared/UI'
 import { ChangeEvent, useRef, useState } from 'react'
-import { classNames } from '../../../../shared/utils'
-import { isFileSizeAllowed } from '../../../../shared/utils/validators/isFileSizeAllowed'
+import { classNames, getResizedImg } from '../../../../shared/utils'
 import { TEditClubRequest } from '../../../../shared/types/club.types'
 import { useAppDispatch } from '../../../../store/hooks'
 import { deleteClub, editClub } from '../../../../store/clubsSlice'
@@ -19,6 +18,11 @@ import Row from '../../../../components/Row/Row'
 import Card from '../../../../components/Card/Card'
 import { useNavigate } from 'react-router-dom'
 
+
+const BANNER_WIDTH = 2000
+const BANNER_HEIGHT = 400
+const AVATAR_WIDTH = 512
+const AVATAR_HEIGHT = 512
 
 
 interface EditClubTabProps {
@@ -43,8 +47,8 @@ const EditClubTab = ({ club, setActiveTab }: EditClubTabProps) => {
 
     const data = new FormData(e.currentTarget)
 
-    if ( loadedAvatar ) data.set('avatar', loadedAvatar.file)
-    if ( loadedBanner ) data.set('caption', loadedBanner.file)
+    if ( loadedAvatar ) data.set('avatar', loadedAvatar.file, 'avatar.png')
+    if ( loadedBanner ) data.set('caption', loadedBanner.file, 'caption.png')
 
     data.set('_method', 'put');
 
@@ -59,30 +63,55 @@ const EditClubTab = ({ club, setActiveTab }: EditClubTabProps) => {
 
   const loadBanner = async (e: ChangeEvent<HTMLInputElement>): Promise<void> => {
 
-		if ( !e.target.files ) return
+    const file = e.target.files[0]
 
-		const file = e.target.files[0]!
+    if ( !file ) return
 
-		if ( !isFileSizeAllowed(file.size) ) return
+    const img: HTMLImageElement = new Image()
+    img.src = URL.createObjectURL(file)
 
-    setLoadedBanner({
-      file,
-      url: URL.createObjectURL(file)
-    })
+    img.onload = async () => {
+      try {
+        const imgWidth = img.width
+        const imgHeight = img.height
+
+        const resizedImg: Blob = await getResizedImg({img, newWidth: BANNER_WIDTH, newHeight: BANNER_HEIGHT, imgWidth, imgHeight})
+
+        setLoadedBanner({
+          file: resizedImg,
+          url: URL.createObjectURL(resizedImg)
+        })
+      } catch ( err ) {
+        console.log(err)
+      }
+    }
+
 	}
 
   const loadAvatar = async (e: ChangeEvent<HTMLInputElement>): Promise<void> => {
 
-		if ( !e.target.files ) return
+		const file = e.target.files[0]
 
-		const file = e.target.files[0]!
+    if ( !file ) return
 
-		if ( !isFileSizeAllowed(file.size) ) return
+    const img: HTMLImageElement = new Image()
+    img.src = URL.createObjectURL(file)
 
-    setLoadedAvatar({
-      file,
-      url: URL.createObjectURL(file)
-    })
+    img.onload = async () => {
+      try {
+        const imgWidth = img.width
+        const imgHeight = img.height
+
+        const resizedImg: Blob = await getResizedImg({img, newWidth: AVATAR_WIDTH, newHeight: AVATAR_HEIGHT, imgWidth, imgHeight})
+
+        setLoadedAvatar({
+          file: resizedImg,
+          url: URL.createObjectURL(resizedImg)
+        })
+      } catch ( err ) {
+        console.log(err)
+      }
+    }
 	}
 
   // const deleteClubHandler = () => {
