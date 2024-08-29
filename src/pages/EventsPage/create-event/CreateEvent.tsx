@@ -50,7 +50,7 @@ const CreateEvent = ({ setActiveTab }: CreateEventProps) => {
     const data = new FormData(e.currentTarget)
 
     // if ( loadedCover ) data.set('caption', loadedCover.file, 'caption.png')
-      
+
     loadedPhotos.forEach((photo, i) => {
       data.append('source[]', photo.file, `photo${i+1}.png`)
     })
