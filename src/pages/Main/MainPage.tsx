@@ -31,6 +31,12 @@ import {fetchPosts} from "../../store/postSlice";
 import {fetchPeople} from "../../store/peopleSlice";
 import { classNames } from '../../shared/utils'
 import {MemoryGame} from "../../components/MemoryGame/MemoryGame";
+import kazanorgsintez from '../../images/svg/sponsor-koc.svg';
+import neftehim from '../../images/svg/sponsor.svg';
+
+const sponsors = [
+    kazanorgsintez, neftehim
+]
 
 const MainPage: React.FC = () => {
 
@@ -45,10 +51,6 @@ const MainPage: React.FC = () => {
     const isAuth = !!user?.email_confirmed
 
     const navigate = useNavigate()
-
-    // const toGame = () => {
-    //     navigate('/page/game-memory', { state: { component: 'memoryGame' } });
-    // }
 
     useEffect(() => {
         if (clubStatus === 'idle') {
@@ -393,9 +395,9 @@ const MainPage: React.FC = () => {
                 </div>
                 <div className="section__body">
                     <div className={styles.sponsors__row}>
-                        {[1, 2, 3, 4].map((item => (
+                        {sponsors.map((item => (
                             <div key={item} className={styles.sponsors__sponsor}>
-                                <img src='/images/kazanorgsintez.png' alt="" />
+                                <img src={item} alt="" />
                             </div>
                         )))}
                     </div>
