@@ -17,7 +17,8 @@ const UsersFilter = () => {
 
     const user = useSelector((state: RootState) => state.user || null);
     const { people, status } = useSelector((state: RootState) => state.people)
-    const [searchTerm, setSearchTerm] = useState('');
+    const [searchName, setSearchName] = useState('');
+    const [searchSurname, setSearchSurname] = useState('');
     const [schoolName, setSchoolName] = useState('');
     const [filteredPeople, setFilteredPeople] = useState<User[]>([]);
 
@@ -29,8 +30,15 @@ const UsersFilter = () => {
         setFilteredPeople(people.filter((p) => p.id !== user?.user?.id));
     }, [people, user?.user?.id]);
 
-    const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setSearchTerm(e.target.value);
+    const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setSearchName(e.target.value);
+        if (e.target.value === '') {
+            setFilteredPeople(people.filter((p) => p.id !== user?.user?.id));
+        }
+    };
+
+    const handleSurnameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setSearchSurname(e.target.value);
         if (e.target.value === '') {
             setFilteredPeople(people.filter((p) => p.id !== user?.user?.id));
         }
@@ -50,8 +58,9 @@ const UsersFilter = () => {
             .filter((p) => p.id !== user?.user?.id) // Исключаем текущего пользователя
             .filter((p) => {
                 const matchesSchool = schoolName ? p.school?.toLowerCase() === schoolName.toLowerCase() : true;
-                const matchesName = searchTerm ? p.name.toLowerCase().includes(searchTerm.toLowerCase()) : true;
-                return matchesSchool && matchesName;
+                const matchesName = searchName ? p.name.toLowerCase().includes(searchName.toLowerCase()) : true;
+                const matchesSurname = searchSurname ? p.surname.toLowerCase().includes(searchSurname.toLowerCase()) : true;
+                return matchesSchool && matchesName && matchesSurname;
             })
             .filter((p) => p.school !== null || !schoolName);
 
@@ -72,10 +81,19 @@ const UsersFilter = () => {
                     </h2>
                     <div className={styles.form_inputField}>
                         <div className={styles.input}>
-                            <label htmlFor="searchFilter">Поиск</label>
+                            <label htmlFor="searchFilter">Имя</label>
                             <div className={styles.searchBar}>
                                 <img src={loupe} alt=""/>
-                                <input type="text" id='searchFilter' value={searchTerm} onChange={handleSearchChange} placeholder='Введите имя и фамилию, чтобы найти пользователя'/>
+                                <input type="text" id='searchFilter' value={searchName} onChange={handleNameChange} placeholder='Введите имя пользователя'/>
+                            </div>
+                        </div>
+                    </div>
+                    <div className={styles.form_inputField}>
+                        <div className={styles.input}>
+                            <label htmlFor="searchFilter">Фамилия</label>
+                            <div className={styles.searchBar}>
+                                <img src={loupe} alt=""/>
+                                <input type="text" id='searchFilter' value={searchSurname} onChange={handleSurnameChange} placeholder='Введите фамилию пользователя'/>
                             </div>
                         </div>
                     </div>
