@@ -40,6 +40,10 @@ const Comment = ({ id, liked_by, text, created_at, likes_count, name, avatar, cr
         }
     }
 
+    const handleDeleteClick = () => {
+
+    }
+
     useEffect(() => {
         if (user.user.id === created_by) {
             setIsAuthor(true);
@@ -56,7 +60,7 @@ const Comment = ({ id, liked_by, text, created_at, likes_count, name, avatar, cr
                     <div className={styles.author__name}>{name}</div>
                     <div className={styles.author__date}>{postFormatDate(created_at)}</div>
                 </div>
-                <DropdownMenu isAuthor={isAuthor}/>
+                <DropdownMenu deleteClick={handleLikeClick} isAuthor={isAuthor}/>
             </div>
             <div className={styles.comment__body}>
                 <p>{text}</p>

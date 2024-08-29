@@ -38,6 +38,7 @@
         font-weight: 500;
         line-height: calc(24 / 20);
         white-space: nowrap;
+        cursor: pointer;
     }
     &_open {
         .dropdown__menu {

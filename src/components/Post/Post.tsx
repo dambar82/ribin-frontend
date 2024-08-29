@@ -9,7 +9,7 @@ import DropdownMenu from '../DropdownMenu/DropdownMenu'
 import {IComment} from "../../types";
 import {useSelector} from "react-redux";
 import {useAppDispatch} from "../../store/hooks";
-import {addComment, createComment, toggleLikeAsync} from "../../store/postSlice";
+import {addComment, createComment, deletePost, toggleLikeAsync} from "../../store/postSlice";
 import {RootState} from "../../store/store";
 import {useEffect, useState} from "react";
 import 'react-image-lightbox/style.css'; // Импорт стилей для lightbox
@@ -142,6 +142,11 @@ const Post = ({ id, name, avatar, created_by, source, tags, comments, children, 
         setIsOpen(false);
     };
 
+    const handleDeleteClick = () => {
+        dispatch(deletePost({postId: id}));
+
+    }
+
     return (
         <article className={styles.post}>
             <div className={styles.post__header}>
@@ -157,7 +162,7 @@ const Post = ({ id, name, avatar, created_by, source, tags, comments, children, 
                     <div className={styles.post__title}>{name}</div>
                     <div className={styles.post__createdAt}>{postFormatDate(post.created_at)}</div>
                 </div>
-                <DropdownMenu isAuthor={isAuthor}/>
+                <DropdownMenu deleteClick={handleDeleteClick} isAuthor={isAuthor}/>
             </div>
             <div className={styles.post__body}>
                 <div className={styles.post__content}>

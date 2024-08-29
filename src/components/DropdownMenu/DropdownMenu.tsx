@@ -4,9 +4,10 @@ import {PostAnswer} from "../../store/postSlice";
 
 interface IDropdownMenu {
     isAuthor: boolean;
+    deleteClick: () => void;
 }
 
-const DropdownMenu = ({isAuthor}: IDropdownMenu) => {
+const DropdownMenu = ({isAuthor, deleteClick}: IDropdownMenu) => {
 
     const [open, setOpen] = useState(false)
     return (
@@ -25,7 +26,7 @@ const DropdownMenu = ({isAuthor}: IDropdownMenu) => {
                 isAuthor && (
                     <>
                         <li className={styles.dropdown__menuItem}>Редактировать</li>
-                        <li className={styles.dropdown__menuItem}>Удалить</li>
+                        <li className={styles.dropdown__menuItem} onClick={deleteClick}>Удалить</li>
                     </>
                 )
             }

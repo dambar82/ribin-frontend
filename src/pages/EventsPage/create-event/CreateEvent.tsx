@@ -12,6 +12,8 @@ import { createPortal } from 'react-dom'
 import { SuccessCreateEvent } from '../success-create-event/SuccessCreateEvent'
 import Map from '../../../components/Map/Map'
 import { createEvent } from '../../../store/eventsSlice'
+import {MapContainer, useMapEvents} from "react-leaflet";
+import MapSet from "../../../components/MapSet/MapSet";
 
 //@ts-ignore
 registerLocale('ru', ru)
@@ -29,7 +31,7 @@ const CreateEvent = ({ setActiveTab }: CreateEventProps) => {
   const [loadedPhotos, setLoadedPhotos] = useState<{ file: Blob, url: string }[]>([])
   const [startDate, setStartDate] = useState<Date | null>(new Date())
   const [activeToggle, setActiveToggle] = useState(false)
-
+  const [mapCoordinates, setMapCoordinates] = useState(null);
   const [activeModal, setActiveModal] = useState<boolean | null>(null)
 
   const coverRef = useRef<HTMLInputElement>(null)
@@ -37,6 +39,10 @@ const CreateEvent = ({ setActiveTab }: CreateEventProps) => {
   const timePickerEl = useRef(null)
 
   const dispatch = useAppDispatch()
+
+  const handleSetCoordinates = (coordinates) => {
+    setMapCoordinates(coordinates);
+  }
 
   const onSubmit = ( e: React.FormEvent<HTMLFormElement> ) => {
     e.preventDefault()
@@ -48,6 +54,10 @@ const CreateEvent = ({ setActiveTab }: CreateEventProps) => {
     loadedPhotos.forEach((photo, i) => {
       data.append('source[]', photo.file, `photo${i+1}.png`)
     })
+
+    if (mapCoordinates) {
+      data.set('coordinates', mapCoordinates);
+    }
 
     const date = `${startDate.getFullYear()}-${('0' + (startDate.getMonth()+1)).slice(-2)}-${('0' + startDate.getDate()).slice(-2)}`
     data.set('date', date)
@@ -263,7 +273,7 @@ const CreateEvent = ({ setActiveTab }: CreateEventProps) => {
                   </div>
                 }
                 {activeToggle &&
-                  <MapWrapper coordinates={[55.783063, 49.119782]}></MapWrapper>
+                  <MapWrapper coordinates={mapCoordinates ? mapCoordinates : [55.783063, 49.119782]} setCoordinates={handleSetCoordinates}></MapWrapper>
                 }
               </div>
             </div>
@@ -336,22 +346,36 @@ const DatePickerHeader = ({
 }
 
 interface MapWrapperProps {
-  coordinates: [number, number]
+  coordinates: [number, number];
+  setCoordinates: (coordinates) => void;
 }
-const MapWrapper = ({ coordinates }: MapWrapperProps) => {
+const MapWrapper = ({ coordinates, setCoordinates }: MapWrapperProps) => {
+  const [activeModal, setActiveModal] = useState<boolean | null>(null);
+  const [coords, setCoords] = useState();
 
-  const [activeModal, setActiveModal] = useState<boolean | null>(null)
+  const handleCoordsSet = (coords) => {
+    setCoords(coords)
+    setCoordinates(coords);
+  }
+
+  const coordinatesForMapSet = coords ? coords : coordinates
 
   return <>
     <div className={c.map_wrapper} onClick={() => setActiveModal(true)} >
-      <Map coordinates={coordinates}></Map>
+      <Map coordinates={coordinatesForMapSet}></Map>
     </div>
     <Modal
       active={activeModal}
       setActive={setActiveModal}
       className={c.map_modal}
     >
-      <Map coordinates={coordinates}></Map>
+      <MapContainer
+          center={coordinatesForMapSet}
+          zoom={16}
+          style={{ height: '100%', width: '100%' }}
+      >
+        <MapSet coordinates={coordinatesForMapSet} coordsSet={handleCoordsSet}></MapSet>
+      </MapContainer>
     </Modal>
   </>
 }

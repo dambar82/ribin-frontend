@@ -194,7 +194,7 @@ const SingleEventPage = () => {
                         Расположение
                     </h2>
                     <div className={styles.mapWrapper}>
-                        <Map coordinates={[55.783063, 49.119782]}></Map>
+                        <Map coordinates={event.coordinates ? event.coordinates : [55.783063, 49.119782]}></Map>
                     </div>
                 </div>
                 <div className={styles.eventPage_Deck}>

@@ -1,8 +1,6 @@
 import React, {useEffect, useState} from 'react';
-import {MapContainer, TileLayer, Marker, Popup, useMapEvents} from 'react-leaflet';
-import 'leaflet/dist/leaflet.css';
-import L from 'leaflet';
-import markerIcon from './marker-icon-2x.png'
+import {Marker, Popup, TileLayer, useMapEvents} from "react-leaflet";
+import L from "leaflet";
 
 const customIcon = new L.Icon({
     iconUrl: '/images/marker-icon-2x.png', // Вставьте сюда URL вашей иконки
@@ -13,19 +11,19 @@ const customIcon = new L.Icon({
     shadowSize: [41, 41] // Размер тени
 });
 
-const Map = ({coordinates = [55.783063, 49.119782]}) => {
-
-useEffect(() => {
-    console.log(coordinates)
-}, [coordinates])
+const MapSet = ({coordinates, coordsSet}) => {
+    const [markerPosition, setMarkerPosition] = useState(coordinates);
+    const map = useMapEvents({
+        click: async (e) => {
+           const { lat, lng } = e.latlng;
+           console.log(lat, lng)
+            setMarkerPosition([lat, lng]);
+           coordsSet([lat, lng])
+        }
+    })
 
     return (
-        <MapContainer
-            //@ts-ignore
-            center={coordinates}
-            zoom={16}
-            style={{ height: '100%', width: '100%' }}
-        >
+        <>
             <TileLayer
                 //@ts-ignore
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -33,14 +31,16 @@ useEffect(() => {
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             />
             {
-                <Marker position={coordinates} icon={customIcon}>
-                    <Popup>
-                        A pretty CSS3 popup. <br /> Easily customizable.
-                    </Popup>
-                </Marker>
+                markerPosition && (
+                    <Marker position={markerPosition} icon={customIcon}>
+                        <Popup>
+                            A pretty CSS3 popup. <br /> Easily customizable.
+                        </Popup>
+                    </Marker>
+                )
             }
-        </MapContainer>
+        </>
     );
 };
 
-export default Map;
+export default MapSet;

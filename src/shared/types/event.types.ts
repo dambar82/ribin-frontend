@@ -7,6 +7,7 @@ export type TEvent = {
   source: string[]
   date: string
   time: string
+  coordinates: any;
   city: string
   location: string
   clients: User[]

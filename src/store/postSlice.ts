@@ -80,6 +80,14 @@ export const createPostInClub = createAsyncThunk('post/createPostInClub', async 
     return response.data as PostAnswer;
 })
 
+export const deletePost = createAsyncThunk('post/deletePost', async ({postId}: {postId: number}) => {
+    const response = await axios.delete(`https://api-rubin.multfilm.tatar/api/posts/${postId}`, {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        },
+    })
+})
+
 export const createPost = createAsyncThunk('post/createPost', async (formData: FormData) => {
     const response = await axios.post('https://api-rubin.multfilm.tatar/api/posts', formData, {
         headers: {
