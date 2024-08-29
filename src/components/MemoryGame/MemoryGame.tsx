@@ -39,6 +39,12 @@ export const MemoryGame: React.FC<MemoryGameProps> = ({
         resetGame();
     }, []);
 
+    useEffect(() => {
+        if (cards.length > 0) {
+            checkGameState();
+        }
+    }, [cards, step]);
+
     const resetGame = () => {
         setStep(0);
         setCards(getInitialCards()); // Начальные карты
@@ -78,20 +84,18 @@ export const MemoryGame: React.FC<MemoryGameProps> = ({
                 }, 1500);
             }
         }
-
-        checkGameState(updatedCards);
     };
 
-    const checkGameState = (cards) => {
+    const checkGameState = () => {
         const remainingAttempts = numberOfAttempts - step;
 
         if (step >= numberOfAttempts) {
-            setTitle('Увы, вы проиграли');
+            setTitle(loseMessage);
             setDescription('К сожалению, у вас закончились попытки.');
             setModalShow(true);
             setAreCardsClickable(false);
         } else if (remainingAttempts > 0 && cards.every((card) => card.isSolved)) {
-            setTitle('Ура, вы выиграли!');
+            setTitle(winMessage);
             setDescription(`Это заняло ${step} ${getNoun(step, 'ход', 'хода', 'ходов')}.`);
             setModalShow(true);
             setAreCardsClickable(false);
