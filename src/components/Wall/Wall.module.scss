@@ -35,7 +35,9 @@
         }
     }
     &__content {
-        flex-basis: calc(100% - 460px - 60px);
+        //flex-basis: calc(100% - 460px - 60px);
+        max-width: 65%;
+        width: 100%;
         & > p {
             font-size: 20px;
             font-weight: 500;
@@ -188,7 +190,8 @@
     }
     &__aside {
         align-self: flex-start;
-        flex: 0 0 460px;
+        max-width: 30%;
+        width: 100%;
         &_sticky {
             position: sticky;
             top: 50px;

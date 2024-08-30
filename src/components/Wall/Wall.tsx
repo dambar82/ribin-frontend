@@ -139,7 +139,7 @@ const Wall = ({type, posts, editable = true, clubId}: IWall) => {
         const formData = new FormData(form);
 
         formData.append('description', formData.get('description') as string);
-        formData.append('title', formData.get('description') as string);
+       // formData.append('title', formData.get('description') as string);
 
         files.forEach(file => {
             formData.append('source[]', file.file);
@@ -252,9 +252,9 @@ const Wall = ({type, posts, editable = true, clubId}: IWall) => {
                                 likes={post.likes_count}
                                 liked_by={post.liked_by}
                                 updated_at={post.created_at}
+                                title={post.description}
                                 type={'all'}
                             >
-                                {post.description}
                             </Post>
                         )) : null}
                     </div>
@@ -275,10 +275,10 @@ const Wall = ({type, posts, editable = true, clubId}: IWall) => {
                                 comments={post.comments}
                                 likes={post.likes_count}
                                 liked_by={post.liked_by}
+                                title={post.description}
                                 updated_at={post.created_at}
                                 type={'video'}
                                 created_by={post.client.id}>
-                                {post.description}
                             </Post>
                         )) : null}
                     </div>
@@ -296,11 +296,11 @@ const Wall = ({type, posts, editable = true, clubId}: IWall) => {
                                 comments={post.comments}
                                 likes={post.likes_count}
                                 liked_by={post.liked_by}
+                                title={post.description}
                                 updated_at={post.created_at}
                                 type={'image'}
                                 created_by={post.client.id}
                             >
-                                {post.description}
                             </Post>
                         )) : null}
                     </div>

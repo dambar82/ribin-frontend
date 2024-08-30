@@ -31,6 +31,7 @@ interface ICard {
     likes: number;
     liked_by: number[];
     updated_at: string;
+    title: string;
     type: 'all' | 'image' | 'video';
 }
 
@@ -49,7 +50,7 @@ function srcset(image: string, size: number, rows = 1, cols = 1) {
     };
 }
 
-const Post = ({ id, name, avatar, created_by, source, tags, comments, children, likes, liked_by, updated_at, type }: ICard) => {
+const Post = ({ id, name, avatar, created_by, source, tags, comments, title, likes, liked_by, updated_at, type }: ICard) => {
 
     const dispatch = useAppDispatch();
     const [isOpen, setIsOpen] = useState(false);
@@ -165,8 +166,11 @@ const Post = ({ id, name, avatar, created_by, source, tags, comments, children, 
                 <DropdownMenu deleteClick={handleDeleteClick} isAuthor={isAuthor}/>
             </div>
             <div className={styles.post__body}>
-                <div className={styles.post__content}>
-                    {children}
+                <div className={styles.post__content}
+                     dangerouslySetInnerHTML={{
+                         __html: title
+                     }}
+                >
                 </div>
                 <div className={styles.post__tags}>{tags}</div>
                 <div className={styles.post__media}>
@@ -210,12 +214,12 @@ const Post = ({ id, name, avatar, created_by, source, tags, comments, children, 
                     </div>
                     <span className={styles.post__tagLabel}>{postComments.length}</span>
                 </div>
-                <div className={`${styles.post__tag} ${styles.post__tag_shared}`}>
-                    <div className={styles.post__tagIcon}>
-                        <img src={sharedIcon} alt="" />
-                    </div>
-                    <span className={styles.post__tagLabel}>12</span>
-                </div>
+                {/*<div className={`${styles.post__tag} ${styles.post__tag_shared}`}>*/}
+                {/*    <div className={styles.post__tagIcon}>*/}
+                {/*        <img src={sharedIcon} alt="" />*/}
+                {/*    </div>*/}
+                {/*    <span className={styles.post__tagLabel}>12</span>*/}
+                {/*</div>*/}
                 {/*<div className={`${styles.post__tag} ${styles.post__tag_views}`}>*/}
                 {/*    <div className={styles.post__tagIcon}>*/}
                 {/*        <img src={viewIcon} alt="" />*/}

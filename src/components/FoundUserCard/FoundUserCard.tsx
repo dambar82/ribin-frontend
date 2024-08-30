@@ -7,9 +7,8 @@ import {Link} from "react-router-dom";
 interface FoundUserCardProps {
     image: string;
     name: string;
+    surname: string;
     level: number;
-    age: number;
-    desc: string;
     id: number;
 }
 
@@ -19,15 +18,11 @@ const convertMillisecondsToYears = (milliseconds: number): number => {
     return Math.floor(milliseconds / millisecondsInYear);
 };
 
-const FoundUserCard = ({image, name, age, id, level, desc}: FoundUserCardProps) => {
+const FoundUserCard = ({image, name, surname, id, level }: FoundUserCardProps) => {
 
     const dispatch = useAppDispatch();
 
-    const ageInYears = convertMillisecondsToYears(age);
-
-    const handleFriendAdd = () => {
-        dispatch(sendFriendRequest({receiverId: id}))
-    }
+   // const ageInYears = convertMillisecondsToYears(age);
 
     return (
         <>
@@ -39,14 +34,11 @@ const FoundUserCard = ({image, name, age, id, level, desc}: FoundUserCardProps) 
                         </div>
                         <div className={styles.card_name}>
                             <h2>
-                                {name}, {ageInYears} лет
+                                {name} {surname}
                             </h2>
                         </div>
                         <div className={styles.level}>
                             Уровень <span>{level}</span>
-                        </div>
-                        <div className={styles.card_description}>
-                            {desc}
                         </div>
                     </div>
                     {/*<div className={`action_button`} onClick={handleFriendAdd}>*/}
