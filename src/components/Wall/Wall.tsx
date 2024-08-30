@@ -139,7 +139,7 @@ const Wall = ({type, posts, editable = true, clubId}: IWall) => {
         const formData = new FormData(form);
 
         formData.append('description', formData.get('description') as string);
-        formData.append('title', formData.get('description') as string);
+       // formData.append('title', formData.get('description') as string);
 
         files.forEach(file => {
             formData.append('source[]', file.file);
@@ -168,7 +168,7 @@ const Wall = ({type, posts, editable = true, clubId}: IWall) => {
     return (
         <div className={styles.wall}>
             <nav className={styles.wall__nav}>
-                {["Записи", "Комментарии", "Видео", "Фотографии"].map((item, index) => (
+                {["Записи", "Видео", "Фотографии"].map((item, index) => (
                     <button
                         key={item + index}
                         className={feedType !== index ? styles.wall__navButton : `${styles.wall__navButton} ${styles.wall__navButtonActive}`}
@@ -244,6 +244,7 @@ const Wall = ({type, posts, editable = true, clubId}: IWall) => {
                                 key={post.id}
                                 id={post.id}
                                 name={post.client.name}
+                                surname={post.client.surname}
                                 avatar={post.client.avatar}
                                 created_by={post.client.id}
                                 tags={null}
@@ -252,9 +253,9 @@ const Wall = ({type, posts, editable = true, clubId}: IWall) => {
                                 likes={post.likes_count}
                                 liked_by={post.liked_by}
                                 updated_at={post.created_at}
+                                title={post.description}
                                 type={'all'}
                             >
-                                {post.description}
                             </Post>
                         )) : null}
                     </div>
@@ -269,16 +270,17 @@ const Wall = ({type, posts, editable = true, clubId}: IWall) => {
                                 key={post.id}
                                 id={post.id}
                                 name={post.client.name}
+                                surname={post.client.surname}
                                 avatar={post.client.avatar}
                                 tags={null}
                                 source={post.source}
                                 comments={post.comments}
                                 likes={post.likes_count}
                                 liked_by={post.liked_by}
+                                title={post.description}
                                 updated_at={post.created_at}
                                 type={'video'}
                                 created_by={post.client.id}>
-                                {post.description}
                             </Post>
                         )) : null}
                     </div>
@@ -290,17 +292,18 @@ const Wall = ({type, posts, editable = true, clubId}: IWall) => {
                                 key={post.id}
                                 id={post.id}
                                 name={post.client.name}
+                                surname={post.client.surname}
                                 avatar={post.client.avatar}
                                 tags={null}
                                 source={post.source}
                                 comments={post.comments}
                                 likes={post.likes_count}
                                 liked_by={post.liked_by}
+                                title={post.description}
                                 updated_at={post.created_at}
                                 type={'image'}
                                 created_by={post.client.id}
                             >
-                                {post.description}
                             </Post>
                         )) : null}
                     </div>

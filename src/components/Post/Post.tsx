@@ -9,9 +9,16 @@ import DropdownMenu from '../DropdownMenu/DropdownMenu'
 import {IComment} from "../../types";
 import {useSelector} from "react-redux";
 import {useAppDispatch} from "../../store/hooks";
-import {addComment, createComment, deletePost, deletePostAsync, toggleLikeAsync} from "../../store/postSlice";
+import {
+    addComment,
+    createComment,
+    deletePost,
+    deletePostAsync,
+    editPostAsync,
+    toggleLikeAsync
+} from "../../store/postSlice";
 import {RootState} from "../../store/store";
-import {useEffect, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import 'react-image-lightbox/style.css'; // Импорт стилей для lightbox
 import Lightbox from 'react-image-lightbox';
 import {Button} from "../../shared/UI";
@@ -22,6 +29,7 @@ import {fetchPeople} from "../../store/peopleSlice";
 interface ICard {
     id: number;
     name: string;
+    surname: string;
     avatar?: string;
     created_by: number;
     source?: string[];
@@ -31,6 +39,7 @@ interface ICard {
     likes: number;
     liked_by: number[];
     updated_at: string;
+    title: string;
     type: 'all' | 'image' | 'video';
 }
 
@@ -49,21 +58,38 @@ function srcset(image: string, size: number, rows = 1, cols = 1) {
     };
 }
 
-const Post = ({ id, name, avatar, created_by, source, tags, comments, children, likes, liked_by, updated_at, type }: ICard) => {
+const Post = ({ id, name, surname, avatar, created_by, source, tags, comments, title, likes, liked_by, updated_at, type }: ICard) => {
 
     const dispatch = useAppDispatch();
     const [isOpen, setIsOpen] = useState(false);
+    const [postContent, setPostContent] = useState(title);
     const [photoIndex, setPhotoIndex] = useState(0);
     const [showAllComments, setShowAllComments] = useState(false);
     const [showCommentSection, setShowCommentSection] = useState(false);
     const [commentText, setCommentText] = useState('');
     const [postComments, setPostComments] = useState(comments);
     const [isAuthor, setIsAuthor] = useState(false);
+    const [isExpanded, setIsExpanded] = useState(false);
+    const [isTruncated, setIsTruncated] = useState(false);
+    const [isEditing, setIsEditing] = useState(false);
+    const contentRef = useRef(null);
 
     const post = useSelector((state: RootState) => state.post.posts[type].find(post => post.id === id));
     const user = useSelector((state: RootState) => state.user);
 
     const [isLiked, setIsLiked] = useState(liked_by.includes(user.user.id));
+
+    useEffect(() => {
+        if (contentRef.current && contentRef.current.scrollHeight > contentRef.current.clientHeight) {
+            setIsTruncated(true);
+        } else {
+            setIsTruncated(false);
+        }
+    }, [isEditing]);
+
+    const toggleExpand = () => {
+        setIsExpanded(!isExpanded);
+    };
 
     useEffect(() => {
         if (user.user.id === created_by) {
@@ -141,6 +167,22 @@ const Post = ({ id, name, avatar, created_by, source, tags, comments, children, 
         dispatch(deletePostAsync({postId: id}));
     }
 
+    const handleEditPost = (e) => {
+        e.preventDefault();
+        setIsEditing(false);
+        const form = e.currentTarget;
+        const formData = new FormData(form);
+
+        formData.append('description', postContent);
+
+        dispatch(editPostAsync({postId: id, formData}))
+
+    }
+
+    const handleEditClick = () => {
+        setIsEditing(true);
+    }
+
     const handleDeleteComment = (id) => {
         setPostComments(postComments.filter(comment => {
             return comment.id !== id;
@@ -159,15 +201,47 @@ const Post = ({ id, name, avatar, created_by, source, tags, comments, children, 
                             }
                         </Link>
                     </div>
-                    <div className={styles.post__title}>{name}</div>
+                    <div className={styles.post__title}>{name} {surname}</div>
                     <div className={styles.post__createdAt}>{postFormatDate(post.created_at)}</div>
                 </div>
-                <DropdownMenu deleteClick={handleDeleteClick} isAuthor={isAuthor}/>
+                <DropdownMenu deleteClick={handleDeleteClick} editClick={handleEditClick} isAuthor={isAuthor}/>
             </div>
             <div className={styles.post__body}>
-                <div className={styles.post__content}>
-                    {children}
-                </div>
+                {
+                    isEditing ? (
+                            <form className={styles.post__commentsForm} onSubmit={handleEditPost}>
+                                <div className={styles.textarea_wrapper} >
+                                    <textarea
+                                        name="editPost"
+                                        id=""
+                                        value={postContent}
+                                        onChange={(e) => setPostContent(e.target.value)}
+                                    ></textarea>
+                                    <Button className={styles.submit_button}>Сохранить</Button>
+                                </div>
+                            </form>
+                    ) : (
+                        <>
+                            <div className={`${styles.post__content} ${isExpanded ? styles.post__content_expanded : ''}`}
+                                 ref={contentRef}
+                                 dangerouslySetInnerHTML={{
+                                     __html: postContent
+                                 }}
+                            >
+                            </div>
+                            {isTruncated && !isExpanded && (
+                                <span className={styles.show_more_button} onClick={toggleExpand}>
+                            Читать далее
+                            </span>
+                            )}
+                            {isExpanded && (
+                                <span className={styles.show_more_button} onClick={toggleExpand}>
+                            Свернуть
+                            </span>
+                            )}
+                        </>
+                    )
+                }
                 <div className={styles.post__tags}>{tags}</div>
                 <div className={styles.post__media}>
                     {source?.map((media, index) => {
@@ -210,12 +284,12 @@ const Post = ({ id, name, avatar, created_by, source, tags, comments, children, 
                     </div>
                     <span className={styles.post__tagLabel}>{postComments.length}</span>
                 </div>
-                <div className={`${styles.post__tag} ${styles.post__tag_shared}`}>
-                    <div className={styles.post__tagIcon}>
-                        <img src={sharedIcon} alt="" />
-                    </div>
-                    <span className={styles.post__tagLabel}>12</span>
-                </div>
+                {/*<div className={`${styles.post__tag} ${styles.post__tag_shared}`}>*/}
+                {/*    <div className={styles.post__tagIcon}>*/}
+                {/*        <img src={sharedIcon} alt="" />*/}
+                {/*    </div>*/}
+                {/*    <span className={styles.post__tagLabel}>12</span>*/}
+                {/*</div>*/}
                 {/*<div className={`${styles.post__tag} ${styles.post__tag_views}`}>*/}
                 {/*    <div className={styles.post__tagIcon}>*/}
                 {/*        <img src={viewIcon} alt="" />*/}
@@ -223,7 +297,7 @@ const Post = ({ id, name, avatar, created_by, source, tags, comments, children, 
                 {/*    <span className={styles.post__tagLabel}>122</span>*/}
                 {/*</div>*/}
             </div>
-            { showCommentSection || postComments.length > 0 ? (
+            { showCommentSection ? (
                 <div className={styles.post__comments}>
                     <ul className={styles.post__commentsList}>
                         {commentsToDisplay.map((comment, index) => (

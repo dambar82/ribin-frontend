@@ -31,8 +31,8 @@ import {fetchPosts} from "../../store/postSlice";
 import {fetchPeople} from "../../store/peopleSlice";
 import { classNames } from '../../shared/utils'
 import {MemoryGame} from "../../components/MemoryGame/MemoryGame";
-import kazanorgsintez from '../../images/svg/sponsor-koc.svg';
-import neftehim from '../../images/svg/sponsor-nzkmsk.svg';
+import kazanorgsintez from '../../images/svg/Казань Оргсинтез.svg';
+import neftehim from '../../images/svg/Нижнекамск нефтехим.svg';
 
 const sponsors = [
     kazanorgsintez, neftehim
