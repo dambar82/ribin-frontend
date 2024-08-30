@@ -114,7 +114,14 @@ const MainPage: React.FC = () => {
                 </div>
             </div>
             }
-            <section className={`section section--big section--orange section--vector-bg ${styles.news}`}>
+            <section className={classNames(
+              'section',
+              'section--big',
+              'section--orange',
+              'section--vector-bg',
+              styles.news,
+              c.section_big
+            )}>
                 <div className='section__header'>
                     <h2 className={`${styles.news__title} section__title`}>Новости</h2>
                     <Link to="/news">
@@ -122,15 +129,25 @@ const MainPage: React.FC = () => {
                     </Link>
                 </div>
                 <div className="section__body">
-                    <div className="section__slider">
+                    <div className={classNames('section__slider', c.news_slider)}>
                         {
                             news.length
                             ? (
                                 <>
                                     <Swiper
                                         spaceBetween={20}
-                                        slidesPerView={3}
                                         modules={[Navigation]}
+                                        breakpoints={{
+                                          1200: {
+                                            slidesPerView: 3
+                                          },
+                                          760: {
+                                            slidesPerView: 2
+                                          },
+                                          360: {
+                                            slidesPerView: 1
+                                          }
+                                        }}
                                         navigation={{
                                             nextEl: '.button--next'
                                         }}
@@ -181,7 +198,7 @@ const MainPage: React.FC = () => {
                 </div>
             </section>
 
-            <section className={`section section--big section--rounded ${styles.contests}`}>
+            <section className={`section section--big section--rounded ${styles.contests} ${c.section_big}`}>
                 <div className={`section__header`}>
                     <h2 className={`${styles.contests__title} section__title`}>Конкурсы</h2>
                     <Link to='/contests'>
@@ -202,7 +219,7 @@ const MainPage: React.FC = () => {
                                                 {contests[0].short_description}
                                             </p>
                                         </div>
-                                        <div className='justify_content_SB gap-20'>
+                                        <div className={`justify_content_SB gap-20 ${styles.btns_wrapper}`}>
                                             <div className='start_button start_button-green'>
                                                 <span>Старт</span>
                                                 <div>
@@ -217,7 +234,7 @@ const MainPage: React.FC = () => {
                                             </div>
                                         </div>
                                         <Link to={`/contests/${contests[0].id}`} style={{marginTop: 'auto'}}>
-                                            <div className='action_button' style={{marginTop: 'auto'}}>
+                                            <div className={`action_button ${styles.action_button}`} style={{marginTop: 'auto'}}>
                                                 Участвовать
                                                 <img src={buttonArrow} alt=""/>
                                             </div>
@@ -234,7 +251,7 @@ const MainPage: React.FC = () => {
                 </div>
             </section>
 
-            <section className={`section section--big section--green section--vector-bg ${styles.blog}`}>
+            <section className={`section section--big section--green section--vector-bg ${styles.blog} ${c.section_big}`}>
                 <div className='section__header'>
                     <h2 className={`${styles.blog__title} section__title`}>Пользовательские записи</h2>
                     <Link to='/posts'>
@@ -247,7 +264,17 @@ const MainPage: React.FC = () => {
                     <div className="section__slider">
                         <Swiper
                             spaceBetween={20}
-                            slidesPerView={3}
+                            breakpoints={{
+                              1200: {
+                                slidesPerView: 3
+                              },
+                              760: {
+                                slidesPerView: 2
+                              },
+                              360: {
+                                slidesPerView: 1
+                              }
+                            }}
                             modules={[Navigation]}
                             navigation={{
                                 nextEl: '.button--next'
@@ -277,7 +304,7 @@ const MainPage: React.FC = () => {
                 </div>
             </section>
 
-            <section className={`section section--big section--rounded ${styles.novetly}`}>
+            <section className={`section section--big section--rounded ${styles.novetly} ${c.section_big}`}>
                 <div className={styles.rubyStore}>
                     <div className={styles.rubyStore_leftPart}>
                         <div className={styles.rubyStore_leftPart_content}>
@@ -298,7 +325,7 @@ const MainPage: React.FC = () => {
                 </div>
             </section>
 
-            <section className={`section section--big section--orange section--vector-bg ${styles.users}`}>
+            <section className={`section section--big section--orange section--vector-bg ${styles.users} ${c.section_big}`}>
                 <div className="section__header">
                     <h2 className={`section__title ${styles.users__title}`}>Активные пользователи</h2>
                     <Link to='/people'>
@@ -316,7 +343,7 @@ const MainPage: React.FC = () => {
                 </div>
             </section>
 
-            <section className={`section section--big section--rounded ${styles.activities} ${styles.contestZone}`}>
+            <section className={`section section--big section--rounded ${styles.activities} ${styles.contestZone} ${c.section_big}`}>
                 <div className='section__header'>
                     <h2 className='section__title'>Активности клуба</h2>
                 </div>
@@ -342,7 +369,7 @@ const MainPage: React.FC = () => {
                 </div>
             </section>
 
-            <section className={`section section--big section--green section--vector-bg ${styles.clubs}`}>
+            <section className={`section section--big section--green section--vector-bg ${styles.clubs} ${c.section_big}`}>
                 <div className="section__header">
                     <h2 className={`section__title ${styles.clubs__title}`}>Клубы</h2>
                     <Link to='/clubs'>
@@ -357,7 +384,17 @@ const MainPage: React.FC = () => {
                             <div className="section__slider">
                                 <Swiper
                                     spaceBetween={20}
-                                    slidesPerView={3}
+                                    breakpoints={{
+                                      1200: {
+                                        slidesPerView: 3
+                                      },
+                                      760: {
+                                        slidesPerView: 2
+                                      },
+                                      360: {
+                                        slidesPerView: 1
+                                      }
+                                    }}
                                     modules={[Navigation]}
                                     navigation={{
                                         nextEl: '.button--next'
@@ -389,7 +426,7 @@ const MainPage: React.FC = () => {
 
                 </div>
             </section>
-            <section className={`section section--big section--rounded ${styles.sponsors} ${styles.contestZone}`}>
+            <section className={`section section--big section--rounded ${styles.sponsors} ${styles.contestZone} ${c.section_big}`}>
                 <div className="section__header">
                     <h2 className="section__title">Наши спонсоры</h2>
                 </div>

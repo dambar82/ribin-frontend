@@ -9,6 +9,7 @@
   min-height: 540px;
   cursor: pointer;
   overflow: hidden;
+
   &__date {
     font-family: "Saira", sans-serif;
     background-color: rgba($color: #686868, $alpha: 0.6);
@@ -73,7 +74,7 @@
 
   @media (max-width: 768px) {
     min-height: 360px;
-    height: 360px;
+    height: 500px!important;
     &__date {
       font-size: 16px;
       padding: 4px 10px;
@@ -105,7 +106,7 @@
 
   @media (max-width: 480px) {
     min-height: 200px;
-    height: 200px !important;
+    height: 250px !important;
     border-radius: 26px;
     &__date {
       font-size: 12px;
