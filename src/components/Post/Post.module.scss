@@ -58,8 +58,8 @@
         font-size: 20px;
         font-weight: 400;
         line-height: calc(24 / 20);
+        white-space: break-spaces;
         overflow-wrap: break-word;
-        white-space: normal;
         & > * {
             &:not(:last-child) {
                 margin: 0 0 24px;
