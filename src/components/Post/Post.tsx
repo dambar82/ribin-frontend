@@ -9,7 +9,14 @@ import DropdownMenu from '../DropdownMenu/DropdownMenu'
 import {IComment} from "../../types";
 import {useSelector} from "react-redux";
 import {useAppDispatch} from "../../store/hooks";
-import {addComment, createComment, deletePost, deletePostAsync, toggleLikeAsync} from "../../store/postSlice";
+import {
+    addComment,
+    createComment,
+    deletePost,
+    deletePostAsync,
+    editPostAsync,
+    toggleLikeAsync
+} from "../../store/postSlice";
 import {RootState} from "../../store/store";
 import {useEffect, useRef, useState} from "react";
 import 'react-image-lightbox/style.css'; // Импорт стилей для lightbox
@@ -55,6 +62,7 @@ const Post = ({ id, name, surname, avatar, created_by, source, tags, comments, t
 
     const dispatch = useAppDispatch();
     const [isOpen, setIsOpen] = useState(false);
+    const [postContent, setPostContent] = useState(title);
     const [photoIndex, setPhotoIndex] = useState(0);
     const [showAllComments, setShowAllComments] = useState(false);
     const [showCommentSection, setShowCommentSection] = useState(false);
@@ -63,6 +71,7 @@ const Post = ({ id, name, surname, avatar, created_by, source, tags, comments, t
     const [isAuthor, setIsAuthor] = useState(false);
     const [isExpanded, setIsExpanded] = useState(false);
     const [isTruncated, setIsTruncated] = useState(false);
+    const [isEditing, setIsEditing] = useState(false);
     const contentRef = useRef(null);
 
     const post = useSelector((state: RootState) => state.post.posts[type].find(post => post.id === id));
@@ -73,8 +82,10 @@ const Post = ({ id, name, surname, avatar, created_by, source, tags, comments, t
     useEffect(() => {
         if (contentRef.current && contentRef.current.scrollHeight > contentRef.current.clientHeight) {
             setIsTruncated(true);
+        } else {
+            setIsTruncated(false);
         }
-    }, []);
+    }, [isEditing]);
 
     const toggleExpand = () => {
         setIsExpanded(!isExpanded);
@@ -156,6 +167,22 @@ const Post = ({ id, name, surname, avatar, created_by, source, tags, comments, t
         dispatch(deletePostAsync({postId: id}));
     }
 
+    const handleEditPost = (e) => {
+        e.preventDefault();
+        setIsEditing(false);
+        const form = e.currentTarget;
+        const formData = new FormData(form);
+
+        formData.append('description', postContent);
+
+        dispatch(editPostAsync({postId: id, formData}))
+
+    }
+
+    const handleEditClick = () => {
+        setIsEditing(true);
+    }
+
     const handleDeleteComment = (id) => {
         setPostComments(postComments.filter(comment => {
             return comment.id !== id;
@@ -177,26 +204,44 @@ const Post = ({ id, name, surname, avatar, created_by, source, tags, comments, t
                     <div className={styles.post__title}>{name} {surname}</div>
                     <div className={styles.post__createdAt}>{postFormatDate(post.created_at)}</div>
                 </div>
-                <DropdownMenu deleteClick={handleDeleteClick} isAuthor={isAuthor}/>
+                <DropdownMenu deleteClick={handleDeleteClick} editClick={handleEditClick} isAuthor={isAuthor}/>
             </div>
             <div className={styles.post__body}>
-                <div className={`${styles.post__content} ${isExpanded ? styles.post__content_expanded : ''}`}
-                     ref={contentRef}
-                     dangerouslySetInnerHTML={{
-                         __html: title
-                     }}
-                >
-                </div>
-                {isTruncated && !isExpanded && (
-                    <span className={styles.show_more_button} onClick={toggleExpand}>
-                        Читать далее
-                    </span>
-                )}
-                {isExpanded && (
-                    <span className={styles.show_more_button} onClick={toggleExpand}>
-                        Свернуть
-                    </span>
-                )}
+                {
+                    isEditing ? (
+                            <form className={styles.post__commentsForm} onSubmit={handleEditPost}>
+                                <div className={styles.textarea_wrapper} >
+                                    <textarea
+                                        name="editPost"
+                                        id=""
+                                        value={postContent}
+                                        onChange={(e) => setPostContent(e.target.value)}
+                                    ></textarea>
+                                    <Button className={styles.submit_button}>Сохранить</Button>
+                                </div>
+                            </form>
+                    ) : (
+                        <>
+                            <div className={`${styles.post__content} ${isExpanded ? styles.post__content_expanded : ''}`}
+                                 ref={contentRef}
+                                 dangerouslySetInnerHTML={{
+                                     __html: postContent
+                                 }}
+                            >
+                            </div>
+                            {isTruncated && !isExpanded && (
+                                <span className={styles.show_more_button} onClick={toggleExpand}>
+                            Читать далее
+                            </span>
+                            )}
+                            {isExpanded && (
+                                <span className={styles.show_more_button} onClick={toggleExpand}>
+                            Свернуть
+                            </span>
+                            )}
+                        </>
+                    )
+                }
                 <div className={styles.post__tags}>{tags}</div>
                 <div className={styles.post__media}>
                     {source?.map((media, index) => {
