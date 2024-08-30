@@ -11,7 +11,7 @@ import {useSelector} from "react-redux";
 import {useAppDispatch} from "../../store/hooks";
 import {addComment, createComment, deletePost, deletePostAsync, toggleLikeAsync} from "../../store/postSlice";
 import {RootState} from "../../store/store";
-import {useEffect, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import 'react-image-lightbox/style.css'; // Импорт стилей для lightbox
 import Lightbox from 'react-image-lightbox';
 import {Button} from "../../shared/UI";
@@ -22,6 +22,7 @@ import {fetchPeople} from "../../store/peopleSlice";
 interface ICard {
     id: number;
     name: string;
+    surname: string;
     avatar?: string;
     created_by: number;
     source?: string[];
@@ -50,7 +51,7 @@ function srcset(image: string, size: number, rows = 1, cols = 1) {
     };
 }
 
-const Post = ({ id, name, avatar, created_by, source, tags, comments, title, likes, liked_by, updated_at, type }: ICard) => {
+const Post = ({ id, name, surname, avatar, created_by, source, tags, comments, title, likes, liked_by, updated_at, type }: ICard) => {
 
     const dispatch = useAppDispatch();
     const [isOpen, setIsOpen] = useState(false);
@@ -60,11 +61,24 @@ const Post = ({ id, name, avatar, created_by, source, tags, comments, title, lik
     const [commentText, setCommentText] = useState('');
     const [postComments, setPostComments] = useState(comments);
     const [isAuthor, setIsAuthor] = useState(false);
+    const [isExpanded, setIsExpanded] = useState(false);
+    const [isTruncated, setIsTruncated] = useState(false);
+    const contentRef = useRef(null);
 
     const post = useSelector((state: RootState) => state.post.posts[type].find(post => post.id === id));
     const user = useSelector((state: RootState) => state.user);
 
     const [isLiked, setIsLiked] = useState(liked_by.includes(user.user.id));
+
+    useEffect(() => {
+        if (contentRef.current && contentRef.current.scrollHeight > contentRef.current.clientHeight) {
+            setIsTruncated(true);
+        }
+    }, []);
+
+    const toggleExpand = () => {
+        setIsExpanded(!isExpanded);
+    };
 
     useEffect(() => {
         if (user.user.id === created_by) {
@@ -160,18 +174,29 @@ const Post = ({ id, name, avatar, created_by, source, tags, comments, title, lik
                             }
                         </Link>
                     </div>
-                    <div className={styles.post__title}>{name}</div>
+                    <div className={styles.post__title}>{name} {surname}</div>
                     <div className={styles.post__createdAt}>{postFormatDate(post.created_at)}</div>
                 </div>
                 <DropdownMenu deleteClick={handleDeleteClick} isAuthor={isAuthor}/>
             </div>
             <div className={styles.post__body}>
-                <div className={styles.post__content}
+                <div className={`${styles.post__content} ${isExpanded ? styles.post__content_expanded : ''}`}
+                     ref={contentRef}
                      dangerouslySetInnerHTML={{
                          __html: title
                      }}
                 >
                 </div>
+                {isTruncated && !isExpanded && (
+                    <span className={styles.show_more_button} onClick={toggleExpand}>
+                        Читать далее
+                    </span>
+                )}
+                {isExpanded && (
+                    <span className={styles.show_more_button} onClick={toggleExpand}>
+                        Свернуть
+                    </span>
+                )}
                 <div className={styles.post__tags}>{tags}</div>
                 <div className={styles.post__media}>
                     {source?.map((media, index) => {
@@ -227,7 +252,7 @@ const Post = ({ id, name, avatar, created_by, source, tags, comments, title, lik
                 {/*    <span className={styles.post__tagLabel}>122</span>*/}
                 {/*</div>*/}
             </div>
-            { showCommentSection || postComments.length > 0 ? (
+            { showCommentSection ? (
                 <div className={styles.post__comments}>
                     <ul className={styles.post__commentsList}>
                         {commentsToDisplay.map((comment, index) => (

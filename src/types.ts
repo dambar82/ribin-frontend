@@ -15,6 +15,7 @@ export interface Client {
     id: number;
     image: string;
     name: string;
+    surname: string;
     phone: string | null;
     school: string | null;
     score: number | null;

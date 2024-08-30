@@ -1,3 +1,13 @@
+.show_more_button {
+    display: inline;
+    color: #91172C;
+    cursor: pointer;
+    font-size: 20px;
+    line-height: 24px;
+    text-align: left;
+    font-weight: bold;
+}
+
 .post {
     background-color: #FFFFFF;
     border: 1px solid #F2F2F2;
@@ -60,6 +70,12 @@
         line-height: calc(24 / 20);
         white-space: break-spaces;
         overflow-wrap: break-word;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        max-height: 7.2em;
+        &_expanded {
+            max-height: none;
+        }
         & > * {
             &:not(:last-child) {
                 margin: 0 0 24px;
@@ -72,7 +88,7 @@
             list-style: initial;
         }
         &:not(:last-child) {
-            margin: 0 0 28px;
+           margin: 0 0 20px;
         }
     }
     &__tags {

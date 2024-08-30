@@ -244,6 +244,7 @@ const Wall = ({type, posts, editable = true, clubId}: IWall) => {
                                 key={post.id}
                                 id={post.id}
                                 name={post.client.name}
+                                surname={post.client.surname}
                                 avatar={post.client.avatar}
                                 created_by={post.client.id}
                                 tags={null}
@@ -269,6 +270,7 @@ const Wall = ({type, posts, editable = true, clubId}: IWall) => {
                                 key={post.id}
                                 id={post.id}
                                 name={post.client.name}
+                                surname={post.client.surname}
                                 avatar={post.client.avatar}
                                 tags={null}
                                 source={post.source}
@@ -290,6 +292,7 @@ const Wall = ({type, posts, editable = true, clubId}: IWall) => {
                                 key={post.id}
                                 id={post.id}
                                 name={post.client.name}
+                                surname={post.client.surname}
                                 avatar={post.client.avatar}
                                 tags={null}
                                 source={post.source}
