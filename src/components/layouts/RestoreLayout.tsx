@@ -7,7 +7,7 @@ interface UnauthLayoutProps {
 
 const RestoreLayout: React.FC<UnauthLayoutProps> = ({ children }) => {
     return (
-        <div className='content__restore'>
+        <div style={{ padding: '0 20px' }} >
             <RestoreHeader/>
             <main>{children}</main>
         </div>

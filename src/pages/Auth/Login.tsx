@@ -5,9 +5,9 @@ import {useAppDispatch} from "../../store/hooks";
 import {Link, useNavigate} from "react-router-dom";
 import {RootState} from "../../store/store";
 import { ConfirmEmailModal } from './components'
+import { classNames } from '../../shared/utils'
 
 import c from './auth.module.scss'
-import { classNames } from '../../shared/utils'
 
 const Login = () => {
 

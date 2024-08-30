@@ -1,15 +1,14 @@
 import React, {useState} from 'react';
 import {useAppDispatch} from "../../store/hooks";
-import {confirmEmail, registerUser} from "../../store/userSlice";
+import { registerUser } from "../../store/userSlice";
 import { Checkbox } from '@mui/material'
 import { Link } from 'react-router-dom'
 import { classNames } from '../../shared/utils'
-import { ConfirmEmailModal, SuccessConfirmEmailModal, TimeoutConfirmEmailModal } from './components'
+import { ConfirmEmailModal } from './components'
+import { isEmailValid } from '../../shared/utils/validators/isEmailValid'
 
 import c from './Register.module.scss'
-import { isEmailValid } from '../../shared/utils/validators/isEmailValid'
-import { TRegisterUserResponse } from '../../shared/types/auth.types'
-
+import c2 from './auth.module.scss'
 
 const POLITICS_URL = process.env.REACT_APP_POLITICS_URL
 
@@ -82,7 +81,7 @@ const Register = () => {
     }
 
     return (
-        <div className='authBlock'>
+        <div className={classNames('authBlock', c2.auth_block)}>
             <div className='authBlock__text gap-16'>
                 <h1 className='authBlock__h1'>
                     Зарегистрируйтесь и станьте частью клуба "Рубин"!
@@ -91,7 +90,7 @@ const Register = () => {
                     Заполните простую форму, чтобы создать учетную запись и получить доступ ко всем возможностям нашего сайта.
                 </p>
             </div>
-            <div className={classNames('authBlock__form', c.authBlock__form)}>
+            <div className={classNames('authBlock__form', c.authBlock__form, c2.form_wrapper)}>
                 <h2 className='authBlock__h2'>
                     Регистрация
                 </h2>

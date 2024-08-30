@@ -54,3 +54,32 @@
     }
   }
 }
+
+.restore_password {
+  max-width: 1000px;
+  width: 100%;
+  margin: 60px auto;
+
+  @media (max-width: 1000px) {
+    padding: 50px; 
+  }
+  @media (max-width: 768px) {
+    h1 {
+      font-size: 26px;
+    }
+    p {
+      font-size: 18px;
+    }
+  }
+  @media (max-width: 480px) {
+    padding: 40px 20px; 
+  }
+
+  button {
+    white-space: nowrap;
+
+    @media (max-width: 480px) {
+      font-size: 16px; 
+    }
+  }
+}

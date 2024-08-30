@@ -3,6 +3,8 @@ import {loginUser, restorePassword} from "../../store/userSlice";
 import {useAppDispatch} from "../../store/hooks";
 import { useNavigate, useParams } from 'react-router-dom'
 
+import c from './auth.module.scss'
+
 const Restore = () => {
 
     const dispatch = useAppDispatch();
@@ -39,7 +41,7 @@ const Restore = () => {
     };
 
     return (
-        <div className='authBlock__restore gap-26' style={{ position: 'relative' }} >
+        <div className={`authBlock__restore gap-26 ${c.restore_password}`} style={{ position: 'relative' }} >
             {error && <span style={{ position: 'absolute', top: '40px', left: '50%', transform: 'translate(-50%, 0)', color: 'red', fontSize: '24px' }} >{error}</span>}
             <div className='authBlock__restore_text'>
                 <h1 className='h1_36_44'>
