@@ -756,6 +756,22 @@ li {
     display: flex;
     gap: 30px;
     padding: calc(70 / 1660 * 100%);
+
+    @media (max-width: 1440px) {
+      padding: 50px; 
+    }
+    @media (max-width: 1200px) {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      padding: 20px;
+      gap: 20px;
+    }
+    @media (max-width: 1000px) {
+      grid-template-columns: 1fr; 
+    }
+    @media (max-width: 480px) {
+      padding: 10px; 
+    }
   }
   &__column {
     background-color: var(--white);
@@ -765,6 +781,10 @@ li {
     flex: 0 0 calc(50% - 15px);
     gap: 32px;
     padding: 35px;
+
+    @media (max-width: 480px) {
+      padding: 30px 16px; 
+    }
   }
   &__control {
 
@@ -784,6 +804,14 @@ li {
     font-weight: 500;
     line-height: calc(28 / 24);
     margin: 0 0 24px;
+
+    @media (max-width: 1440px) {
+      font-size: 22px; 
+    }
+    @media (max-width: 1200px) {
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
   }
 
   &__label-wrapper {
@@ -854,6 +882,10 @@ li {
   }
   input.form-control__field {
     padding: 20px 30px;
+
+    @media (max-width: 1200px) {
+      padding: 15px 30px;
+    }
   }
   textarea.form-control__field {
     padding: 30px;
