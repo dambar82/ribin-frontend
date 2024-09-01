@@ -39,7 +39,7 @@ const achievements = [
         closed: true
     },
     {
-        title: 'Видеопоздравление от игрока с др',
+        title: 'Видеопоздравление от игрока с днём рождения',
         image: '/images/birthday.png',
         price: 18000,
         closed: true
@@ -51,7 +51,7 @@ const achievements = [
         closed: true
     },
     {
-        title: 'Нанесение симв удара (3 шт)',
+        title: 'Нанесение символического удара (3 шт)',
         image: '/images/strike.png',
         price: 20000,
         closed: true
