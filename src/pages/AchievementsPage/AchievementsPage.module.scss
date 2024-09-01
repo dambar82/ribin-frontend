@@ -169,3 +169,9 @@
     margin-bottom: 40px;
   }
 }
+
+@media screen and (max-width: 480px) {
+  .awards_grid {
+    grid-template-columns: 1fr;
+  }
+}
