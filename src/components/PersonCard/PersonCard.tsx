@@ -9,9 +9,10 @@ interface IPersonalCard {
     id: number;
     type: string;
     details: any;
+    body: any;
 }
 
-const PersonCard = ({name, id, type, details, imageUrl}: IPersonalCard) => {
+const PersonCard = ({name, id, type, details, body, imageUrl}: IPersonalCard) => {
 
     return (
         <div className={styles.card}>
@@ -21,11 +22,11 @@ const PersonCard = ({name, id, type, details, imageUrl}: IPersonalCard) => {
             <div className={styles.card__content}>
                 <div className={styles.card__name}>{name}</div>
                 <div className={styles.card__info}>
-                    <span
-                        dangerouslySetInnerHTML={{
-                        __html: details.body
-                    }}
-                    />
+                        <span
+                            dangerouslySetInnerHTML={{
+                                __html: body
+                            }}
+                        />
                 </div>
             </div>
         </div>

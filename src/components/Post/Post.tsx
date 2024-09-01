@@ -174,6 +174,7 @@ const Post = ({ id, name, surname, avatar, created_by, source, tags, comments, t
         const formData = new FormData(form);
 
         formData.append('description', postContent);
+        formData.set('_method', 'put');
 
         dispatch(editPostAsync({postId: id, formData}))
 

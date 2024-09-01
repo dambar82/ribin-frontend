@@ -15,6 +15,7 @@ import loupePic from '../../../images/svg/loupe.svg';
 import { logout } from '../../../store/userSlice';
 import myProfile from '../../../images/svg/myProfile.svg';
 import messages from '../../../images/svg/messages.svg';
+import awards from '../../../images/svg/awards.svg';
 import options from '../../../images/svg/options.svg';
 import blackArrowDown from '../../../images/svg/blackArrowDown.svg';
 import blackArrowUp from '../../../images/svg/blackArrowUp.svg';
@@ -152,6 +153,17 @@ const AuthHeader = () => {
                                     </li>
                                     <li>
                                         <NavLink
+                                            to={`/awards`}
+                                            className={({isActive}) => {
+                                                return isActive ? "_active" : ''
+                                            }}
+                                        >
+                                            <img src={awards} alt=""/>
+                                            <span>Вознаграждения</span>
+                                        </NavLink>
+                                    </li>
+                                    <li>
+                                        <NavLink
                                             to="/settings"
                                             className={({ isActive }) => {
                                                 return isActive ? "_active" : ""
@@ -217,8 +229,9 @@ const AuthHeader = () => {
                             <ul>
                                 {[
                                     { name: "Тренерский состав", path: "/academy-coaches" },
+                                    { name: 'Активисты', path: "/students" },
                                     { name: "Программы и предложения клуба", path: "/programs" },
-                                    { name: "Достижения", path: "/awards" },
+                                    { name: "Достижения", path: "/achievements" },
                                     { name: "Фотогалерея", path: "/photogallery" },
                                 ].map(({ name, path }) => {
                                     return (

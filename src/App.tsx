@@ -49,6 +49,7 @@ import SingleNewsPageApi from "./pages/SingleNewsPageApi/SingleNewsPageApi";
 import Chat from "./components/Chat/Chat";
 import Pusher from 'pusher-js';
 import Page from "./pages/Page/Page";
+import AchievementsPage from "./pages/AchievementsPage/AchievementsPage";
 
 
 export function postFormatDate(isoString) {
@@ -138,7 +139,8 @@ function App() {
         { path: '/photogallery', element: <PhotoGalleryPage />, layout: UnauthLayout  },
         { path: '/students', element: <StudentsPage /> , layout: UnauthLayout },
         { path: '/academy-coaches', element: <CoachesPage /> , layout: UnauthLayout },
-        { path: '/awards', element: <AwardsPage /> , layout: UnauthLayout },
+        { path: '/achievements', element: <AwardsPage /> , layout: UnauthLayout },
+        { path: '/awards', element: <AchievementsPage/>, layout: UnauthLayout},
         { path: '/programs', element: <ClubProgramsPage /> , layout: UnauthLayout },
         { path: '/page/:url', element: <Page/>, layout: UnauthLayout }
     ];
