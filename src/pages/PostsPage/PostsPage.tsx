@@ -25,7 +25,7 @@ const PostsPage = () => {
 
     return (
         <div className="page">
-            <section className={`${styles.hero} hero`}>
+            <section className={`hero ${styles.hero}`}>
                 <img src="images/hero-sports-bg.png" className={`${styles.hero__bg} hero__bg`} alt="" />
                 <img src="images/hero-posts-ruby.png" className={`${styles.hero__ruby} hero__ruby`}alt="" />
                 <h1 className={`${styles.hero__title} hero__title`}>Записи</h1>

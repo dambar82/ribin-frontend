@@ -1,6 +1,20 @@
 .hero {
     // background-image: url();
     background: linear-gradient(228deg, #f23e5d 0%, #91172c 100%);
+
+    @media (max-width: 1440px) {
+      height: 480px; 
+    }
+    @media (max-width: 1000px) {
+      height: 420px; 
+    }
+    @media (max-width: 768px) {
+      height: 360px; 
+    }
+    @media (max-width: 480px) {
+      height: 320px; 
+    }
+
     &__title {
         background-color: #91172C;
         backdrop-filter: blur(40px);
@@ -9,6 +23,10 @@
         left: calc(48 / 1660 * 100%);
         transform: rotate(-15deg);
         transform-origin: center;
+
+        @media (max-width: 768px) {
+          font-size: 22px; 
+        }
     }
     &__subtitle {
         background-color: #FFB800;
@@ -17,6 +35,10 @@
         transform: rotate(-15deg);
         transform-origin: center;
         text-transform: capitalize;
+
+        @media (max-width: 768px) {
+          font-size: 22px; 
+        }
     }
     &__bg {
         width: 100%;
@@ -28,5 +50,12 @@
         top: 50%;
         right: calc(78 / 1660 * 100%);
         transform: translate(0, -50%);
+
+        @media (max-width: 768px) {
+          width: 60%;
+          bottom: 0;
+          top: auto;
+          transform: none;
+        }
     }
 }

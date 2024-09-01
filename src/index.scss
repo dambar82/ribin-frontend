@@ -475,6 +475,9 @@ li {
       flex-direction: column;
       gap: 0;
     }
+    @media (max-width: 480px) {
+      padding: 0 20px; 
+    }
   }
   &__avatar {
     border: 6px solid #FFFFFF;
@@ -602,9 +605,22 @@ li {
     align-items: center;
     gap: 12px;
 
+    @media (max-width: 1200px) {
+      flex-direction: column-reverse;
+      align-items: flex-end;
+    }
+    @media (max-width: 1000px) {
+      align-items: flex-start; 
+    }
+
     button {
       @media (max-width: 1440px) {
         font-size: 16px; 
+        padding: 18px 30px;
+
+        span {
+          font-size: 16px; 
+        }
       }
     }
   }
@@ -1110,9 +1126,18 @@ li {
   border-radius: 50px;
   padding: 6px 20px 6px 6px;
 
+  @media (max-width: 480px) {
+    padding: 4px;
+    column-gap: 4px;
+    border-radius: 36px; 
+  }
+
   span {
     @media (max-width: 1440px) {
       font-size: 16px;
+    }
+    @media (max-width: 480px) {
+      display: none; 
     }
   }
 }
