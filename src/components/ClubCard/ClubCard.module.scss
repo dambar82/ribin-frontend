@@ -6,9 +6,15 @@
     flex-direction: column;
     padding: 0 0 32px;
     overflow: hidden;
+
+    @media (max-width: 768px) {
+      border-radius: 35px; 
+    }
+
     &__image {
         background-color: #DEDEDE;
         aspect-ratio: calc(540 / 350);
+
         img {
             width: 100%;
             height: 100%;
@@ -41,15 +47,31 @@
         align-items: center;
         width: 32px;
         height: 32px;
+
+        @media (max-width: 768px) {
+          width: 28px;
+          height: 28px;
+        }
+
         svg {
             width: 20px;
             height: 20px;
+
+            @media (max-width: 768px) {
+              width: 16px;
+              height: 16px;
+            }
         }
     }
     &__participantsLabel {
         font-size: 20px;
         font-weight: 500;
         line-height: 24px;
+
+        @media (max-width: 768px) {
+          font-size: 16px; 
+        }
+
         span {
             font-family: "Saira", "sans-serif";
         }
@@ -58,6 +80,11 @@
         font-size: 28px;
         font-weight: 600;
         line-height: calc(32 / 28);
+
+        @media (max-width: 768px) {
+          font-size: 22px; 
+        }
+
         &:not(:last-child) {
             margin: 0 0 12px;
         }
@@ -69,6 +96,9 @@
         max-height: calc(1em * 1.2 * 4);
         overflow: hidden;
 
+        @media (max-width: 768px) {
+          font-size: 18px; 
+        }
     }
     &__button {
         cursor: pointer;

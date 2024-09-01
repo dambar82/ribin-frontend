@@ -6,6 +6,34 @@
   display: flex;
   justify-content: space-between;
   column-gap: 4vw;
+
+  @media (max-width: 1600px) {
+    display: grid;
+    grid-template-columns: 60% calc(40% - 4vw);
+
+    .image {
+      display: flex;
+      align-items: center;
+
+      img {
+        width: 100%;
+        height: auto;
+        object-fit: contain;
+      }
+    }
+  }
+  @media (max-width: 1000px) {
+    grid-template-columns: 1fr;
+    padding: 50px;
+
+    .image {
+      display: none;
+    }
+  }
+  @media (max-width: 768px) {
+    padding: 30px 20px;
+    border-radius: 35px;
+  }
 }
 
 .form {
@@ -14,17 +42,27 @@
   flex-direction: column;
   justify-content: flex-start;
   row-gap: 32px;
+
   h2 {
     font-size: 36px;
     font-weight: 600;
     line-height: 44px;
     text-align: left;
+
+    @media (max-width: 768px) {
+      font-size: 28px; 
+    }
   }
 }
 
 .form_inputField {
   display: flex;
   column-gap: 18px;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    row-gap: 30px;
+  }
 }
 
 .input {
@@ -32,9 +70,11 @@
   flex-direction: column;
   row-gap: 12px;
   width: 100%;
+
   .searchBar {
     min-width: 100%;
     position: relative;
+
     input {
       width: 100%;
       padding: 19px 64px;
@@ -47,7 +87,13 @@
       font-weight: 500;
       line-height: 22px;
       letter-spacing: -0.011em;
+
+      @media (max-width: 768px) {
+        font-size: 16px;
+        padding: 19px 10px 19px 42px;
+      }
     }
+
     select {
       -webkit-appearance: none; /* Для Safari */
       -moz-appearance: none;    /* Для Firefox */
@@ -65,6 +111,7 @@
       line-height: 22px;
       letter-spacing: -0.011em;
     }
+
     img {
       position: absolute;
       top: 50%;
@@ -72,16 +119,30 @@
       transform: translateY(-50%);
       width: 20px;
       height: 20px;
+
+      @media (max-width: 768px) {
+        left: 10px; 
+      }
     }
   }
+
   label {
     font-size: 24px;
     font-weight: 500;
     line-height: 28px;
+
+    @media (max-width: 768px) {
+      font-size: 18px; 
+    }
   }
 }
 
 .actionButton {
   margin-right: auto;
   margin-top: auto;
+
+  @media (max-width: 768px) {
+    font-size: 16px;
+    padding: 18px;
+  }
 }

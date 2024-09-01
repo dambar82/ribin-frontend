@@ -254,8 +254,17 @@ li {
 .grid {
   &__list {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(calc(540px - 20px), 1fr));
+    grid-template-columns: 1fr 1fr 1fr;
     gap: 20px;
+
+
+    @media (max-width: 1200px) {
+      grid-template-columns: 1fr 1fr; 
+    }
+    @media (max-width: 600px) {
+      grid-template-columns: 1fr; 
+    }
+
     &:not(:last-child) {
       margin: 0 0 100px;
     }
@@ -1132,7 +1141,7 @@ li {
     border-radius: 36px; 
   }
 
-  span {
+  & > span {
     @media (max-width: 1440px) {
       font-size: 16px;
     }
@@ -1202,6 +1211,10 @@ li {
   border-radius: 35px;
   overflow: hidden;
   z-index: 11;
+
+  @media (max-width: 480px) {
+    width: 300px; 
+  }
 
   li {
     &:last-child {
