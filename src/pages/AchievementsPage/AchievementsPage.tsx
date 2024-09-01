@@ -74,6 +74,42 @@ const achievements = [
         price: 20000,
         closed: true
     },
+    {
+        title: 'Брелок',
+        image: '/images/Брелок.jpg',
+        price: 700,
+        closed: true
+    },
+    {
+        title: 'Ручка',
+        image: '/images/Ручка.png',
+        price: 700,
+        closed: true
+    },
+    {
+        title: 'Значок',
+        image: '/images/Значок.png',
+        price: 700,
+        closed: true
+    },
+    {
+        title: 'Кружка',
+        image: '/images/Кружка.jpg',
+        price: 2000,
+        closed: true
+    },
+    {
+        title: 'Шарф',
+        image: '/images/Шарф.jpg',
+        price: 2000,
+        closed: true
+    },
+    {
+        title: 'Магнит',
+        image: '/images/Магнит.png',
+        price: 700,
+        closed: true
+    },
 ]
 
 const AchievementsPage = () => {
