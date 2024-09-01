@@ -124,6 +124,8 @@ const AchievementsPage = () => {
         }
     }
 
+    const sortedAchievements = achievements.sort((a, b) => a.price - b.price);
+
     return (
         <div className='page'>
             <section className={`${styles.achievements} section`}>
@@ -143,7 +145,7 @@ const AchievementsPage = () => {
                         </div>
                     </div>
                     <div className={styles.awards_grid}>
-                        {achievements.map(item => (
+                        {sortedAchievements.map(item => (
                             <div className={styles.award_card} onClick={() => handleBuy(item)}>
                                 <div className={styles.award_card_image}>
                                     <img className={styles.award_card_image_IMG} src={item.image} alt=""/>
