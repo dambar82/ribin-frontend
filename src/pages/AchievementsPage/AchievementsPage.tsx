@@ -125,19 +125,17 @@ const AchievementsPage = () => {
                     </div>
                 </div>
             </section>
-            {isModalOpen && (
-                <Modal active={isModalOpen} setActive={setIsModalOpen} className={styles.modal}>
-                    <div className={styles.modal_content}>
-                        <h1>
-                            Недостаточно Рубиков для покупки
-                        </h1>
-                        <p>
-                            К сожалению, у вас недостаточно Рубиков для совершения этой покупки. Заработайте больше, участвуя в активности на сайте, и вернитесь позже, чтобы обменять их на желаемую скидку!
-                        </p>
-                        <Button onClick={() => setIsModalOpen(false)}>Понятно</Button>
-                    </div>
+            <Modal active={isModalOpen} setActive={setIsModalOpen} className={styles.modal}>
+                <div className={styles.modal_content}>
+                    <h1>
+                        Недостаточно Рубиков для покупки
+                    </h1>
+                    <p>
+                        К сожалению, у вас недостаточно Рубиков для совершения этой покупки. Заработайте больше, участвуя в активности на сайте, и вернитесь позже, чтобы обменять их на желаемую скидку!
+                    </p>
+                    <Button onClick={() => setIsModalOpen(false)}>Понятно</Button>
+                </div>
                 </Modal>
-            )}
         </div>
     );
 };
