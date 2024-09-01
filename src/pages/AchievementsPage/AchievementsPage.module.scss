@@ -94,8 +94,14 @@
     min-height: 284px;
     height: 100%;
     position: relative;
+    display: flex; /* Добавлено */
+    align-items: center; /* Добавлено */
+    justify-content: center; /* Добавлено */
     &_IMG {
-      width: 100%;
+      width: 100%; /* Изменено */
+      height: auto; /* Изменено */
+      max-width: 100%; /* Добавлено, чтобы изображение не выходило за пределы */
+      object-fit: contain;
     }
   }
   &_info {
