@@ -43,6 +43,21 @@
   @media (max-width: 1000px) {
     padding: 16px 20px;
   }
+  @media (max-width: 600px) {
+    padding: 10px;
+
+    span { 
+      display: none;
+    } 
+  }
+
+  svg {
+    display: none;
+
+    @media (max-width: 600px) {
+      display: block;
+    }
+  }
 }
 
 .authHeader_menu {

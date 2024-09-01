@@ -5,6 +5,9 @@ import {useAppDispatch} from "../../store/hooks";
 import {Link, useNavigate} from "react-router-dom";
 import {RootState} from "../../store/store";
 import { ConfirmEmailModal } from './components'
+import { classNames } from '../../shared/utils'
+
+import c from './auth.module.scss'
 
 const Login = () => {
 
@@ -40,7 +43,7 @@ const Login = () => {
     }
 
     return (
-        <div className='authBlock'>
+        <div className={classNames('authBlock', c.auth_block)}>
             <div className='authBlock__text gap-16'>
                 <h1 className='authBlock__h1'>
                     Добро пожаловать обратно в клуб, мы скучали!
@@ -49,7 +52,7 @@ const Login = () => {
                     Войдите в свой профиль, чтобы продолжить пользоваться всеми функциями сайта и получать актуальную информацию.
                 </p>
             </div>
-            <div className='authBlock__form'>
+            <div className={classNames('authBlock__form', c.form_wrapper)}>
                 <h2 className='authBlock__h2'>
                    Вход
                 </h2>

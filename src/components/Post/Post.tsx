@@ -35,7 +35,7 @@ interface ICard {
     source?: string[];
     tags?: string;
     comments?: IComment[]
-    children: React.ReactNode;
+    children?: React.ReactNode;
     likes: number;
     liked_by: number[];
     updated_at: string;

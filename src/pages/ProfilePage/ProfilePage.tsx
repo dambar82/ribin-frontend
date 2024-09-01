@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-import styles from "./ProfilePage.module.scss"
+import c from "./ProfilePage.module.scss"
 
 import Wall from '../../components/Wall/Wall';
 import {useSelector} from "react-redux";
@@ -8,6 +8,7 @@ import {RootState} from "../../store/store";
 import {useEffect, useState} from "react";
 import {fetchPostsByUserId} from "../../store/postSlice";
 import {useAppDispatch} from "../../store/hooks";
+import { classNames } from "../../shared/utils"
 
 const ProfilePage = () => {
     const dispatch = useAppDispatch();
@@ -39,7 +40,7 @@ const ProfilePage = () => {
     return (
         <section className="page">
             <section className="big-card">
-                <div className="big-card__cover">
+                <div className={classNames('big-card__cover', c.big_card_cover)}>
                     <img src="/images/profile-cover.png" alt="" />
                 </div>
                 <div className="big-card__content">

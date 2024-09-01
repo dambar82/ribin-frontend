@@ -2,6 +2,8 @@ import React, {useState} from 'react';
 import {loginUser, resetPassword} from "../../store/userSlice";
 import {useAppDispatch} from "../../store/hooks";
 
+import c from './auth.module.scss'
+
 const Restore = () => {
 
     const dispatch = useAppDispatch();
@@ -25,7 +27,7 @@ const Restore = () => {
     };
 
     return (
-        <div className='authBlock__restore gap-26' style={{ position: 'relative' }} >
+        <div className={`authBlock__restore gap-26 ${c.restore_password}`} style={{ position: 'relative' }} >
             {error && <span style={{ position: 'absolute', top: '40px', left: '50%', transform: 'translate(-50%, 0)', color: 'red', fontSize: '24px' }} >{error}</span>}
             {success && <span style={{ position: 'absolute', top: '40px', left: '50%', transform: 'translate(-50%, 0)', fontSize: '24px' }} >{success}</span>}
             <div className='authBlock__restore_text'>

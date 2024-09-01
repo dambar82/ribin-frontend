@@ -6,10 +6,29 @@
     gap: 46px 60px;
     padding: 70px;
     position: relative;
+
+    @media (max-width: 1600px) {
+      gap: 30px; 
+    }
+    @media (max-width: 1440px) {
+      padding: 50px;
+      border-radius: 26px;
+    }
+    @media (max-width: 1200px) {
+      display: grid; 
+    }
+    @media (max-width: 768px) {
+      padding: 30px 20px;
+    }
+
     &__nav {
         flex-basis: 100%;
         display: flex;
         gap: 46px;
+
+        @media (max-width: 768px) {
+          gap: 20px; 
+        }
     }
     &__navButton {
         color: #9D9D9D;
@@ -38,6 +57,11 @@
         //flex-basis: calc(100% - 460px - 60px);
         max-width: 65%;
         width: 100%;
+
+        @media (max-width: 1200px) {
+          max-width: none; 
+        }
+
         & > p {
             font-size: 20px;
             font-weight: 500;
@@ -56,12 +80,23 @@
       border: 1px solid #F2F2F2;
       border-radius: 35px;
       padding: 32px;
+
+      @media (max-width: 768px) {
+        padding: 16px; 
+      }
+      @media (max-width: 480px) {
+        padding: 10px; 
+      }
       
         .textarea_wrapper {
             display: flex;
             flex-direction: column; /* Изменено на флекс вертикально */
             position: relative;
             padding: 20px;
+            
+            @media (max-width: 768px) {
+              padding: 0; 
+            }
         }
 
         textarea {
@@ -79,6 +114,11 @@
             height: 220px;
             max-height: 700px;
             resize: vertical;
+
+            @media (max-width: 480px) {
+              font-size: 18px;
+              padding: 20px 10px; 
+            }
 
             &::placeholder {
               color: #6F6F6F;
@@ -111,9 +151,17 @@
       display: grid;
       grid-template-columns: 1fr auto;
       align-items: start;
+
+      @media (max-width: 480px) {
+        grid-template-columns: 1fr;
+      }
     }
     .form_select {
       width: max-content;
+
+      @media (max-width: 480px) {
+        font-size: 14px!important; 
+      }
     }
     &__feedFormFile {
       width: 100%;
@@ -192,6 +240,16 @@
         align-self: flex-start;
         max-width: 30%;
         width: 100%;
+
+        @media (max-width: 1600px) {
+          max-width: calc(35% - 30px);
+        }
+        @media (max-width: 1200px) {
+
+          grid-row: 2/3;
+          max-width: none;
+        }
+
         &_sticky {
             position: sticky;
             top: 50px;
@@ -201,6 +259,11 @@
         border-radius: 35px;
         background-color: #FFFFFF;
         padding: 32px;
+
+        @media (max-width: 480px) {
+          padding: 10px;
+        } 
+
         & > * {
             &:not(:last-child) {
                 margin: 0 0 32px;

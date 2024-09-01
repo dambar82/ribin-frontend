@@ -109,7 +109,8 @@ const AuthHeader = () => {
                 { !user &&
                     <Link to='/login'>
                         <div className={styles.cabinet_button}>
-                            Личный кабинет
+                            <span>Личный кабинет</span>
+                            <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_2517_46390)"><rect width="36" height="36" rx="18" fill="white"/><path d="M27 31C27 28.6131 26.0518 26.3239 24.364 24.636C22.6761 22.9482 20.3869 22 18 22C15.6131 22 13.3239 22.9482 11.636 24.636C9.94821 26.3239 9 28.6131 9 31" fill="#91172C"/><path d="M27 31C27 28.6131 26.0518 26.3239 24.364 24.636C22.6761 22.9482 20.3869 22 18 22C15.6131 22 13.3239 22.9482 11.636 24.636C9.94821 26.3239 9 28.6131 9 31V36V38H27V31Z" stroke="#91172C" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/><path d="M18 22C21.3137 22 24 19.3137 24 16C24 12.6863 21.3137 10 18 10C14.6863 10 12 12.6863 12 16C12 19.3137 14.6863 22 18 22Z" fill="#91172C" stroke="#91172C" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/><rect x="9" y="31" width="17" height="6" fill="#91172C"/></g><rect x="1" y="1" width="34" height="34" rx="17" stroke="white" strokeWidth="2"/><defs><clipPath id="clip0_2517_46390"><rect width="36" height="36" rx="18" fill="white"/></clipPath></defs></svg>
                         </div>
                       </Link>
                     }
