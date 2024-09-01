@@ -14,6 +14,14 @@
     border-radius: 35px;
     padding: 32px;
     width: 100%;
+
+    @media (max-width: 768px) {
+      padding: 10px; 
+    }
+    @media (max-width: 480px) {
+      width: 95%; 
+    }
+
     &__header {
         display: flex;
         justify-content: space-between;
@@ -48,6 +56,10 @@
         font-size: 24px;
         font-weight: 500;
         line-height: calc(28 / 24);
+
+        @media (max-width: 768px) {
+          font-size: 20px; 
+        }
     }
     &__createdAt {
         align-self: start;
@@ -58,6 +70,10 @@
         font-size: 18px;
         font-weight: 500;
         line-height: calc(22 / 18);
+
+        @media (max-width: 768px) {
+          font-size: 16px; 
+        }
     }
     &__body {
         &:not(:last-child) {
@@ -73,6 +89,9 @@
         text-overflow: ellipsis;
         overflow: hidden;
         max-height: 7.2em;
+
+        max-width: 70vw;
+
         &_expanded {
             max-height: none;
         }
@@ -114,11 +133,14 @@
         grid-template-columns: repeat(auto-fit, minmax(304px, 1fr));
         grid-template-rows: repeat(auto-fit, minmax(150px, 1fr));
         gap: 8px;
+
+
         &_item {
             width: 100%;
             height: 100%;
             border-radius: 12px;
             overflow: hidden;
+
             & > img, & > video {
                 width: 100%;     // Настройка ширины
                 height: auto;    // Автоматическая высота для сохранения пропорций

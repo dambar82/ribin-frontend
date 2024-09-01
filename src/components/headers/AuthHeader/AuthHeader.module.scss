@@ -25,6 +25,9 @@
     @media (max-width: 768px) {
       width: 185px;
     }
+    @media (max-width: 480px) {
+      width: 160px;
+    }
   }
 }
 
@@ -256,6 +259,9 @@
 
   @media (max-width: 1300px) {
     display: flex;
+  }
+  @media (max-width: 480px) {
+    padding: 10px; 
   }
 
   svg {

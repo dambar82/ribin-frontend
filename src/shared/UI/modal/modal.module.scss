@@ -44,6 +44,12 @@
 
       cursor: pointer;
 
+      @media (max-width: 768px) {
+        right: 0px;
+        top: -10px;
+        transform: translate(0, -100%); 
+      }
+
       &::before, &::after {
         content: '';
         position: absolute;
