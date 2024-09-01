@@ -1,0 +1,171 @@
+.achievements {
+  &__body {
+    background-color: #FFFFFF;
+    border-radius: 50px;
+    box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.12);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    //gap: 100px;
+    //padding: 70px;
+
+    @media (max-width: 1440px) {
+      //padding: 50px;
+    }
+    @media (max-width: 1200px) {
+      //gap: 50px;
+    }
+    @media (max-width: 1000px) {
+      border-radius: 36px;
+    }
+    @media (max-width: 375px) {
+      //padding: 18px;
+    }
+  }
+}
+
+.achievements__body_high {
+  display: flex;
+  flex-direction: column;
+  row-gap: 46px;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 70px;
+  p {
+    width: 70%;
+    text-align: center;
+    font-family: Raleway;
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 36px;
+    a {
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+  .rubicks {
+    display: flex;
+    background-color: #48903A;
+    padding: 18px 36px;
+    padding: 18px 36px 18px 36px;
+    gap: 6px;
+    border-radius: 30px;
+    color: white;
+    font-family: Raleway;
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 24px;
+    text-align: left;
+
+    span:last-child {
+      //styleName: Medium/Numbers;
+      font-family: Saira;
+      font-size: 20px;
+      font-weight: 500;
+      line-height: 24px;
+      text-align: left;
+    }
+  }
+}
+
+.awards_grid {
+  background-color: #91172C;
+  padding: 46px 70px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.award_card {
+  border-radius: 24px;
+  background-color: white;
+  padding: 8px 8px 24px 8px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 20px;
+  cursor: pointer;
+  &_image {
+    background-color: #F8F8F8;
+    border-radius: 16px 16px 0 0;
+    overflow: hidden;
+    max-height: 284px;
+    min-height: 284px;
+    height: 100%;
+    position: relative;
+    &_IMG {
+      width: 100%;
+    }
+  }
+  &_info {
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+    p {
+      font-family: Raleway;
+      font-size: 24px;
+      font-weight: 500;
+      line-height: 28px;
+      text-align: center;
+      max-height: 56px;
+    }
+    span {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      column-gap: 4px;
+      font-family: Saira;
+      font-size: 28px;
+      font-weight: 500;
+      line-height: 32px;
+      text-align: center;
+    }
+  }
+}
+
+.close_icon {
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.5);
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  left: 50%;
+  top: 50%;
+  translate: -50% -50%;
+}
+
+.modal {
+
+  & > div {
+    padding: 70px;
+    border-radius: 50px;
+  }
+
+  &_content {
+    display: flex;
+    flex-direction: column;
+    row-gap: 14px;
+    align-items: center;
+  }
+
+  h1 {
+    font-family: Raleway;
+    font-size: 36px;
+    font-weight: 600;
+    line-height: 44px;
+    text-align: left;
+  }
+
+  p {
+    font-family: Raleway;
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 24px;
+    text-align: left;
+    margin-bottom: 40px;
+  }
+}

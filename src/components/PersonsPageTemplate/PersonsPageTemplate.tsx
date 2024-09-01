@@ -12,7 +12,7 @@ const PersonsPageTemplate = ({ title, type, persons }) => {
             <div className="section__body">
                 <div className="persons__grid">
                     {persons.map(person => (
-                        <PersonCard key={person.id} name={person.title} id={person.id} type={type} details={person.details} imageUrl={person.imagePreviewResized} />
+                        <PersonCard key={person.id} name={person.title} id={person.id} type={type} body={person.body} details={person.details} imageUrl={person.imagePreviewResized} />
                     ))}
                 </div>
             </div>

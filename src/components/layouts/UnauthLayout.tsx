@@ -3,6 +3,7 @@ import UnauthHeader from "../headers/UnauthHeader/UnauthHeader";
 import {useSelector} from "react-redux";
 import {RootState} from "../../store/store";
 import AuthHeader from "../headers/AuthHeader/AuthHeader";
+import Footer from "../Footer/Footer";
 
 interface UnauthLayoutProps {
     children: ReactNode;
@@ -22,6 +23,11 @@ const UnauthLayout: React.FC<UnauthLayoutProps> = ({ children }) => {
                 <AuthHeader />
             )}
             <main>{children}</main>
+            {
+                isAuth && (
+                    <Footer></Footer>
+                )
+            }
         </div>
     );
 };

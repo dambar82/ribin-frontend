@@ -89,7 +89,6 @@ export const deletePostAsync = createAsyncThunk('post/deletePost', async ({postI
 })
 
 export const editPostAsync = createAsyncThunk('post/editPostAsync', async ({postId, formData}: {postId: number, formData: FormData}) => {
-    console.log(token)
     const response = await axios.post(`https://api-rubin.multfilm.tatar/api/posts/${postId}`, formData, {
         headers: {
             'Authorization': `Bearer ${token}`
