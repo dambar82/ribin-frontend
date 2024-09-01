@@ -163,11 +163,12 @@ const Question = ({ quiz, currentQuestion, answers, changeQuestion, setAnswers, 
 
   const question = quiz.questions?.[currentQuestion-1]
 
-  const [rightAnswer] = useState<TAnswer>(question.answers.find(el => el.correct_answer))
+  const [rightAnswer, setRightAnswer] = useState<TAnswer | null>(null)
   const [result, setResult] = useState<{id:number;answer:boolean;}|null>(null)
 
   useEffect(() => {
     setResult(answers.find(el => el.id === question.id))
+    setRightAnswer(question.answers.find(el => el.correct_answer))
   }, [answers, question])
 
   if ( !question ) {
