@@ -25,6 +25,7 @@ import {Button} from "../../shared/UI";
 import {postFormatDate} from "../../App";
 import {Link} from "react-router-dom";
 import {fetchPeople} from "../../store/peopleSlice";
+import TextWithVideo from "../TextWithVideo/TextWithVideo";
 
 interface ICard {
     id: number;
@@ -225,10 +226,11 @@ const Post = ({ id, name, surname, avatar, created_by, source, tags, comments, t
                         <>
                             <div className={`${styles.post__content} ${isExpanded ? styles.post__content_expanded : ''}`}
                                  ref={contentRef}
-                                 dangerouslySetInnerHTML={{
-                                     __html: postContent
-                                 }}
+                                 // dangerouslySetInnerHTML={{
+                                 //     __html: postContent
+                                 // }}
                             >
+                                <TextWithVideo htmlContent={postContent} />
                             </div>
                             {isTruncated && !isExpanded && (
                                 <span className={styles.show_more_button} onClick={toggleExpand}>
