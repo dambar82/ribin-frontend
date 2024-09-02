@@ -6,7 +6,7 @@ import {AppDispatch, RootState} from "../../store/store";
 import styles from "./SingleNewsPage.module.scss"
 
 
-import likeIcon from "../../images/svg/likes.svg";
+import likeIcon from "../../images/svg/likeIconNews.svg";
 import likeIconLiked from "../../images/svg/likes_red.svg";
 import sharedIcon from "../../images/svg/shared.svg"
 import viewIcon from "../../images/svg/views.svg"
@@ -103,12 +103,13 @@ const SingleNewsPage = () => {
                             }
                         </div>
                         <div className={styles.news__text}>
-                                <p>
-                                    {
-                                        //@ts-ignore
-                                        singleNews.full_content
-                                    }
-                                </p>
+                                <div
+                                    dangerouslySetInnerHTML={{
+                                            //@ts-ignore
+                                            __html: singleNews.full_content
+                                        }}
+                                >
+                                </div>
                         </div>
                         <div className={styles.news__footer}>
                             {//@ts-ignore
@@ -121,13 +122,13 @@ const SingleNewsPage = () => {
                                     </span>
                                 </div>
                             }
-                            <Tag icon={sharedIcon} count={12} />
+                            {/*<Tag icon={sharedIcon} count={12} />*/}
                             <div className={styles.news__author}>
                                 <div className={styles.news__authorAvatar}>
                                     <img src="/images/news-author.png" alt="" />
                                 </div>
                                 <div className={styles.news__authorPosition}>Автор</div>
-                                <div className={styles.news__authorName}>Алия Газизова</div>
+                                <div className={styles.news__authorName}>Руби</div>
                             </div>
                         </div>
                     </div>

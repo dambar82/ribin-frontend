@@ -76,7 +76,7 @@ const achievements = [
     },
     {
         title: 'Брелок',
-        image: '/images/Брелок.jpg',
+        image: '/images/брелъъок.png',
         price: 700,
         closed: true
     },
@@ -93,14 +93,32 @@ const achievements = [
         closed: true
     },
     {
+        title: 'Кепка',
+        image: '/images/кепка.png',
+        price: 2000,
+        closed: true
+    },
+    {
+        title: 'Футболка',
+        image: '/images/футболка.png',
+        price: 2000,
+        closed: true
+    },
+    {
+        title: 'Шапка',
+        image: '/images/шапка.png',
+        price: 2000,
+        closed: true
+    },
+    {
         title: 'Кружка',
-        image: '/images/Кружка.jpg',
+        image: '/images/кружка.png',
         price: 2000,
         closed: true
     },
     {
         title: 'Шарф',
-        image: '/images/Шарф.jpg',
+        image: '/images/шарф.png',
         price: 2000,
         closed: true
     },

@@ -78,6 +78,7 @@ const Wall = ({type, posts, editable = true, clubId}: IWall) => {
     const [files, setFiles] = useState<{ id: number, file: File }[]>([])
     const [option, setOption] = useState(optionsMap.public)
     const [searchTerm, setSearchTerm] = useState('')
+    const [symbols, setSymbols] = useState(false);
 
 
     useEffect(() => {
@@ -129,40 +130,42 @@ const Wall = ({type, posts, editable = true, clubId}: IWall) => {
       setFiles(prev => prev.filter(el => el.id !== fileId))
     }
 
-    useEffect(() => {
-        console.log(posts);
-    }, [posts])
-
     const onSubmit = async ( e: React.FormEvent<HTMLFormElement> ) => {
       e.preventDefault()
-      const form = e.currentTarget;
-        const formData = new FormData(form);
+        if (textareaValue.length > 60) {
+            const form = e.currentTarget;
+            const formData = new FormData(form);
 
-        formData.append('description', formData.get('description') as string);
-       // formData.append('title', formData.get('description') as string);
+            formData.append('description', formData.get('description') as string);
+            // formData.append('title', formData.get('description') as string);
 
-        files.forEach(file => {
-            formData.append('source[]', file.file);
-        });
+            files.forEach(file => {
+                formData.append('source[]', file.file);
+            });
 
 
-        try {
-            if (type !== 'club') {
-                const newPost = await dispatch(createPost(formData)).unwrap();
-                console.log(newPost);
-                dispatch(addPost(newPost));
-            } else {
-                const newPost = await dispatch(createPostInClub({clubId, formData})).unwrap();
-                console.log(newPost);
-               // @ts-ignore
-                dispatch(addPost(newPost));
+            try {
+                if (type !== 'club') {
+                    const newPost = await dispatch(createPost(formData)).unwrap();
+                    console.log(newPost);
+                    dispatch(addPost(newPost));
+                } else {
+                    const newPost = await dispatch(createPostInClub({clubId, formData})).unwrap();
+                    console.log(newPost);
+                    // @ts-ignore
+                    dispatch(addPost(newPost));
+                }
+                setFiles([]);
+                setTextareaValue('');
+            } catch (error) {
+                console.error('Ошибка при создании поста:', error);
             }
-            setFiles([]);
-            setTextareaValue('');
-        } catch (error) {
-            console.error('Ошибка при создании поста:', error);
+        } else {
+            setSymbols(true);
+            setTimeout(() => {
+               setSymbols(false);
+            }, 3000)
         }
-
     }
 
     return (
@@ -194,6 +197,18 @@ const Wall = ({type, posts, editable = true, clubId}: IWall) => {
                                   >
                                   </textarea>
                                   <Button className={styles.submit_button}>Отправить</Button>
+                                    {
+                                        symbols && (
+                                            <div className={styles.symbols_message}>
+                                                Недостаточно символов для отправки сообщения
+                                            </div>
+                                        )
+                                    }
+                                    {
+                                        textareaValue.length < 60 && (
+                                            <span className={`${styles.symbol_counter} ${symbols && styles.symbol_counterRED}`}>{textareaValue.length}/60</span>
+                                        )
+                                    }
                                 </div>
                                 <div className={styles.feenFormFooter} >
                                     <div className={styles.wall__feedFormFile}>
