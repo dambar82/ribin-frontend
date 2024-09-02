@@ -21,8 +21,8 @@ export const fetchNewsAndNewsBack = createAsyncThunk('news/fetchNewsAndNewsBack'
     const newsUrl = `https://api-rubin.multfilm.tatar/api/request/news?isTop=true`;
 
     const results = await Promise.allSettled([
-        axios.get(newsBackUrl),
-        axios.get(newsUrl, {
+      //  axios.get(newsUrl),
+        axios.get(newsBackUrl, {
             headers: {
                 'Origin': 'http://localhost:3000'
             }
@@ -30,9 +30,9 @@ export const fetchNewsAndNewsBack = createAsyncThunk('news/fetchNewsAndNewsBack'
     ]);
 
     const newsBackData = results[0].status === 'fulfilled' ? results[0].value.data.data : [];
-    const newsData = results[1].status === 'fulfilled' ? results[1].value.data : [];
+ //   const newsData = results[1].status === 'fulfilled' ? results[1].value.data : [];
 
-    return [...newsData, ...newsBackData];
+    return [...newsBackData];
 });
 
 export const fetchNewsApiById = createAsyncThunk('news/fetchNewsApiById', async ({newsId} : {newsId: number}) => {

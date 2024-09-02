@@ -5,7 +5,7 @@ import {AppDispatch, RootState} from "../../store/store";
 
 import styles from "./SingleNewsPage.module.scss"
 
-
+import likeIconBlack from '../../images/svg/likes.svg'
 import likeIcon from "../../images/svg/likeIconNews.svg";
 import likeIconLiked from "../../images/svg/likes_red.svg";
 import sharedIcon from "../../images/svg/shared.svg"
@@ -115,7 +115,7 @@ const SingleNewsPage = () => {
                             {//@ts-ignore
                                 <div className={styles.tag} onClick={handleLikeClick}>
                                     <div className={styles.tag__icon}>
-                                        <img src={isLiked ? likeIconLiked : likeIcon} alt="" />
+                                        <img src={isLiked ? likeIconLiked : likeIconBlack} alt="" />
                                     </div>
                                     <span className={`${styles.tag__label} ${isLiked ? styles.tag__label_liked : ''}`}>
                                         {likes}
