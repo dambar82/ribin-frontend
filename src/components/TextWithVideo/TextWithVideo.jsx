@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactPlayer from 'react-player';
+import VKPlayer from "../VKPlayer/VKPlayer";
 
 const TextWithVideo = ({ htmlContent }) => {
     // Регулярное выражение для поиска URL-ов в HTML
@@ -29,6 +30,12 @@ const TextWithVideo = ({ htmlContent }) => {
                                 }
                             }}
                         />
+                    </div>
+                );
+            } else if (part.includes('vk.com/video')) {
+                return (
+                    <div key={index}>
+                        <VKPlayer url={part} />
                     </div>
                 );
             }
