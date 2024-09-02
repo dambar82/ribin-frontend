@@ -22,6 +22,9 @@
         transform: rotate(-15deg);
         transform-origin: center;
 
+        @media (max-width: 1440px) {
+          font-size: 30px; 
+        }
         @media (max-width: 768px) {
           font-size: 22px; 
         }
@@ -37,8 +40,11 @@
         left: 50%;
         transform: translate(-50%, -50%);
 
+        @media (max-width: 1440px) {
+          font-size: 30px; 
+        }
         @media (max-width: 768px) {
-          width: 60%;
+          width: 80%;
         }
     }
 }
