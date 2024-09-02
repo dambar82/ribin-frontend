@@ -81,12 +81,17 @@ const Post = ({ id, name, surname, avatar, created_by, source, tags, comments, t
     const [isLiked, setIsLiked] = useState(liked_by.includes(user.user.id));
 
     useEffect(() => {
-        if (contentRef.current && contentRef.current.scrollHeight > contentRef.current.clientHeight) {
+        const hasVideo = /https?:\/\/(?:www\.)?(?:youtube\.com|youtu\.be|vk\.com|vimeo\.com)\S*/.test(postContent);
+        const textLength = postContent.replace(/<[^>]+>/g, '').length;
+
+        if (hasVideo || textLength < 100) {
+            setIsExpanded(true);
+        } else if (contentRef.current && contentRef.current.scrollHeight > contentRef.current.clientHeight) {
             setIsTruncated(true);
         } else {
             setIsTruncated(false);
         }
-    }, [isEditing]);
+    }, [isEditing, postContent]);
 
     const toggleExpand = () => {
         setIsExpanded(!isExpanded);
@@ -237,7 +242,7 @@ const Post = ({ id, name, surname, avatar, created_by, source, tags, comments, t
                             Читать далее
                             </span>
                             )}
-                            {isExpanded && (
+                            {isTruncated && isExpanded && (
                                 <span className={styles.show_more_button} onClick={toggleExpand}>
                             Свернуть
                             </span>
