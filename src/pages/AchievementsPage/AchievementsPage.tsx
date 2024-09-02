@@ -9,19 +9,19 @@ import {Button, Modal} from "../../shared/UI";
 
 const achievements = [
     {
-        title: 'Экскурсия по базе 20 детей',
+        title: 'Экскурсия по базе 20 детей (2 раза/мес)',
         image: '/images/excursion.png',
         price: 2000,
         closed: true
     },
     {
-        title: 'Видеозвонок с футболистом',
+        title: 'Видеозвонок от игрока 5 мин (10 шт)',
         image: '/images/видеозвонок.png',
         price: 2000,
         closed: true
     },
     {
-        title: 'День с игроком на базе',
+        title: 'День с игроком на базе (10 шт)',
         image: '/images/day.png',
         price: 2000,
         closed: true
@@ -33,13 +33,13 @@ const achievements = [
         closed: true
     },
     {
-        title: 'Посещение открытой тренировки',
+        title: 'Посещение открытой тренировки (50 шт)',
         image: 'images/training.png',
         price: 4500,
         closed: true
     },
     {
-        title: 'Видеопоздравление от игрока с днём рождения',
+        title: 'Видеопоздравление от игрока с днём рождения (30 шт)',
         image: '/images/birthday.png',
         price: 18000,
         closed: true
@@ -63,13 +63,13 @@ const achievements = [
         closed: true
     },
     {
-        title: 'Объявление стартового состава на игре',
+        title: 'Объявление стартового состава на игре (2 шт на детском матче)',
         image: '/images/sostav.png',
         price: 20000,
         closed: true
     },
     {
-        title: 'Экскурсия по Ак Барс Арене',
+        title: 'Экскурсия по Ак Барс Арене (2 раза/мес)',
         image: '/images/akbars.png',
         price: 20000,
         closed: true
