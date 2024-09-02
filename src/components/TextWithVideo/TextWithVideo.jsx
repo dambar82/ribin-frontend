@@ -10,7 +10,6 @@ const TextWithVideo = ({ htmlContent }) => {
         const parts = html.split(urlPattern);
 
         return parts.map((part, index) => {
-            console.log(part);
             // Если часть совпадает с URL, проверяем, поддерживается ли она ReactPlayer
             if (ReactPlayer.canPlay(part)) {
                 return (
