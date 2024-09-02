@@ -71,9 +71,31 @@ const SinglePhotoGalleryPage = () => {
                     className={styles.photogallery_modal}
                     bodyClassName={styles.photogallery_modal_body}
                 >
-                  <div className={styles.photogallery_slide} >
-                    <img src={gallery?.photos?.find((_, i) => i === activePhoto).imagePreview} alt="#" />
-                  </div>
+                  <Swiper
+                    ref={swiperRef}
+                    navigation={true}
+                    pagination={{ type: 'fraction' }}
+                    effect={'fade'}
+                    slidesPerView={1}
+                    initialSlide={activePhoto}
+                    loop={true}
+                    modules={[EffectFade, Pagination, Navigation]}
+                    className={styles.photogallery_swiper}
+                  >
+                    {gallery?.photos?.map(photo => (
+                      <SwiperSlide key={photo.id} className={styles.photogallery_slide} >
+                        <img src={photo.imagePreview} alt="#" />
+                      </SwiperSlide>
+                    ))}
+                  </Swiper>
+                  <div
+                    className="swiper-button-prev"
+                    onClick={() => swiperRef.current?.swiper?.slidePrev()}
+                  ></div>
+                  <div
+                    className="swiper-button-next"
+                    onClick={() => swiperRef.current?.swiper?.slideNext()}
+                  ></div>
                 </Modal>
             </div>
         </div>

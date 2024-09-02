@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import { useAppDispatch, useAppSelector } from "../../store/hooks"
 import { getQuizById, sendQuizResult } from "../../store/quizzesSlice"
@@ -21,10 +21,12 @@ const SingleQuizPage = () => {
   const [answers, setAnswers] = useState<{ id: number, answer: boolean }[]>([])
   const [result, setResult] = useState<{ correct_answers: number, incorrect_answers: number } | null>(null)
   const [successMessage, setSuccessMessage] = useState('')
+  const [passegeTime, setPassegeTime] = useState(0)
 
   const dispatch = useAppDispatch()
   const params = useParams()
-  const navigate = useNavigate()
+
+  const startTimeRef = useRef(null)
 
   useEffect(() => {
     setAnswers(quiz?.questions?.reduce<{ id: number, answer: boolean }[]>((acc, question) => {
@@ -48,7 +50,12 @@ const SingleQuizPage = () => {
         return acc
       }, { correct_answers: 0, incorrect_answers: 0 }))
       setCurrentQuestion(0)
+      setPassegeTime(Date.now() - startTimeRef.current)
       return
+    }
+
+    if ( currentQuestion === 0 ) {
+      startTimeRef.current = Date.now()
     }
 
     setCurrentQuestion(prev => {
@@ -99,8 +106,9 @@ const SingleQuizPage = () => {
               <QuizResult
                 questionsCount={quiz.questions.length}
                 result={result}
-                finishQuiz={finishQuiz}
                 successMessage={successMessage}
+                passegeTime={passegeTime}
+                finishQuiz={finishQuiz}
               />
             }
 
@@ -321,9 +329,10 @@ interface QuizResultProps {
   questionsCount: number
   result: { correct_answers: number, incorrect_answers: number }
   successMessage: string
+  passegeTime: number
   finishQuiz: () => void
 }
-const QuizResult = ({ result, questionsCount, successMessage, finishQuiz }: QuizResultProps) => {
+const QuizResult = ({ result, questionsCount, successMessage, passegeTime, finishQuiz }: QuizResultProps) => {
 
   let text = 'Поздравляем! Вы отлично справились с викториной и ответили на большинство (или все) вопросов. Потрясающий результат! Вы настоящий знаток. Не забывайте делиться своими достижениями с друзьями и пригласите их принять участие.'
 
@@ -343,6 +352,7 @@ const QuizResult = ({ result, questionsCount, successMessage, finishQuiz }: Quiz
         <div>
           {result.correct_answers}/{questionsCount}
         </div>
+        <p className={c.time} >Время прохождения: {getPassegeTime(passegeTime)}</p>
       </div>
 
       {successMessage
@@ -361,5 +371,16 @@ const QuizResult = ({ result, questionsCount, successMessage, finishQuiz }: Quiz
   )
 }
 
+const getPassegeTime = ( num: number ) => {
+  const date = new Date(num)
+  const minutes = date.getMinutes()
+  const seconds = date.getSeconds()
+
+  return `${minutes} ${declOfNum(minutes, ['минута', 'минуты', 'минут'])} ${seconds} ${declOfNum(minutes, ['секунда', 'минута', 'секунд'])}`
+}
+
+function declOfNum(number: number, words: [string, string, string]) {  
+  return words[(number % 100 > 4 && number % 100 < 20) ? 2 : [2, 0, 1, 1, 1, 2][(number % 10 < 5) ? Math.abs(number) % 10 : 5]];
+}
 
 export default SingleQuizPage

@@ -85,6 +85,8 @@
     background-color: transparent!important;
     
     @media (max-width: 1400px) {
+      display: flex;
+      align-items: center;
       max-width: 80vw;
       height: 100vh;
       top: auto;
@@ -93,6 +95,11 @@
   
     & > button {
       background-color: var(--black)!important;
+
+      @media (max-width: 768px) {
+        top: 10px!important;
+        transform: none!important; 
+      }
 
       &::before, &::after {
         background-color: var(--white)!important;
@@ -119,6 +126,10 @@
     left: -10px;
     transform: translate(-100%, 0);
 
+    @media (max-width: 768px) {
+      transform: translate(-50%, 0);
+    }
+
     &::before {
       transform: translate(0, 220%) rotate(45deg);
     }
@@ -130,6 +141,10 @@
   :global(.swiper-button-next) {
     right: -10px;
     transform: translate(100%, 0);
+
+    @media (max-width: 768px) {
+      transform: translate(50%, 0);
+    }
 
     &::before {
       transform: translate(0, -220%) rotate(45deg);
@@ -160,15 +175,17 @@
 }
 
 .photogallery_slide {
-  height: 90vh;
+  // height: 80vh;
   display: flex;
   align-items: center;
   justify-content: center;
+  border-radius: 35px;
+  overflow: hidden;
 
   // opacity: 0!important;
 
   @media (max-width: 1400px) {
-      height: 100vh;
+      // height: 100vh;
   }
 
   &:global(.swiper-slide-visible) {
@@ -177,7 +194,7 @@
 
   img {
     width: 100%;
-    max-height: 100%;
+    height: auto;
     object-fit: contain;
   }
 }
