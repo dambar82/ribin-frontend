@@ -104,7 +104,7 @@ const EditProfilePage = () => {
         }
     }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         const data = new FormData(e.currentTarget)
@@ -119,14 +119,14 @@ const EditProfilePage = () => {
         data.set('description', descriptionValue);
         data.set('_method', 'put');
 
-        console.log(data);
+       // console.log(data);
 
-        dispatch(editClient({
+       await dispatch(editClient({
             id: currentUser.id,
             formData: data
         }))
 
-        navigate(`/user/${id}`)
+       navigate(`/user/${id}`)
     }
 
     if (status === 'loading' || !currentUser) {
