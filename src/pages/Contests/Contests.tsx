@@ -8,6 +8,7 @@ import ContestCard from "../../components/ContestCard/ContestCard";
 import plusSVG from '../../images/svg/plus.svg';
 import minusSVG from '../../images/svg/minus.svg'
 import {Link} from "react-router-dom";
+import { classNames } from '../../shared/utils'
 
 interface IFaq {
     question: string;
@@ -72,7 +73,7 @@ const Contests = () => {
 
     return (
         <div className='page'>
-            <div className='image'>
+            <div className={classNames('image', styles.image)}>
                 <img src={contestImg} alt=""/>
             </div>
             <div className='content_after_image'>
