@@ -7,6 +7,7 @@
     padding: 0 0 32px;
     position: relative;
     overflow: hidden;
+
     &__date {
         background-color: rgba($color: #686868, $alpha: 0.6);
         backdrop-filter: blur(12px);
@@ -25,9 +26,19 @@
             font-family: "Raleway", "sans-serif";
         }
     }
+
     &__image {
         background-color: #dedede;
         aspect-ratio: calc(540 / 350);
+        max-height: 400px;
+
+        @media (max-width: 1440px) {
+          max-height: 300px; 
+        }
+        @media (max-width: 768px) {
+          max-height: 240px; 
+        }
+
         img {
             width: 100%;
             height: 100%;

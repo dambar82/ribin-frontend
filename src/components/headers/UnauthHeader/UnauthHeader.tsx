@@ -12,7 +12,9 @@ const UnauthHeader = () => {
             </Link>
             <Link to={location.pathname === '/login' ? '/register' : '/login'}>
                 <div className='bordered_button_white'>
-                    {location.pathname === '/login' ? 'У меня ещё нет аккаунта' : 'У меня уже есть аккаунт'}
+                    {location.pathname === '/login'
+                      ? 'У меня ещё нет аккаунта'
+                      : 'У меня уже есть аккаунт'}
                 </div>
             </Link>
         </div>
