@@ -311,7 +311,7 @@ const MainPage: React.FC = () => {
                             <h2>
                                 Новинки магазина клуба “Рубин”
                             </h2>
-                            <Link to='/store'>
+                            <Link to='https://store.rubin-kazan.ru/' target='_blank'>
                                 <div className='action_button'>
                                     Перейти
                                     <img src={buttonArrow} alt=""/>

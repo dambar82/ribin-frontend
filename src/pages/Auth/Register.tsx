@@ -119,7 +119,7 @@ const Register = () => {
                           <Checkbox name='checkbox' className={c.checkbox} />
                           <span>
                             Соглашаюсь на обработку моих персональных данных в соответствии с
-                            <Link to={POLITICS_URL} >Политикой конфиденциальности</Link>.
+                            <Link to='https://dnevnik.rubin-kazan.ru/page/rulez' >Политикой конфиденциальности</Link>.
                           </span>
                         </div>
                     </div>
