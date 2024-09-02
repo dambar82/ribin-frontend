@@ -11,6 +11,7 @@ import sportReducer from './sportSlice';
 import postReducer from './postSlice';
 import eventsReducer from './eventsSlice'
 import quizzesReducer from './quizzesSlice'
+import friendsReducer from "./friendsSlice";
 
 export const store = configureStore({
     reducer: {
@@ -25,7 +26,8 @@ export const store = configureStore({
         sport: sportReducer,
         post: postReducer,
         events: eventsReducer,
-        quizzes: quizzesReducer
+        quizzes: quizzesReducer,
+        friends: friendsReducer
     },
 });
 

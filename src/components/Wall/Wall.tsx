@@ -14,6 +14,8 @@ import {useSelector} from "react-redux";
 import {RootState} from "../../store/store";
 import {fetchPeople} from "../../store/peopleSlice";
 import {Link} from "react-router-dom";
+import {fetchFriends} from "../../store/friendsSlice";
+import axios from "axios";
 
 
 interface IWall {
@@ -71,6 +73,7 @@ const Wall = ({type, posts, editable = true, clubId}: IWall) => {
 
     const dispatch = useAppDispatch();
     const { people, status } = useSelector((state: RootState) => state.people)
+    const { friends } = useSelector((state: RootState) => state.friends)
     const [feedType, setFeedType] = useState(0)
     const [sortType, setSortType] = useState(1)
     const [postType, setPostType] = useState(0)
@@ -80,9 +83,9 @@ const Wall = ({type, posts, editable = true, clubId}: IWall) => {
     const [searchTerm, setSearchTerm] = useState('')
     const [symbols, setSymbols] = useState(false);
 
-
     useEffect(() => {
         dispatch(fetchPeople());
+        dispatch(fetchFriends());
     }, [dispatch]);
 
     const users = [
@@ -130,6 +133,16 @@ const Wall = ({type, posts, editable = true, clubId}: IWall) => {
       setFiles(prev => prev.filter(el => el.id !== fileId))
     }
 
+    useEffect(() => {
+        console.log(posts);
+    }, [posts])
+
+    useEffect(() => {
+        if (feedType===3) {
+            console.log('friends')
+        }
+    }, [feedType]);
+
     const onSubmit = async ( e: React.FormEvent<HTMLFormElement> ) => {
       e.preventDefault()
         if (textareaValue.length > 60) {
@@ -168,10 +181,33 @@ const Wall = ({type, posts, editable = true, clubId}: IWall) => {
         }
     }
 
+    const handleAcceptFriendship = async (friendship: number) => {
+            const config: any = {}
+            const token = JSON.parse(localStorage.getItem('token') || '')
+
+            const friendsUrl = `https://api-rubin.multfilm.tatar/api/friends/accept/${friendship}`;
+
+            await axios.post(friendsUrl, {friendshipId: friendship}, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+        dispatch(fetchFriends());
+    }
+
+    const handleDeleteFriendship = async (receiverId: number) => {
+        const token = JSON.parse(localStorage.getItem('token') || '')
+
+        const friendsUrl = `https://api-rubin.multfilm.tatar/api/friends/remove/${receiverId}`;
+
+         await axios.delete(friendsUrl, {headers: {Authorization: `Bearer ${token}`}});
+        dispatch(fetchFriends());
+    }
+
     return (
         <div className={styles.wall}>
             <nav className={styles.wall__nav}>
-                {["Записи", "Видео", "Фотографии"].map((item, index) => (
+                {["Записи", "Видео", "Фотографии", "Друзья"].map((item, index) => (
                     <button
                         key={item + index}
                         className={feedType !== index ? styles.wall__navButton : `${styles.wall__navButton} ${styles.wall__navButtonActive}`}
@@ -301,28 +337,135 @@ const Wall = ({type, posts, editable = true, clubId}: IWall) => {
                     </div>
                 )}
                 {feedType === 3 && (
-                    <div className={styles.wall__feed}>
-                        {sortedImagePosts.length ? sortedImagePosts.map((post, index) => (
-                            <Post
-                                key={post.id}
-                                id={post.id}
-                                name={post.client.name}
-                                surname={post.client.surname}
-                                avatar={post.client.avatar}
-                                tags={null}
-                                source={post.source}
-                                comments={post.comments}
-                                likes={post.likes_count}
-                                liked_by={post.liked_by}
-                                title={post.description}
-                                updated_at={post.created_at}
-                                type={'image'}
-                                created_by={post.client.id}
-                            >
-                            </Post>
-                        )) : null}
+                    <div>
+                        {friends.friends.map((friend, index) => (
+                            <div style={{
+                                display: 'flex',
+                                flexDirection: 'row',
+                                alignItems: 'center',
+                                justifyContent: 'space-between'
+                            }}>
+                                <div style={{
+                                    display: 'flex',
+                                    flexDirection: 'row',
+                                    alignItems: 'center',
+                                    justifyContent: 'flex-start'
+                                }}>
+                                    <img src={friend?.receiver?.avatar}
+                                         style={{width: 64, height: 64, borderRadius: 32}} alt=''/>
+                                    <div style={{flexDirection: 'column', alignItems: 'center'}}>
+                                        <span>{friend?.receiver?.name} {friend?.receiver?.surname}</span>
+                                        <p>{friend.district}</p>
+                                    </div>
+                                </div>
+                                <button type={'button'} onClick={()=>{
+                                    handleDeleteFriendship(friend.receiver.id)
+                                }}
+                                        style={{backgroundColor: 'red', padding: 5, borderRadius: 5}}>Удалить из друзей
+                                </button>
+                            </div>
+                        ))}
+                        <div style={{
+                            width: '100%',
+                            height: 2,
+                            backgroundColor: '#888878',
+                            marginTop: 5,
+                            marginBottom: 5
+                        }}/>
+                        <span>Ожидают одобрения</span>
+                        {friends.awaiting.map((friend, index) => (
+                            <div style={{
+                                display: 'flex',
+                                flexDirection: 'row',
+                                alignItems: 'center',
+                                justifyContent: 'space-between'
+                            }}>
+                                <div style={{
+                                    display: 'flex',
+                                    flexDirection: 'row',
+                                    alignItems: 'center',
+                                    justifyContent: 'flex-start'
+                                }}>
+                                    <img src={friend?.receiver?.avatar}
+                                         style={{width: 64, height: 64, borderRadius: 32}} alt=''/>
+                                    <div style={{flexDirection: 'column', alignItems: 'center'}}>
+                                        <span>{friend?.receiver?.name} {friend?.receiver?.surname}</span>
+                                        <p>{friend.district}</p>
+                                    </div>
+                                </div>
+                                <button type={'button'}
+                                        style={{backgroundColor: 'green', padding: 5, borderRadius: 5}} onClick={()=>{handleAcceptFriendship(friend.id)}}>Одобрить
+                                </button>
+                                <button type={'button'}
+                                        style={{backgroundColor: 'red', padding: 5, borderRadius: 5}} onClick={()=>{
+                                            handleDeleteFriendship(friend.receiver.id)
+                                }}>Отклонить
+                                </button>
+                            </div>
+                        ))}
+                        <div style={{
+                            width: '100%',
+                            height: 2,
+                            backgroundColor: '#888878',
+                            marginTop: 5,
+                            marginBottom: 5
+                        }}/>
+                        <span>Мои заявки</span>
+                        {friends.pending.map((friend, index) => (
+                            <div style={{
+                                display: 'flex',
+                                flexDirection: 'row',
+                                alignItems: 'center',
+                                justifyContent: 'space-between'
+                            }}>
+                                <div style={{
+                                    display: 'flex',
+                                    flexDirection: 'row',
+                                    alignItems: 'center',
+                                    justifyContent: 'flex-start'
+                                }}>
+                                    <img src={friend?.receiver?.avatar}
+                                         style={{width: 64, height: 64, borderRadius: 32}} alt=''/>
+                                    <div style={{flexDirection: 'column', alignItems: 'center'}}>
+                                        <span>{friend?.receiver?.name} {friend?.receiver?.surname}</span>
+                                        <p>{friend.district}</p>
+                                    </div>
+                                </div>
+                                <button type={'button'} onClick={()=>{
+                                    handleDeleteFriendship(friend.receiver.id)
+                                }}
+                                        style={{backgroundColor: 'red', padding: 5, borderRadius: 5}}>Отменить запрос
+                                </button>
+                            </div>
+                        ))}
                     </div>
                 )}
+                {/*{feedType === 3 && friends.map((friend, index) => (*/}
+                {/*    <div>*/}
+                {/*        <span>{JSON.stringify(friends)}</span>*/}
+                {/*    </div>*/}
+                {/*    // <div className={styles.wall__feed}>*/}
+                {/*    //     {sortedImagePosts.length ? sortedImagePosts.map((post, index) => (*/}
+                {/*    //         <Post*/}
+                {/*    //             key={post.id}*/}
+                {/*    //             id={post.id}*/}
+                {/*    //             name={post.client.name}*/}
+                {/*    //             surname={post.client.surname}*/}
+                {/*    //             avatar={post.client.avatar}*/}
+                {/*    //             tags={null}*/}
+                {/*    //             source={post.source}*/}
+                {/*    //             comments={post.comments}*/}
+                {/*    //             likes={post.likes_count}*/}
+                {/*    //             liked_by={post.liked_by}*/}
+                {/*    //             title={post.description}*/}
+                {/*    //             updated_at={post.created_at}*/}
+                {/*    //             type={'image'}*/}
+                {/*    //             created_by={post.client.id}*/}
+                {/*    //         >*/}
+                {/*    //         </Post>*/}
+                {/*    //     )) : null}*/}
+                {/*    // </div>*/}
+                {/*))}*/}
             </div>
             <aside className={ type === "post" || type === "club" || type ==="profile" ? styles.wall__aside : `${styles.wall__aside} ${styles.wall__aside_sticky}`}>
                 <div className={styles.wall__asideBlock}>

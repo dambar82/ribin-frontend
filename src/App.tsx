@@ -163,6 +163,9 @@ function App() {
     ];
 
     const token = JSON.parse(localStorage.getItem('token') || '0')
+    const [showNotification, setShowNotification] = useState(false)
+    const [notificationData, setNotificationData] = useState({})
+    const [showNotificationFriend, setShowNotificationFriend] = useState(false)
 
     useEffect(() => {
       if ( token ) {
