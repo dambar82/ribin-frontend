@@ -229,7 +229,7 @@ const AuthHeader = () => {
                             <ul>
                                 {[
                                     { name: "Тренерский состав", path: "/academy-coaches" },
-                                    { name: 'Активисты', path: "/students" },
+                                    // { name: 'Активисты', path: "/students" },
                                     { name: "Программы и предложения клуба", path: "/programs" },
                                     { name: "Достижения", path: "/achievements" },
                                     { name: "Фотогалерея", path: "/photogallery" },

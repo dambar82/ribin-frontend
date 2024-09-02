@@ -38,6 +38,18 @@ const sponsors = [
     kazanorgsintez, neftehim
 ]
 
+function normalizeDate(dateStr) {
+    if (dateStr.includes('.')) {
+        // Если дата в формате "23.08.2024 21:59:43"
+        const [day, month, yearTime] = dateStr.split('.');
+        const [year, time] = yearTime.split(' ');
+        return new Date(`${year}-${month}-${day}T${time || '00:00:00'}`);
+    } else {
+        // Если дата в формате "2024-03-12"
+        return new Date(dateStr);
+    }
+}
+
 const MainPage: React.FC = () => {
 
     const dispatch = useDispatch<AppDispatch>();
@@ -72,6 +84,15 @@ const MainPage: React.FC = () => {
         dispatch(fetchPosts())
         dispatch(fetchPeople())
     }, [])
+
+    const sortedNews = news.slice().sort((a, b) => {
+        // @ts-ignore
+        const dateA = a.createdAt ? normalizeDate(a.createdAt) : normalizeDate(a.date);
+        // @ts-ignore
+        const dateB = b.createdAt ? normalizeDate(b.createdAt) : normalizeDate(b.date);
+        // @ts-ignore
+        return dateB - dateA;
+    });
 
 
     return (
@@ -152,7 +173,7 @@ const MainPage: React.FC = () => {
                                             nextEl: '.button--next'
                                         }}
                                     >
-                                        {news.map((newsItem, index) => {
+                                        {sortedNews.map((newsItem, index) => {
                                             // Проверяем, есть ли у newsItem свойство imagePreviewResized
                                             if ('imagePreviewResized' in newsItem) {
                                                 // Теперь TypeScript знает, что newsItem имеет тип News

@@ -112,32 +112,32 @@ const Contests = () => {
                     ))}
                 </div>
             </div>
-            <div className='content_after_image'>
-                <div className={`${styles.contests_header}`}>
-                    <h2>
-                        Часто задаваемые вопросы
-                    </h2>
-                </div>
-                <div className={styles.faq}>
-                    {faqs.map((faq, index) => (
-                        <div key={index} className={styles.faq_question}>
-                            <div className='justify_content_SB'>
-                                <p>{faq.question}</p>
-                                <img
-                                    src={openQuestions[index] ? minusSVG : plusSVG}
-                                    alt={openQuestions[index] ? 'Минус' : 'Плюс'}
-                                    onClick={() => toggleQuestion(index)}
-                                />
-                            </div>
-                            {openQuestions[index] && (
-                                <div className={styles.faq_hiddenAnswer}>
-                                    {faq.answer}
-                                </div>
-                            )}
-                        </div>
-                    ))}
-                </div>
-            </div>
+            {/*<div className='content_after_image'>*/}
+            {/*    <div className={`${styles.contests_header}`}>*/}
+            {/*        <h2>*/}
+            {/*            Часто задаваемые вопросы*/}
+            {/*        </h2>*/}
+            {/*    </div>*/}
+            {/*    <div className={styles.faq}>*/}
+            {/*        {faqs.map((faq, index) => (*/}
+            {/*            <div key={index} className={styles.faq_question}>*/}
+            {/*                <div className='justify_content_SB'>*/}
+            {/*                    <p>{faq.question}</p>*/}
+            {/*                    <img*/}
+            {/*                        src={openQuestions[index] ? minusSVG : plusSVG}*/}
+            {/*                        alt={openQuestions[index] ? 'Минус' : 'Плюс'}*/}
+            {/*                        onClick={() => toggleQuestion(index)}*/}
+            {/*                    />*/}
+            {/*                </div>*/}
+            {/*                {openQuestions[index] && (*/}
+            {/*                    <div className={styles.faq_hiddenAnswer}>*/}
+            {/*                        {faq.answer}*/}
+            {/*                    </div>*/}
+            {/*                )}*/}
+            {/*            </div>*/}
+            {/*        ))}*/}
+            {/*    </div>*/}
+            {/*</div>*/}
         </div>
     );
 };
