@@ -14,7 +14,7 @@ const TextWithVideo = ({ htmlContent }) => {
             // Если часть совпадает с URL, проверяем, поддерживается ли она ReactPlayer
             if (ReactPlayer.canPlay(part)) {
                 return (
-                    <div key={index}>
+                    <div key={index} className='post_video_wrapper' >
                         <ReactPlayer
                             url={part}
                             controls={true}
@@ -35,7 +35,7 @@ const TextWithVideo = ({ htmlContent }) => {
                 );
             } else if (part.includes('vk.com/video')) {
                 return (
-                    <div key={index}>
+                    <div key={index} className='post_video_wrapper'>
                         <VKPlayer url={part} />
                     </div>
                 );

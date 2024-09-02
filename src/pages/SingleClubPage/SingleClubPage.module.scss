@@ -5,14 +5,30 @@
     padding: 0 0 70px;
     overflow: hidden;
 
+    @media (max-width: 1000px) {
+      border-radius: 35px; 
+    }
+
     &__image {
         height: 338px;
         overflow: hidden;
+
+        @media (max-width: 1440px) {
+          height: 260px; 
+        }
+        @media (max-width: 480px) {
+          height: max-content;
+       }
+
         img {
             width: 100%;
-            height: auto;
+            height: 100%;
             object-fit: cover;
-            vertical-align: top;
+            vertical-align: bottom;
+
+            @media (max-width: 480px) {
+               height: 150px;
+            }
         }
     }
     &__content {
@@ -20,22 +36,41 @@
         gap: 20px;
         margin: 0 auto;
         width: calc(100% - 140px);
+
+        @media (max-width: 1440px) {
+          width: 100%; 
+          padding: 0 50px;
+        }
+        @media (max-width: 768px) {
+          flex-direction: column;
+          padding: 0 20px;
+          gap: 0;
+        }
+        @media (max-width: 480px) {
+          padding: 0 20px; 
+        }
     }
     &__info {
       width: 100%;
     }
     &__infoHeader {
-        
         display: flex;
         justify-content: space-between;
         align-items: flex-start;
         padding: 24px 0 0;
+
+        @media (max-width: 600px) {
+          flex-direction: column;
+          row-gap: 30px; 
+        }
+
         & > div {
             display: flex;
             flex-direction: column;
             align-items: flex-start;
             gap: 16px;
         }
+
         &:not(:last-child) {
             margin: 0 0 32px;
         }
@@ -48,6 +83,16 @@
         width: 180px;
         height: 180px;
         overflow: hidden;
+
+        @media (max-width: 1440px) {
+          width: 140px;
+          height: 140px; 
+        }
+        @media (max-width: 480px) {
+          width: 100px;
+          height: 100px;
+          margin: -50px 0 0;
+       }
 
         &>div {
           width: 100%;
@@ -64,6 +109,10 @@
         font-size: 36px;
         font-weight: 600;
         line-height: clac(44 / 36);
+
+        @media (max-width: 1440px) {
+          font-size: 30px; 
+        }
     }
     &__level {
         background-color: #FF9900;
@@ -78,6 +127,10 @@
             font-size: 20px;
             font-weight: 400;
             line-height: caclc(24 / 20);
+
+            @media (max-width: 1440px) {
+              font-size: 18px; 
+            }
         }
         &:not(:last-child) {
             margin: 0 0 32px;
@@ -115,11 +168,15 @@
 }
 
 .section_body {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
   gap: 20px;
-  flex-wrap: wrap;
-  & > div {
-    flex: 0 0 calc((100% - 2 * 20px) / 3);
+  
+  @media (max-width: 1200px) {
+    grid-template-columns: 1fr 1fr;
+  }
+  @media (max-width: 600px) {
+    grid-template-columns: 1fr;
   }
 }
 

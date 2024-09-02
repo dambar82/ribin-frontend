@@ -74,7 +74,7 @@
   background-color: #F8F8F8;
 
   @media (max-width: 1300px) {
-    position: absolute;
+    position: fixed;
     right: 0;
     width: 400px;
     min-height: 100vh;
@@ -94,6 +94,9 @@
     &._active {
       transform: translate(0%, 0);
     }
+  }
+  @media (max-width: 600px) {
+    width: 100vw; 
   }
 
   & > a {

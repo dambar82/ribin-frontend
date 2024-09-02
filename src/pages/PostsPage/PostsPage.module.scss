@@ -24,6 +24,9 @@
         transform: rotate(-15deg);
         transform-origin: center;
 
+        @media (max-width: 1440px) {
+          font-size: 30px; 
+        }
         @media (max-width: 768px) {
           font-size: 22px; 
         }
@@ -36,6 +39,9 @@
         transform-origin: center;
         text-transform: capitalize;
 
+        @media (max-width: 1440px) {
+          font-size: 30px; 
+        }
         @media (max-width: 768px) {
           font-size: 22px; 
         }

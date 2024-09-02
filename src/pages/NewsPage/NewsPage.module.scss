@@ -1,12 +1,33 @@
 .hero {
     background-color: #FFB800;
     // background-image: url();
+
+    @media (max-width: 1440px) {
+      height: 480px; 
+    }
+    @media (max-width: 1000px) {
+      height: 420px; 
+    }
+    @media (max-width: 768px) {
+      height: 360px; 
+    }
+    @media (max-width: 480px) {
+      height: 320px; 
+    }
+
     &__title {
         background-color: #FF7A00;
         top: calc(89 / 560 * 100%);
         left: calc(46 / 1660 * 100%);
         transform: rotate(-14deg);
         transform-origin: center;
+
+        @media (max-width: 1440px) {
+          font-size: 30px; 
+        }
+        @media (max-width: 768px) {
+          font-size: 22px; 
+        }
     }
     &__bg {
         width: 100%;
@@ -17,5 +38,12 @@
     &__ruby {
         right: calc(80 / 1660 * 100%);
         bottom: -30px;
+
+        @media (max-width: 1440px) {
+          width: 500px; 
+        }
+        @media (max-width: 768px) {
+          width: 70%;
+        }
     }
 }
