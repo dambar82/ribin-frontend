@@ -48,14 +48,14 @@ const SingleNewsPage = () => {
     const [likes, setLikes] = useState(0);
 
     useEffect(() => {
-        if (singleNews) {
+        if (singleNews && user.user) {
             dispatch(addViewNews({newsId: singleNews.id}));
             // @ts-ignore
             setIsLiked(singleNews.liked_by.includes(user.user.id))
             // @ts-ignore
             setLikes(singleNews.likes_count);
         }
-    }, [singleNews, news]);
+    }, [singleNews, news, user]);
 
     useEffect(() => {
         if (status === 'idle') {
@@ -112,34 +112,41 @@ const SingleNewsPage = () => {
                                 </div>
                         </div>
                         <div className={styles.news__footer}>
-                            {//@ts-ignore
-                                <div className={styles.tag} onClick={handleLikeClick}>
-                                    <div className={styles.tag__icon}>
-                                        <img src={isLiked ? likeIconLiked : likeIconBlack} alt="" />
-                                    </div>
-                                    <span className={`${styles.tag__label} ${isLiked ? styles.tag__label_liked : ''}`}>
+                            {
+                                user.user && (
+                                    //@ts-ignore
+                                    <div className={styles.tag} onClick={handleLikeClick}>
+                                        <div className={styles.tag__icon}>
+                                            <img src={isLiked ? likeIconLiked : likeIconBlack} alt="" />
+                                        </div>
+                                        <span className={`${styles.tag__label} ${isLiked ? styles.tag__label_liked : ''}`}>
                                         {likes}
                                     </span>
-                                </div>
+                                    </div>
+                                )
                             }
                             {/*<Tag icon={sharedIcon} count={12} />*/}
                             <div className={styles.news__author}>
                                 <div className={styles.news__authorAvatar}>
-                                    <img src="/images/news-author.png" alt="" />
+                                    <img src="/images/ава.png" alt="" />
                                 </div>
                                 <div className={styles.news__authorPosition}>Автор</div>
                                 <div className={styles.news__authorName}>Руби</div>
                             </div>
                         </div>
                     </div>
-                    <div className={styles.news__actions}>
-                        <button className={styles.news__favorite} type="button" onClick={handleLikeClick}>
-                            <img src={isLiked ? likeIconLiked : likeIcon} alt="" />
-                        </button>
-                        <button className={styles.news__share} type="button">
-                            <img src={shareIcon} alt="" />
-                        </button>
-                    </div>
+                    {
+                        user.user && (
+                            <div className={styles.news__actions}>
+                                <button className={styles.news__favorite} type="button" onClick={handleLikeClick}>
+                                    <img src={isLiked ? likeIconLiked : likeIcon} alt="" />
+                                </button>
+                                <button className={styles.news__share} type="button">
+                                    <img src={shareIcon} alt="" />
+                                </button>
+                            </div>
+                        )
+                    }
                 </div>
             </div>
             <section className={`section ${styles.moreNews}`}>
