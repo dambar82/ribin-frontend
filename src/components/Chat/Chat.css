@@ -2,12 +2,66 @@
 .chat-app {
     display: flex;
     height: 100vh;
-    background-color: #f0f2f5;
+    column-gap: 20px;
+   /*background-color: #f0f2f5;*/
+    margin-top: 60px;
+    margin-bottom: 200px;
     font-family: 'Arial', sans-serif;
 }
 
+.sidebar, .chat-window {
+    border-radius: 50px;
+    border: 3px solid #F2F2F2;
+    overflow: hidden;
+}
+
+.search-bar_wrapper {
+    display: flex;
+    flex-direction: column;
+    padding: 0 50px;
+    row-gap: 24px;
+}
+
+.search-bar_wrapper h2 {
+    font-family: Raleway;
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 28px;
+}
+
+.search-bar {
+    /*gap: 12px;*/
+    border-radius: 50px;
+    background: #F8F8F8;
+    overflow: hidden;
+    position: relative;
+}
+
+.search-bar img {
+    position: absolute;
+    top: 50%;
+    left: 24px;
+    transform: translate(0, -50%);
+}
+
+.search-bar input {
+    width: 100%;
+    padding: 18px 24px 18px 60px;
+    background: #F8F8F8;
+    font-family: Raleway;
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 24px;
+    text-align: left;
+}
+
 .sidebar {
-    width: 300px;
+    /*width: 300px;*/
+    display: flex;
+    flex-direction: column;
+    row-gap: 32px;
+    padding: 50px 0;
+    width: 30%;
     background-color: #fff;
     transition: width 0.3s ease;
     overflow: hidden;
@@ -31,25 +85,52 @@
 }
 
 .contacts-list {
-    padding: 10px;
+    /*padding: 10px;*/
     overflow-y: auto;
 }
 
 .contact-item {
     display: flex;
     align-items: center;
-    padding: 10px 15px;
-    border-bottom: 1px solid #e0e0e0;
+    padding: 10px 50px;
+    column-gap: 14px;
     cursor: pointer;
     transition: background-color 0.2s ease;
 }
 
+.contact-item_content {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    row-gap: 8px;
+    overflow: hidden;
+}
+
+.contact-item_content span:first-child {
+    font-family: Raleway;
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 24px;
+    text-align: left;
+}
+
+.contact-item_content span:last-child {
+    font-family: Raleway;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 20px;
+    text-align: left;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
 .contact-item.selected {
-    background-color: #e8f0fe;
+    background-color: #F8F8F8;
 }
 
 .contact-item:hover {
-    background-color: #f0f7ff;
+    background-color: #F8F8F8;
 }
 
 .contact-item .status {
@@ -119,16 +200,56 @@
 }
 
 .messages-list {
+    display: flex;
+    flex-direction: column;
     flex-grow: 1;
     overflow-y: auto;
-    padding: 20px;
+    padding: 50px;
+    row-gap: 20px;
 }
 
 .message-item {
+    display: flex;
+    position: relative;
+    column-gap: 14px;
+}
+
+.message-date {
+    font-family: Saira;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 20px;
+    color: #817E7E;
+}
+
+.message-content_wrapper {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    /*position: relative;*/
+    /*right: 50px;*/
+}
+
+.message-content {
     background-color: #f0f0f0;
     padding: 15px;
-    border-radius: 8px;
+    /*border-radius: 25px 25px 25px 0;*/
     margin-bottom: 10px;
+}
+
+.messenger-avatar {
+    margin-top: auto;
+    /*margin-bottom: auto;*/
+    overflow: hidden;
+    border-radius: 50%;
+    width: 48px;
+    height: 48px;
+}
+
+.messenger-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
 .message-text {

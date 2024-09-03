@@ -5,6 +5,9 @@ import './Chat.css';
 import Notification from './Notification';
 import EmojiPicker from 'emoji-picker-react'; // Убедитесь, что библиотека установлена
 import { useParams } from 'react-router-dom';
+import loupe from '../../images/svg/loupe.svg';
+import {useSelector} from "react-redux";
+import {RootState} from "../../store/store";
 
 const pusher = new Pusher('05817bdeb548cb607678', {
     cluster: 'mt1',
@@ -12,6 +15,26 @@ const pusher = new Pusher('05817bdeb548cb607678', {
 
 const token25 = 'Bearer c1fc8ce230373f88fc86199a514f98fb76e64dcb420ebe3584b53969e2c27f21';
 const token24 = 'Bearer 0e689d92c54070dce474ccb444e8704d12001f5d05cdb989c2f38ec61af33dc2';
+
+function formatDateTime(dateTimeString) {
+    // Массив с названиями месяцев на русском языке
+    const months = [
+        'января', 'февраля', 'марта', 'апреля', 'мая', 'июня',
+        'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'
+    ];
+
+    // Разделяем строку на даты и время
+    const [date] = dateTimeString.split(' ');
+
+    // Получаем компоненты даты
+    const [year, month, day] = date.split('-');
+
+    // Получаем наименование месяца из массива
+    const monthName = months[parseInt(month) - 1]; // month - 1, чтобы получить корректный индекс
+
+    // Собираем и возвращаем результат в нужном формате
+    return `${day} ${monthName} ${dateTimeString.split(' ')[1].slice(0, 5)}`;
+}
 
 const token = JSON.parse(localStorage.getItem('token') || '0')
 
@@ -30,6 +53,11 @@ const Chat = () => {
     const [contextMenu, setContextMenu] = useState({ isVisible: false, x: 0, y: 0, messageId: null });
     const [isSending, setIsSending] = useState(false); // Состояние для отслеживания отправки сообщения
     const messagesEndRef = useRef(null);
+    const { user } = useSelector((state) => state.user);
+
+    useEffect(() => {
+        console.log(user)
+    }, [user])
 
     useEffect(() => {
         const fetchContacts = async () => {
@@ -93,9 +121,12 @@ const Chat = () => {
     };
 
     useEffect(() => {
-
         fetchMessages();
     }, [selectedContact]);
+
+    useEffect(() => {
+        console.log(messages);
+    }, [messages])
 
     const sendMessage = async () => {
         if (newMessage.trim() !== '') {
@@ -196,17 +227,21 @@ const Chat = () => {
     return (
         <div className="chat-app" onClick={handleCloseContextMenu}>
             <div className={`sidebar ${isSidebarCollapsed ? 'collapsed' : ''}`}>
-                <button className="toggle-btn" onClick={toggleSidebar}>
-                    {isSidebarCollapsed ? '➡️' : '⬅️'}
-                </button>
-                <div className="search-bar">
-                    <input
-                        style={isSidebarCollapsed ? { display: 'none' } : {}}
-                        type="text"
-                        placeholder="Поиск по сообщениям..."
-                        value={searchQuery}
-                        onChange={(e) => setSearchQuery(e.target.value)}
-                    />
+                {/*<button className="toggle-btn" onClick={toggleSidebar}>*/}
+                {/*    {isSidebarCollapsed ? '➡️' : '⬅️'}*/}
+                {/*</button>*/}
+                <div className='search-bar_wrapper'>
+                    <h2>Ваши чаты</h2>
+                    <div className="search-bar">
+                        <img src={loupe} alt=""/>
+                        <input
+                            style={isSidebarCollapsed ? { display: 'none' } : {}}
+                            type="text"
+                            placeholder="Поиск по сообщениям"
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                        />
+                    </div>
                 </div>
                 <div className="contacts-list">
                     {contacts.map((contact) => (
@@ -215,9 +250,12 @@ const Chat = () => {
                             className={`contact-item ${selectedContact?.id === contact.id ? 'selected' : ''}`}
                             onClick={() => handleContactSelect(contact)}
                         >
-                            <img src={contact.client.avatar} width={50} height={50} style={{ border: 'none', borderRadius: '50%' }} />
-                            <span>{contact.client.name} {contact.client.surname}</span>
-                            <span className={`status ${contact.online ? 'online' : 'offline'}`}>{isSidebarCollapsed ? '' : (contact.online ? 'Online' : 'Offline')}</span>
+                            <img src={contact.client.avatar} width={60} height={60} style={{ border: 'none', borderRadius: '50%' }} />
+                            <div className={'contact-item_content'}>
+                                <span>{contact.client.name} {contact.client.surname}</span>
+                                <span>{messages[messages.length]}</span>
+                            </div>
+                            {/*<span className={`status ${contact.online ? 'online' : 'offline'}`}>{isSidebarCollapsed ? '' : (contact.online ? 'Online' : 'Offline')}</span>*/}
                             {contact.unreadCount > 0 && (
                                 <span className="unread-count">{contact.unreadCount}</span>
                             )}
@@ -228,23 +266,54 @@ const Chat = () => {
             <div className="chat-window">
                 {selectedContact ? (
                     <>
-                        <div className="chat-header">
-                            <h2>{selectedContact.name}</h2>
-                            <span className="status">{selectedContact.online ? 'Online' : 'Offline'}</span>
-                        </div>
+                        {/*<div className="chat-header">*/}
+                        {/*    <h2>{selectedContact.name}</h2>*/}
+                        {/*    <span className="status">{selectedContact.online ? 'Online' : 'Offline'}</span>*/}
+                        {/*</div>*/}
                         <div className="messages-list">
-                            {filteredMessages.map((msg, index) => (
-                                <div
-                                    key={index}
-                                    className="message-item"
-                                    style={msg.from_client_id.toString() === userId ? { backgroundColor: '#d4edda', alignSelf: 'flex-end', marginRight: '50px' } : { backgroundColor: '#f3f3f3', alignSelf: 'flex-start', marginLeft: '50px' }}
-                                    onContextMenu={(e) => handleContextMenu(e, msg.id)}
-                                >
-                                    <div className="message-text">
-                                        <span>{msg.message}</span>
+                            {filteredMessages.map((msg, index) =>
+                                msg.from_client_id.toString() === userId ? (
+                                    <div className='message-item' style={{justifyContent: 'flex-end'}} key={index}>
+                                        <div className='message-content_wrapper'>
+                                            <div
+                                                className="message-content"
+                                                style={{backgroundColor: '#FFDDE3', borderRadius: '25px 25px 0px 25px'}}
+                                                onContextMenu={(e) => handleContextMenu(e, msg.id)}
+                                            >
+                                                <div className="message-text">
+                                                    <span>{msg.message}</span>
+                                                </div>
+                                            </div>
+                                            <span className='message-date' style={{marginLeft: "auto"}}>{formatDateTime(msg.created_at)}</span>
+                                        </div>
+                                        <div className='messenger-avatar'
+                                            style={{top: '50px'}}
+                                        >
+                                            <img src={msg.from_client_id.toString() === userId ? user.avatar : selectedContact.client.avatar} alt=""/>
+                                        </div>
                                     </div>
-                                </div>
-                            ))}
+                                ) : (
+                                    <div className='message-item' style={{justifyContent: 'flex-start'}} key={index}>
+                                        <div className='messenger-avatar'
+                                             style={{top: '50px'}}
+                                        >
+                                            <img src={msg.from_client_id.toString() === userId ? user.avatar : selectedContact.client.avatar} alt=""/>
+                                        </div>
+                                        <div className='message-content_wrapper'>
+                                            <div
+                                                className="message-content"
+                                                style={{backgroundColor: '#FBFBFB', borderRadius: '25px 25px 25px 0px'}}
+                                                onContextMenu={(e) => handleContextMenu(e, msg.id)}
+                                            >
+                                                <div className="message-text">
+                                                    <span>{msg.message}</span>
+                                                </div>
+                                            </div>
+                                            <span className='message-date'>{formatDateTime(msg.created_at)}</span>
+                                        </div>
+                                    </div>
+                                )
+                            )}
                             <div ref={messagesEndRef} />
                         </div>
                         <div className="message-input" style={{ position: 'relative' }}>

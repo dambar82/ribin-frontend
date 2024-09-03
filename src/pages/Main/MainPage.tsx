@@ -193,7 +193,7 @@ const MainPage: React.FC = () => {
                                                 // Здесь newsItem обрабатывается как NewsBack
                                                 return (
                                                     <SwiperSlide key={newsItem.id}>
-                                                        <Link to={`/news/api/${newsItem.id}`}>
+                                                        <Link to={`/news/${newsItem.id}`}>
                                                             <NewsCard
                                                                 date={newsItem.date}
                                                                 image={newsItem.images[0]}
