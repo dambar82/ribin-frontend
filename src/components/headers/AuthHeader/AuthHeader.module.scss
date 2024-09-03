@@ -76,27 +76,55 @@
   @media (max-width: 1300px) {
     position: fixed;
     right: 0;
-    width: 400px;
+    width: 500px;
     min-height: 100vh;
-    z-index: 100;
+    z-index: 1000;
     display: grid;
     align-items: baseline;
     align-content: start;
-    justify-content: baseline;
-    gap: 16px;
-    padding: 70px 30px;
+    justify-content: stretch;
+    gap: 6px;
+    padding: 98px 30px 0 30px;
     background-color: var(--main-color);
     border-radius: 0;
+    overflow-y: auto;
 
     transition: all .5s ease;
     transform: translate(150%, 0);
 
+    &::before {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      height: calc(100% - 74px); 
+      background-color: #F8F8F8;
+      border-radius: 26px 26px 0 0;
+      z-index: 0;
+    }
+
     &._active {
       transform: translate(0%, 0);
     }
+
+    & > img {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translate(-50%, 0);
+      z-index: 1;
+      width: 160px;
+    }
   }
   @media (max-width: 600px) {
-    width: 100vw; 
+    width: 100%;
+  }
+  @media (max-width: 480px) {
+    padding: 98px 10px 0 10px;
+  }
+
+  & > img {
+    display: none;
   }
 
   & > a {
@@ -105,7 +133,12 @@
     justify-content: center;
 
     @media (max-width: 1300px) {
+      display: block;
       justify-content: start;
+      color: var(--black);
+      background-color: var(--white);
+      padding: 14px 24px;
+      width: 100%;
     }
   }
 
@@ -118,6 +151,8 @@
     position: absolute;
     right: 20px;
     top: 20px;
+    background-color: var(--white);
+    border-radius: 50%;
 
     cursor: pointer;
 
@@ -126,7 +161,7 @@
       position: absolute;
       width: 12px;
       height: 2px;
-      background-color: var(--white);
+      background-color: var(--main-color);
     }
     &::before {
       transform: rotate(45deg);
@@ -151,27 +186,34 @@
   background-color: white;
   white-space: nowrap;
 
-  & > div:first-child {
-    display: flex;
-    gap: 20px;
-  }
-
   @media (max-width: 1440px) {
     font-size: 15px;
     padding: 8px 18px;
   }
   @media (max-width: 1300px)  {
-    background-color: transparent;
-    color: var(--white);
+    border-radius: 24px;
+    color: var(--black);
     font-size: 18px;
     display: grid;
+    gap: 10px;
+    padding: 14px 24px;
+  }
+
+  & > div:first-child {
+    display: flex;
     gap: 20px;
 
+    @media (max-width: 1300px) {
+      width: 100%;
+      background-color: var(--white);
+      color: var(--black);
+      justify-content: space-between;
+    }
   }
 
   &_active {
-    background-color: #91172C;
-    color: #FFFFFF;
+    background-color: #91172C!important;
+    color: #FFFFFF!important;
   }
 
   :global(.submenu) {
@@ -181,19 +223,16 @@
       right: auto;
       width: 100%;
       overflow: visible;
-      background-color: var(--main-color);
       box-shadow: none;
     }
 
     a {
       @media (max-width: 1300px) {
         padding: 10px 20px;
-        color: var(--white);
         font-weight: 400;
-
-        &:hover {
-          background-color: transparent;
-        }
+      }
+      @media (max-width: 480px) {
+        font-size: 16px; 
       }
     }
   }

@@ -21,6 +21,7 @@ import blackArrowDown from '../../../images/svg/blackArrowDown.svg';
 import blackArrowUp from '../../../images/svg/blackArrowUp.svg';
 import { classNames } from '../../../shared/utils'
 import axios from 'axios'
+import { Logo } from '../../../shared/UI'
 
 interface IMenuLink {
     title: string;
@@ -46,6 +47,7 @@ const AuthHeader = () => {
     const profileSubMenuRef = useRef(null);
     const rubinLifeSubMenuRef = useRef(null);
     const clubActivitiesSubMenuRef = useRef(null);
+    const profileButtonRef = useRef(null);
     const menuRef = useRef(null);
 
     useEffect(() => {
@@ -68,7 +70,8 @@ const AuthHeader = () => {
             activeSubMenu &&
             (!profileSubMenuRef.current || !profileSubMenuRef.current.contains(event.target)) &&
             (!rubinLifeSubMenuRef.current || !rubinLifeSubMenuRef.current.contains(event.target)) &&
-            (!clubActivitiesSubMenuRef.current || !clubActivitiesSubMenuRef.current.contains(event.target))
+            (!clubActivitiesSubMenuRef.current || !clubActivitiesSubMenuRef.current.contains(event.target)) &&
+            (!profileButtonRef.current || !profileButtonRef.current.contains(event.target))
         ) {
             setActiveSubMenu(null);
         }
@@ -116,7 +119,7 @@ const AuthHeader = () => {
                       </Link>
                     }
                 {user && (
-                    <div className='profile_button' onClick={(event) => toggleSubMenu('profile', event)}>
+                    <div className='profile_button' ref={profileButtonRef} onClick={(event) => toggleSubMenu('profile', event)}>
                         <div className={`profile_button_avatar`}>
                             <img src={user.avatar} alt=""/>
                         </div>
@@ -129,6 +132,12 @@ const AuthHeader = () => {
                         {activeSubMenu === 'profile' && (
                             <div className='profile_button_subMenu' ref={profileSubMenuRef} onClick={handleSubMenuClick}>
                                 <ul>
+                                  <div>
+                                    <div className={`profile_button_avatar`}>
+                                      <img src={user.avatar} alt=""/>
+                                    </div>
+                                    <span>{user.name}</span>
+                                  </div>
                                     <li>
                                         <NavLink
                                             to={`/user/${user.id}`}
@@ -278,6 +287,7 @@ const AuthHeader = () => {
                         </div>
                     )}
                 </div>
+                <Logo />
                 {/* <div className={styles.menuSearchbar}>
                     <input type="text" placeholder="Поиск"/>
                     <img src={loupePic} alt=""/>
