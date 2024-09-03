@@ -148,6 +148,7 @@
 }
 
 .chat-window {
+    padding-bottom: 50px;
     flex: 1;
     display: flex;
     flex-direction: column;
@@ -166,37 +167,28 @@
 }
 
 .message-input {
+    padding: 0 50px;
     display: flex;
-    padding: 20px;
-    background-color: #f8f9fa;
-    border-top: 1px solid #e0e0e0;
+    column-gap: 20px;
 }
 
 .message-input input {
     flex: 1;
-    padding: 10px 15px;
-    border: 1px solid #ccc;
-    border-radius: 18px;
-    outline: none;
-    transition: border-color 0.2s ease;
+    padding: 20px 7px 20px 30px;
+    gap: 12px;
+    border: 2px solid #F2F2F2;
+    border-radius: 50px;
+    width: 80%;
+    font-family: Raleway;
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 24px;
+    text-align: left;
+
 }
 
 .message-input input:focus {
-    border-color: #007bff;
-}
-
-.message-input button {
-    color: white;
-    border: none;
-    padding: 8px 16px;
-    margin-left: 10px;
-    border-radius: 18px;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
-}
-
-.message-input button:hover {
-    background-color: #218838;
+    border: 2px solid #91172C;
 }
 
 .messages-list {
@@ -265,4 +257,62 @@
     box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
     border-radius: 10px;
     overflow: hidden;
+}
+
+.no-contact-selected {
+    padding: 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    row-gap: 32px;
+}
+
+.no-contact_text {
+    display: flex;
+    flex-direction: column;
+    row-gap: 16px;
+    text-align: center;
+}
+
+.no-contact_text h1 {
+    font-family: Raleway;
+    font-size: 64px;
+    font-weight: 500;
+    line-height: 76px;
+    text-align: center;
+}
+
+.no-contact_text h2 {
+    font-family: Raleway;
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 28px;
+    text-align: left;
+}
+
+.no-contact_image {
+    width: 60%;
+    height: auto;
+}
+
+.no-contact_image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.emoji-picker {
+    position: absolute;
+    bottom: 70px; /* Расположить окно над полем ввода */
+    left: 50%;
+    transform: translateX(-20%);
+    background-color: #fff;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px;
 }

@@ -8,6 +8,7 @@ import { useParams } from 'react-router-dom';
 import loupe from '../../images/svg/loupe.svg';
 import {useSelector} from "react-redux";
 import {RootState} from "../../store/store";
+import {Button} from "../../shared/UI/button/Button";
 
 const pusher = new Pusher('05817bdeb548cb607678', {
     cluster: 'mt1',
@@ -326,31 +327,31 @@ const Chat = () => {
                                 }}
                                 placeholder="Введите сообщение..."
                             />
-                            <span onClick={toggleEmojiPicker} style={{ cursor: 'pointer', fontSize: 22, position: 'absolute', top: '50%', left: '75%', transform: 'translate(-50%, -50%)' }}>
+                            <span onClick={toggleEmojiPicker} style={{ cursor: 'pointer', fontSize: 22, position: 'absolute', top: '50%', left: '72%', transform: 'translate(-50%, -50%)' }}>
                                 😄
                             </span>
                             {showEmoji && (
-                                <div style={{ display: 'flex', flexDirection: 'column', gap: 10, justifyContent: 'space-between', alignItems: 'center' }}>
+                                <div className="emoji-picker">
                                     <EmojiPicker onEmojiClick={onEmojiClick} skinTonesDisabled={false} searchDisabled={true} />
                                     <button style={{ color: '#676767' }} onClick={toggleEmojiPicker}>Отмена</button>
                                 </div>
                             )}
                             {isSending ? (
-                                <div className="loader"></div> // Лоадер, который отображается во время отправки сообщения
+                                <Button>Загрузка...</Button> // Лоадер, который отображается во время отправки сообщения
                             ) : (
-                                <button style={{ backgroundColor: '#28a745' }} onClick={sendMessage}>Отправить</button>
+                                <Button onClick={sendMessage}>Отправить</Button>
                             )}
                         </div>
                     </>
                 ) : (
                     <div className="no-contact-selected">
-                        <p>Выберите контакт для начала чата</p>
-                        {userId === '24' && (
-                            <span>{token24}</span>
-                        )}
-                        {userId === '25' && (
-                            <span>{token25}</span>
-                        )}
+                        <div className="no-contact_text">
+                            <h1>Упсс, пусто!</h1>
+                            <h2>Найдите новых друзей и начните переписку!</h2>
+                        </div>
+                        <div className="no-contact_image">
+                            <img src="/images/e5bf71101e031debc774a9229c0e9f62.png" alt=""/>
+                        </div>
                     </div>
                 )}
             </div>
