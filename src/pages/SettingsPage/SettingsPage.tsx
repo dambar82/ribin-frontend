@@ -42,7 +42,7 @@ const SettingsPage = () => {
     const [successMessage, setSuccessMessage] = useState('')
     const [errorMessage, setErrorMessage] = useState('')
     const [districtOptions, setDistrictOptions] = useState(null);
-    const [district, setDistrict] = useState(user.district ? user.district.id : 1);
+    const [district, setDistrict] = useState(user.district ? user.district.id : 0);
     const [hidePassword, setHidePassword] = useState(true)
     const [hideCopyPassword, setHideCopyPassword] = useState(true)
 
@@ -51,7 +51,7 @@ const SettingsPage = () => {
     useEffect(() => {
         const fetchDistricts = async () => {
             const response = await axios.get('https://api-rubin.multfilm.tatar/api/districts');
-            setDistrictOptions(response.data);
+            setDistrictOptions([{id: 0, title: 'Не указан'}, ...response.data]);
         }
         fetchDistricts();
     }, [])
@@ -101,10 +101,12 @@ const SettingsPage = () => {
 
       const data = new FormData(e.currentTarget)
 
+      const formDistrict = +(data.get('district') as string | null)
+
       const req: TEditUserRequest = {
         id: user.id,
         birthdate: startDate?.getTime() || null,
-        districts_id: Number(data.get('district')) as number | null
+        districts_id: formDistrict === 0 ? null : formDistrict
       }
 
       if ( name ) req.name = name
@@ -215,7 +217,7 @@ const SettingsPage = () => {
                             <input
                               className="form-control__field"
                               type="number"
-                              placeholder={''+user.school_number}
+                              placeholder={''+(user.school_number||'')}
                               autoComplete="off"
                               value={schoolNumber}
                               onChange={e => setSchoolNumber(e.target.value)}

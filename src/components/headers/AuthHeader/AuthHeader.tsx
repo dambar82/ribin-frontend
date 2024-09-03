@@ -225,7 +225,7 @@ const AuthHeader = () => {
                 <div className={styles.close} onClick={closeMobileMenu} ></div>
 
                 {menuLinks.map((link: IMenuLink) => (
-                    <NavLink key={link.title} to={link.link} className={isActive}>{ link.title }</NavLink>
+                    <NavLink key={link.title} to={link.link} className={isActive} onClick={closeMobileMenu} >{ link.title }</NavLink>
                 ))}
 
                 <div ref={rubinLifeSubMenuRef} className={styles.menuLink} onClick={(event) => toggleSubMenu('rubinLife', event)}>
@@ -250,6 +250,7 @@ const AuthHeader = () => {
                                                 className={({ isActive }) => {
                                                     return isActive ? "_active" : ""
                                                 }}
+                                                onClick={closeMobileMenu}
                                             >{name}</NavLink>
                                         </li>
                                     )
