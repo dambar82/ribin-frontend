@@ -126,8 +126,8 @@ const Chat = () => {
     }, [selectedContact]);
 
     useEffect(() => {
-        console.log(messages);
-    }, [messages])
+        console.log(contacts);
+    }, [contacts])
 
     const sendMessage = async () => {
         if (newMessage.trim() !== '') {
