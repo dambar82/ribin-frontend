@@ -1,8 +1,12 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import styles from './Breadcrumbs.module.scss';
+import { classNames } from '../../shared/utils'
 
-const Breadcrumbs = () => {
+interface BreadcrumbsProps {
+  currentPageName?: string
+}
+const Breadcrumbs = ({ currentPageName }: BreadcrumbsProps) => {
     const location = useLocation();
     const pathnames = location.pathname.split('/').filter(x => x);
 
@@ -25,19 +29,19 @@ const Breadcrumbs = () => {
                     const isLast = index === pathnames.length - 1;
 
                     return isLast ? (
-                        <React.Fragment>
+                        <>
                             <span>|</span>
-                            <li key={to} className="breadcrumb-item active" aria-current="page">
-                                {breadcrumbNameMap[value] || value}
+                            <li key={to} className={classNames('breadcrumb-item', styles.active)} aria-current="page">
+                                {currentPageName || breadcrumbNameMap[value] || value}
                             </li>
-                        </React.Fragment>
+                        </>
                     ) : (
-                        <React.Fragment>
+                        <>
                             <span>|</span>
                             <li key={to} className="breadcrumb-item">
                                 <Link to={to}>{breadcrumbNameMap[value] || value}</Link>
                             </li>
-                        </React.Fragment>
+                        </>
                     );
                 })}
             </ol>

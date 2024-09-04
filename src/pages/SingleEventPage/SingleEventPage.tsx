@@ -98,7 +98,7 @@ const SingleEventPage = () => {
 
     return (
         <div className='page'>
-            <Breadcrumbs/>
+            <Breadcrumbs currentPageName={event.name} />
             <div className={styles.eventPage}>
                 <div className={styles.eventPage_firstDeck}>
                     {/* <div className={styles.eventBackground}>
@@ -197,7 +197,8 @@ const SingleEventPage = () => {
                         <Map coordinates={event.coordinates ? event.coordinates : [55.783063, 49.119782]}></Map>
                     </div>
                 </div>
-                <div className={styles.eventPage_Deck}>
+                {event.source?.length > 0 &&
+                  <div className={styles.eventPage_Deck}>
                     <h2 className={styles.eventPage_regularHeader}>
                         Фотогалерея
                     </h2>
@@ -224,7 +225,8 @@ const SingleEventPage = () => {
                         </div>
                       </Modal>
                     </div>
-                </div>
+                  </div>
+                }
             </div>
         </div>
     );

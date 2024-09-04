@@ -1,5 +1,11 @@
 .breadcrumb {
   margin-bottom: 0 !important;
+
+  li {
+    &.active {
+      color: var(--main-color);
+    }
+  }
 }
 
 .breadcrumbs {
