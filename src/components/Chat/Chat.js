@@ -254,7 +254,7 @@ const Chat = () => {
                             <img src={contact.client.avatar} width={60} height={60} style={{ border: 'none', borderRadius: '50%' }} />
                             <div className={'contact-item_content'}>
                                 <span>{contact.client.name} {contact.client.surname}</span>
-                                <span>{messages[messages.length]}</span>
+                                {contact.message ? <span>{contact.message}</span> : <span></span>}
                             </div>
                             {/*<span className={`status ${contact.online ? 'online' : 'offline'}`}>{isSidebarCollapsed ? '' : (contact.online ? 'Online' : 'Offline')}</span>*/}
                             {contact.unreadCount > 0 && (

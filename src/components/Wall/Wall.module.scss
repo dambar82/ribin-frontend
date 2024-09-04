@@ -83,8 +83,8 @@
         }
     }
     &__feedForm {
+        border: 2px solid #F2F2F2;
       background-color: #FFFFFF;
-      border: 1px solid #F2F2F2;
       border-radius: 35px;
       padding: 32px;
 
@@ -96,35 +96,44 @@
       }
       
         .textarea_wrapper {
+            border: 2px solid #F2F2F2;
             display: flex;
             flex-direction: column; /* Изменено на флекс вертикально */
             position: relative;
+            overflow: hidden;
+            border-radius: 25px;
+            min-height: 182px;
             padding: 20px;
-            
+            transition: border-color 0.3s ease;
             @media (max-width: 768px) {
               padding: 0; 
             }
         }
 
+        .textarea_wrapper:focus-within {
+            border-color: var(--main-color); /* Цвет границы при фокусе */
+        }
+
+        .textarea_wrapper_low {
+            display: flex;
+            width: 100%;
+            justify-content: space-between;
+            align-items: center;
+        }
+
         textarea {
-            background-color: #F8F8F8;
-            border-width: 2px;
-            border-style: solid;
-            border-color: #F2F2F2;
-            border-radius: 25px;
             color: var(--black);
             font-size: 20px;
             font-weight: 500;
             line-height: calc(24 / 20);
-            padding: 32px 30px 60px 30px;
+            //padding: 5px;
             width: 100%;
-            height: 220px;
-            max-height: 700px;
-            resize: vertical;
-
+            height: 400px;
+            resize: none;
+            overflow-y: hidden;
             @media (max-width: 480px) {
               font-size: 18px;
-              padding: 20px 10px; 
+            //  padding: 20px 10px;
             }
 
             &::placeholder {
@@ -140,7 +149,7 @@
         }
 
         .submit_button {
-            margin-top: 10px; /* Добавляет отступ сверху для кнопки */
+          //  margin-top: 10px; /* Добавляет отступ сверху для кнопки */
             align-self: flex-end;
         }
 
@@ -177,7 +186,7 @@
       gap: 8px;
     }
     &__feedFormFileField {
-        position: relative;
+        align-self: flex-start;
         background-color: #91172C;
         border-radius: 50%;
         cursor: pointer;
@@ -186,6 +195,7 @@
         align-items: center;
         width: 50px;
         height: 50px;
+        overflow: hidden;
 
         input[type="file"] {
             // appearance: none;
@@ -195,9 +205,11 @@
             // clip: rect(0 0 0 0);
             cursor: pointer;
             position: absolute;
+            border: 1px solid red;
+            display: none;
             width: 100%;
             height: 100%;
-            opacity: 0;
+          //  opacity: 0;
         }
 
         label {
@@ -348,7 +360,7 @@
 
 .symbol_counter {
     position: absolute;
-    left: 30px;
+    right: 40px;
     bottom: 40px;
     font-family: Saira;
     font-size: 18px;

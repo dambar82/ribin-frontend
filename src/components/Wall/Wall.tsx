@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react'
+import {useEffect, useRef, useState} from 'react'
 import styles from './Wall.module.scss';
 
 import loupeIcon from '../../images/svg/loupe.svg'
@@ -79,7 +79,14 @@ const Wall = ({type, posts, editable = true, clubId}: IWall) => {
     const [option, setOption] = useState(optionsMap.public)
     const [searchTerm, setSearchTerm] = useState('')
     const [symbols, setSymbols] = useState(false);
+    const textareaRef = useRef(null);
+    const fileInputRef = useRef<HTMLInputElement>(null);
 
+    useEffect(() => {
+        const textarea = textareaRef.current;
+        textarea.style.height = 'auto'; // Сбрасываем высоту перед пересчетом
+        textarea.style.height = `${textarea.scrollHeight}px`; // Устанавливаем высоту на основе контента
+    }, [textareaValue]);
 
     useEffect(() => {
         dispatch(fetchPeople());
@@ -147,11 +154,11 @@ const Wall = ({type, posts, editable = true, clubId}: IWall) => {
             try {
                 if (type !== 'club') {
                     const newPost = await dispatch(createPost(formData)).unwrap();
-                    console.log(newPost);
+                  //  console.log(newPost);
                     dispatch(addPost(newPost));
                 } else {
                     const newPost = await dispatch(createPostInClub({clubId, formData})).unwrap();
-                    console.log(newPost);
+                 //   console.log(newPost);
                     // @ts-ignore
                     dispatch(addPost(newPost));
                 }
@@ -194,40 +201,49 @@ const Wall = ({type, posts, editable = true, clubId}: IWall) => {
                                       placeholder="Поделитесь с другими своими успехами и новостями!"
                                       value={textareaValue}
                                       onChange={(e) => setTextareaValue(e.target.value)}
+                                      ref={textareaRef}
                                   >
                                   </textarea>
-                                  <Button className={styles.submit_button}>Отправить</Button>
-                                    {
-                                        symbols && (
-                                            <div className={styles.symbols_message}>
-                                                Недостаточно символов для отправки сообщения
+                                    <div className={styles.textarea_wrapper_low}>
+                                        {
+                                            files.length <= MAX_COUNT_FILES_IN_FORM &&
+                                            <div className={styles.wall__feedFormFileField}
+                                                 onClick={() => fileInputRef.current?.click()}
+                                            >
+                                                <input type='file' id='file' accept='image/*,video/*'
+                                                       ref={fileInputRef}
+                                                       onChange={handleFileChange}/>
+                                                <label htmlFor='file'>
+                                                    <img src={attachmentIcon} alt=''/>
+                                                </label>
                                             </div>
-                                        )
-                                    }
-                                    {
-                                        textareaValue.length < 60 && (
-                                            <span className={`${styles.symbol_counter} ${symbols && styles.symbol_counterRED}`}>{textareaValue.length}/60</span>
-                                        )
-                                    }
+                                        }
+                                        {/*<div className={styles.wall__feedFormFile}>*/}
+                                        {/*    {files.map(file => (*/}
+                                        {/*        <div key={file.id} className={styles.wall__feedFormFileDoc}>*/}
+                                        {/*            <span>{file.file?.name}</span>*/}
+                                        {/*            <button type='button' onClick={() => deleteFile(file.id)}></button>*/}
+                                        {/*        </div>*/}
+                                        {/*    ))}*/}
+                                        {/*</div>*/}
+                                        {
+                                            symbols && (
+                                                <div className={styles.symbols_message}>
+                                                    Недостаточно символов для отправки сообщения
+                                                </div>
+                                            )
+                                        }
+                                        {
+                                            textareaValue.length < 60 && (
+                                                <span className={`${styles.symbol_counter} ${symbols && styles.symbol_counterRED}`}>{textareaValue.length}/60</span>
+                                            )
+                                        }
+                                        {textareaValue.length > 0 && (
+                                            <Button className={styles.submit_button}>Отправить</Button>
+                                        )}
+                                    </div>
                                 </div>
                                 <div className={styles.feenFormFooter} >
-                                    <div className={styles.wall__feedFormFile}>
-                                        {files.map(file => (
-                                          <div key={file.id} className={styles.wall__feedFormFileDoc}>
-                                            <span>{file.file?.name}</span>
-                                            <button type='button' onClick={() => deleteFile(file.id)}></button>
-                                          </div>
-                                        ))}
-                                        {
-                                          files.length <= MAX_COUNT_FILES_IN_FORM &&
-                                            <div className={styles.wall__feedFormFileField}>
-                                            <input type='file' id='file' accept='image/*,video/*' onChange={handleFileChange}/>
-                                            <label htmlFor='file'>
-                                              <img src={attachmentIcon} alt=''/>
-                                            </label>
-                                          </div>
-                                        }
-                                    </div>
                                     <Select
                                         options={options}
                                         placeholder="Filter by Region"
