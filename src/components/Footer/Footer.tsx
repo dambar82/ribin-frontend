@@ -51,6 +51,14 @@ const menuLinks: IMenuLink[] = [
 ]
 
 const Footer = () => {
+
+    const handleDownload = () => {
+        const link = document.createElement('a');
+        link.href = '/ump.docx';
+        link.download = 'УМП для учителей.docx';
+        link.click();
+    };
+
     return (
             <div className={styles.footer}>
                 <div className={`${styles.footer_whitePart} justify_content_SB content`}>
@@ -128,7 +136,7 @@ const Footer = () => {
                                   Политика конфиденциальности
                               </p>
                           </Link>
-                          <p>
+                          <p onClick={handleDownload}>
                               Методические комментарии для педагогов
                           </p>
                       </div>
