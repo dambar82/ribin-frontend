@@ -83,9 +83,11 @@ const Wall = ({type, posts, editable = true, clubId}: IWall) => {
     const fileInputRef = useRef<HTMLInputElement>(null);
 
     useEffect(() => {
-        const textarea = textareaRef.current;
-        textarea.style.height = 'auto'; // Сбрасываем высоту перед пересчетом
-        textarea.style.height = `${textarea.scrollHeight}px`; // Устанавливаем высоту на основе контента
+        if (textareaRef) {
+            const textarea = textareaRef.current;
+            textarea.style.height = 'auto';
+            textarea.style.height = `${textarea.scrollHeight}px`;
+        }
     }, [textareaValue]);
 
     useEffect(() => {

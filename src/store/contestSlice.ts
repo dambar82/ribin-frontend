@@ -33,7 +33,7 @@ export const sendWorkForContest = createAsyncThunk('contests/sendWorkForContest'
             formData.append('contest_id', contest_id.toString());
             formData.append('client_id', client_id.toString());
 
-            const response = await axios.post(`https://api-rubin.multfilm.tatar/api/contest`, formData, {
+            const response = await axios.post(`https://api-rubin.multfilm.tatar/api/contest/${contest_id}/take_part`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                     'Authorization': `Bearer ${token}`

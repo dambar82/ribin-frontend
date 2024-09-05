@@ -74,6 +74,8 @@ const ContestPage = () => {
     }, [contest]);
 
     useEffect(() => {
+        console.log(user);
+        console.log(contest);
         if (user?.contests?.find(item => item.id === Number(contestId))) {
             setParticipating(true);
         }
@@ -186,9 +188,9 @@ const ContestPage = () => {
                             </h3>
                             {
                                 contest?.prizes && (
-                                    contest.prizes.map((prize: any) => (
+                                    contest.prizes.map((prize: any, index: number) => (
                                         <p key={prize.id}>
-                                            {prize.reward}
+                                            {index+1} место: {prize.reward}
                                         </p>
                                     ))
                                 )

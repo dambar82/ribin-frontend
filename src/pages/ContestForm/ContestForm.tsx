@@ -85,6 +85,8 @@ const ContestForm = () => {
             })).unwrap();
 
             navigate(`/contests/${contestId}`);
+
+            window.location.reload();
         } catch (error) {
             console.error('Ошибка при отправке данных:', error);
         }
