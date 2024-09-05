@@ -94,13 +94,6 @@ const Wall = ({type, posts, editable = true, clubId}: IWall) => {
         dispatch(fetchPeople());
     }, [dispatch]);
 
-    const users = [
-        { avatar: "/images/popular-user-01.png", name: "Амина Ушакова", level: 201 },
-        { avatar: "/images/popular-user-02.png", name: "Артем Егоров", level: 180 },
-        { avatar: "/images/popular-user-03.png", name: "Вера Дроздова", level: 140 },
-        { avatar: "/images/popular-user-04.png", name: "Анна Емельянова", level: 135 },
-        { avatar: "/images/popular-user-05.png", name: "Георгий Воробьев", level: 95 }
-    ]
 
     const handleFileChange = ( e: React.ChangeEvent<HTMLInputElement> ) => {
         const file = e.target.files[0]
@@ -208,7 +201,7 @@ const Wall = ({type, posts, editable = true, clubId}: IWall) => {
                                   </textarea>
                                     <div className={styles.textarea_wrapper_low}>
                                         {
-                                            files.length <= MAX_COUNT_FILES_IN_FORM &&
+                                            files.length <= MAX_COUNT_FILES_IN_FORM && textareaValue.length > 0 &&
                                             <div className={styles.wall__feedFormFileField}
                                                  onClick={() => fileInputRef.current?.click()}
                                             >
@@ -236,7 +229,7 @@ const Wall = ({type, posts, editable = true, clubId}: IWall) => {
                                             )
                                         }
                                         {
-                                            textareaValue.length < 60 && (
+                                            textareaValue.length < 60 && textareaValue.length > 0 && (
                                                 <span className={`${styles.symbol_counter} ${symbols && styles.symbol_counterRED}`}>{textareaValue.length}/60</span>
                                             )
                                         }

@@ -189,6 +189,7 @@
         align-self: flex-start;
         background-color: #91172C;
         border-radius: 50%;
+        margin-top: auto;
         cursor: pointer;
         display: flex;
         justify-content: center;
@@ -359,9 +360,11 @@
 }
 
 .symbol_counter {
-    position: absolute;
-    right: 40px;
-    bottom: 40px;
+    //position: absolute;
+    //right: 40px;
+    //bottom: 40px;
+    margin-left: auto;
+    margin-right: 21px;
     font-family: Saira;
     font-size: 18px;
     font-weight: 500;
@@ -375,10 +378,10 @@
 
 .symbols_message {
     background-color: white;
-    z-index: 60;
+    z-index: 80;
     position: absolute;
-    bottom: 70px;
-    left: 10px;
+    bottom: 85px;
+    left: 50%;
     padding: 14px 24px 14px 24px;
     gap: 20px;
     border-radius: 12px;
