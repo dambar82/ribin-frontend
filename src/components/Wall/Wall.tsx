@@ -83,12 +83,12 @@ const Wall = ({type, posts, editable = true, clubId}: IWall) => {
     const fileInputRef = useRef<HTMLInputElement>(null);
 
     useEffect(() => {
-        if (textareaRef) {
+        if (textareaRef.current) {
             const textarea = textareaRef.current;
             textarea.style.height = 'auto';
             textarea.style.height = `${textarea.scrollHeight}px`;
         }
-    }, [textareaValue]);
+    }, [textareaValue, textareaRef]);
 
     useEffect(() => {
         dispatch(fetchPeople());
