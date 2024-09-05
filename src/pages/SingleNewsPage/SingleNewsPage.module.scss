@@ -5,12 +5,14 @@
     &__cover {
         background-color: #898989;
         border-radius: 50px;
-        height: 560px;
+        height: auto;
+        width: 100%;
         overflow: hidden;
         img {
             width: 100%;
             height: 100%;
             object-fit: cover;
+            object-position: 50% 50%;
         }
         &:not(:last-child) {
             margin: 0 0 100px;

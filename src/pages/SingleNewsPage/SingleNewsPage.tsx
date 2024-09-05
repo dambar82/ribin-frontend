@@ -83,12 +83,6 @@ const SingleNewsPage = () => {
     return (
         <div className="page">
             <div className={styles.news}>
-                <div className={styles.news__cover}>
-                    {
-                        //@ts-ignore
-                        <img src={singleNews.images[0]} alt="" />
-                    }
-                </div>
                 <div className={styles.news__innerWrapper}>
                     <div className={styles.news__info}>
                         <h1 className={styles.news__title}>{singleNews.title}</h1>
@@ -110,6 +104,12 @@ const SingleNewsPage = () => {
                                         }}
                                 >
                                 </div>
+                        </div>
+                        <div className={styles.news__cover}>
+                            {
+                                //@ts-ignore
+                                <img src={singleNews.images[0]} alt="" />
+                            }
                         </div>
                         <div className={styles.news__footer}>
                             {
@@ -171,7 +171,9 @@ const SingleNewsPage = () => {
                                     width: "100%"
                                 }}
                             >
-                                {news.map((newsItem, index) => {
+                                {news
+                                    .filter(newsItem => newsItem.id !== Number(id))
+                                    .map((newsItem, index) => {
                                     if ('imagePreviewResized' in newsItem) {
                                         return (
                                             <SwiperSlide key={newsItem.id}>
