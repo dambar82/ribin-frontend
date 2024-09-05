@@ -62,15 +62,20 @@
 }
 
 .choosed_files_wrapper {
-
+  margin-top: 20px;
+  gap: 8px;
+  display: flex;
+  flex-flow: wrap;
 }
 
 .fileBlock {
+  max-width: 300px;
   padding: 12px 20px;
   background-color: #48903A;
   border-radius: 60px;
   display: flex;
   align-items: center;
+  justify-content: space-between;
   column-gap: 12px;
   font-family: Raleway;
   font-size: 20px;
@@ -78,13 +83,17 @@
   line-height: 24px;
   text-align: center;
   color: white;
+
+  img {
+    display: block;
+  }
 }
 
 .filesDropzone {
   width: 100%;
   border: 4px dashed #48903a;
   border-radius: 35px;
-  padding: 80px 0;
+  padding: 80px 60px;
   display: flex;
   justify-content: center;
   align-items: center;

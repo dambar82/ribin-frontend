@@ -119,7 +119,7 @@ const ContestForm = () => {
                             <input
                                 value={urlVideo}
                                 onChange={(e) => setUrlVideo(e.target.value)}
-                                placeholder='Поделитесь своими мыслями и чувствами по поводу работы'
+                                placeholder='Введите ссылку на видео с YouTube, VK и других'
                                 className={`${styles.description_input} ${styles.description_inputLittle}`}
                             />
                         </div>
@@ -152,7 +152,7 @@ const ContestForm = () => {
                         {files.map(file => (
                           <div className={styles.fileBlock} key={file.id} >
                             <span>{file.file?.name}</span>
-                            <img src={deleteFileImg} onClick={() => deleteFile(file.id)}></img>
+                            <img src={deleteFileImg} style={{cursor: 'pointer'}} onClick={() => deleteFile(file.id)}></img>
                           </div>
                         ))}
                       </div>
