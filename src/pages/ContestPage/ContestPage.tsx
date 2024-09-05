@@ -311,7 +311,7 @@ const ContestPage = () => {
                                                     name={participant.client.name}
                                                     surname={participant.client.surname}
                                                     level={participant.client.level}
-                                                    points={participant.client.score}
+                                                    points={participant.client.rubick}
                                                     key={participant.id}></ActiveUserCard>
                                             </Link>
                                         ))

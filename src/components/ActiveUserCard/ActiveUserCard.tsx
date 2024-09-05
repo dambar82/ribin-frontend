@@ -27,7 +27,7 @@ const ActiveUserCard = ({image, name, surname, level, points}: ActiveUserProps) 
                         </div>
                     </div>
                     <div className={styles.numbersBlock}>
-                        <span>Очков</span>
+                        <span>Рубиков</span>
                         <div>
                             {points}
                         </div>
