@@ -213,14 +213,6 @@ const Wall = ({type, posts, editable = true, clubId}: IWall) => {
                                                 </label>
                                             </div>
                                         }
-                                        {/*<div className={styles.wall__feedFormFile}>*/}
-                                        {/*    {files.map(file => (*/}
-                                        {/*        <div key={file.id} className={styles.wall__feedFormFileDoc}>*/}
-                                        {/*            <span>{file.file?.name}</span>*/}
-                                        {/*            <button type='button' onClick={() => deleteFile(file.id)}></button>*/}
-                                        {/*        </div>*/}
-                                        {/*    ))}*/}
-                                        {/*</div>*/}
                                         {
                                             symbols && (
                                                 <div className={styles.symbols_message}>
@@ -237,6 +229,14 @@ const Wall = ({type, posts, editable = true, clubId}: IWall) => {
                                             <Button className={styles.submit_button}>Отправить</Button>
                                         )}
                                     </div>
+                                </div>
+                                <div className={styles.wall__feedFormFile}>
+                                    {files.map(file => (
+                                        <div key={file.id} className={styles.wall__feedFormFileDoc}>
+                                            <span>{file?.file.name}</span>
+                                            <button type='button' onClick={() => deleteFile(file.id)}></button>
+                                        </div>
+                                    ))}
                                 </div>
                                 <div className={styles.feenFormFooter} >
                                     <Select
