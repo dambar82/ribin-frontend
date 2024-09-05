@@ -173,7 +173,7 @@ const Wall = ({type, posts, editable = true, clubId}: IWall) => {
     return (
         <div className={styles.wall}>
             <nav className={styles.wall__nav}>
-                {["Записи", "Видео", "Фотографии"].map((item, index) => (
+                {["Записи"].map((item, index) => (
                     <button
                         key={item + index}
                         className={feedType !== index ? styles.wall__navButton : `${styles.wall__navButton} ${styles.wall__navButtonActive}`}
