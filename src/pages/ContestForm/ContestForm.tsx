@@ -2,6 +2,7 @@ import React, {useCallback, useEffect, useRef, useState} from 'react';
 import styles from './ContestForm.module.scss';
 import {useNavigate, useParams} from "react-router-dom";
 import cloud from '../../images/svg/cloud.svg'
+import deleteFileImg from '../../images/svg/deleteFile.svg';
 import {useAppDispatch} from "../../store/hooks";
 import {sendWorkForContest} from "../../store/contestSlice";
 import {useSelector} from "react-redux";
@@ -149,9 +150,9 @@ const ContestForm = () => {
 
                       <div className={styles.choosed_files_wrapper} >
                         {files.map(file => (
-                          <div key={file.id} >
+                          <div className={styles.fileBlock} key={file.id} >
                             <span>{file.file?.name}</span>
-                            <button type='button' onClick={() => deleteFile(file.id)}></button>
+                            <img src={deleteFileImg} onClick={() => deleteFile(file.id)}></img>
                           </div>
                         ))}
                       </div>

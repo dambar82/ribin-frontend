@@ -261,7 +261,7 @@ const ContestPage = () => {
                                                 <div className={styles.prizes_content_block}>
                                                     <div className={styles.prizes_content_block_left}>
                                                         <div className={styles.prizes_content_block_avatar}>
-                                                            <img src={member.client.image} alt=""/>
+                                                            <img src={member.client.avatar} alt=""/>
                                                         </div>
                                                         <div className={styles.prizes_content_block_info}>
                                                             <div className={styles.prizes_content_block_info_name}>
@@ -307,7 +307,7 @@ const ContestPage = () => {
                                         .map(participant => (
                                             <Link to={`/user/${participant.id}`}>
                                                 <ActiveUserCard
-                                                    image={participant.client.image}
+                                                    image={participant.client.avatar}
                                                     name={participant.client.name}
                                                     surname={participant.client.surname}
                                                     level={participant.client.level}

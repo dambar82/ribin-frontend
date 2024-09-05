@@ -61,6 +61,21 @@
   border-radius: 0 0 50px 50px;
 }
 
+.fileBlock {
+  padding: 12px 20px;
+  background-color: #48903A;
+  border-radius: 60px;
+  display: flex;
+  align-items: center;
+  column-gap: 12px;
+  font-family: Raleway;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 24px;
+  text-align: center;
+  color: white;
+}
+
 .filesDropzone {
   width: 100%;
   border: 4px dashed #48903a;
