@@ -123,11 +123,13 @@ const Footer = () => {
                           © 2024 Детский футбольный клуб "Рубин".  <br/>Все права защищены.
                       </p>
                       <div className={styles.footer_redPart_right}>
+                          <Link to='https://dnevnik.rubin-kazan.ru/page/rulez'>
+                              <p>
+                                  Политика конфиденциальности
+                              </p>
+                          </Link>
                           <p>
-                              Политика конфиденциальности
-                          </p>
-                          <p>
-                              Условия использования
+                              Методические комментарии для педагогов
                           </p>
                       </div>
                     </div>
