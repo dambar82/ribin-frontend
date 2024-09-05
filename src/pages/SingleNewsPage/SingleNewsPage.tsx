@@ -108,7 +108,7 @@ const SingleNewsPage = () => {
                         <div className={styles.news__cover}>
                             {
                                 //@ts-ignore
-                                <img src={singleNews.images[0]} alt="" />
+                                <img style={{maxHeight: '800px'}} src={singleNews.images[0]} alt="" />
                             }
                         </div>
                         <div className={styles.news__footer}>

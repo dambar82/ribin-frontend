@@ -134,7 +134,7 @@ const ContestForm = () => {
                               <div className={styles.filesDropzone_cloud}>
                                   <img src={cloud} alt=""/>
                                   <p>
-                                      Выберите нужный файл или перетащите его сюда
+                                      Выберите нужный файл (не более 250 МБ) или перетащите его сюда
                                   </p>
                               </div>
                               <input type="file" multiple

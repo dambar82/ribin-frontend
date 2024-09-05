@@ -24,6 +24,8 @@ function formatDateTime(dateTimeString) {
         'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'
     ];
 
+    console.log(dateTimeString);
+
     // Разделяем строку на даты и время
     const [date] = dateTimeString.split(' ');
 
@@ -158,6 +160,10 @@ const Chat = () => {
         return msg.message.toLowerCase().includes(searchQuery.toLowerCase());
     });
 
+    useEffect(() => {
+        console.log(messages);
+    }, [messages])
+
     const toggleSidebar = () => {
         setIsSidebarCollapsed(!isSidebarCollapsed);
     };
@@ -285,7 +291,11 @@ const Chat = () => {
                                                     <span>{msg.message}</span>
                                                 </div>
                                             </div>
-                                            <span className='message-date' style={{marginLeft: "auto"}}>{formatDateTime(msg.created_at)}</span>
+                                            {
+                                                msg.created_at && (
+                                                    <span className='message-date'>{msg.created_at}</span>
+                                                )
+                                            }
                                         </div>
                                         <div className='messenger-avatar'
                                             style={{top: '50px'}}
@@ -310,7 +320,11 @@ const Chat = () => {
                                                     <span>{msg.message}</span>
                                                 </div>
                                             </div>
-                                            <span className='message-date'>{formatDateTime(msg.created_at)}</span>
+                                            {
+                                                msg.created_at && (
+                                                    <span className='message-date'>{msg.created_at}</span>
+                                                )
+                                            }
                                         </div>
                                     </div>
                                 )
