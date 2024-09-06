@@ -11,6 +11,7 @@ export type TEvent = {
   city: string
   location: string
   clients: User[]
+  status: 1 | 0
   created_by: {
     id: number
     name: string

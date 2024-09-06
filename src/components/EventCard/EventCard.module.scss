@@ -34,7 +34,7 @@
         line-height: calc(38 / 32);
     }
     &__status {
-        background-color: #FF9900;
+        background-color: #9D9D9D;
         border-radius: 50px;
         color: #FFFFFF;
         flex-basis: 220px;
@@ -44,6 +44,10 @@
         letter-spacing: -0.01em;
         padding: 12px 30px;
         text-align: center;
+
+        &.active {
+          background-color: #FF9900;
+        }
     }
     &__info {
         display: flex;

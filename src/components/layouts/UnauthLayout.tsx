@@ -16,12 +16,7 @@ const UnauthLayout: React.FC<UnauthLayoutProps> = ({ children }) => {
 
     return (
         <div className='content'>
-            {!isAuth && (
-                <UnauthHeader/>
-            )}
-            {isAuth && (
-                <AuthHeader />
-            )}
+            <AuthHeader />
             <main>{children}</main>
             {
                 isAuth && (

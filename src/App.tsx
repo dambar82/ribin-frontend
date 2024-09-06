@@ -50,6 +50,7 @@ import Chat from "./components/Chat/Chat";
 import Pusher from 'pusher-js';
 import Page from "./pages/Page/Page";
 import AchievementsPage from "./pages/AchievementsPage/AchievementsPage";
+import { DownloadAppBunner } from './pages/DownloadAppBunner/DownloadAppBunner'
 
 
 export function postFormatDate(isoString) {
@@ -142,7 +143,8 @@ function App() {
         { path: '/achievements', element: <AwardsPage /> , layout: UnauthLayout },
         { path: '/awards', element: <AchievementsPage/>, layout: UnauthLayout},
         { path: '/programs', element: <ClubProgramsPage /> , layout: UnauthLayout },
-        { path: '/page/:url', element: <Page/>, layout: UnauthLayout }
+        { path: '/page/:url', element: <Page/>, layout: UnauthLayout },
+        { path: '/download-app', element: <DownloadAppBunner /> },
     ];
 
     const privateRoutes = [
@@ -199,7 +201,7 @@ function App() {
         <BrowserRouter>
             <Routes>
                 {publicRoutes.map(({ path, element, layout: Layout }) => (
-                    <Route key={path} path={path} element={<Layout>{element}</Layout>} />
+                    <Route key={path} path={path} element={Layout ? <Layout>{element}</Layout> : element} />
                 ))}
                 <Route
                     path="/"
