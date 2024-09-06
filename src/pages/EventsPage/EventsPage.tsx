@@ -39,7 +39,7 @@ const EventsPage = () => {
                 <div className={styles.events__header}>
                     <h1 className={styles.events__title}>Все мероприятия</h1>
                     <div className={styles.events__counter}>{events.length}</div>
-                    <nav className="tab-nav">
+                    {/* <nav className="tab-nav">
                         {["Список", "На карте"].map((item, index) => (
                             <button
                               key={index}
@@ -50,7 +50,7 @@ const EventsPage = () => {
                                 <span>{item}</span>
                             </button>
                         ))}
-                    </nav>
+                    </nav> */}
                 </div>
                 <div className={styles.create_event_button_wrapper} >
                   <Button onClick={createEvent} >Создать мероприятие</Button>
