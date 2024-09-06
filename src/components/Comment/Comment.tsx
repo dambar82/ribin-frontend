@@ -81,8 +81,8 @@ const Comment = ({ id, liked_by, text, created_at, likes_count, name, avatar, cr
                     </div>
                     <span className={`${styles.comment__label} ${isLiked ? styles.comment__label_liked : ''}`}>{likes}</span>
                 </div>
-                <button className={`${styles.comment__button} ${styles.comment__button_reply}`} type="button">Ответить</button>
-                <button className={`${styles.comment__button} ${styles.comment__button_share}`} type="button">Поделиться</button>
+                {/* <button className={`${styles.comment__button} ${styles.comment__button_reply}`} type="button">Ответить</button>
+                <button className={`${styles.comment__button} ${styles.comment__button_share}`} type="button">Поделиться</button> */}
             </div>
         </div>
     )
