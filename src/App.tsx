@@ -51,6 +51,7 @@ import Pusher from 'pusher-js';
 import Page from "./pages/Page/Page";
 import AchievementsPage from "./pages/AchievementsPage/AchievementsPage";
 import { DownloadAppBunner } from './pages/DownloadAppBunner/DownloadAppBunner'
+import UnauthLayoutRegister from './components/layouts/UnauthLayoutRegister';
 
 
 export function postFormatDate(isoString) {
@@ -123,8 +124,8 @@ function App() {
     const dispatch = useDispatch<AppDispatch>()
 
     const publicRoutes = [
-        { path: '/login', element: <Login />, layout: UnauthLayout },
-        { path: '/register', element: <Register />, layout: UnauthLayout },
+        { path: '/login', element: <Login />, layout: UnauthLayoutRegister },
+        { path: '/register', element: <Register />, layout: UnauthLayoutRegister },
         { path: '/restore', element: <Restore />, layout: RestoreLayout },
         { path: '/restore/password/:token', element: <NewPassword />, layout: RestoreLayout },
         { path: '/email-confirmation/:hash', element: <ConfirmEmailModal email='' />, layout: UnauthLayout },
