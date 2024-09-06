@@ -2,7 +2,12 @@ import React, {useEffect, useState} from 'react';
 import {Link, useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 
-import drakon from '../../images/svg/Drakon.svg';
+//@ts-ignore
+import Ruby1 from '../../images/first-screen-ruby-1.png';
+//@ts-ignore
+import Ruby2 from '../../images/first-screen-ruby-2.png';
+//@ts-ignore
+import Ruby3 from '../../images/first-screen-ruby-3.png';
 import orangeZone from '../../images/orange_background.svg';
 import buttonArrow from '../../images/svg/button_arrow.svg';
 import rubyStore from '../../images/ruby_store.jpg';
@@ -29,7 +34,7 @@ import PostCard from '../../components/PostCard/PostCard';
 import ClubCard from '../../components/ClubCard/ClubCard';
 import {fetchPosts} from "../../store/postSlice";
 import {fetchPeople} from "../../store/peopleSlice";
-import { classNames } from '../../shared/utils'
+import { arrayFromTo, classNames } from '../../shared/utils'
 import {MemoryGame} from "../../components/MemoryGame/MemoryGame";
 import kazanorgsintez from '../../images/svg/Казань Оргсинтез.svg';
 import neftehim from '../../images/svg/Нижнекамск нефтехим.svg';
@@ -61,8 +66,6 @@ const MainPage: React.FC = () => {
     const user = useSelector((state: RootState) => state.user.user);
 
     const isAuth = !!user?.email_confirmed
-
-    const navigate = useNavigate()
 
     useEffect(() => {
         if (clubStatus === 'idle') {
@@ -114,26 +117,7 @@ const MainPage: React.FC = () => {
                 </div>
             </div>
             :
-            <div className='content'>
-                <div className={styles.greenZone}>
-                    <div className={styles.greenZone_leftPart}>
-                        <div className={styles.greenZone_text}>
-                            <h1>
-                                Добро пожаловать в команду!
-                            </h1>
-                            <p>
-                                Наш клуб — место, где каждый ребёнок находит игру, друзей и развивает свои таланты.
-                            </p>
-                        </div>
-                        <button className='white_button' onClick={() => navigate('/login')} >
-                            Присоединиться к клубу
-                        </button>
-                    </div>
-                    <div className={styles.greenZone_rightPart}>
-                        <img src={drakon} alt=""/>
-                    </div>
-                </div>
-            </div>
+            <FirstScreenSlider />
             }
             <section className={classNames(
               'section',
@@ -464,5 +448,92 @@ const MainPage: React.FC = () => {
         </div>
     );
 };
+
+const FirstScreenSlider = () => {
+
+  const [slide, setSlide] = useState(1)
+
+  useEffect(() => {
+    
+    const timer = setInterval(() => {
+      setSlide(prev => {
+        if ( prev === 3 ) return 1
+        return ++prev
+      })
+    }, 3000)
+
+    return () => clearInterval(timer)
+    
+  }, [])
+
+  return (
+    <div className={classNames('content', c.slider)}>
+
+      <div className={c.pagination} >
+        {arrayFromTo(1, 3).map(num => (
+          <span className={num === slide ? c._active : ''} ></span>
+        ))}
+      </div>
+
+      <Slide
+        active={slide === 1}
+        title='Добро пожаловать в команду!'
+        text='Наш клуб — место, где каждый ребёнок находит игру, друзей и развивает свои таланты.'
+        img={Ruby1}
+        color='green'
+        button={{ text: 'Присоединиться к клубу', link: '/login' }}
+      />
+
+      <Slide
+        active={slide === 2}
+        title='Твой спортивный путь начинается здесь!'
+        text='Следи за своими достижениями и улучшай результаты с персональным спортивным дневником клуба "Рубин". Фиксируй тренировки, отслеживай прогресс и ставь новые цели!'
+        img={Ruby2}
+        color='yellow'
+        button={{ text: 'Перейти к книге', link: '/' }}
+      />
+
+      <Slide
+        active={slide === 3}
+        title='Воплоти мечты в реальность!'
+        text='Открой новый уровень футбольных эмоций с приложением дополненной реальности FC Rubin AR! Взаимодействуй с виртуальными элементами, узнавай больше о любимой команде и почувствуй себя частью футбольной семьи "Рубин"'
+        img={Ruby3}
+        color='red'
+        button={{ text: 'Скачать приложение FC Rubin AR', link: '/download-app' }}
+      />
+
+  </div>
+  )
+}
+
+interface SlideProps {
+  active: boolean
+  title: string
+  text: string
+  img: string
+  color: 'green' | 'red' | 'yellow'
+  button: { text: string, link: string }
+}
+const Slide = ({ active, title, text, img, color, button }: SlideProps) => {
+
+  const navigate = useNavigate()
+
+  return (
+    <div className={classNames(c.slide, c[color], active ? c._active : '')}>
+      <div className={c.left}>
+        <div className={c.text_wrapper}>
+          <h1>{title}</h1>
+          <p>{text}</p>
+        </div>
+        <button className='white_button' onClick={() => navigate(button.link)} >
+          {button.text}
+        </button>
+      </div>
+      <div className={c.right}>
+        <img src={img} />
+      </div>
+    </div>
+  )
+}
 
 export default MainPage;
