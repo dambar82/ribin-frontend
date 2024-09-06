@@ -5,11 +5,10 @@ interface ActiveUserProps {
     image: string;
     name: string;
     surname: string;
-    level: number;
     points: number
 }
 
-const ActiveUserCard = ({image, name, surname, level, points}: ActiveUserProps) => {
+const ActiveUserCard = ({image, name, surname, points}: ActiveUserProps) => {
     return (
         <div className={styles.card}>
             <div className={styles.card_image}>
@@ -20,12 +19,12 @@ const ActiveUserCard = ({image, name, surname, level, points}: ActiveUserProps) 
                     {name} {surname}
                 </div>
                 <div className={styles.card_info_numbers}>
-                    <div className={styles.numbersBlock}>
+                    {/* <div className={styles.numbersBlock}>
                         <span>Уровень</span>
                         <div>
                             {level}
                         </div>
-                    </div>
+                    </div> */}
                     <div className={styles.numbersBlock}>
                         <span>Рубиков</span>
                         <div>

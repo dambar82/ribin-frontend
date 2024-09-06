@@ -126,13 +126,13 @@ const UsersFilter = () => {
             </div>
             <div className={`section`}>
                 <div className='section__header'>
-                    <div className='section__title'>Результатов</div>
+                    <div className='section__title'>Пользователей</div>
                     <div className='section__counter'>{filteredPeople.length}</div>
                 </div>
                 <div className={`section__body`}>
                     <Grid totalItems={filteredPeople.length}>
                         {filteredPeople && filteredPeople.map((user: User) => (
-                            <FoundUserCard key={user.id} image={user.avatar} name={user.name} surname={user.surname} level={user.level} id={user.id}/>
+                            <FoundUserCard key={user.id} image={user.avatar} name={user.name} surname={user.surname} level={user.level} rubick={user.rubick} id={user.id}/>
                         ))}
                     </Grid>
                 </div>

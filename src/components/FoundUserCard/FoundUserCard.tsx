@@ -9,6 +9,7 @@ interface FoundUserCardProps {
     name: string;
     surname: string;
     level: number;
+    rubick: number;
     id: number;
 }
 
@@ -18,7 +19,7 @@ const convertMillisecondsToYears = (milliseconds: number): number => {
     return Math.floor(milliseconds / millisecondsInYear);
 };
 
-const FoundUserCard = ({image, name, surname, id, level }: FoundUserCardProps) => {
+const FoundUserCard = ({image, name, surname, rubick, id, level }: FoundUserCardProps) => {
 
     const dispatch = useAppDispatch();
 
@@ -38,7 +39,7 @@ const FoundUserCard = ({image, name, surname, id, level }: FoundUserCardProps) =
                             </h2>
                         </div>
                         <div className={styles.level}>
-                            Уровень <span>{level}</span>
+                            Рубиков <span>{rubick}</span>
                         </div>
                     </div>
                     {/*<div className={`action_button`} onClick={handleFriendAdd}>*/}

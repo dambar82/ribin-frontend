@@ -342,7 +342,7 @@ const MainPage: React.FC = () => {
                 <div className="section__body">
                     <div className={styles.users__content}>
                         {people.slice(0, 5).map(item => (
-                        <ActiveUserCard key={item.id} image={item.avatar} name={item.name} surname={item.surname} level={item.level} points={item.score}/>
+                        <ActiveUserCard key={item.id} image={item.avatar} name={item.name} surname={item.surname} points={item.rubick}/>
                         ))}
                     </div>
                 </div>
