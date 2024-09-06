@@ -145,6 +145,13 @@
     &__clients {
         display: flex;
     }
+    &__client_wrapper {
+      display: grid;
+      justify-items: center;
+      div {
+        margin-right: -3px!important;
+      }
+    }
     &__client {
         border: 4px solid #F8F8F8;
         border-radius: 50%;
@@ -503,4 +510,12 @@
     font-size: 24px;
     font-weight: 500;
   }
+}
+
+.joined_button {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background-color: var(--black);
+  pointer-events: none;
 }

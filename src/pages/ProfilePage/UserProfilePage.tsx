@@ -9,6 +9,7 @@ import {useEffect, useState} from "react";
 import {fetchPostsByUserId} from "../../store/postSlice";
 import {fetchPeople, sendFriendRequest} from "../../store/peopleSlice";
 import {User} from "../../store/userSlice";
+import { classNames } from "../../shared/utils"
 
 const UserProfilePage = () => {
     const dispatch = useAppDispatch();
@@ -87,9 +88,17 @@ const UserProfilePage = () => {
                                             <span>Написать сообщение</span>
                                         </button>
                                         </Link>
-                                        <button className="button button--main" type="button" onClick={handleFriendAdd}>
+                                        {currentUser.friends.find(el => el.id === user.id)
+                                        ?
+                                          <button className={classNames('button', 'button--main', styles.added_friend_button)} type="button" >
+                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M20 6L9 17L4 12" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                            <span>В друзьях</span>
+                                          </button>
+                                        :
+                                          <button className="button button--main" type="button" onClick={handleFriendAdd}>
                                             <span>Добавить в друзья</span>
-                                        </button>
+                                          </button>
+                                        }
                                     </div>
                                 )
                             }

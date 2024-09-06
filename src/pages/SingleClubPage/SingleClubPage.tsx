@@ -103,9 +103,9 @@ const SingleClubPage = () => {
                               </Button>
                             }
                             { !isAdmin &&
-                              !club.clients?.some(el => el.id === id) &&
                                 <JoinTheClubButton
                                   club_id={club.id}
+                                  joined={club.clients?.some(el => el.id === id)}
                                 >
                                   Вступить в клуб
                                 </JoinTheClubButton>
@@ -123,18 +123,29 @@ const SingleClubPage = () => {
                                 <div className={c.author__name}>{club.created_by?.name} {club.created_by?.surname}</div>
                             </div>
                             <div className={c.clubInfo__clients}>
-                                {club.clients?.map((client, i) => (
-                                  <div key={i} className={c.clubInfo__client}>
-                                    <img src={'https://api-rubin.multfilm.tatar/storage/'+client?.avatar} />
+                                {club.clients.length > 1 &&
+                                  club.clients?.map((client, i) => (
+                                    <div key={i} className={c.clubInfo__client}>
+                                      <img src={'https://api-rubin.multfilm.tatar/storage/'+client?.avatar} />
+                                    </div>
+                                  ))
+                                }
+                                {club.clients.length === 1 &&
+                                  <div className={c.clubInfo__client_wrapper} >
+                                    <div className={c.clubInfo__client}>
+                                      <img src={'https://api-rubin.multfilm.tatar/storage/'+club.clients[0]?.avatar} />
+                                    </div>
+                                    <span>{club.clients[0]?.name}</span>
                                   </div>
-                                ))}
+                                }
                             </div>
                         </div>
                     </div>
 
                 </div>
             </section>
-            <section className="section">
+            {club.events?.length > 0 &&
+              <section className="section">
                 <div className='section__header'>
                     <h2 className='section__title'>Мероприятия</h2>
                     <div className='section__counter'>{club.events?.length}</div>
@@ -165,7 +176,8 @@ const SingleClubPage = () => {
                   ))}
 
                 </div>
-            </section>
+              </section>
+            }
             <section className={`section ${c.feed}`}>
                 <div className="section__header">
                     <h2 className="section__title">Лента клуба</h2>

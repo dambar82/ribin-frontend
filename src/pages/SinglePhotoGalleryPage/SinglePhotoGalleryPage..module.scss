@@ -175,7 +175,7 @@
 }
 
 .photogallery_slide {
-  // height: 80vh;
+  height: 80vh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -185,7 +185,7 @@
   // opacity: 0!important;
 
   @media (max-width: 1400px) {
-      // height: 100vh;
+      height: max-content;
   }
 
   &:global(.swiper-slide-visible) {
