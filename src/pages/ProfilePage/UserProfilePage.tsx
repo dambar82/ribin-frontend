@@ -82,9 +82,11 @@ const UserProfilePage = () => {
                                     </div>
                                     ) : (
                                     <div className="big-card__actions">
+                                        <Link to={`/chat/${id}`}>
                                         <button className="button button--main-outlined" type="button">
                                             <span>Написать сообщение</span>
                                         </button>
+                                        </Link>
                                         <button className="button button--main" type="button" onClick={handleFriendAdd}>
                                             <span>Добавить в друзья</span>
                                         </button>
