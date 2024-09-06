@@ -11,31 +11,31 @@ const achievements = [
     {
         title: 'Экскурсия по базе 20 детей (2 раза/мес)',
         image: '/images/excursion.png',
-        price: 2000,
+        price: 10000,
         closed: true
     },
     {
         title: 'Видеозвонок от игрока 5 мин (10 шт)',
         image: '/images/видеозвонок.png',
-        price: 2000,
+        price: 18000,
         closed: true
     },
     {
         title: 'День с игроком на базе (10 шт)',
         image: '/images/day.png',
-        price: 2000,
+        price: 20000,
         closed: true
     },
     {
-        title: 'Открытый урок в школе с футболистом',
+        title: 'Открытый урок в школе с футболистом (10 шт)',
         image: '/images/lesson.png',
-        price: 4500,
+        price: 18000,
         closed: true
     },
     {
         title: 'Посещение открытой тренировки (50 шт)',
         image: 'images/training.png',
-        price: 4500,
+        price: 10000,
         closed: true
     },
     {
@@ -77,7 +77,7 @@ const achievements = [
     {
         title: 'Брелок',
         image: '/images/брелъъок.png',
-        price: 700,
+        price: 300,
         closed: true
     },
     {
@@ -95,19 +95,19 @@ const achievements = [
     {
         title: 'Кепка',
         image: '/images/кепка.png',
-        price: 2000,
+        price: 4500,
         closed: true
     },
     {
         title: 'Футболка',
         image: '/images/футболка.png',
-        price: 2000,
+        price: 10000,
         closed: true
     },
     {
         title: 'Шапка',
         image: '/images/шапка.png',
-        price: 2000,
+        price: 4500,
         closed: true
     },
     {
@@ -125,7 +125,7 @@ const achievements = [
     {
         title: 'Магнит',
         image: '/images/Магнит.png',
-        price: 700,
+        price: 300,
         closed: true
     },
 ]
