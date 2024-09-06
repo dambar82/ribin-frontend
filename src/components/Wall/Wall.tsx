@@ -42,7 +42,7 @@ const User = ({avatar, name, surname, level}: IUser) => {
             </div>
             <div className={styles.user__name}>{name} {surname}</div>
             <div className={styles.user__level}>
-                <span>Уровень</span><span>{level}</span>
+                <span>Рубиков</span><span>{level}</span>
             </div>
         </div>
     )
@@ -383,7 +383,7 @@ const Wall = ({type, posts, editable = true, clubId}: IWall) => {
                                                 avatar={user.avatar}
                                                 name={user.name}
                                                 surname={user.surname}
-                                                level={0}
+                                                level={user.rubick}
                                             />
                                         </Link>
                                     </li>
