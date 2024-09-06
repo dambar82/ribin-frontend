@@ -37,6 +37,9 @@
         gap: 12px;
     }
     &__text {
+        a {
+            color: var(--main-color);
+        }
         p {
             font-size: 24px;
             font-weight: 400;

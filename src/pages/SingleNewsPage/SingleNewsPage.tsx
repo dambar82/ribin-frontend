@@ -57,6 +57,7 @@ const SingleNewsPage = () => {
         }
     }, [singleNews, news, user]);
 
+
     useEffect(() => {
         if (status === 'idle') {
             dispatch(fetchNewsAndNewsBack());

@@ -107,6 +107,7 @@
   &_info {
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
     row-gap: 20px;
     p {
       font-family: Raleway;
