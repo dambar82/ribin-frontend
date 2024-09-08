@@ -14,6 +14,7 @@ import {useSelector} from "react-redux";
 import {RootState} from "../../store/store";
 import {fetchPeople} from "../../store/peopleSlice";
 import {Link} from "react-router-dom";
+import { getMostActiveUsers } from '../../shared/utils'
 
 
 interface IWall {
@@ -376,7 +377,8 @@ const Wall = ({type, posts, editable = true, clubId}: IWall) => {
                         <div className={styles.wall__users}>
                             <div className={styles.wall__usersTitle}>Популярные пользователи</div>
                             <ul className={styles.wall__usersList}>
-                                { people.slice(0, 5).map((user, index) => (
+
+                                {getMostActiveUsers(people, 5).map((user, index) => (
                                     <li key={user.name + index}>
                                         <Link to={`/user/${user.id}`}>
                                             <User
@@ -388,6 +390,7 @@ const Wall = ({type, posts, editable = true, clubId}: IWall) => {
                                         </Link>
                                     </li>
                                 ))}
+                                
                             </ul>
                         </div>
                     </div> : null

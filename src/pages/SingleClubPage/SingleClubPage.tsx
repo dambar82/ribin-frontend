@@ -144,7 +144,7 @@ const SingleClubPage = () => {
 
                 </div>
             </section>
-            {club.events?.length > 0 &&
+            {(club.events?.length > 0 || isAdmin) &&
               <section className="section">
                 <div className='section__header'>
                     <h2 className='section__title'>Мероприятия</h2>

@@ -5,7 +5,9 @@ export type TCreateClubRequest = {
   name: string
   description: string
 }
-export type TCreateClubResponse = Clubs
+export type TCreateClubResponse = {
+  data: Clubs
+}
 
 export type TGetClubRequest = {
   id: string

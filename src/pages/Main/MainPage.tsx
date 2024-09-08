@@ -34,10 +34,11 @@ import PostCard from '../../components/PostCard/PostCard';
 import ClubCard from '../../components/ClubCard/ClubCard';
 import {fetchPosts} from "../../store/postSlice";
 import {fetchPeople} from "../../store/peopleSlice";
-import { arrayFromTo, classNames } from '../../shared/utils'
+import { arrayFromTo, classNames, getMostActiveUsers } from '../../shared/utils'
 import {MemoryGame} from "../../components/MemoryGame/MemoryGame";
 import kazanorgsintez from '../../images/svg/Казань Оргсинтез.svg';
 import neftehim from '../../images/svg/Нижнекамск нефтехим.svg';
+import { User } from '../../store/userSlice'
 
 const sponsors = [
     kazanorgsintez, neftehim
@@ -341,7 +342,7 @@ const MainPage: React.FC = () => {
                 </div>
                 <div className="section__body">
                     <div className={styles.users__content}>
-                        {people.slice(0, 5).map(item => (
+                        {getMostActiveUsers(people, 5).map(item => (
                         <ActiveUserCard key={item.id} image={item.avatar} name={item.name} surname={item.surname} points={item.rubick}/>
                         ))}
                     </div>

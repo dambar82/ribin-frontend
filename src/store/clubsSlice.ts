@@ -40,7 +40,7 @@ export const fetchClubs = createAsyncThunk('clubs/fetchClubs', async () => {
 export const createClub = createAsyncThunk('clubs/createClubs', async ( sendObj: TCreateClubRequest ) => {
   try {
     const response = await $api.post<TCreateClubResponse>('/api/club', sendObj);
-    return response.data
+    return response.data.data
   } catch (error) {
     console.log(error);
     return error?.response.data
@@ -104,7 +104,7 @@ const clubsSlice = createSlice({
                 state.error = action.error.message || null;
             })
 
-            .addCase(createClub.fulfilled, (state, action: PayloadAction<TCreateClubResponse>): any => {
+            .addCase(createClub.fulfilled, (state, action: PayloadAction<TCreateClubResponse['data']>): any => {
               console.log(action.payload?.id);
               if ( !action.payload?.id ) {
                 return

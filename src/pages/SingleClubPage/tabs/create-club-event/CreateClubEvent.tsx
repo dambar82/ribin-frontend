@@ -302,7 +302,8 @@ const CreateClubEvent = ({ club, setActiveTab }: CreateClubEventProps) => {
             <div className={c.address_wrapper} >
               <div className={c.header} >
                 <span>Место проведения</span>
-                <div>
+                {/* Логика мероприятия //////////////////////////////////////////////// */}
+                {/* <div>
                   <span>На карте</span>
                   <button
                     type='button'
@@ -311,7 +312,8 @@ const CreateClubEvent = ({ club, setActiveTab }: CreateClubEventProps) => {
                   >
                     <span></span>
                   </button>
-                </div>
+                </div> */}
+                {/* Логика мероприятия //////////////////////////////////////////////// */}
               </div>
 
               <div>

@@ -189,14 +189,16 @@ const SingleEventPage = () => {
                         </div>
                     </div>
                 </div>
-                <div className={styles.eventPage_Deck}>
+                {/* Логика мероприятия //////////////////////////////////////////////// */}
+                {/* <div className={styles.eventPage_Deck}>
                     <h2 className={styles.eventPage_regularHeader}>
                         Расположение
                     </h2>
                     <div className={styles.mapWrapper}>
                         <Map coordinates={event.coordinates ? event.coordinates : [55.783063, 49.119782]}></Map>
                     </div>
-                </div>
+                </div> */}
+                {/* Логика мероприятия //////////////////////////////////////////////// */}
                 {event.source?.length > 0 &&
                   <div className={styles.eventPage_Deck}>
                     <h2 className={styles.eventPage_regularHeader}>

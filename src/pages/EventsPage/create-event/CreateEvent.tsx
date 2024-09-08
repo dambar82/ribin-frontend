@@ -247,7 +247,8 @@ const CreateEvent = ({ setActiveTab }: CreateEventProps) => {
             <div className={c.address_wrapper} >
               <div className={c.header} >
                 <span>Место проведения</span>
-                <div>
+                {/* Логика мероприятия //////////////////////////////////////////////// */}
+                {/* <div>
                   <span>На карте</span>
                   <button
                     type='button'
@@ -256,7 +257,8 @@ const CreateEvent = ({ setActiveTab }: CreateEventProps) => {
                   >
                     <span></span>
                   </button>
-                </div>
+                </div> */}
+                {/* Логика мероприятия //////////////////////////////////////////////// */}
               </div>
 
               <div>
