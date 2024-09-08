@@ -95,7 +95,6 @@ const SettingsPage = () => {
         }
     };
 
-
     const onSubmit = async ( e: React.FormEvent<HTMLFormElement> ) => {
       e.preventDefault()
 
@@ -147,9 +146,14 @@ const SettingsPage = () => {
                   {successMessage && <p className={styles.success_message} >{successMessage}</p>}
                   {errorMessage && <p className={styles.error_message} >{errorMessage}</p>}
 
-                  <div className="form__body">
-                    <div className="form__column">
-                        <div className="form-control">
+                  <div className={styles.form_body}>
+                    
+                    <div className={classNames(styles.column, styles.left_column)} >
+
+                        <b className={styles.column_title} >Личные данные</b>
+                        <hr />
+
+                        <div className="form-control" >
                             <div className="form-control__label">Имя</div>
                             <input
                               className="form-control__field"
@@ -160,7 +164,7 @@ const SettingsPage = () => {
                               onChange={e => setName(e.target.value)}
                             />
                         </div>
-                        <div className="form-control">
+                        <div className="form-control" >
                             <div className="form-control__label">Фамилия</div>
                             <input
                               className="form-control__field"
@@ -201,28 +205,6 @@ const SettingsPage = () => {
                               <svg width="23" height="22" viewBox="0 0 23 22" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7.83203 1.83337V5.50004" stroke="#2A2A2A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/><path d="M15.168 1.83337V5.50004" stroke="#2A2A2A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/><path d="M17.9167 3.66663H5.08333C4.07081 3.66663 3.25 4.48744 3.25 5.49996V18.3333C3.25 19.3458 4.07081 20.1666 5.08333 20.1666H17.9167C18.9292 20.1666 19.75 19.3458 19.75 18.3333V5.49996C19.75 4.48744 18.9292 3.66663 17.9167 3.66663Z" stroke="#2A2A2A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/><path d="M3.25 9.16663H19.75" stroke="#2A2A2A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
                             </div>
                         </div>
-                        <div className={`${styles.form__control} form-control`}>
-                            <div className="form-control__label">Название школы</div>
-                            <input
-                              className="form-control__field"
-                              type="text"
-                              placeholder={user.school}
-                              autoComplete="off"
-                              value={school}
-                              onChange={e => setSchool(e.target.value)}
-                            />
-                        </div>
-                        <div className={`${styles.form__control} form-control`}>
-                            <div className="form-control__label">Номер школы</div>
-                            <input
-                              className="form-control__field"
-                              type="number"
-                              placeholder={''+(user.school_number||'')}
-                              autoComplete="off"
-                              value={schoolNumber}
-                              onChange={e => setSchoolNumber(e.target.value)}
-                            />
-                        </div>
                         {districtOptions && (
                             <div className={`${styles.form__control} form-control`}>
                                 <div className="form-control__label">Населенный пункт</div>
@@ -245,8 +227,37 @@ const SettingsPage = () => {
                                 </select>
                             </div>
                         )}
+                        <div className={styles.school_wrapper} >
+                          <div className={`${styles.form__control} form-control`}>
+                              <div className="form-control__label">Название школы и номер школы</div>
+                              <input
+                                className="form-control__field"
+                                type="text"
+                                placeholder={user.school}
+                                autoComplete="off"
+                                value={school}
+                                onChange={e => setSchool(e.target.value)}
+                              />
+                          </div>
+                          <div className={`${styles.form__control} form-control`}>
+                              <div className="form-control__label" style={{ opacity: 0 }} >№</div>
+                              <div>
+                                <input
+                                  className="form-control__field"
+                                  type="number"
+                                  placeholder={''+(user.school_number||'')}
+                                  autoComplete="off"
+                                  value={schoolNumber}
+                                  onChange={e => setSchoolNumber(e.target.value)}
+                                />
+                              </div>
+                          </div>
+                        </div>
                     </div>
-                    <div className="form__column">
+                    <div className={styles.column}>
+
+                      <b className={styles.column_title} >Личные данные</b>
+                      <hr />
 
                         <div className={`${styles.form__control} form-control`}>
                             <div className="form-control__label">Почта</div>
@@ -273,6 +284,7 @@ const SettingsPage = () => {
                                 { password ? <img width={20} src={ hidePassword ? hidePasswordIcon : showPasswordIcon } alt="" onClick={() => setHidePassword(state => !state)}/> : null }
                             </div>
                         </div>
+                        <hr />
                         <button className={styles.deleteAccout} onClick={handleDeleteClick}>Удалить аккаунт</button>
                         {/* <div className={`${styles.form__control} form-control`}>
                             <div className="form-control__label">Повторите пароль</div>
