@@ -1,24 +1,35 @@
 import React, {useEffect} from 'react';
-import './Notification.css';
+import styles from "./Notification.module.scss";
+import closeNotification from "../../images/svg/closeNotification.svg";
 
-const Notification = ({ sender, message, onClose }) => {
+const NotificationChat = ({ sender }) => {
 
-    useEffect(() => {
-        const timer = setTimeout(() => {
-            onClose();
-        }, 5000); // Уведомление исчезает через 5 секунд
+    const onClose = () => {
 
-        return () => clearTimeout(timer);
-    }, [onClose]);
+    }
 
     return (
-        <div className="notification">
-            <p>
-                <strong>{sender}:</strong> {message}
-            </p>
-            <button onClick={onClose}>Закрыть</button>
+        <div className={styles.notification} style={{position: 'fixed', bottom: '20px', right: '20px', zIndex: 99}}>
+            <div className={styles.avatar}>
+                <img src='/images/cap.png' alt=""/>
+            </div>
+            <div className={styles.mainContent}>
+                <p>У вас новое сообщение от <span>{sender.name}</span>. Проверьте диалог и не забудьте ответить.</p>
+                <div style={{display: 'flex', gap: '12px'}}>
+                    <button className={styles.acceptButton}>
+                        Ответить
+                    </button>
+                    <button className={styles.declineButton}>
+                        Отклонить
+                    </button>
+                </div>
+            </div>
+            <img
+                onClick={onClose}
+                style={{display: 'block', cursor: "pointer", marginBottom: 'auto'}}
+                src={closeNotification} alt=""/>
         </div>
     );
 };
 
-export default Notification;
+export default NotificationChat;
