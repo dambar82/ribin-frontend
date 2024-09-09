@@ -181,30 +181,30 @@ const AchievementsPage = () => {
                             <span>Рубиков</span>
                             <span>{user.rubick}</span>
                         </div>
-                        <div className={styles.promo}>
-                            <div className={styles.promo_logo}>
-                                <img src="/images/rubin%20logo.png" alt=""/>
-                            </div>
-                            <div className={styles.promo_info}>
-                                <h2>Билет на матч</h2>
-                                <div className={styles.promo_info_button}>
-                                    Бесплатно
-                                </div>
-                            </div>
-                            <div className={styles.promo_code}>
-                                <div className={styles.promo_code_copy}>
-                                    <p ref={promo}>RBN2024WIN</p>
-                                    <div className={styles.promo_code_copy_round} onClick={copyToClipboard}>
-                                        <img src={copy} alt=""/>
-                                    </div>
-                                </div>
-                                <Link to='https://store.rubin-kazan.ru' target='_blank'>
-                                    <div className={styles.promo_code_go}>
-                                        <img src={gosomewhere} alt=""/>
-                                    </div>
-                                </Link>
-                            </div>
-                        </div>
+                        {/*<div className={styles.promo}>*/}
+                        {/*    <div className={styles.promo_logo}>*/}
+                        {/*        <img src="/images/rubin%20logo.png" alt=""/>*/}
+                        {/*    </div>*/}
+                        {/*    <div className={styles.promo_info}>*/}
+                        {/*        <h2>Билет на матч</h2>*/}
+                        {/*        <div className={styles.promo_info_button}>*/}
+                        {/*            Бесплатно*/}
+                        {/*        </div>*/}
+                        {/*    </div>*/}
+                        {/*    <div className={styles.promo_code}>*/}
+                        {/*        <div className={styles.promo_code_copy}>*/}
+                        {/*            <p ref={promo}>RBN2024WIN</p>*/}
+                        {/*            <div className={styles.promo_code_copy_round} onClick={copyToClipboard}>*/}
+                        {/*                <img src={copy} alt=""/>*/}
+                        {/*            </div>*/}
+                        {/*        </div>*/}
+                        {/*        <Link to='https://store.rubin-kazan.ru' target='_blank'>*/}
+                        {/*            <div className={styles.promo_code_go}>*/}
+                        {/*                <img src={gosomewhere} alt=""/>*/}
+                        {/*            </div>*/}
+                        {/*        </Link>*/}
+                        {/*    </div>*/}
+                        {/*</div>*/}
                     </div>
                     <div className={styles.awards_grid}>
                         {sortedAchievements.map(item => (
