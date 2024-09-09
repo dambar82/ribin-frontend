@@ -203,6 +203,38 @@
       width: 108px;
     }
   }
+  &_code {
+    display: flex;
+    column-gap: 12px;
+    &_go {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background-color: #91172C;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    &_copy {
+      width: 280px;
+      border-radius: 50px;
+      background-color: #F8F8F8;
+      padding: 6px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      &_round {
+        cursor: pointer;
+        border-radius: 50%;
+        width: 48px;
+        height: 48px;
+        background-color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    }
+  }
 }
 
 @media screen and (max-width: 480px) {

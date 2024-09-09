@@ -1,10 +1,13 @@
-import React, {useState} from 'react';
+import React, {useRef, useState} from 'react';
 import styles from './AchievementsPage.module.scss';
 import Rubick from '../../images/svg/Rubick.svg';
 import close from '../../images/svg/close.svg';
 import {useSelector} from "react-redux";
 import {RootState} from "../../store/store";
 import {Button, Modal} from "../../shared/UI";
+import copy from '../../images/svg/copy.svg';
+import gosomewhere from '../../images/svg/gosomwhere.svg';
+import {Link} from "react-router-dom";
 
 
 const achievements = [
@@ -134,6 +137,8 @@ const AchievementsPage = () => {
     const user = useSelector((state: RootState) => state.user.user);
     const [isModalOpen, setIsModalOpen] = useState(false);
 
+    const promo = useRef();
+
     const handleBuy = (item) => {
         if (user.rubick < item.price) {
             setIsModalOpen(true);
@@ -141,6 +146,21 @@ const AchievementsPage = () => {
             // Логика покупки
         }
     }
+
+    const copyToClipboard = () => {
+        if (promo.current) {
+            // @ts-ignore
+            navigator.clipboard.writeText(promo.current.innerText)
+                .then(() => {
+                    // alert('Код скопирован в буфер обмена!');
+                })
+                .catch(err => {
+                    console.error('Ошибка копирования: ', err);
+                });
+        } else {
+            console.error('Элемент с промокодом не найден.');
+        }
+    };
 
     const sortedAchievements = achievements.sort((a, b) => a.price - b.price);
 
@@ -170,6 +190,19 @@ const AchievementsPage = () => {
                                 <div className={styles.promo_info_button}>
                                     Бесплатно
                                 </div>
+                            </div>
+                            <div className={styles.promo_code}>
+                                <div className={styles.promo_code_copy}>
+                                    <p ref={promo}>RBN2024WIN</p>
+                                    <div className={styles.promo_code_copy_round} onClick={copyToClipboard}>
+                                        <img src={copy} alt=""/>
+                                    </div>
+                                </div>
+                                <Link to='https://store.rubin-kazan.ru' target='_blank'>
+                                    <div className={styles.promo_code_go}>
+                                        <img src={gosomewhere} alt=""/>
+                                    </div>
+                                </Link>
                             </div>
                         </div>
                     </div>
