@@ -142,7 +142,7 @@ const SingleEventPage = () => {
                                 </div>
                                 <div className={styles.clubInfo__clients_wrapper}>
                                     <div className={styles.clubInfo__clients}>
-                                      {event.clients?.map((client) => (
+                                      {event.participants?.map((client) => (
                                         <div key={client.id} className={styles.clubInfo__client}>
                                             <img src={'https://api-rubin.multfilm.tatar/storage/'+client?.avatar} alt="" />
                                         </div>
@@ -153,7 +153,7 @@ const SingleEventPage = () => {
                                             Участники
                                         </span>
                                         <span className={styles.eventClub_info_org} style={{fontFamily: 'Saira'}}>
-                                            +{event.clients?.length || 0}
+                                            +{event.participants?.length || 0}
                                         </span>
                                       </div>
                                 </div>
@@ -161,7 +161,7 @@ const SingleEventPage = () => {
                         </div>
                         <div className={styles.eventInfo_button}>
                         { !isAdmin &&
-                        (event.clients?.some(el => el.id === user.id)
+                        (event.participants?.some(el => el.id === user.id)
                           ?
                             <button
                               className={classNames(styles.eventButton, styles.cancelParticipate)}

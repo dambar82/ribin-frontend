@@ -71,14 +71,19 @@ const eventsSlice = createSlice({
         })
 
         .addCase(participateInEvent.fulfilled, (state, action: PayloadAction<TParticipateInEventResponse & { user: User }>) => {
-          state.event.clients.push(action.payload.user)
+          state.event?.participants.push({
+            id: action.payload.user.id,
+            name: action.payload.user.name,
+            surname: action.payload.user.surname,
+            avatar: action.payload.user.avatar
+          })
         })
 
         .addCase(cancelParticipateInEvent.fulfilled, (state, action: PayloadAction<TCancelParticipateInEventResponse & { user: User }>) => {
           console.log(action.payload);
           
-          const clients = state.event.clients
-          state.event.clients = clients.filter(el => el.id !== action.payload.user.id)
+          const participants = state.event.participants
+          state.event.participants = participants.filter(el => el.id !== action.payload.user.id)
         })
 
         .addCase(createEvent.fulfilled, (state, action: PayloadAction<TCreateEventResponse['data']>) => {
