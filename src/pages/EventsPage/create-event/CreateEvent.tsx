@@ -31,10 +31,10 @@ const CreateEvent = ({ setActiveTab }: CreateEventProps) => {
   const [loadedPhotos, setLoadedPhotos] = useState<{ file: Blob, url: string }[]>([])
   const [startDate, setStartDate] = useState<Date | null>(new Date())
   const [activeToggle, setActiveToggle] = useState(false)
-  const [mapCoordinates, setMapCoordinates] = useState(null);
+  const [mapCoordinates, setMapCoordinates] = useState<[number, number] | null>(null);
   const [activeModal, setActiveModal] = useState<boolean | null>(null)
+  const [errorMessage, setErrorMessage] = useState<string>('')
 
-  const coverRef = useRef<HTMLInputElement>(null)
   const dataPickerEl = useRef(null)
   const timePickerEl = useRef(null)
 
@@ -49,14 +49,28 @@ const CreateEvent = ({ setActiveTab }: CreateEventProps) => {
 
     const data = new FormData(e.currentTarget)
 
-    // if ( loadedCover ) data.set('caption', loadedCover.file, 'caption.png')
+    const name = data.get('name')
+    const description = data.get('description')
+
+    const city = data.get('city')
+    const location = data.get('location')
+
+    if ( !name || !description ) {
+      setErrorMessage('Не все поля заполнены')
+      return
+    }
+
+    if ( (!city || !location) && !mapCoordinates ) {
+      setErrorMessage('Не все поля заполнены')
+      return
+    }
 
     loadedPhotos.forEach((photo, i) => {
       data.append('source[]', photo.file, `photo${i+1}.png`)
     })
 
     if (mapCoordinates) {
-      data.set('coordinates', mapCoordinates);
+      data.set('coordinates', JSON.stringify(mapCoordinates));
     }
 
     const date = `${startDate.getFullYear()}-${('0' + (startDate.getMonth()+1)).slice(-2)}-${('0' + startDate.getDate()).slice(-2)}`
@@ -164,7 +178,7 @@ const CreateEvent = ({ setActiveTab }: CreateEventProps) => {
           <div className={c.fields_wrapper} >
 
             <div className={c.input_wrapper}>
-              <span>Название мероприятия</span>
+              <span>Название мероприятия <span>*</span></span>
               <Input
                 name='name'
                 placeholder='Введите название вашего мероприятия'
@@ -237,7 +251,7 @@ const CreateEvent = ({ setActiveTab }: CreateEventProps) => {
             </div>
 
             <div className={c.input_wrapper}>
-              <span>Описание мероприятия</span>
+              <span>Описание мероприятия <span>*</span></span>
               <Textarea
                 name='description'
                 placeholder='Укажите цель мероприятия, программу, ключевых спикеров или любую другую важную информацию'
@@ -246,7 +260,7 @@ const CreateEvent = ({ setActiveTab }: CreateEventProps) => {
 
             <div className={c.address_wrapper} >
               <div className={c.header} >
-                <span>Место проведения</span>
+                <span>Место проведения <span>*</span></span>
                 {/* Логика мероприятия //////////////////////////////////////////////// */}
                 {/* <div>
                   <span>На карте</span>
@@ -282,6 +296,7 @@ const CreateEvent = ({ setActiveTab }: CreateEventProps) => {
 
           </div>
 
+          {errorMessage && <div style={{ textAlign: 'center', color: 'red', fontSize: '20px' }} >{errorMessage}</div> }
           <Button>Создать мероприятие</Button>
 
         </form>

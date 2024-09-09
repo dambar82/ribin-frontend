@@ -32,10 +32,11 @@ const CreateClubEvent = ({ club, setActiveTab }: CreateClubEventProps) => {
   const [loadedPhotos, setLoadedPhotos] = useState<{ file: Blob, url: string }[]>([])
   const [startDate, setStartDate] = useState<Date | null>(new Date())
   const [activeToggle, setActiveToggle] = useState(false)
+  const [mapCoordinates, setMapCoordinates] = useState<[number, number] | null>(null);
+  const [errorMessage, setErrorMessage] = useState<string>('')
 
   const [activeModal, setActiveModal] = useState<boolean | null>(null)
 
-  const coverRef = useRef<HTMLInputElement>(null)
   const dataPickerEl = useRef(null)
   const timePickerEl = useRef(null)
 
@@ -46,7 +47,21 @@ const CreateClubEvent = ({ club, setActiveTab }: CreateClubEventProps) => {
 
     const data = new FormData(e.currentTarget)
 
-    // if ( loadedCover ) data.set('caption', loadedCover.file, 'caption.png')
+    const name = data.get('name')
+    const description = data.get('description')
+
+    const city = data.get('city')
+    const location = data.get('location')
+
+    if ( !name || !description ) {
+      setErrorMessage('Не все поля заполнены')
+      return
+    }
+
+    if ( (!city || !location) && !mapCoordinates ) {
+      setErrorMessage('Не все поля заполнены')
+      return
+    }
       
     loadedPhotos.forEach((photo, i) => {
       data.append('source[]', photo.file, `photo${i+1}.png`)
@@ -219,7 +234,7 @@ const CreateClubEvent = ({ club, setActiveTab }: CreateClubEventProps) => {
           <div className={c.fields_wrapper} >
 
             <div className={c.input_wrapper}>
-              <span>Название мероприятия</span>
+              <span>Название мероприятия <span>*</span></span>
               <Input
                 name='name'
                 placeholder='Введите название вашего мероприятия'
@@ -292,7 +307,7 @@ const CreateClubEvent = ({ club, setActiveTab }: CreateClubEventProps) => {
             </div>
 
             <div className={c.input_wrapper}>
-              <span>Описание мероприятия</span>
+              <span>Описание мероприятия <span>*</span></span>
               <Textarea
                 name='description'
                 placeholder='Укажите цель мероприятия, программу, ключевых спикеров или любую другую важную информацию'
@@ -301,7 +316,7 @@ const CreateClubEvent = ({ club, setActiveTab }: CreateClubEventProps) => {
 
             <div className={c.address_wrapper} >
               <div className={c.header} >
-                <span>Место проведения</span>
+                <span>Место проведения <span>*</span></span>
                 {/* Логика мероприятия //////////////////////////////////////////////// */}
                 {/* <div>
                   <span>На карте</span>
@@ -337,6 +352,7 @@ const CreateClubEvent = ({ club, setActiveTab }: CreateClubEventProps) => {
 
           </div>
 
+          {errorMessage && <div style={{ textAlign: 'center', color: 'red', fontSize: '20px' }} >{errorMessage}</div> }
           <Button>Создать мероприятие</Button>
 
         </form>
