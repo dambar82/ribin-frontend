@@ -201,9 +201,9 @@ const Wall = ({type, posts, editable = true, clubId}: IWall) => {
                                   >
                                   </textarea>
                                     <div className={styles.textarea_wrapper_low}>
-                                        {
-                                            files.length <= MAX_COUNT_FILES_IN_FORM && textareaValue.length > 0 &&
-                                            <div className={styles.wall__feedFormFileField}
+                                        {/*{*/}
+                                        {/*    files.length <= MAX_COUNT_FILES_IN_FORM && textareaValue.length > 0 &&*/}
+                                            <div className={`${styles.wall__feedFormFileField} ${files.length <= MAX_COUNT_FILES_IN_FORM && textareaValue.length > 0 ? styles.show : ''}`}
                                                  onClick={() => fileInputRef.current?.click()}
                                             >
                                                 <input type='file' id='file' accept='image/*,video/*'
@@ -213,22 +213,22 @@ const Wall = ({type, posts, editable = true, clubId}: IWall) => {
                                                     <img src={attachmentIcon} alt=''/>
                                                 </label>
                                             </div>
-                                        }
+                                        {/*}*/}
                                         {
                                             symbols && (
-                                                <div className={styles.symbols_message}>
+                                                <div className={`${styles.symbols_message} ${symbols ? styles.show : ''}`}>
                                                     Недостаточно символов для отправки сообщения
                                                 </div>
                                             )
                                         }
-                                        {
-                                            textareaValue.length < 60 && textareaValue.length > 0 && (
-                                                <span className={`${styles.symbol_counter} ${symbols && styles.symbol_counterRED}`}>{textareaValue.length}/60</span>
-                                            )
-                                        }
-                                        {textareaValue.length > 0 && (
-                                            <Button className={styles.submit_button}>Отправить</Button>
-                                        )}
+                                        {/*{*/}
+                                        {/*    textareaValue.length < 60 && textareaValue.length > 0 && (*/}
+                                                <span className={`${styles.symbol_counter} ${symbols && styles.symbol_counterRED} ${textareaValue.length < 60 && textareaValue.length > 0 ? styles.show : ''}`}>{textareaValue.length}/60</span>
+                                        {/*    )*/}
+                                        {/*}*/}
+                                        {/*{textareaValue.length > 0 && (*/}
+                                            <Button className={`${styles.submit_button} ${textareaValue.length > 0 ? styles.show : ''}`}>Отправить</Button>
+                                        {/*)}*/}
                                     </div>
                                 </div>
                                 <div className={styles.wall__feedFormFile}>
