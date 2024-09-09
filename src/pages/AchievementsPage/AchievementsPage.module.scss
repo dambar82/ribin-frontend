@@ -108,7 +108,8 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    row-gap: 20px;
+    height: 100%;
+    max-height: 108px;
     p {
       font-family: Raleway;
       font-size: 24px;
@@ -193,6 +194,10 @@
     justify-content: space-between;
     flex-direction: column;
     row-gap: 14px;
+    h2 {
+      font-size: 28px;
+      line-height: 32px;
+    }
     &_button {
       font-size: 16px;
       line-height: 20px;
