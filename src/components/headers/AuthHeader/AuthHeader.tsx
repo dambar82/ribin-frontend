@@ -130,7 +130,7 @@ const AuthHeader = () => {
                         <div className={`profile_button_avatar`}>
                             <img src={user.avatar} alt=""/>
                         </div>
-                        <span>{user.name}</span>
+                        <span className={styles.userName}>{user.name}</span>
                         {activeSubMenu === 'profile' ? (
                             <img src={buttonArrowUp} alt=""/>
                         ) : (

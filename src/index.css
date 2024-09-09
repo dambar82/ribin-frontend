@@ -816,6 +816,7 @@ li {
   font-weight: 500;
   line-height: 24px;
   text-align: left;
+  border: 1px solid red;
 }
 
 .cabinet_button {
