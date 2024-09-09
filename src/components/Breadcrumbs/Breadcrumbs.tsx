@@ -14,8 +14,7 @@ const Breadcrumbs = ({ currentPageName }: BreadcrumbsProps) => {
         '': 'Главная',
         'club-activities': 'Активности клуба',
         'events': 'Мероприятия',
-        'training': 'Тренировка',
-        'event': 'Тренировка'
+        'training': 'Тренировка'
     };
 
     return (
@@ -36,10 +35,10 @@ const Breadcrumbs = ({ currentPageName }: BreadcrumbsProps) => {
                             </li>
                         </>
                     ) : (
-                        <>
+                        breadcrumbNameMap[value] && <>
                             <span>|</span>
                             <li key={to} className="breadcrumb-item">
-                                <Link to={to}>{breadcrumbNameMap[value] || value}</Link>
+                                <Link to={to}>{breadcrumbNameMap[value]}</Link>
                             </li>
                         </>
                     );
