@@ -305,7 +305,7 @@ const ContestPage = () => {
                                     {contest && contest.participants
                                         .slice(0, 20)
                                         .map(participant => (
-                                            <Link to={`/user/${participant.id}`}>
+                                            <Link to={`/user/${participant.client.id}`}>
                                                 <ActiveUserCard
                                                     image={participant.client.avatar}
                                                     name={participant.client.name}

@@ -161,6 +161,17 @@ const AchievementsPage = () => {
                             <span>Рубиков</span>
                             <span>{user.rubick}</span>
                         </div>
+                        <div className={styles.promo}>
+                            <div className={styles.promo_logo}>
+                                <img src="/images/rubin%20logo.png" alt=""/>
+                            </div>
+                            <div className={styles.promo_info}>
+                                <h2>Билет на матч</h2>
+                                <div className={styles.promo_info_button}>
+                                    Бесплатно
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div className={styles.awards_grid}>
                         {sortedAchievements.map(item => (
