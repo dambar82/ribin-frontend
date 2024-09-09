@@ -110,7 +110,9 @@ const clubsSlice = createSlice({
                 return
               }
               state.club = action.payload
-              console.log(action.payload);
+              const clubs = state.clubs
+              clubs.push(action.payload)
+              state.clubs = clubs
             })
 
             .addCase(getClub.fulfilled, (state, action: PayloadAction<TGetClubResponse['data']>) => {
