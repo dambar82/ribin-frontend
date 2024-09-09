@@ -72,7 +72,10 @@ const ContestForm = () => {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-
+        if (files.length < 1 || !workDescription || !urlVideo) {
+            setErrorMessage('Не все поля заполнены')
+            return
+        }
         try {
             await dispatch(sendWorkForContest({
                 description: workDescription,
@@ -119,7 +122,7 @@ const ContestForm = () => {
                             <input
                                 value={urlVideo}
                                 onChange={(e) => setUrlVideo(e.target.value)}
-                                placeholder='Введите ссылку на видео с YouTube, VK и других'
+                                placeholder='Введите ссылку на видео с YouTube, VK и других сайтов'
                                 className={`${styles.description_input} ${styles.description_inputLittle}`}
                             />
                         </div>
@@ -157,10 +160,8 @@ const ContestForm = () => {
                         ))}
                       </div>
                     </div>
-
-                    {errorMessage && <p className={styles.error}>{errorMessage}</p>}
-
                 </div>
+                {errorMessage && <p className={styles.error}>{errorMessage}</p>}
                 <div className={styles.grayPart}>
                     <button className='action_button' type='submit'>
                         Отправить работу
