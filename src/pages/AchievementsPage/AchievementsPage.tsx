@@ -80,7 +80,7 @@ const achievements = [
     {
         title: 'Брелок',
         image: '/images/брелъъок.png',
-        price: 300,
+        price: 700,
         closed: true
     },
     {
@@ -128,7 +128,7 @@ const achievements = [
     {
         title: 'Магнит',
         image: '/images/Магнит.png',
-        price: 300,
+        price: 700,
         closed: true
     },
 ]
