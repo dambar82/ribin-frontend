@@ -152,7 +152,7 @@ const AchievementsPage = () => {
             // @ts-ignore
             navigator.clipboard.writeText(promo.current.innerText)
                 .then(() => {
-                    // alert('Код скопирован в буфер обмена!');
+                    alert('Код скопирован в буфер обмена!');
                 })
                 .catch(err => {
                     console.error('Ошибка копирования: ', err);
