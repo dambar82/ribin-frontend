@@ -80,6 +80,7 @@ const Wall = ({type, posts, editable = true, clubId}: IWall) => {
     const [option, setOption] = useState(optionsMap.public)
     const [searchTerm, setSearchTerm] = useState('')
     const [symbols, setSymbols] = useState(false);
+    const [incorrectWords, setIncorrectWords] = useState(false);
     const textareaRef = useRef(null);
     const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -150,8 +151,16 @@ const Wall = ({type, posts, editable = true, clubId}: IWall) => {
             try {
                 if (type !== 'club') {
                     const newPost = await dispatch(createPost(formData)).unwrap();
-                  //  console.log(newPost);
-                    dispatch(addPost(newPost));
+                    console.log(newPost);
+                    if (newPost !== 'Вы используете не допустимые слова. Измените текст и повторите попытку.') {
+                        dispatch(addPost(newPost));
+                    } else {
+                        setIncorrectWords(true);
+                        setTimeout(() => {
+                            setIncorrectWords(false);
+                        }, 2000)
+                        return
+                    }
                 } else {
                     const newPost = await dispatch(createPostInClub({clubId, formData})).unwrap();
                  //   console.log(newPost);
@@ -167,9 +176,10 @@ const Wall = ({type, posts, editable = true, clubId}: IWall) => {
             setSymbols(true);
             setTimeout(() => {
                setSymbols(false);
-            }, 3000)
+            }, 2000)
         }
     }
+
 
     return (
         <div className={styles.wall}>
@@ -218,6 +228,13 @@ const Wall = ({type, posts, editable = true, clubId}: IWall) => {
                                             symbols && (
                                                 <div className={`${styles.symbols_message} ${symbols ? styles.show : ''}`}>
                                                     Недостаточно символов для отправки сообщения
+                                                </div>
+                                            )
+                                        }
+                                        {
+                                            incorrectWords && (
+                                                <div className={`${styles.symbols_message} ${incorrectWords ? styles.show : ''}`}>
+                                                    Вы используете недопустимые слова. Измените текст и повторите попытку.
                                                 </div>
                                             )
                                         }
