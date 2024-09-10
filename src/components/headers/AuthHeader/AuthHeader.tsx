@@ -1,6 +1,6 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {useSelector} from "react-redux";
-import {NavLink, Link} from "react-router-dom";
+import {NavLink, Link, useNavigate} from "react-router-dom";
 
 import {useAppDispatch} from "../../../store/hooks";
 import {RootState} from "../../../store/store";
@@ -22,6 +22,7 @@ import blackArrowUp from '../../../images/svg/blackArrowUp.svg';
 import { classNames } from '../../../shared/utils'
 import axios from 'axios'
 import { Logo } from '../../../shared/UI'
+import {selectAward, setAward} from "../../../store/awardSlice";
 
 interface IMenuLink {
     title: string;
@@ -49,10 +50,7 @@ const AuthHeader = () => {
     const clubActivitiesSubMenuRef = useRef(null);
     const profileButtonRef = useRef(null);
     const menuRef = useRef(null);
-
-    useEffect(() => {
-        console.log(user)
-    }, [user])
+    const navigate = useNavigate();
 
     const dispatch = useAppDispatch();
 
@@ -101,6 +99,16 @@ const AuthHeader = () => {
       setActiveMenu(false)
     }
 
+    const goToProfile = () => {
+        window.location.href = `/user/${user.id}`;
+    }
+
+    const award = useSelector(selectAward);
+
+    const handleClick = () => {
+        dispatch(setAward(false));
+    };
+
     return (
         <div className={styles.authHeader}>
             <div className={`${styles.authHeader_up}`}>
@@ -145,7 +153,7 @@ const AuthHeader = () => {
                                     </div>
                                     <span>{user.name}</span>
                                   </div>
-                                    <li>
+                                    <li onClick={goToProfile}>
                                         <NavLink
                                             to={`/user/${user.id}`}
                                             className={({ isActive }) => {
@@ -167,7 +175,7 @@ const AuthHeader = () => {
                                             <span>Сообщения</span>
                                         </NavLink>
                                     </li>
-                                    <li>
+                                    <li onClick={handleClick}>
                                         <NavLink
                                             to={`/awards`}
                                             className={({isActive}) => {
@@ -176,6 +184,9 @@ const AuthHeader = () => {
                                         >
                                             <img src={awards} alt=""/>
                                             <span>Вознаграждения</span>
+                                            {
+                                                award && <div className={styles.awardNotify}>1</div>
+                                            }
                                         </NavLink>
                                     </li>
                                     <li>
