@@ -68,6 +68,8 @@ const Register = () => {
             console.log(res);
             
             if ( res.payload?.token ) {
+               // @ts-ignore
+                ym(98214114,'reachGoal','registration_dnevnik')
               setConfirmEmailModal(true)
             }
             if ( res.payload?.message ) {
