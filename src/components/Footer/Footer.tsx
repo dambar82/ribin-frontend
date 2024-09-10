@@ -93,7 +93,7 @@ const Footer = () => {
                         {/*</div>*/}
                         <div className={styles.footer_links_flex}>
                             <div className={styles.footer_link}>
-                                rubinkids@yandex.ru
+                                rubinkids@rubin-kazan.ru
                             </div>
                         </div>
                         {/*<div className={styles.socialMedia_flex}>*/}
