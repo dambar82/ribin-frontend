@@ -170,6 +170,7 @@ const postSlice = createSlice({
     initialState,
     reducers: {
         addPost: (state, action: any) => {
+            console.log(action.payload)
             state.posts.all = [action.payload, ...state.posts.all]; // Добавляем новый пост в начало массива
             console.log(state.posts.all);
         },
