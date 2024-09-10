@@ -138,6 +138,7 @@ const AchievementsPage = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     const promo = useRef();
+    const [isCopied, setIsCopied] = useState(false);
 
     const handleBuy = (item) => {
         if (user.rubick < item.price) {
@@ -152,7 +153,10 @@ const AchievementsPage = () => {
             // @ts-ignore
             navigator.clipboard.writeText(promo.current.innerText)
                 .then(() => {
-                    alert('Код скопирован в буфер обмена!');
+                    setIsCopied(true);
+                    setTimeout(() => {
+                        setIsCopied(false);
+                    }, 2000); // Длительность анимации в миллисекундах
                 })
                 .catch(err => {
                     console.error('Ошибка копирования: ', err);
@@ -192,7 +196,7 @@ const AchievementsPage = () => {
                                 </div>
                             </div>
                             <div className={styles.promo_code}>
-                                <div className={styles.promo_code_copy}>
+                                <div className={`${styles.promo_code_copy} ${isCopied ? styles.promo_code_copy_Copied : ''}`}>
                                     <p ref={promo}>ШКОЛА</p>
                                     <div className={styles.promo_code_copy_round} onClick={copyToClipboard}>
                                         <img src={copy} alt=""/>

@@ -72,7 +72,7 @@ const ContestForm = () => {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (files.length < 1 || !workDescription || !urlVideo) {
+        if (files.length < 1 || !workDescription) {
             setErrorMessage('Не все поля заполнены')
             return
         }

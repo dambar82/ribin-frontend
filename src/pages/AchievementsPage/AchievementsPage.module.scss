@@ -195,6 +195,7 @@
     flex-direction: column;
     row-gap: 14px;
     h2 {
+      color: #2A2A2A;
       font-size: 28px;
       line-height: 32px;
     }
@@ -228,6 +229,13 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      transition: background-color 0.5s ease, color 0.5s ease;
+      &_Copied {
+        background-color: #d2d0d0;
+        p {
+          font-weight: 500;
+        }
+      }
       &_round {
         cursor: pointer;
         border-radius: 50%;
