@@ -197,6 +197,13 @@ const AchievementsPage = () => {
                             </div>
                             <div className={styles.promo_code}>
                                 <div className={`${styles.promo_code_copy} ${isCopied ? styles.promo_code_copy_Copied : ''}`}>
+                                    {
+                                        isCopied && (
+                                            <div className={styles.promoMessage}>
+                                                Промокод скопирован
+                                            </div>
+                                        )
+                                    }
                                     <p ref={promo}>ШКОЛА</p>
                                     <div className={styles.promo_code_copy_round} onClick={copyToClipboard}>
                                         <img src={copy} alt=""/>
