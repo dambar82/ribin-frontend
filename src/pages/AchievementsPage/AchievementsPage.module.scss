@@ -165,6 +165,73 @@
   translate: -50% -50%;
 }
 
+.modalNotEnough {
+  max-width: 800px !important;
+}
+
+.modalTrade {
+  max-width: 574px !important;
+  padding: 50px !important;
+  .modal_image {
+    width: 326px;
+    height: 326px;
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+  .modal_info {
+    display: flex;
+    flex-direction: column;
+    row-gap: 14px;
+    text-align: left;
+    width: 100%;
+    color: #2A2A2A;
+    h1 {
+      text-align: left;
+    }
+    p {
+      font-size: 20px;
+      line-height: 24px;
+      span {
+        font-family: 'Saira', sans-serif;
+        color: var(--main-color);
+        font-weight: 500;
+        line-height: 24px;
+        column-gap: 6px;
+        img {
+          margin-right: 6px;
+          vertical-align: middle;
+        }
+      }
+    }
+  }
+  .modal_buttons {
+    display: flex;
+    flex-direction: column;
+    row-gap: 12px;
+    width: 100%;
+    .modal_button {
+      cursor: pointer;
+      font-size: 20px;
+      line-height: 24px;
+      width: 100%;
+      padding: 18px;
+      border-radius: 50px;
+      font-weight: 500;
+    }
+    .modal_buttonAccess {
+      color: white;
+      background-color: var(--main-color);
+    }
+    .modal_buttonDecline {
+      color: var(--main-color);
+      border: 2px solid var(--main-color);
+    }
+  }
+}
+
 .modal {
 
   & > div {

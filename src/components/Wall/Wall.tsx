@@ -151,7 +151,6 @@ const Wall = ({type, posts, editable = true, clubId}: IWall) => {
             try {
                 if (type !== 'club') {
                     const newPost = await dispatch(createPost(formData)).unwrap();
-                    console.log(newPost);
                     if (newPost !== 'Вы используете не допустимые слова. Измените текст и повторите попытку.') {
                         dispatch(addPost(newPost));
                     } else {
