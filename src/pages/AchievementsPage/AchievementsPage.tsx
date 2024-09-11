@@ -24,6 +24,7 @@ const AchievementsPage = () => {
     const [promocode, setPromocode] = useState(null);
     const dispatch = useDispatch<AppDispatch>()
     const promo = useRef();
+    const boughtPromo = useRef();
     const [isCopied, setIsCopied] = useState(false);
 
     useEffect(() => {
@@ -55,7 +56,7 @@ const AchievementsPage = () => {
         // @ts-ignore
         const buy = await dispatch(buyAward(data));
         if (buy) {
-            setPromocode(buy.payload.promo_codes);
+            setPromocode(Object.entries(buy.payload.promo_codes)[0][1]);
             setIsTradeModalOpen(false);
             setIsBoughtModal(true);
         } else {
@@ -64,10 +65,10 @@ const AchievementsPage = () => {
         }
     }
 
-    const copyToClipboard = () => {
-        if (promo.current) {
+    const copyToClipboard = (promoParam) => {
+        if (promoParam.current) {
             // @ts-ignore
-            navigator.clipboard.writeText(promo.current.innerText)
+            navigator.clipboard.writeText(promoParam.current.innerText)
                 .then(() => {
                     setIsCopied(true);
                     setTimeout(() => {
@@ -132,7 +133,7 @@ const AchievementsPage = () => {
                                         )
                                     }
                                     <p ref={promo}>ШКОЛА</p>
-                                    <div className={styles.promo_code_copy_round} onClick={copyToClipboard}>
+                                    <div className={styles.promo_code_copy_round} onClick={() => copyToClipboard(promo)}>
                                         <img src={copy} alt=""/>
                                     </div>
                                 </div>
@@ -214,6 +215,19 @@ const AchievementsPage = () => {
                         <p>
                             Скопируйте промокод и воспользуйтесь им на сайте: <a href='https://store.rubin-kazan.ru'>https://store.rubin-kazan.ru</a> для получения бонуса.
                         </p>
+                    </div>
+                    <div className={`${styles.promo_code_copy} ${isCopied ? styles.promo_code_copy_Copied : ''}`} style={{width: '100%'}}>
+                        {
+                            isCopied && (
+                                <div className={styles.promoMessage}>
+                                    Промокод скопирован
+                                </div>
+                            )
+                        }
+                        <p style={{marginBottom: '0'}} ref={boughtPromo}>{promocode}</p>
+                        <div className={`${styles.promo_code_copy_round}`} onClick={() => copyToClipboard(boughtPromo)}>
+                            <img src={copy} alt=""/>
+                        </div>
                     </div>
                 </div>
             </Modal>
