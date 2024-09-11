@@ -162,9 +162,17 @@ const Wall = ({type, posts, editable = true, clubId}: IWall) => {
                     }
                 } else {
                     const newPost = await dispatch(createPostInClub({clubId, formData})).unwrap();
-                 //   console.log(newPost);
                     // @ts-ignore
-                    dispatch(addPost(newPost));
+                    if (newPost !== 'Вы используете не допустимые слова. Измените текст и повторите попытку.') {
+                        // @ts-ignore
+                        dispatch(addPost(newPost));
+                    } else {
+                        setIncorrectWords(true);
+                        setTimeout(() => {
+                            setIncorrectWords(false);
+                        }, 2000)
+                        return
+                    }
                 }
                 setFiles([]);
                 setTextareaValue('');

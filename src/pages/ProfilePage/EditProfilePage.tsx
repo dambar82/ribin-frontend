@@ -174,7 +174,7 @@ const EditProfilePage = () => {
                         <div className="big-card__info-header">
                             <div>
                                 <h1 className="big-card__title">{currentUser.name} {currentUser.surname}</h1>
-                                <div className="big-card__level">Уровень <span>{currentUser.level}</span></div>
+                                <div className="big-card__level">Рубиков <span>{currentUser.rubick}</span></div>
                             </div>
                         </div>
                         <div className="big-card__info-body">

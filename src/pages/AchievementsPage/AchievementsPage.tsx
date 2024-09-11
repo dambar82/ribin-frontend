@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import styles from './AchievementsPage.module.scss';
 import Rubick from '../../images/svg/Rubick.svg';
 import close from '../../images/svg/close.svg';
@@ -9,142 +9,37 @@ import copy from '../../images/svg/copy.svg';
 import gosomewhere from '../../images/svg/gosomwhere.svg';
 import {Link} from "react-router-dom";
 import {buyAward} from "../../store/awardSlice";
+import axios from "axios";
 
-
-const achievements = [
-    {
-        title: 'Экскурсия по базе 20 детей (2 раза/мес)',
-        image: '/images/excursion.png',
-        price: 10000,
-        closed: false
-    },
-    {
-        title: 'Видеозвонок от игрока 5 мин (10 шт)',
-        image: '/images/видеозвонок.png',
-        price: 18000,
-        closed: false
-    },
-    {
-        title: 'День с игроком на базе (10 шт)',
-        image: '/images/day.png',
-        price: 20000,
-        closed: false
-    },
-    {
-        title: 'Открытый урок в школе с футболистом (10 шт)',
-        image: '/images/lesson.png',
-        price: 18000,
-        closed: false
-    },
-    {
-        title: 'Посещение открытой тренировки (50 шт)',
-        image: 'images/training.png',
-        price: 10000,
-        closed: false
-    },
-    {
-        title: 'Видеопоздравление от игрока с днём рождения (30 шт)',
-        image: '/images/birthday.png',
-        price: 18000,
-        closed: false
-    },
-    {
-        title: 'Участие в выведи футболиста',
-        image: '/images/footbaler.png',
-        price: 20000,
-        closed: false
-    },
-    {
-        title: 'Нанесение символического удара (3 шт)',
-        image: '/images/strike.png',
-        price: 20000,
-        closed: false
-    },
-    {
-        title: 'Тренировка на базе с тренером',
-        image: '/images/coachtraining.png',
-        price: 20000,
-        closed: false
-    },
-    {
-        title: 'Объявление стартового состава на игре (2 шт на детском матче)',
-        image: '/images/sostav.png',
-        price: 20000,
-        closed: false
-    },
-    {
-        title: 'Экскурсия по Ак Барс Арене (2 раза/мес)',
-        image: '/images/akbars.png',
-        price: 20000,
-        closed: false
-    },
-    {
-        title: 'Брелок',
-        image: '/images/брелъъок.png',
-        price: 700,
-        closed: false
-    },
-    {
-        title: 'Ручка',
-        image: '/images/Ручка.png',
-        price: 700,
-        closed: false
-    },
-    {
-        title: 'Значок',
-        image: '/images/Значок.png',
-        price: 700,
-        closed: false
-    },
-    {
-        title: 'Кепка',
-        image: '/images/кепка.png',
-        price: 4500,
-        closed: false
-    },
-    {
-        title: 'Футболка',
-        image: '/images/футболка.png',
-        price: 10000,
-        closed: false
-    },
-    {
-        title: 'Шапка',
-        image: '/images/шапка.png',
-        price: 4500,
-        closed: false
-    },
-    {
-        title: 'Кружка',
-        image: '/images/кружка.png',
-        price: 200,
-        closed: false
-    },
-    {
-        title: 'Шарф',
-        image: '/images/шарф.png',
-        price: 2000,
-        closed: false
-    },
-    {
-        title: 'Магнит',
-        image: '/images/Магнит.png',
-        price: 300,
-        closed: false
-    },
-]
+const token = JSON.parse(localStorage.getItem('token') || '0')
 
 const AchievementsPage = () => {
     const user = useSelector((state: RootState) => state.user.user);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isTradeModalOpen, setIsTradeModalOpen] = useState(false);
+    const [isBoughtModal, setIsBoughtModal] = useState(false);
     const [currentItem, setCurrentItem] = useState(null);
+    const [awards, setAwards] = useState(null);
+    const [sortedAwards, setSortedAwards] = useState([]);
+    const [promocode, setPromocode] = useState(null);
     const dispatch = useDispatch<AppDispatch>()
     const promo = useRef();
     const [isCopied, setIsCopied] = useState(false);
 
+    useEffect(() => {
+        const fetchAwards = async () => {
+            const response = await axios.get('https://api-rubin.multfilm.tatar/api/gifts', {
+                headers: { 'Authorization': `Bearer ${token}` }
+            })
+           // console.log(response.data)
+            setAwards(response.data);
+        }
+        fetchAwards();
+    }, [])
+
     const handleBuy = (item) => {
-        if (user.rubick < item.price) {
+        if (item.open === 0) return;
+        if (awards[0] < Number(item.value)) {
             setIsModalOpen(true);
         } else {
             setCurrentItem(item);
@@ -155,8 +50,18 @@ const AchievementsPage = () => {
     }
 
     const confirmBuy = async (item) => {
-       const buy = await dispatch(buyAward());
-       console.log(buy);
+        const data = new FormData();
+        data.append('giftIds[]', item.id);
+        // @ts-ignore
+        const buy = await dispatch(buyAward(data));
+        if (buy) {
+            setPromocode(buy.payload.promo_codes);
+            setIsTradeModalOpen(false);
+            setIsBoughtModal(true);
+        } else {
+            setIsTradeModalOpen(false);
+            return
+        }
     }
 
     const copyToClipboard = () => {
@@ -177,8 +82,18 @@ const AchievementsPage = () => {
         }
     };
 
+    useEffect(() => {
+        if (awards) {
+            setSortedAwards(awards[1].sort((a, b) => a.value - b.value));
+        }
+    }, awards)
 
-    const sortedAchievements = achievements.sort((a, b) => a.price - b.price);
+    useEffect(() => {
+        console.log(promocode)
+    }, [promocode])
+
+    if (!awards) return <p>Загрузка...</p>
+
 
     return (
         <div className='page'>
@@ -195,7 +110,7 @@ const AchievementsPage = () => {
                         <div className={styles.rubicks}>
                             <img src={Rubick} alt=""/>
                             <span>Рубиков</span>
-                            <span>{user.rubick}</span>
+                            <span>{awards[0]}</span>
                         </div>
                         <div className={styles.promo}>
                             <div className={styles.promo_logo}>
@@ -230,11 +145,11 @@ const AchievementsPage = () => {
                         </div>
                     </div>
                     <div className={styles.awards_grid}>
-                        {sortedAchievements.map(item => (
+                        {sortedAwards.map(item => (
                             <div className={styles.award_card} onClick={() => handleBuy(item)}>
                                 <div className={styles.award_card_image}>
                                     <img className={styles.award_card_image_IMG} src={item.image} alt=""/>
-                                    {item.closed && (
+                                    {item.open === 0 && (
                                         <div className={styles.close_icon}>
                                             <img src={close} alt=""/>
                                         </div>
@@ -242,11 +157,11 @@ const AchievementsPage = () => {
                                 </div>
                                 <div className={styles.award_card_info}>
                                     <p>
-                                        {item.title}
+                                        {item.key}
                                     </p>
                                     <span>
                                         <img src={Rubick} alt=""/>
-                                        {item.price}
+                                        {item.value}
                                     </span>
                                 </div>
                             </div>
@@ -273,7 +188,7 @@ const AchievementsPage = () => {
                     <div className={styles.modal_info}>
                         <h1>Подтвердите обмен</h1>
                         <p>
-                            Вы собираетесь потратить <span><img src={Rubick} alt=""/>{currentItem?.price}</span> рубинчиков. Подтвердите, что хотите получить выбранный предмет в обмен на ваши рубинчики.
+                            Вы собираетесь потратить <span><img src={Rubick} alt=""/>{currentItem?.value}</span> рубинчиков. Подтвердите, что хотите получить выбранный предмет в обмен на ваши рубинчики.
                         </p>
                     </div>
                     <div className={styles.modal_buttons}>
@@ -286,6 +201,19 @@ const AchievementsPage = () => {
                         >
                             Отменить
                         </button>
+                    </div>
+                </div>
+            </Modal>
+            <Modal active={isBoughtModal} setActive={setIsBoughtModal} className={styles.modal} bodyClassName={styles.modalTrade}>
+                <div className={styles.modal_content}>
+                    <div className={styles.modal_image}>
+                        <img src={currentItem?.image} alt=""/>
+                    </div>
+                    <div className={styles.modal_info}>
+                        <h1>Ваш промокод для активации</h1>
+                        <p>
+                            Скопируйте промокод и воспользуйтесь им на сайте: <a href='https://store.rubin-kazan.ru'>https://store.rubin-kazan.ru</a> для получения бонуса.
+                        </p>
                     </div>
                 </div>
             </Modal>
