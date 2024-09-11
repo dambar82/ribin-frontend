@@ -73,6 +73,7 @@ const Post = ({ id, name, surname, avatar, created_by, source, tags, comments, t
     const [isExpanded, setIsExpanded] = useState(false);
     const [isTruncated, setIsTruncated] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
+    const [incorrectWords, setIncorrectWords] = useState(false);
     const contentRef = useRef(null);
 
     const post = useSelector((state: RootState) => state.post.posts[type].find(post => post.id === id));
@@ -114,23 +115,31 @@ const Post = ({ id, name, surname, avatar, created_by, source, tags, comments, t
         try {
             const newPost = await dispatch(createComment({formData, postId: id})).unwrap();
 
-            setPostComments([
-                ...postComments,
-                {
-                    id: newPost.id,
-                    text: newPost.text,
-                    created_at: newPost.created_at,
-                    avatar: newPost.avatar,
-                    created_by: newPost.created_by,
-                    name: newPost.name,
-                    liked_by: [],
-                    likes_count: 0,
-                    child: []
-                }
-            ])
+            if (newPost) {
+                setPostComments([
+                    ...postComments,
+                    {
+                        id: newPost.id,
+                        text: newPost.text,
+                        created_at: newPost.created_at,
+                        avatar: newPost.avatar,
+                        created_by: newPost.created_by,
+                        name: newPost.name,
+                        liked_by: [],
+                        likes_count: 0,
+                        child: []
+                    }
+                ])
 
-            setCommentText('');
-            setShowAllComments(true);
+                setCommentText('');
+                setShowAllComments(true);
+            } else {
+                setIncorrectWords(true);
+                setTimeout(() => {
+                    setIncorrectWords(false);
+                }, 2000)
+                return
+            }
 
         } catch (error) {
             console.error('Ошибка при создании комментария:', error);
@@ -346,6 +355,13 @@ const Post = ({ id, name, surname, avatar, created_by, source, tags, comments, t
                             value={commentText}
                             onChange={(e) => setCommentText(e.target.value)}
                         ></textarea>
+                            {
+                                incorrectWords && (
+                                    <div className={`${styles.symbols_message}`}>
+                                        Вы используете недопустимые слова. Измените текст и повторите попытку.
+                                    </div>
+                                )
+                            }
                             <Button className={styles.submit_button}>Отправить</Button>
                         </div>
                     </form>
