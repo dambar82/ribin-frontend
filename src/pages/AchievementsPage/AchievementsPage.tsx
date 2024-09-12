@@ -66,7 +66,7 @@ const AchievementsPage = () => {
         // @ts-ignore
         const buy = await dispatch(buyAward(data));
         if (buy) {
-            setPromocode(Object.entries(buy.payload.promo_codes)[0][1]);
+            setPromocode(buy.payload.promo_codes.promo_code);
             setIsTradeModalOpen(false);
             setIsBoughtModal(true);
         } else {
