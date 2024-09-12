@@ -67,6 +67,7 @@ export const fetchPostsByClubId = createAsyncThunk('post/fetchPostsByClubId', as
             'Authorization': `Bearer ${token}`
         }
     })
+    console.log(response.data)
     return response.data as PostAnswer;
 })
 

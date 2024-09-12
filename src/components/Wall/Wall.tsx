@@ -114,6 +114,7 @@ const Wall = ({type, posts, editable = true, clubId}: IWall) => {
     }
 
     const filteredPosts = (posts: IPost[]) => {
+        console.log(posts);
         return posts.filter(post => {
             if (!searchTerm) {
                 return true;
