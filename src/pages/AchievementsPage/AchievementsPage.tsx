@@ -242,7 +242,7 @@ const AchievementsPage = () => {
                                                 <img src={copy} alt=""/>
                                             </div>
                                         </div>
-                                        <Link to='https://tickets.rubin-kazan.ru/event?id_event=631' target='_blank'>
+                                        <Link to='https://store.rubin-kazan.ru' target='_blank'>
                                             <div className={styles.promo_code_go}>
                                                 <img src={gosomewhere} alt=""/>
                                             </div>
