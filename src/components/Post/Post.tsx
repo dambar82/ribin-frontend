@@ -208,18 +208,18 @@ const Post = ({ id, name, surname, avatar, created_by, source, tags, comments, t
     return (
         <article className={styles.post}>
             <div className={styles.post__header}>
+                <Link to={`/user/${created_by}`}>
                 <div className={styles.post__mainInfo}>
                     <div className={styles.post__avatar}>
-                        <Link to={`/user/${created_by}`}>
                             {avatar ?
                                 <img src={avatar} alt="" /> :
                                 <img src="/images/club-image.png" alt="" />
                             }
-                        </Link>
                     </div>
                     <div className={styles.post__title}>{name} {surname}</div>
                     <div className={styles.post__createdAt}>{postFormatDate(post.created_at)}</div>
                 </div>
+                </Link>
                 <DropdownMenu deleteClick={handleDeleteClick} editClick={handleEditClick} isAuthor={isAuthor}/>
             </div>
             <div className={styles.post__body}>

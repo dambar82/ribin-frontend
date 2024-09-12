@@ -51,6 +51,7 @@
 }
 
 .author {
+    cursor: pointer;
     display: grid;
     gap: 4px 12px;
     &__avatar {

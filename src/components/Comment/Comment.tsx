@@ -12,6 +12,7 @@ import {RootState} from "../../store/store";
 import likeIconLiked from "../../images/svg/likes_red.svg";
 import {User} from "../../store/userSlice";
 import {fetchPeople} from "../../store/peopleSlice";
+import {Link} from "react-router-dom";
 
 interface IComment {
     id: number;
@@ -50,6 +51,10 @@ const Comment = ({ id, liked_by, text, created_at, likes_count, name, avatar, cr
         console.log('edit comment')
     }
 
+    const goToProfile = () => {
+        window.location.href = `/user/${created_by}`;
+    }
+
     useEffect(() => {
         if (user.user.id === created_by) {
             setIsAuthor(true);
@@ -59,13 +64,13 @@ const Comment = ({ id, liked_by, text, created_at, likes_count, name, avatar, cr
     return (
         <div className={styles.comment}>
             <div className={styles.comment__header}>
-                <div className={`${styles.comment__author} ${styles.author}`}>
-                    <div className={styles.author__avatar}>
-                        <img src={avatar} alt="" />
+                    <div className={`${styles.comment__author} ${styles.author}`} onClick={() => goToProfile()}>
+                        <div className={styles.author__avatar}>
+                            <img src={avatar} alt="" />
+                        </div>
+                        <div className={styles.author__name}>{name}</div>
+                        <div className={styles.author__date}>{postFormatDate(created_at)}</div>
                     </div>
-                    <div className={styles.author__name}>{name}</div>
-                    <div className={styles.author__date}>{postFormatDate(created_at)}</div>
-                </div>
                 <DropdownMenu deleteClick={handleDeleteClick} editClick={handleEditClick} isAuthor={isAuthor}/>
             </div>
             <div className={styles.comment__body}>
