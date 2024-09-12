@@ -12,6 +12,7 @@ import postReducer from './postSlice';
 import eventsReducer from './eventsSlice'
 import quizzesReducer from './quizzesSlice'
 import awardReducer from './awardSlice'
+import friendsReducer from "./friendsSlice";
 
 export const store = configureStore({
     reducer: {
@@ -27,7 +28,8 @@ export const store = configureStore({
         post: postReducer,
         events: eventsReducer,
         quizzes: quizzesReducer,
-        award: awardReducer
+        award: awardReducer,
+        friends: friendsReducer
     },
 });
 

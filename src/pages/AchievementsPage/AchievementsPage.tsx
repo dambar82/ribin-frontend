@@ -10,6 +10,8 @@ import gosomewhere from '../../images/svg/gosomwhere.svg';
 import {Link} from "react-router-dom";
 import {buyAward} from "../../store/awardSlice";
 import axios from "axios";
+import blackArrowDown from '../../images/svg/blackArrowDown.svg';
+import blackArrowUp from '../../images/svg/blackArrowUp.svg';
 
 const token = JSON.parse(localStorage.getItem('token') || '0')
 
@@ -20,6 +22,7 @@ const AchievementsPage = () => {
     const [isBoughtModal, setIsBoughtModal] = useState(false);
     const [currentItem, setCurrentItem] = useState(null);
     const [awards, setAwards] = useState(null);
+    const [myAwards, setMyAwards] = useState([]);
     const [sortedAwards, setSortedAwards] = useState([]);
     const [promocode, setPromocode] = useState(null);
     const dispatch = useDispatch<AppDispatch>()
@@ -32,10 +35,17 @@ const AchievementsPage = () => {
             const response = await axios.get('https://api-rubin.multfilm.tatar/api/gifts', {
                 headers: { 'Authorization': `Bearer ${token}` }
             })
-           // console.log(response.data)
             setAwards(response.data);
         }
+        const fetchMyAwards = async () => {
+            const response = await axios.get('https://api-rubin.multfilm.tatar/api/gifts/promo_code', {
+                headers: { 'Authorization': `Bearer ${token}` }
+            })
+            console.log(response.data.data);
+            setMyAwards(response.data.data)
+        }
         fetchAwards();
+        fetchMyAwards();
     }, [])
 
     const handleBuy = (item) => {
@@ -89,9 +99,31 @@ const AchievementsPage = () => {
         }
     }, awards)
 
+    const [selectedOption, setSelectedOption] = useState('Все вознаграждения');
+    const selectRef = useRef(null);
+    const [selectIsOpen, setSelectIsOpen] = useState(false);
+
+    const toggleSelect = () => {
+        setSelectIsOpen(!selectIsOpen);
+    };
+
+    const handleOptionClick = (option) => {
+        setSelectedOption(option);
+        setSelectIsOpen(false);
+    };
+
+    const handleClickOutside = (event) => {
+        if (selectRef.current && !selectRef.current.contains(event.target)) {
+            setSelectIsOpen(false);
+        }
+    };
+
     useEffect(() => {
-        console.log(promocode)
-    }, [promocode])
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
 
     if (!awards) return <p>Загрузка...</p>
 
@@ -101,74 +133,101 @@ const AchievementsPage = () => {
             <section className={`${styles.achievements} section`}>
                 <div className='section__header'>
                     <h2 className='section__title'>Вознаграждения</h2>
-                </div>
-                <div className={`section__body ${styles.achievements__body}`}>
-                    <div className={styles.achievements__body_high}>
-                        <p>
-                            За участие на сайте вы получаете Рубики, которые можете поменять на промокод дающий скидку (100%) в магазине <a
-                            href="https://store.rubin-kazan.ru">https://store.rubin-kazan.ru</a>
-                        </p>
-                        <div className={styles.rubicks}>
-                            <img src={Rubick} alt=""/>
-                            <span>Рубиков</span>
-                            <span>{awards[0]}</span>
+                    <div className={styles.awards_select} ref={selectRef}>
+                        <div className={styles.awards_selected} onClick={toggleSelect}>
+                            <span>{selectedOption}</span>
+                            {selectIsOpen ? <img src={blackArrowUp} alt=''/> : <img src={blackArrowDown} alt=''/>}
                         </div>
-                        <div className={styles.promo}>
-                            <div className={styles.promo_logo}>
-                                <img src="/images/rubin%20logo.png" alt=""/>
-                            </div>
-                            <div className={styles.promo_info}>
-                                <h2>Билет на матч</h2>
-                                <div className={styles.promo_info_button}>
-                                    Бесплатно
-                                </div>
-                            </div>
-                            <div className={styles.promo_code}>
-                                <div className={`${styles.promo_code_copy} ${isCopied ? styles.promo_code_copy_Copied : ''}`}>
-                                    {
-                                        isCopied && (
-                                            <div className={styles.promoMessage}>
-                                                Промокод скопирован
-                                            </div>
-                                        )
-                                    }
-                                    <p ref={promo}>ШКОЛА</p>
-                                    <div className={styles.promo_code_copy_round} onClick={() => copyToClipboard(promo)}>
-                                        <img src={copy} alt=""/>
+                        {selectIsOpen && (
+                            <div className={styles.awards_selectItems}>
+                                {['Все вознаграждения', 'Полученные вознаграждения'].map((option, index) => (
+                                    <div key={index} onClick={() => handleOptionClick(option)}>
+                                        {option}
                                     </div>
-                                </div>
-                                <Link to='https://tickets.rubin-kazan.ru/event?id_event=631' target='_blank'>
-                                    <div className={styles.promo_code_go}>
-                                        <img src={gosomewhere} alt=""/>
-                                    </div>
-                                </Link>
+                                ))}
                             </div>
-                        </div>
+                        )}
                     </div>
-                    <div className={styles.awards_grid}>
-                        {sortedAwards.map(item => (
-                            <div className={styles.award_card} onClick={() => handleBuy(item)}>
-                                <div className={styles.award_card_image}>
-                                    <img className={styles.award_card_image_IMG} src={item.image} alt=""/>
-                                    {item.open === 0 && (
-                                        <div className={styles.close_icon}>
-                                            <img src={close} alt=""/>
+                </div>
+                {
+                    selectedOption === 'Все вознаграждения' ? (
+                        <div className={`section__body ${styles.achievements__body}`}>
+                            <div className={styles.achievements__body_high}>
+                                <p>
+                                    За участие на сайте вы получаете Рубики, которые можете поменять на промокод дающий скидку (100%) в магазине <a
+                                    href="https://store.rubin-kazan.ru">https://store.rubin-kazan.ru</a>
+                                </p>
+                                <div className={styles.rubicks}>
+                                    <img src={Rubick} alt=""/>
+                                    <span>Рубиков</span>
+                                    <span>{awards[0]}</span>
+                                </div>
+                                <div className={styles.promo}>
+                                    <div className={styles.promo_logo}>
+                                        <img src="/images/rubin%20logo.png" alt=""/>
+                                    </div>
+                                    <div className={styles.promo_info}>
+                                        <h2>Билет на матч</h2>
+                                        <div className={styles.promo_info_button}>
+                                            Бесплатно
                                         </div>
-                                    )}
-                                </div>
-                                <div className={styles.award_card_info}>
-                                    <p>
-                                        {item.key}
-                                    </p>
-                                    <span>
-                                        <img src={Rubick} alt=""/>
-                                        {item.value}
-                                    </span>
+                                    </div>
+                                    <div className={styles.promo_code}>
+                                        <div className={`${styles.promo_code_copy} ${isCopied ? styles.promo_code_copy_Copied : ''}`}>
+                                            {
+                                                isCopied && (
+                                                    <div className={styles.promoMessage}>
+                                                        Промокод скопирован
+                                                    </div>
+                                                )
+                                            }
+                                            <p ref={promo}>ШКОЛА</p>
+                                            <div className={styles.promo_code_copy_round} onClick={() => copyToClipboard(promo)}>
+                                                <img src={copy} alt=""/>
+                                            </div>
+                                        </div>
+                                        <Link to='https://tickets.rubin-kazan.ru/event?id_event=631' target='_blank'>
+                                            <div className={styles.promo_code_go}>
+                                                <img src={gosomewhere} alt=""/>
+                                            </div>
+                                        </Link>
+                                    </div>
                                 </div>
                             </div>
-                        ))}
-                    </div>
-                </div>
+                            <div className={styles.awards_grid}>
+                                {sortedAwards.map(item => (
+                                    <div className={styles.award_card} onClick={() => handleBuy(item)}>
+                                        <div className={styles.award_card_image}>
+                                            <img className={styles.award_card_image_IMG} src={item.image} alt=""/>
+                                            {item.open === 0 && (
+                                                <div className={styles.close_icon}>
+                                                    <img src={close} alt=""/>
+                                                </div>
+                                            )}
+                                        </div>
+                                        <div className={styles.award_card_info}>
+                                            <p>
+                                                {item.key}
+                                            </p>
+                                            <span>
+                                        <img src={Rubick} alt=""/>
+                                                {item.value}
+                                    </span>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    ) : (
+                        <div className={`${styles.achievements__body} ${styles.achievements__body_myAwards}`}>
+                            {myAwards.map(awards => (
+                                <div className={styles.myAwards_block}>
+
+                                </div>
+                            ))}
+                        </div>
+                    )
+                }
             </section>
             <Modal active={isModalOpen} setActive={setIsModalOpen} className={styles.modal} bodyClassName={styles.modalNotEnough}>
                 <div className={styles.modal_content}>
