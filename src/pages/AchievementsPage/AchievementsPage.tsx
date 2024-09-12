@@ -170,7 +170,8 @@ const AchievementsPage = () => {
                                     <div className={styles.promo_code}>
                                         <div className={`${styles.promo_code_copy} ${isCopied ? styles.promo_code_copy_Copied : ''}`}>
                                             {
-                                                copiedPromo === promo && (
+                                                //@ts-ignore
+                                                copiedPromo === promo.current.innerText && (
                                                     <div className={styles.promoMessage}>
                                                         Промокод скопирован
                                                     </div>
@@ -302,7 +303,8 @@ const AchievementsPage = () => {
                     </div>
                     <div className={`${styles.promo_code_copy} ${isCopied ? styles.promo_code_copy_Copied : ''}`} style={{width: '100%'}}>
                         {
-                            copiedPromo === boughtPromo && (
+                            //@ts-ignore
+                            copiedPromo === boughtPromo.current.innerText && (
                                 <div className={styles.promoMessage}>
                                     Промокод скопирован
                                 </div>
