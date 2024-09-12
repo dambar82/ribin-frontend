@@ -25,6 +25,7 @@ const AchievementsPage = () => {
     const [myAwards, setMyAwards] = useState([]);
     const [sortedAwards, setSortedAwards] = useState([]);
     const [promocode, setPromocode] = useState(null);
+    const [copiedPromo, setCopiedPromo] = useState(null);
     const dispatch = useDispatch<AppDispatch>()
     const promo = useRef();
     const boughtPromo = useRef();
@@ -75,22 +76,16 @@ const AchievementsPage = () => {
         }
     }
 
-    const copyToClipboard = (promoParam) => {
-        if (promoParam.current) {
-            // @ts-ignore
-            navigator.clipboard.writeText(promoParam.current.innerText)
-                .then(() => {
-                    setIsCopied(true);
-                    setTimeout(() => {
-                        setIsCopied(false);
-                    }, 2000); // Длительность анимации в миллисекундах
-                })
-                .catch(err => {
-                    console.error('Ошибка копирования: ', err);
-                });
-        } else {
-            console.error('Элемент с промокодом не найден.');
-        }
+    const copyToClipboard = (promoCode) => {
+        console.log(promoCode)
+        navigator.clipboard.writeText(promoCode).then(() => {
+            setCopiedPromo(promoCode); // Устанавливаем состояние для отображения сообщения
+            setTimeout(() => {
+                setCopiedPromo(null); // Очищаем сообщение после 2 секунд
+            }, 2000);
+        }).catch(err => {
+            console.error('Failed to copy: ', err);
+        });
     };
 
     useEffect(() => {
@@ -175,16 +170,18 @@ const AchievementsPage = () => {
                                     <div className={styles.promo_code}>
                                         <div className={`${styles.promo_code_copy} ${isCopied ? styles.promo_code_copy_Copied : ''}`}>
                                             {
-                                                isCopied && (
+                                                copiedPromo === promo && (
                                                     <div className={styles.promoMessage}>
                                                         Промокод скопирован
                                                     </div>
                                                 )
                                             }
                                             <p ref={promo}>ШКОЛА</p>
-                                            <div className={styles.promo_code_copy_round} onClick={() => copyToClipboard(promo)}>
-                                                <img src={copy} alt=""/>
-                                            </div>
+                                            {//@ts-ignore
+                                                <div className={styles.promo_code_copy_round} onClick={() => copyToClipboard(promo.current.innerText)}>
+                                                    <img src={copy} alt=""/>
+                                                </div>
+                                            }
                                         </div>
                                         <Link to='https://tickets.rubin-kazan.ru/event?id_event=631' target='_blank'>
                                             <div className={styles.promo_code_go}>
@@ -222,7 +219,35 @@ const AchievementsPage = () => {
                         <div className={`${styles.achievements__body} ${styles.achievements__body_myAwards}`}>
                             {myAwards.map(awards => (
                                 <div className={styles.myAwards_block}>
-
+                                    <div className={styles.myAwards_block_image}>
+                                        <img src={awards.image} alt=""/>
+                                    </div>
+                                    <div className={styles.promo_info}>
+                                        <h2>{awards.gift}</h2>
+                                        <div className={styles.promo_info_button} style={{width: '138px'}}>
+                                            Рубиков <span>{awards.price}</span>
+                                        </div>
+                                    </div>
+                                    <div className={styles.promo_code}>
+                                        <div className={`${styles.promo_code_copy} ${copiedPromo === awards.promo_code ? styles.promo_code_copy_Copied : ''}`}>
+                                            {
+                                                copiedPromo === awards.promo_code && (
+                                                    <div className={styles.promoMessage}>
+                                                        Промокод скопирован
+                                                    </div>
+                                                )
+                                            }
+                                            <p>{awards.promo_code}</p>
+                                            <div className={styles.promo_code_copy_round} onClick={() => copyToClipboard(awards.promo_code)}>
+                                                <img src={copy} alt=""/>
+                                            </div>
+                                        </div>
+                                        <Link to='https://tickets.rubin-kazan.ru/event?id_event=631' target='_blank'>
+                                            <div className={styles.promo_code_go}>
+                                                <img src={gosomewhere} alt=""/>
+                                            </div>
+                                        </Link>
+                                    </div>
                                 </div>
                             ))}
                         </div>
@@ -277,16 +302,19 @@ const AchievementsPage = () => {
                     </div>
                     <div className={`${styles.promo_code_copy} ${isCopied ? styles.promo_code_copy_Copied : ''}`} style={{width: '100%'}}>
                         {
-                            isCopied && (
+                            copiedPromo === boughtPromo && (
                                 <div className={styles.promoMessage}>
                                     Промокод скопирован
                                 </div>
                             )
                         }
                         <p style={{marginBottom: '0'}} ref={boughtPromo}>{promocode}</p>
-                        <div className={`${styles.promo_code_copy_round}`} onClick={() => copyToClipboard(boughtPromo)}>
+                        {//@ts-ignore
+                        <div className={`${styles.promo_code_copy_round}`} onClick={() => copyToClipboard(boughtPromo.current.innerText)}>
+
                             <img src={copy} alt=""/>
                         </div>
+                        }
                     </div>
                 </div>
             </Modal>
