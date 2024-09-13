@@ -401,7 +401,7 @@ const Wall = ({type, posts, editable = true, clubId}: IWall) => {
                 { type === "post" ?
                     <div className={styles.wall__asideBlock}>
                         <div className={styles.wall__users}>
-                            <div className={styles.wall__usersTitle}>Популярные пользователи</div>
+                            <div className={styles.wall__usersTitle}>Активные пользователи</div>
                             <ul className={styles.wall__usersList}>
 
                                 {getMostActiveUsers(people, 5).map((user, index) => (

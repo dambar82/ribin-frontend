@@ -14,6 +14,9 @@ import 'swiper/css/navigation';
 import buttonArrow from "../../images/svg/button_arrow.svg";
 import access from '../../images/svg/access.svg';
 import decline from '../../images/svg/decline.svg';
+import threeDots from '../../images/svg/threeDots.svg';
+import deleteFriend from '../../images/svg/deleteFriend.svg';
+import redFlag from '../../images/svg/redflag.svg';
 import axios from "axios";
 
 const FriendsPage = () => {
@@ -25,6 +28,11 @@ const FriendsPage = () => {
     const {id} = useParams();
     const [currentUser, setCurrentUser] = useState<User>(null);
     const [yourPage, setYourPage] = useState(false);
+    const [openDropdown, setOpenDropdown] = useState(null);
+
+    const toggleDropdown = (friendId) => {
+        setOpenDropdown(prev => prev === friendId ? null : friendId);
+    };
 
     useEffect(() => {
         dispatch(fetchPeople());
@@ -75,7 +83,7 @@ const FriendsPage = () => {
     return (
         <div className={`page`}>
             {
-                yourPage && (
+                yourPage && friends.awaiting.length > 0 && (
                     <>
                         <section className={`section`}>
                             <div className="section__header">
@@ -119,7 +127,7 @@ const FriendsPage = () => {
                                                                     <img src={access} alt=""/>
                                                                 </div>
                                                                 <div
-                                                                    onClick={(event) => handleDeleteFriendship(event, friend.receiver.id)}
+                                                                    onClick={(event) => handleDeleteFriendship(event, friend.sender.id)}
                                                                     className={`${styles.awaitingFriend_button} ${styles.awaitingFriend_buttonDecline}`}>
                                                                     <img src={decline} alt=""/>
                                                                 </div>
@@ -159,19 +167,41 @@ const FriendsPage = () => {
                 <div className={`userList_list`}>
                     {
                         currentUser.friends.map(friend => (
-                            <div className={styles.friendBlock}>
-                                <div className={styles.friendBlock_avatar}>
-                                    <img src={`https://api-rubin.multfilm.tatar/storage/${friend.avatar}`} alt=""/>
-                                </div>
-                                <div className={styles.friendBlock_info}>
-                                    <div className={styles.friendBlock_info_name}>
-                                        {friend.name} {friend.surname}
+                            <Link to={`/user/${friend.id}`}>
+                                <div className={styles.friendBlock}>
+                                    <div className={styles.friendBlock_avatar}>
+                                        <img src={`https://api-rubin.multfilm.tatar/storage/${friend.avatar}`} alt=""/>
                                     </div>
-                                    <div className='levelButton' style={{width: '128px'}}>
-                                        Рубиков <span>{friend.rubick}</span>
+                                    <div className={styles.friendBlock_info}>
+                                        <div className={styles.friendBlock_info_name}>
+                                            {friend.name} {friend.surname}
+                                        </div>
+                                        <div className='levelButton' style={{width: '128px'}}>
+                                            Рубиков <span>{friend.rubick}</span>
+                                        </div>
+                                    </div>
+                                    <div className={styles.friendBlock_buttons}>
+                                        <div className={styles.friendBlock_buttons_threeDot} onClick={(e) => {
+                                            e.preventDefault();
+                                            toggleDropdown(friend.id);
+                                        }}>
+                                            <img src={threeDots} alt=""/>
+                                        </div>
+                                        {openDropdown === friend.id && (
+                                            <div className={styles.dropdownMenu}>
+                                                <button onClick={(event) => handleDeleteFriendship(event, friend.id)}>
+                                                    <img src={deleteFriend} alt=""/>
+                                                    Удалить из друзей
+                                                </button>
+                                                <button onClick={() => console.log('Пожаловаться')}>
+                                                    <img src={redFlag} alt=""/>
+                                                    Пожаловаться
+                                                </button>
+                                            </div>
+                                        )}
                                     </div>
                                 </div>
-                            </div>
+                            </Link>
                         ))
                     }
                 </div>
