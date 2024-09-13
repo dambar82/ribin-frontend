@@ -166,7 +166,9 @@ const FriendsPage = () => {
                                     <div className={styles.friendBlock_info_name}>
                                         {friend.name} {friend.surname}
                                     </div>
-                                    <div className='levelButton'>{friend.rubick}</div>
+                                    <div className='levelButton' style={{width: '128px'}}>
+                                        Рубиков <span>{friend.rubick}</span>
+                                    </div>
                                 </div>
                             </div>
                         ))
