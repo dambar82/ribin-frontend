@@ -52,6 +52,7 @@ import Page from "./pages/Page/Page";
 import AchievementsPage from "./pages/AchievementsPage/AchievementsPage";
 import { DownloadAppBunner } from './pages/DownloadAppBunner/DownloadAppBunner'
 import UnauthLayoutRegister from './components/layouts/UnauthLayoutRegister';
+import FriendsPage from "./pages/FriendsPage/FriendsPage";
 
 
 export function postFormatDate(isoString) {
@@ -163,6 +164,7 @@ function App() {
         { path: '/events', element: <EventsPage /> },
         { path: '/events/event/:id', element: <SingleEventPage /> },
         { path: '/clubs/events/new', element: <CreateEventPage /> },
+        { path: '/user/:id/friends', element: <FriendsPage />}
     ];
 
     const token = JSON.parse(localStorage.getItem('token') || '0')

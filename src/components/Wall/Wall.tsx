@@ -180,10 +180,12 @@ const Wall = ({type, posts, editable = true, clubId}: IWall) => {
                 console.error('Ошибка при создании поста:', error);
             }
         } else {
-            setSymbols(true);
-            setTimeout(() => {
-               setSymbols(false);
-            }, 2000)
+            if (textareaValue.length > 0) {
+                setSymbols(true);
+                setTimeout(() => {
+                    setSymbols(false);
+                }, 2000)
+            }
         }
     }
 
