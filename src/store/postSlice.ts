@@ -23,6 +23,7 @@ export interface PostAnswer {
 
 interface PostState {
     posts: PostAnswer;
+    complaint_types:  {id:number,title:string}[]
     status: 'idle' | 'loading' | 'succeeded' | 'failed';
     error: string | null;
     likedPosts: number[];
@@ -34,10 +35,23 @@ const initialState: PostState = {
         image: [],
         video: []
     },
+    complaint_types: [],
     status: 'idle',
     error: null,
     likedPosts: [],
 };
+
+const $api = axios.create({
+  baseURL: 'https://api-rubin.multfilm.tatar'
+})
+
+$api.interceptors.request.use(config => {
+  const token = JSON.parse(localStorage.getItem('token') || '0')
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`
+  }
+  return config
+})
 
 const token = JSON.parse(localStorage.getItem('token') || '0')
 
@@ -166,6 +180,30 @@ export const toggleLikeAsync = createAsyncThunk(
     }
 );
 
+export const fetchComplaintTypes = createAsyncThunk('post/fetchComplaintTypes', async () => {
+  const response = await axios.get<{id:number,title:string}[]>('https://api-rubin.multfilm.tatar/api/complaint_type');
+  return response.data;
+})
+
+export const sendPostComplaint = createAsyncThunk('post/sendPostComplaint', async ( req: { id: number, complaint_type_id: number, complaint_type: string, description: string } ) => {
+  try {
+    const response = await $api.post<{status:string,message:string}>(`/api/complaints/posts/${req.id}`, req);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    return error?.response.data
+  }
+})
+export const sendCommentComplaint = createAsyncThunk('post/sendCommentComplaint', async ( req: { id: number, complaint_type_id: number, complaint_type: string, description: string } ) => {
+  try {
+    const response = await $api.post<{status:string,message:string}>(`/api/complaints/comments/${req.id}`, req);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    return error?.response.data
+  }
+})
+
 const postSlice = createSlice({
     name: 'post',
     initialState,
@@ -249,6 +287,17 @@ const postSlice = createSlice({
             .addCase(fetchPostsByClubId.rejected, (state, action) => {
                 state.status = 'failed';
                 state.error = action.error.message || null;
+            })
+
+            .addCase(fetchComplaintTypes.fulfilled, (state, action: PayloadAction<{id:number,title:string}[]>) => {
+              state.complaint_types = action.payload;
+            })
+
+            .addCase(sendPostComplaint.fulfilled, (state, action: PayloadAction<any>) => {
+              console.log(action.payload);
+            })
+            .addCase(sendCommentComplaint.fulfilled, (state, action: PayloadAction<any>) => {
+              console.log(action.payload);
             })
     }
 });

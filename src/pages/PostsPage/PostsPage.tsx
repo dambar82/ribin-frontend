@@ -5,14 +5,15 @@ import {AppDispatch, RootState} from "../../store/store";
 import {useDispatch, useSelector} from "react-redux";
 import {useAppDispatch} from "../../store/hooks";
 import {useEffect} from "react";
-import {fetchPosts} from "../../store/postSlice";
+import {fetchComplaintTypes, fetchPosts} from "../../store/postSlice";
 
 const PostsPage = () => {
     const dispatch = useAppDispatch();
     const { posts, status, error } = useSelector((state: RootState) => state.post);
 
     useEffect(() => {
-        dispatch(fetchPosts());
+        dispatch(fetchPosts())
+        dispatch(fetchComplaintTypes())
     }, [dispatch]);
 
     if (status === 'loading') {

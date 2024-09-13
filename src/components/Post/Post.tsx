@@ -220,7 +220,12 @@ const Post = ({ id, name, surname, avatar, created_by, source, tags, comments, t
                     <div className={styles.post__createdAt}>{postFormatDate(post.created_at)}</div>
                 </div>
                 </Link>
-                <DropdownMenu deleteClick={handleDeleteClick} editClick={handleEditClick} isAuthor={isAuthor}/>
+                <DropdownMenu
+                  isAuthor={isAuthor}
+                  post={{ id, created_by, name, surname }}
+                  deleteClick={handleDeleteClick}
+                  editClick={handleEditClick}
+                />
             </div>
             <div className={styles.post__body}>
                 {

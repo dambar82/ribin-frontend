@@ -2,15 +2,17 @@ import { ReactNode, useEffect, useRef } from 'react'
 import { classNames } from '../../utils'
 
 import c from './modal.module.scss'
+import { createPortal } from 'react-dom'
 
 interface ModalProps {
   children: ReactNode
   className?: string
   bodyClassName?: string
+  portal?: true
   active: boolean | null
   setActive: React.Dispatch<React.SetStateAction<boolean | null>>
 }
-const Modal = ({ children, className, bodyClassName, active, setActive }: ModalProps) => {
+const Modal = ({ children, className, bodyClassName, portal, active, setActive }: ModalProps) => {
 
   const modalRef = useRef<HTMLDivElement>(null)
 
@@ -53,9 +55,9 @@ const Modal = ({ children, className, bodyClassName, active, setActive }: ModalP
 
   if ( !active ) {
     return <></>
-  } 
+  }
 
-  return (
+  const modal = (
     <div className={classNames(c.modal, className)} ref={modalRef} >
       <div className={classNames(c.modal_body, 'block', bodyClassName)} >
 
@@ -66,6 +68,12 @@ const Modal = ({ children, className, bodyClassName, active, setActive }: ModalP
       </div>
     </div>
   )
+
+  if ( portal ) {
+    return createPortal(modal, document.body)
+  }
+
+  return modal
 }
 
 export { Modal }
