@@ -43,7 +43,8 @@ const FriendsPage = () => {
         }
     }, [currentUser, user])
 
-    const handleAcceptFriendship = async (friendship: number) => {
+    const handleAcceptFriendship = async (event, friendship: number) => {
+        event.preventDefault();
         const config: any = {}
         const token = JSON.parse(localStorage.getItem('token') || '')
 
@@ -57,7 +58,8 @@ const FriendsPage = () => {
         dispatch(fetchFriends());
     }
 
-    const handleDeleteFriendship = async (receiverId: number) => {
+    const handleDeleteFriendship = async (event, receiverId: number) => {
+        event.preventDefault();
         const token = JSON.parse(localStorage.getItem('token') || '')
 
         const friendsUrl = `https://api-rubin.multfilm.tatar/api/friends/remove/${receiverId}`;
@@ -100,28 +102,30 @@ const FriendsPage = () => {
                                         .map((friend, index) => {
                                             return (
                                                 <SwiperSlide key={friend.id}>
-                                                    <div className={styles.awaitingFriend}>
-                                                        <div className={styles.awaitingFriend_avatar}>
-                                                            <img src={friend.sender.avatar} alt="" />
-                                                        </div>
-                                                        <div className={styles.awaitingFriend_name}>
-                                                            {friend.sender.name} {friend.sender.surname}
-                                                        </div>
-                                                        <div className="levelButton" style={{ marginTop: '12px' }}>
-                                                            Рубиков <span>{friend.sender.rubick}</span>
-                                                        </div>
-                                                        <div className={styles.awaitingFriend_buttons}>
-                                                            <div
-                                                                onClick={() => handleAcceptFriendship(friend.id)}
-                                                                className={`${styles.awaitingFriend_button} ${styles.awaitingFriend_buttonAccept}`}>
-                                                                <img src={access} alt=""/>
+                                                    <Link to={`/user/${friend.sender.id}`}>
+                                                        <div className={styles.awaitingFriend}>
+                                                            <div className={styles.awaitingFriend_avatar}>
+                                                                <img src={friend.sender.avatar} alt="" />
                                                             </div>
-                                                            <div onClick={() => handleDeleteFriendship(friend.receiver.id)}
-                                                                className={`${styles.awaitingFriend_button} ${styles.awaitingFriend_buttonDecline}`}>
-                                                                <img src={decline} alt=""/>
+                                                            <div className={styles.awaitingFriend_name}>
+                                                                {friend.sender.name} {friend.sender.surname}
+                                                            </div>
+                                                            <div className="levelButton" style={{ marginTop: '12px' }}>
+                                                                Рубиков <span>{friend.sender.rubick}</span>
+                                                            </div>
+                                                            <div className={styles.awaitingFriend_buttons}>
+                                                                <div
+                                                                    onClick={(event) => handleAcceptFriendship(event, friend.id)}
+                                                                    className={`${styles.awaitingFriend_button} ${styles.awaitingFriend_buttonAccept}`}>
+                                                                    <img src={access} alt=""/>
+                                                                </div>
+                                                                <div onClick={(event) => handleDeleteFriendship(event, friend.receiver.id)}
+                                                                     className={`${styles.awaitingFriend_button} ${styles.awaitingFriend_buttonDecline}`}>
+                                                                    <img src={decline} alt=""/>
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                    </div>
+                                                    </Link>
                                                 </SwiperSlide>
                                             );
                                         })}
