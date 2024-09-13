@@ -80,6 +80,7 @@ const FriendsPage = () => {
                         <section className={`section`}>
                             <div className="section__header">
                                 <h2 className="section__title">Заявки в друзья</h2>
+                                <div className='section__counter'>{friends.awaiting.length}</div>
                             </div>
                             <div className={`section__body userList`}>
                                 <Swiper
@@ -129,13 +130,13 @@ const FriendsPage = () => {
                                             );
                                         })}
                                 </Swiper>
-                                <div className={styles.moreNews__controls}>
-                                    <button className={`button button--black button--prev ${styles.moreNews__more}`}
+                                <div className={styles.swiper_controls}>
+                                    <button className={`button button--black button--prev ${styles.swiper_controls__more}`}
                                             type="button">
                                         <span>Предыдущие</span>
                                         <img src={buttonArrow} alt=""/>
                                     </button>
-                                    <button className={`button button--black button--next ${styles.moreNews__more}`}
+                                    <button className={`button button--black button--next ${styles.swiper_controls__more}`}
                                             type="button">
                                         <span>Показать ещё</span>
                                         <img src={buttonArrow} alt=""/>

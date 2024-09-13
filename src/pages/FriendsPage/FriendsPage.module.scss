@@ -50,6 +50,27 @@
   }
 }
 
+.swiper_controls {
+  display: flex;
+  justify-content: flex-end;
+  gap: 20px;
+  & > * {
+    &:disabled {
+      background-color: rgba(180, 180, 180, 0.65);
+      cursor: auto;
+    }
+    &:first-child {
+      flex-direction: row-reverse;
+      & > img {
+        transform: rotate(-180deg);
+      }
+    }
+  }
+  &__more {
+    align-self: flex-end;
+  }
+}
+
 .friendBlock {
   border-radius: 35px;
   background-color: white;
