@@ -39,16 +39,12 @@ const UserProfilePage = () => {
     }, [friends, currentUser])
 
     useEffect(() => {
-        console.log(requestSent);
-    }, [requestSent])
-
-    useEffect(() => {
         setCurrentUser(people.find(user => user.id.toString() === id));
     }, [currentUser, people])
 
     useEffect(() => {
+        console.log(currentUser)
         if (user && currentUser) {
-            console.log(currentUser);
             if (user.id === currentUser.id) {
                 setYourPage(true);
             }
@@ -131,25 +127,27 @@ const UserProfilePage = () => {
                             </div>
                         </div>
                         <div className="big-card__info-footer">
-                            <div className="big-card__users">
-                                <ul className="big-card__users-list">
-                                    {currentUser.friends.map(item => (
-                                        <li key={item.id} className="big-card__user">
-                                            <img src={item.avatar} alt="" />
-                                        </li>
-                                    ))}
-                                </ul>
-                                {currentUser.friends.length > 0 && (
-                                    <div className="big-card__users-qty">
-                                        <div className="big-card__users-qty_friends">Друзья</div>
-                                        {currentUser.friends.length > 5 && (
-                                            <div className="big-card__users-qty_friendsCount">
-                                                {currentUser.friends.length - 5}
+                            {currentUser.friends.length > 0 && (
+                                <Link to={`/user/${currentUser.id}/friends`}>
+                                    <div className="big-card__users">
+                                        <ul className="big-card__users-list">
+                                            {currentUser.friends.map(item => (
+                                                <li key={item.id} className="big-card__user">
+                                                    <img src={`https://api-rubin.multfilm.tatar/storage/${item.avatar}`} alt="" />
+                                                </li>
+                                            ))}
+                                        </ul>
+                                            <div className="big-card__users-qty">
+                                                <div className="big-card__users-qty_friends">Друзья</div>
+                                                {currentUser.friends.length > 5 && (
+                                                    <div className="big-card__users-qty_friendsCount">
+                                                        {currentUser.friends.length - 5}
+                                                    </div>
+                                                )}
                                             </div>
-                                        )}
                                     </div>
-                                )}
-                            </div>
+                                </Link>
+                            )}
                         </div>
                     </div>
                 </div>

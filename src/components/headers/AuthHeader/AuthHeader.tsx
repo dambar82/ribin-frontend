@@ -14,6 +14,7 @@ import buttonArrowUp from '../../../images/svg/buttonArrowUp.svg';
 import loupePic from '../../../images/svg/loupe.svg';
 import { logout } from '../../../store/userSlice';
 import myProfile from '../../../images/svg/myProfile.svg';
+import friendsLogo from '../../../images/svg/friendsLogo.svg';
 import messages from '../../../images/svg/messages.svg';
 import awards from '../../../images/svg/awards.svg';
 import options from '../../../images/svg/options.svg';
@@ -163,6 +164,17 @@ const AuthHeader = () => {
                                             <img src={myProfile} alt=""/>
                                             <span>Мой профиль</span>
                                         </NavLink>
+                                    </li>
+                                    <li>
+                                       <NavLink
+                                            to={`/user/${user.id}/friends`}
+                                            className={({ isActive }) => {
+                                                return isActive ? '_active' : ''
+                                            }}
+                                       >
+                                           <img src={friendsLogo} alt=""/>
+                                           <span>Друзья</span>
+                                       </NavLink>
                                     </li>
                                     <li>
                                         <NavLink
