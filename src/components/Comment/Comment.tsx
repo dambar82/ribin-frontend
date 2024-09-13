@@ -64,14 +64,19 @@ const Comment = ({ id, liked_by, text, created_at, likes_count, name, avatar, cr
     return (
         <div className={styles.comment}>
             <div className={styles.comment__header}>
-                    <div className={`${styles.comment__author} ${styles.author}`} onClick={() => goToProfile()}>
-                        <div className={styles.author__avatar}>
-                            <img src={avatar} alt="" />
-                        </div>
-                        <div className={styles.author__name}>{name}</div>
-                        <div className={styles.author__date}>{postFormatDate(created_at)}</div>
+                <div className={`${styles.comment__author} ${styles.author}`} onClick={() => goToProfile()}>
+                    <div className={styles.author__avatar}>
+                        <img src={avatar} alt="" />
                     </div>
-                <DropdownMenu deleteClick={handleDeleteClick} editClick={handleEditClick} isAuthor={isAuthor}/>
+                    <div className={styles.author__name}>{name}</div>
+                    <div className={styles.author__date}>{postFormatDate(created_at)}</div>
+                </div>
+                <DropdownMenu
+                  isAuthor={isAuthor}
+                  comment={{ id, created_by, name }}
+                  deleteClick={handleDeleteClick}
+                  editClick={handleEditClick}
+                />
             </div>
             <div className={styles.comment__body}>
                 <p>{text}</p>
