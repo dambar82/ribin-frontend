@@ -77,6 +77,9 @@ const FriendsPage = () => {
         dispatch(fetchFriends());
     }
 
+    useEffect(() => {
+        console.log(friends);
+    }, [friends])
 
     if (!currentUser) return <p>Loading...</p>
 
