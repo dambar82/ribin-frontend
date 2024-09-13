@@ -159,7 +159,7 @@ const ComplaintButton = ({ post, comment }: ComplaintButtonProps) => {
 
           <div className={styles.text} >
             <b className={styles.title} >Жалоба</b>
-            <p>Пользователь {user.name} {user.surname} сообщает о нарушении со стороны <span>{post.name} {post.surname}</span></p>
+            <p>Пользователь {user?.name} {user?.surname} сообщает о нарушении со стороны <span>{post?.name} {post?.surname}</span></p>
             <span>{formatDate(new Date())}</span>
           </div>
 
