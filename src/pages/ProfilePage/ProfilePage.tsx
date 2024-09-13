@@ -25,9 +25,6 @@ const ProfilePage = () => {
         }
     }, [dispatch, user]);
 
-    useEffect(() => {
-        console.log(user);
-    }, [user])
 
     if (status === 'loading' || !currentUser) {
         return <p>Loading...</p>;

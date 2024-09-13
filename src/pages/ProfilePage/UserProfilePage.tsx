@@ -10,19 +10,37 @@ import {fetchPostsByUserId} from "../../store/postSlice";
 import {fetchPeople, sendFriendRequest} from "../../store/peopleSlice";
 import {User} from "../../store/userSlice";
 import { classNames } from "../../shared/utils"
+import {fetchFriends} from "../../store/friendsSlice";
 
 const UserProfilePage = () => {
     const dispatch = useAppDispatch();
     const { id } = useParams();
     const { people } = useSelector((state: RootState) => state.people)
+    const { friends } = useSelector((state: RootState) => state.friends)
     const { posts, status, error } = useSelector((state: RootState) => state.post);
     const user = useSelector((state: RootState) => state.user.user);
     const [currentUser, setCurrentUser] = useState<User>(null);
+    const [requestSent, setRequestSent] = useState(false);
     const [yourPage, setYourPage] = useState(false);
 
     useEffect(() => {
         dispatch(fetchPeople());
+        dispatch(fetchFriends());
     }, [dispatch]);
+
+    useEffect(() => {
+        if (currentUser) {
+            if (friends.pending.some(element =>
+                element.receiver_id === currentUser.id
+            )) {
+                setRequestSent(true);
+            }
+        }
+    }, [friends, currentUser])
+
+    useEffect(() => {
+        console.log(requestSent);
+    }, [requestSent])
 
     useEffect(() => {
         setCurrentUser(people.find(user => user.id.toString() === id));
@@ -30,6 +48,7 @@ const UserProfilePage = () => {
 
     useEffect(() => {
         if (user && currentUser) {
+            console.log(currentUser);
             if (user.id === currentUser.id) {
                 setYourPage(true);
             }
@@ -40,8 +59,11 @@ const UserProfilePage = () => {
          dispatch(fetchPostsByUserId({userId: Number(id)}));
       }, [dispatch])
 
-    const handleFriendAdd = () => {
-        dispatch(sendFriendRequest({receiverId: currentUser.id}))
+    const handleFriendAdd = async () => {
+        const friendRequest = await dispatch(sendFriendRequest({receiverId: currentUser.id}));
+        if (friendRequest.payload === 'Запрос на дружбу отправлен.') {
+            setRequestSent(true);
+        }
     }
 
 
@@ -96,7 +118,7 @@ const UserProfilePage = () => {
                                           </button>
                                         :
                                           <button className="button button--main" type="button" onClick={handleFriendAdd}>
-                                            <span>Добавить в друзья</span>
+                                            <span>{requestSent ? 'Запрос отправлен' : 'Добавить в друзья'}</span>
                                           </button>
                                         }
                                     </div>

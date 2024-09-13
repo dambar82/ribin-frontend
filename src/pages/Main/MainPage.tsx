@@ -345,7 +345,9 @@ const MainPage: React.FC = () => {
                 <div className="section__body">
                     <div className={styles.users__content}>
                         {getMostActiveUsers(people, 5).map(item => (
-                        <ActiveUserCard key={item.id} image={item.avatar} name={item.name} surname={item.surname} points={item.rubick}/>
+                            <Link to={`/user/${item.id}`}>
+                                <ActiveUserCard key={item.id} image={item.avatar} name={item.name} surname={item.surname} points={item.rubick}/>
+                            </Link>
                         ))}
                     </div>
                 </div>
