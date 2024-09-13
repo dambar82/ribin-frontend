@@ -36,6 +36,7 @@ const FriendsPage = () => {
     }, [currentUser, people])
 
     useEffect(() => {
+        console.log(currentUser)
         if (user && currentUser) {
             if (user.id === currentUser.id) {
                 setYourPage(true);
@@ -68,9 +69,6 @@ const FriendsPage = () => {
         dispatch(fetchFriends());
     }
 
-    useEffect(() => {
-        console.log(friends)
-    }, [friends])
 
     if (!currentUser) return <p>Loading...</p>
 
@@ -105,12 +103,12 @@ const FriendsPage = () => {
                                                     <Link to={`/user/${friend.sender.id}`}>
                                                         <div className={styles.awaitingFriend}>
                                                             <div className={styles.awaitingFriend_avatar}>
-                                                                <img src={friend.sender.avatar} alt="" />
+                                                                <img src={friend.sender.avatar} alt=""/>
                                                             </div>
                                                             <div className={styles.awaitingFriend_name}>
                                                                 {friend.sender.name} {friend.sender.surname}
                                                             </div>
-                                                            <div className="levelButton" style={{ marginTop: '12px' }}>
+                                                            <div className="levelButton" style={{marginTop: '12px'}}>
                                                                 Рубиков <span>{friend.sender.rubick}</span>
                                                             </div>
                                                             <div className={styles.awaitingFriend_buttons}>
@@ -119,8 +117,9 @@ const FriendsPage = () => {
                                                                     className={`${styles.awaitingFriend_button} ${styles.awaitingFriend_buttonAccept}`}>
                                                                     <img src={access} alt=""/>
                                                                 </div>
-                                                                <div onClick={(event) => handleDeleteFriendship(event, friend.receiver.id)}
-                                                                     className={`${styles.awaitingFriend_button} ${styles.awaitingFriend_buttonDecline}`}>
+                                                                <div
+                                                                    onClick={(event) => handleDeleteFriendship(event, friend.receiver.id)}
+                                                                    className={`${styles.awaitingFriend_button} ${styles.awaitingFriend_buttonDecline}`}>
                                                                     <img src={decline} alt=""/>
                                                                 </div>
                                                             </div>
@@ -158,15 +157,19 @@ const FriendsPage = () => {
             <div className={`userList`}>
                 <div className={`userList_list`}>
                     {
-                        yourPage ? (
-                            friends.friends.map(friend => (
-                                <div></div>
-                            ))
-                        ) : (
-                            currentUser.friends.map(friend => (
-                                <div></div>
-                            ))
-                        )
+                        currentUser.friends.map(friend => (
+                            <div className={styles.friendBlock}>
+                                <div className={styles.friendBlock_avatar}>
+                                    <img src={`https://api-rubin.multfilm.tatar/storage/${friend.avatar}`} alt=""/>
+                                </div>
+                                <div className={styles.friendBlock_info}>
+                                    <div className={styles.friendBlock_info_name}>
+                                        {friend.name} {friend.surname}
+                                    </div>
+                                    <div className='levelButton'>{friend.rubick}</div>
+                                </div>
+                            </div>
+                        ))
                     }
                 </div>
             </div>
