@@ -271,14 +271,14 @@ const ContestPage = () => {
                                                             <div className={styles.prizes_content_block_info_name}>
                                                                 {member.client.name} {member.client.surname}
                                                             </div>
-                                                            <div className={styles.prizes_content_block_info_level}>
-                                                                {/*<div>*/}
-                                                                {/*    Уровень <span>{member.client.level}</span>*/}
-                                                                {/*</div>*/}
-                                                                <div>
-                                                                    Рубиков <span>{member.client.rubick}</span>
-                                                                </div>
-                                                            </div>
+                                                            {/*<div className={styles.prizes_content_block_info_level}>*/}
+                                                            {/*    /!*<div>*!/*/}
+                                                            {/*    /!*    Уровень <span>{member.client.level}</span>*!/*/}
+                                                            {/*    /!*</div>*!/*/}
+                                                            {/*    <div>*/}
+                                                            {/*        Рубиков <span>{member.client.rubick}</span>*/}
+                                                            {/*    </div>*/}
+                                                            {/*</div>*/}
                                                         </div>
                                                     </div>
                                                     <div
