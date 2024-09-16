@@ -86,7 +86,7 @@ const FriendsPage = () => {
     return (
         <div className={`page`}>
             {
-                yourPage && friends.pending.length > 0 && (
+                yourPage && friends.awaiting.length > 0 && (
                     <>
                         <section className={`section`}>
                             <div className="section__header">
@@ -107,7 +107,7 @@ const FriendsPage = () => {
                                         width: "100%"
                                     }}
                                 >
-                                    {[...friends.pending]
+                                    {[...friends.awaiting]
                                         .sort((a, b) => b.sender.rubick - a.sender.rubick)
                                         .map((friend, index) => {
                                             return (
