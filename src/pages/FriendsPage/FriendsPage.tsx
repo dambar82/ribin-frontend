@@ -171,41 +171,79 @@ const FriendsPage = () => {
                     {
                         yourPage ? (
                             friends.friends.map(friend => (
-                                <Link to={`/user/${friend.sender.id}`}>
-                                    <div className={styles.friendBlock}>
-                                        <div className={styles.friendBlock_avatar}>
-                                            <img src={friend.sender.avatar} alt=""/>
-                                        </div>
-                                        <div className={styles.friendBlock_info}>
-                                            <div className={styles.friendBlock_info_name}>
-                                                {friend.sender.name} {friend.sender.surname}
+                                friend.sender.id !== currentUser.id ? (
+                                    <Link to={`/user/${friend.sender.id}`}>
+                                        <div className={styles.friendBlock}>
+                                            <div className={styles.friendBlock_avatar}>
+                                                <img src={friend.sender.avatar} alt=""/>
                                             </div>
-                                            <div className='levelButton' style={{width: '128px'}}>
-                                                Рубиков <span>{friend.sender.rubick}</span>
-                                            </div>
-                                        </div>
-                                        <div className={styles.friendBlock_buttons}>
-                                            <div className={styles.friendBlock_buttons_threeDot} onClick={(e) => {
-                                                e.preventDefault();
-                                                toggleDropdown(friend.sender.id);
-                                            }}>
-                                                <img src={threeDots} alt=""/>
-                                            </div>
-                                            {openDropdown === friend.sender.id && (
-                                                <div className={styles.dropdownMenu}>
-                                                    <button onClick={(event) => handleDeleteFriendship(event, friend.sender.id)}>
-                                                        <img src={deleteFriend} alt=""/>
-                                                        Удалить из друзей
-                                                    </button>
-                                                    <button onClick={() => console.log('Пожаловаться')}>
-                                                        <img src={redFlag} alt=""/>
-                                                        Пожаловаться
-                                                    </button>
+                                            <div className={styles.friendBlock_info}>
+                                                <div className={styles.friendBlock_info_name}>
+                                                    {friend.sender.name} {friend.sender.surname}
                                                 </div>
-                                            )}
+                                                <div className='levelButton' style={{width: '128px'}}>
+                                                    Рубиков <span>{friend.sender.rubick}</span>
+                                                </div>
+                                            </div>
+                                            <div className={styles.friendBlock_buttons}>
+                                                <div className={styles.friendBlock_buttons_threeDot} onClick={(e) => {
+                                                    e.preventDefault();
+                                                    toggleDropdown(friend.sender.id);
+                                                }}>
+                                                    <img src={threeDots} alt=""/>
+                                                </div>
+                                                {openDropdown === friend.sender.id && (
+                                                    <div className={styles.dropdownMenu}>
+                                                        <button onClick={(event) => handleDeleteFriendship(event, friend.sender.id)}>
+                                                            <img src={deleteFriend} alt=""/>
+                                                            Удалить из друзей
+                                                        </button>
+                                                        <button onClick={() => console.log('Пожаловаться')}>
+                                                            <img src={redFlag} alt=""/>
+                                                            Пожаловаться
+                                                        </button>
+                                                    </div>
+                                                )}
+                                            </div>
                                         </div>
-                                    </div>
-                                </Link>
+                                    </Link>
+                                    ) : (
+                                    <Link to={`/user/${friend.receiver.id}`}>
+                                        <div className={styles.friendBlock}>
+                                            <div className={styles.friendBlock_avatar}>
+                                                <img src={friend.receiver.avatar} alt=""/>
+                                            </div>
+                                            <div className={styles.friendBlock_info}>
+                                                <div className={styles.friendBlock_info_name}>
+                                                    {friend.receiver.name} {friend.receiver.surname}
+                                                </div>
+                                                <div className='levelButton' style={{width: '128px'}}>
+                                                    Рубиков <span>{friend.receiver.rubick}</span>
+                                                </div>
+                                            </div>
+                                            <div className={styles.friendBlock_buttons}>
+                                                <div className={styles.friendBlock_buttons_threeDot} onClick={(e) => {
+                                                    e.preventDefault();
+                                                    toggleDropdown(friend.receiver.id);
+                                                }}>
+                                                    <img src={threeDots} alt=""/>
+                                                </div>
+                                                {openDropdown === friend.receiver.id && (
+                                                    <div className={styles.dropdownMenu}>
+                                                        <button onClick={(event) => handleDeleteFriendship(event, friend.receiver.id)}>
+                                                            <img src={deleteFriend} alt=""/>
+                                                            Удалить из друзей
+                                                        </button>
+                                                        <button onClick={() => console.log('Пожаловаться')}>
+                                                            <img src={redFlag} alt=""/>
+                                                            Пожаловаться
+                                                        </button>
+                                                    </div>
+                                                )}
+                                            </div>
+                                        </div>
+                                    </Link>
+                                )
                             ))
                             ) : (
                             currentUser.friends.map(friend => (
