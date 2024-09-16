@@ -158,7 +158,7 @@ const ContestPage = () => {
                                     Объявление результатов
                                 </div>
                                 <div className='start_button_minimized start_button_minimized-blue'>
-                                    {contest && formatDate(contest.end_date)}
+                                    {contest && formatDate(contest.announce_results_date)}
                                 </div>
                             </div>
                         </div>

@@ -41,6 +41,7 @@ const SingleClubPage = () => {
             dispatch(fetchPostsByClubId({clubId: Number(params.id)}));
     }, []);
 
+    useEffect(() => {console.log(posts)}, [posts])
     if (status === 'loading' || !club) {
         return <p>Loading...</p>;
     }
