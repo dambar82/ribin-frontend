@@ -192,10 +192,12 @@ const FriendsPage = () => {
                                         </div>
                                         {openDropdown === friend.id && (
                                             <div className={styles.dropdownMenu}>
-                                                <button onClick={(event) => handleDeleteFriendship(event, friend.id)}>
-                                                    <img src={deleteFriend} alt=""/>
-                                                    Удалить из друзей
-                                                </button>
+                                                { yourPage && (
+                                                    <button onClick={(event) => handleDeleteFriendship(event, friend.id)}>
+                                                        <img src={deleteFriend} alt=""/>
+                                                        Удалить из друзей
+                                                    </button>
+                                                ) }
                                                 <button onClick={() => console.log('Пожаловаться')}>
                                                     <img src={redFlag} alt=""/>
                                                     Пожаловаться

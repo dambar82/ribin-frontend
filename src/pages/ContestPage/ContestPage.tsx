@@ -98,6 +98,10 @@ const ContestPage = () => {
     }, [contest])
 
     useEffect(() => {
+        console.log(topParticipants)
+    }, [topParticipants])
+
+    useEffect(() => {
         if (contestStatus === 'idle') {
             dispatch(fetchContests());
         }
@@ -210,7 +214,7 @@ const ContestPage = () => {
             )}
         </div>
             {
-                (participating || contest.status === 0) && (
+                (participating || contest.status === 2) && (
                     <>
                         <div className={`section ${styles.results}`}>
                             <div className='section__header'>
@@ -254,9 +258,9 @@ const ContestPage = () => {
                                         </div>
                                     </div>
                                 )}
-                                {contest.status === 0 && topParticipants.length > 0 && (
+                                {contest.status === 2 && topParticipants.length > 0 && (
                                     <div className={`shadowBlock ${styles.results_content} ${styles.prizes_content}`}>
-                                        {topParticipants.slice(0, 3).map((member, index) => (
+                                        {[...topParticipants].slice(0, 3).map((member, index) => (
                                             <Link to={`/user/${member.client.id}`}>
                                                 <div className={styles.prizes_content_block}>
                                                     <div className={styles.prizes_content_block_left}>
@@ -268,11 +272,11 @@ const ContestPage = () => {
                                                                 {member.client.name} {member.client.surname}
                                                             </div>
                                                             <div className={styles.prizes_content_block_info_level}>
+                                                                {/*<div>*/}
+                                                                {/*    Уровень <span>{member.client.level}</span>*/}
+                                                                {/*</div>*/}
                                                                 <div>
-                                                                    Уровень <span>{member.client.level}</span>
-                                                                </div>
-                                                                <div>
-                                                                    Очков <span>{member.client.score}</span>
+                                                                    Рубиков <span>{member.client.rubick}</span>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -302,7 +306,7 @@ const ContestPage = () => {
                             </div>
                             <div className='section__body'>
                                 <div className={styles.participants_content}>
-                                    {contest && contest.participants
+                                    {contest && topParticipants
                                         .slice(0, 20)
                                         .map(participant => (
                                             <Link to={`/user/${participant.client.id}`}>
