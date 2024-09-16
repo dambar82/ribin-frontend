@@ -169,45 +169,85 @@ const FriendsPage = () => {
             <div className={`userList`}>
                 <div className={`userList_list`}>
                     {
-                        currentUser.friends.map(friend => (
-                            <Link to={`/user/${friend.id}`}>
-                                <div className={styles.friendBlock}>
-                                    <div className={styles.friendBlock_avatar}>
-                                        <img src={`https://api-rubin.multfilm.tatar/storage/${friend.avatar}`} alt=""/>
-                                    </div>
-                                    <div className={styles.friendBlock_info}>
-                                        <div className={styles.friendBlock_info_name}>
-                                            {friend.name} {friend.surname}
+                        yourPage ? (
+                            friends.friends.map(friend => (
+                                <Link to={`/user/${friend.sender.id}`}>
+                                    <div className={styles.friendBlock}>
+                                        <div className={styles.friendBlock_avatar}>
+                                            <img src={friend.sender.avatar} alt=""/>
                                         </div>
-                                        <div className='levelButton' style={{width: '128px'}}>
-                                            Рубиков <span>{friend.rubick}</span>
+                                        <div className={styles.friendBlock_info}>
+                                            <div className={styles.friendBlock_info_name}>
+                                                {friend.sender.name} {friend.sender.surname}
+                                            </div>
+                                            <div className='levelButton' style={{width: '128px'}}>
+                                                Рубиков <span>{friend.sender.rubick}</span>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div className={styles.friendBlock_buttons}>
-                                        <div className={styles.friendBlock_buttons_threeDot} onClick={(e) => {
-                                            e.preventDefault();
-                                            toggleDropdown(friend.id);
-                                        }}>
-                                            <img src={threeDots} alt=""/>
-                                        </div>
-                                        {openDropdown === friend.id && (
-                                            <div className={styles.dropdownMenu}>
-                                                { yourPage && (
-                                                    <button onClick={(event) => handleDeleteFriendship(event, friend.id)}>
+                                        <div className={styles.friendBlock_buttons}>
+                                            <div className={styles.friendBlock_buttons_threeDot} onClick={(e) => {
+                                                e.preventDefault();
+                                                toggleDropdown(friend.sender.id);
+                                            }}>
+                                                <img src={threeDots} alt=""/>
+                                            </div>
+                                            {openDropdown === friend.sender.id && (
+                                                <div className={styles.dropdownMenu}>
+                                                    <button onClick={(event) => handleDeleteFriendship(event, friend.sender.id)}>
                                                         <img src={deleteFriend} alt=""/>
                                                         Удалить из друзей
                                                     </button>
-                                                ) }
-                                                <button onClick={() => console.log('Пожаловаться')}>
-                                                    <img src={redFlag} alt=""/>
-                                                    Пожаловаться
-                                                </button>
-                                            </div>
-                                        )}
+                                                    <button onClick={() => console.log('Пожаловаться')}>
+                                                        <img src={redFlag} alt=""/>
+                                                        Пожаловаться
+                                                    </button>
+                                                </div>
+                                            )}
+                                        </div>
                                     </div>
-                                </div>
-                            </Link>
-                        ))
+                                </Link>
+                            ))
+                            ) : (
+                            currentUser.friends.map(friend => (
+                                <Link to={`/user/${friend.id}`}>
+                                    <div className={styles.friendBlock}>
+                                        <div className={styles.friendBlock_avatar}>
+                                            <img src={`https://api-rubin.multfilm.tatar/storage/${friend.avatar}`} alt=""/>
+                                        </div>
+                                        <div className={styles.friendBlock_info}>
+                                            <div className={styles.friendBlock_info_name}>
+                                                {friend.name} {friend.surname}
+                                            </div>
+                                            <div className='levelButton' style={{width: '128px'}}>
+                                                Рубиков <span>{friend.rubick}</span>
+                                            </div>
+                                        </div>
+                                        <div className={styles.friendBlock_buttons}>
+                                            <div className={styles.friendBlock_buttons_threeDot} onClick={(e) => {
+                                                e.preventDefault();
+                                                toggleDropdown(friend.id);
+                                            }}>
+                                                <img src={threeDots} alt=""/>
+                                            </div>
+                                            {openDropdown === friend.id && (
+                                                <div className={styles.dropdownMenu}>
+                                                    { yourPage && (
+                                                        <button onClick={(event) => handleDeleteFriendship(event, friend.id)}>
+                                                            <img src={deleteFriend} alt=""/>
+                                                            Удалить из друзей
+                                                        </button>
+                                                    ) }
+                                                    <button onClick={() => console.log('Пожаловаться')}>
+                                                        <img src={redFlag} alt=""/>
+                                                        Пожаловаться
+                                                    </button>
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
+                                </Link>
+                            ))
+                        )
                     }
                 </div>
             </div>
