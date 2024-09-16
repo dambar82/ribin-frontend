@@ -37,7 +37,7 @@ const AuthLayout: React.FC<AuthLayoutProps> = ({ children, notificationFriend, s
     const handleMouseLeave = () => {
         const timeout = setTimeout(() => {
             setNotificationFriend({ visible: false, data: null });
-        }, 2000); // Возобновляем таймер на 2 секунды
+        }, 5000); // Возобновляем таймер на 2 секунды
         setAutoCloseTimeout(timeout);
     };
 
