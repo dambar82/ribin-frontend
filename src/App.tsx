@@ -196,7 +196,7 @@ function App() {
                     // Через 2 секунды скрываем уведомление
                     const timeout = setTimeout(() => {
                         setNotificationFriend({ visible: false, data: data });
-                    }, 3000);
+                    }, 8000);
 
                     setAutoCloseTimeout(timeout);
                 }
