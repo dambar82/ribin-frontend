@@ -39,8 +39,6 @@ import {MemoryGame} from "../../components/MemoryGame/MemoryGame";
 import kazanorgsintez from '../../images/svg/Казань Оргсинтез.svg';
 import neftehim from '../../images/svg/Нижнекамск нефтехим.svg';
 import { User } from '../../store/userSlice'
-import NotificationFriends from "../../components/Notification/NotificationFriends";
-import NotificationChat from "../../components/Notification/NotificationChat";
 
 const sponsors = [
     kazanorgsintez, neftehim

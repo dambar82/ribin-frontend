@@ -177,8 +177,7 @@ const ContestPage = () => {
                             <h3>
                                 Описание
                             </h3>
-                            <p>
-                                {contest?.description}
+                            <p dangerouslySetInnerHTML={{ __html: contest?.description }}>
                             </p>
                         </div>
                     </div>

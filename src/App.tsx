@@ -53,6 +53,7 @@ import AchievementsPage from "./pages/AchievementsPage/AchievementsPage";
 import { DownloadAppBunner } from './pages/DownloadAppBunner/DownloadAppBunner'
 import UnauthLayoutRegister from './components/layouts/UnauthLayoutRegister';
 import FriendsPage from "./pages/FriendsPage/FriendsPage";
+import NotificationFriends from "./components/Notification/NotificationFriends";
 
 
 export function postFormatDate(isoString) {
@@ -120,7 +121,9 @@ function App() {
 
     const isAuth = !!user?.email_confirmed
 
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(false);
+    const [notificationFriend, setNotificationFriend] = useState({visible: false, data: null});
+    const [autoCloseTimeout, setAutoCloseTimeout] = React.useState<NodeJS.Timeout | null>(null);
 
     const dispatch = useDispatch<AppDispatch>()
 
@@ -129,6 +132,7 @@ function App() {
         { path: '/register', element: <Register />, layout: UnauthLayoutRegister },
         { path: '/restore', element: <Restore />, layout: RestoreLayout },
         { path: '/restore/password/:token', element: <NewPassword />, layout: RestoreLayout },
+        { path: '/', element: <MainPage/>, layout: UnauthLayout },
         { path: '/email-confirmation/:hash', element: <ConfirmEmailModal email='' />, layout: UnauthLayout },
         { path: '/contests', element: <Contests />, layout: UnauthLayout },
         { path: '/contests/:contestId', element: <ContestPage />, layout: UnauthLayout },
@@ -184,10 +188,18 @@ function App() {
             const channelName = `notification.${user.id}`;
             const channel = pusher.subscribe(channelName);
 
-            console.log(channelName);
-
             channel.bind('friendship.add_friend', (data) => {
                 console.log(data);
+                if (data) {
+                    setNotificationFriend({ visible: true, data });
+
+                    // Через 2 секунды скрываем уведомление
+                    const timeout = setTimeout(() => {
+                        setNotificationFriend({ visible: false, data: data });
+                    }, 3000);
+
+                    setAutoCloseTimeout(timeout);
+                }
             })
 
             channel.bind('friendship.friend_request_accepted', (data) => {
@@ -206,21 +218,24 @@ function App() {
                 {publicRoutes.map(({ path, element, layout: Layout }) => (
                     <Route key={path} path={path} element={Layout ? <Layout>{element}</Layout> : element} />
                 ))}
-                <Route
-                    path="/"
-                    element={
-                      <MainAuthorizedLayout>
-                        <MainPage />
-                      </MainAuthorizedLayout>
-                    }
-                />
+                {/*<Route*/}
+                {/*    path="/"*/}
+                {/*    element={*/}
+                {/*      <MainAuthorizedLayout>*/}
+                {/*        <MainPage />*/}
+                {/*          {notificationFriend.visible && <NotificationFriends sender={notificationFriend.data.client}></NotificationFriends>}*/}
+                {/*      </MainAuthorizedLayout>*/}
+                {/*    }*/}
+                {/*/>*/}
                 {privateRoutes.map(({ path, element }) => (
                     <Route
                         key={path}
                         path={path}
                         element={
                             <PrivateRoute>
-                                <AuthLayout>{element}</AuthLayout>
+                                <AuthLayout notificationFriend={notificationFriend} setNotificationFriend={setNotificationFriend} autoCloseTimeout={autoCloseTimeout} setAutoCloseTimeout={setAutoCloseTimeout}>
+                                    {element}
+                                </AuthLayout>
                             </PrivateRoute>
                         }
                     />
