@@ -157,3 +157,55 @@
     }
   }
 }
+
+.usersFilter {
+  padding: 32px;
+  border-radius: 35px;
+  background-color: white;
+  width: 30%;
+  display: flex;
+  flex-direction: column;
+  row-gap: 32px;
+}
+
+.wall__form {
+  background-color: #F8F8F8;
+  border-radius: 50px;
+  display: flex;
+  column-gap: 12px;
+  align-items: center;
+  padding: 10px 24px;
+  input {
+    background-color: transparent;
+    border: none;
+    outline: none;
+    color: #6F6F6F;
+    font-size: 20px;
+    font-weight: 500;
+    line-height: calc(24 / 20);
+  }
+  button {
+    background-color: transparent;
+  }
+}
+
+.wall__filter {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.wall__filterItem {
+  background-color: #F8F8F8;
+  border-radius: 50px;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: calc(24 / 20);
+  padding: 18px 60px;
+  text-align: center;
+}
+
+.wall__filterItemActive {
+  background-color: #91172C;
+  color: #FFFFFF;
+}
