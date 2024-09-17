@@ -123,12 +123,11 @@ li {
 }
 
 .userList {
-  padding: 70px 150px;
+  padding: 70px;
   border-radius: 50px;
   background-color: #F8F8F8;
   display: flex;
   row-gap: 40px;
-  flex-direction: column;
   column-gap: 60px;
   &_list {
     width: 65%;

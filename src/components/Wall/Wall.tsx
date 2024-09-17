@@ -368,7 +368,7 @@ const Wall = ({type, posts, editable = true, clubId}: IWall) => {
             </div>
             <aside className={ type === "post" || type === "club" || type ==="profile" ? styles.wall__aside : `${styles.wall__aside} ${styles.wall__aside_sticky}`}>
                 <div className={styles.wall__asideBlock}>
-                    <form method="GET" action="#" className={styles.wall__form}>
+                    <form action="#" className={styles.wall__form}>
                         <button type="button">
                             <img src={loupeIcon} alt="" />
                         </button>
