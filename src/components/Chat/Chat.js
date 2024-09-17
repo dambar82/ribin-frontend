@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Pusher from 'pusher-js';
 import axios from 'axios';
-import './Chat.css';
+import './Chat.scss';
 import Notification from './Notification';
 import EmojiPicker from 'emoji-picker-react'; // Убедитесь, что библиотека установлена
 import { useParams } from 'react-router-dom';
@@ -9,6 +9,7 @@ import loupe from '../../images/svg/loupe.svg';
 import {useSelector} from "react-redux";
 import {RootState} from "../../store/store";
 import {Button} from "../../shared/UI/button/Button";
+import { classNames } from '../../shared/utils'
 
 const pusher = new Pusher('05817bdeb548cb607678', {
     cluster: 'mt1',
@@ -115,7 +116,7 @@ const Chat = () => {
                 const response = await axios.get(`https://api-rubin.multfilm.tatar/api/messages/get/${selectedContact.id}`, {
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
-                setMessages(response.data.data);
+                setMessages(response.data.data || []);
                 scrollToBottom(); // Прокрутка вниз при открытии чата
             } catch (error) {
                 console.error('Ошибка при получении сообщений:', error);
@@ -156,7 +157,7 @@ const Chat = () => {
         fetchMessages()
     };
 
-    const filteredMessages = messages.filter((msg) => {
+    const filteredMessages = messages?.filter((msg) => {
         return msg.message.toLowerCase().includes(searchQuery.toLowerCase());
     });
 
@@ -270,15 +271,22 @@ const Chat = () => {
                     ))}
                 </div>
             </div>
-            <div className="chat-window">
+            <div className={classNames('chat-window', selectedContact ? '_active' : '')}>
                 {selectedContact ? (
                     <>
                         {/*<div className="chat-header">*/}
                         {/*    <h2>{selectedContact.name}</h2>*/}
                         {/*    <span className="status">{selectedContact.online ? 'Online' : 'Offline'}</span>*/}
                         {/*</div>*/}
+                        <button
+                          type='button'
+                          className='back_button'
+                          onClick={() => setSelectedContact(null)}
+                        >
+                          Назад
+                        </button>
                         <div className="messages-list">
-                            {filteredMessages.map((msg, index) =>
+                            {filteredMessages?.map((msg, index) =>
                                 msg.from_client_id.toString() === userId ? (
                                     <div className='message-item' style={{justifyContent: 'flex-end'}} key={index}>
                                         <div className='message-content_wrapper'>
@@ -332,18 +340,20 @@ const Chat = () => {
                             <div ref={messagesEndRef} />
                         </div>
                         <div className="message-input" style={{ position: 'relative' }}>
-                            <input
-                                type="text"
-                                value={newMessage}
-                                onChange={(e) => {
-                                    setNewMessage(e.target.value);
-                                    setIsTyping(true);
-                                }}
-                                placeholder="Введите сообщение..."
-                            />
-                            <span onClick={toggleEmojiPicker} style={{ cursor: 'pointer', fontSize: 22, position: 'absolute', top: '50%', left: '72%', transform: 'translate(-50%, -50%)' }}>
-                                😄
-                            </span>
+                            <div>
+                              <input
+                                  type="text"
+                                  value={newMessage}
+                                  onChange={(e) => {
+                                      setNewMessage(e.target.value);
+                                      setIsTyping(true);
+                                  }}
+                                  placeholder="Введите сообщение..."
+                              />
+                              <span onClick={toggleEmojiPicker} >
+                                  😄
+                              </span>
+                            </div>
                             {showEmoji && (
                                 <div className="emoji-picker">
                                     <EmojiPicker onEmojiClick={onEmojiClick} skinTonesDisabled={false} searchDisabled={true} />
@@ -353,7 +363,10 @@ const Chat = () => {
                             {isSending ? (
                                 <Button>Загрузка...</Button> // Лоадер, который отображается во время отправки сообщения
                             ) : (
-                                <Button onClick={sendMessage}>Отправить</Button>
+                                <Button onClick={sendMessage}>
+                                  <span>Отправить</span>
+                                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3.71256 3.05048C3.62262 3.00657 3.52154 2.99079 3.4225 3.00517C3.32345 3.01956 3.23104 3.06346 3.15732 3.13114C3.08359 3.19883 3.03196 3.28715 3.00918 3.38461C2.98639 3.48206 2.99349 3.58412 3.02956 3.67748L5.87256 11.3045C6.04023 11.7547 6.04023 12.2502 5.87256 12.7005L3.03056 20.3275C2.99467 20.4207 2.98766 20.5226 3.01044 20.6199C3.03322 20.7172 3.08473 20.8053 3.15828 20.873C3.23183 20.9406 3.32402 20.9845 3.42287 20.9991C3.52172 21.0136 3.62265 20.9981 3.71256 20.9545L21.7126 12.4545C21.7982 12.414 21.8705 12.35 21.9212 12.27C21.9719 12.19 21.9988 12.0972 21.9988 12.0025C21.9988 11.9078 21.9719 11.815 21.9212 11.735C21.8705 11.655 21.7982 11.591 21.7126 11.5505L3.71256 3.05048Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 12H22" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                </Button>
                             )}
                         </div>
                     </>

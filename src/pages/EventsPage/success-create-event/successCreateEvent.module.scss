@@ -4,6 +4,10 @@
   max-width: 90%!important;
   z-index: 1000;
 
+  @media (max-width: 1440px) {
+    border-radius: 35px; 
+  }
+
   & > button {
     display: none!important;
   }
@@ -18,21 +22,51 @@
   border-radius: 50px;
   padding: 70px;
 
+  @media (max-width: 1600px) {
+    grid-template-columns: 60% 40%; 
+  }
+  @media (max-width: 1440px) {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    border-radius: 35px;
+    padding: 50px;
+  }
+  @media (max-width: 768px) {
+    border-radius: 26px;
+    padding: 30px 20px; 
+  }
+
   & > div {
     &:nth-child(1) {
       display: flex;
       flex-direction: column;
       gap: 32px;
     }
+    &:nth-child(2) {
+      @media (max-width: 1440px) {
+        grid-row: 1/2; 
+      }
+    }
   }
 
   b {
     font-size: 64px;
     font-weight: 600;
+
+    @media (max-width: 1440px) {
+      font-size: 48px; 
+    }
+    @media (max-width: 480px) {
+      font-size: 32px; 
+    }
   }
 
   p {
     font-size: 20px;
+
+    @media (max-width: 1440px) {
+      font-size: 18px; 
+    }
   }
 
   .btns {
@@ -44,6 +78,19 @@
     grid-template-columns: auto auto;
     gap: 18px;
 
+    @media (max-width: 1200px) {
+      grid-template-columns: 1fr;
+
+      button {
+        width: 100%;
+      }
+    }
+    @media (max-width: 480px) {
+      button {
+        padding: 14px;
+      } 
+    }
+
     button:nth-child(2) {
       background-color: transparent;
       border: 2px solid var(--main-color);
@@ -53,5 +100,6 @@
 
   img {
     max-width: 600px;
+    width: 100%;
   }
 }

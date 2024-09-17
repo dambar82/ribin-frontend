@@ -26,7 +26,7 @@ const EventCard = ({ event }: IEventCard) => {
             <div className={styles.event__content}>
                 <div className={styles.event__header}>
                     <div className={styles.event__title}>{ event.name }</div>
-                    <div className={classNames(styles.event__status, !!event.status && styles.active)}>{!!event.status ? "Актуально" : 'Неактуально'}</div>
+                    <div className={classNames(styles.event__status, event.status === 1 && styles.active)}>{event.status === 1 ? "Актуально" : 'Неактуально'}</div>
                     {/* <div className={styles.event__status}>{event.completed ? "Завершен" : "Актуально"}</div> */}
                 </div>
                 <div className={styles.event__info}>

@@ -3,6 +3,11 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+
+  @media (max-width: 640px) {
+    flex-direction: column;
+    gap: 40px;
+  }
 }
 
 .section {
@@ -10,6 +15,15 @@
   box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.12);
   border-radius: 50px;
   padding: 70px;
+
+  @media (max-width: 1440px) {
+    padding: 50px;
+    border-radius: 35px; 
+  }
+  @media (max-width: 768px) {
+    padding: 30px 20px;
+    border-radius: 26px; 
+  }
   
   form {
     display: grid;
@@ -25,6 +39,10 @@
         color: var(--black);
         font-size: 24px;
         font-weight: 500;
+
+        @media (max-width: 480px) {
+          font-size: 22px;
+        }
 
         span {
           position: absolute;
@@ -49,6 +67,12 @@
 
     & > button {
       justify-self: center;
+
+      @media (max-width: 480px) {
+        width: 100%;
+        font-size: 18px;
+        padding: 14px;
+      }
     }
 
     .input_caption {
@@ -66,6 +90,18 @@
   grid-template-columns: 1fr 1fr;
   gap: 32px 50px;
 
+  @media (max-width: 1440px) {
+   grid-template-columns: 1fr; 
+  }
+
+  & > div {
+    &:nth-of-type(3) {
+      @media (max-width: 1440px) {
+        grid-row: 2/3; 
+      }
+    }
+  }
+
   .date_wrapper {
     display: grid;
     gap: 12px;
@@ -80,6 +116,10 @@
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 18px;
+
+      @media (max-width: 600px) {
+        grid-template-columns: 1fr;
+      } 
     }
 
     :global(.react-datepicker) {
@@ -372,6 +412,11 @@
     border: 4px dotted #817E7E;
     border-radius: 35px;
 
+    @media (max-width: 1440px) {
+      max-width: 130px; 
+      border-radius: 26px;
+    }
+
     &::before, &::after {
       content: '';
       position: absolute;
@@ -382,6 +427,10 @@
       width: 4px;
       background-color: #817E7E;
       border-radius: 2px;
+
+      @media (max-width: 1440px) {
+        width: 2px; 
+      }
     }
     &::after {
       transform: translate(-50%, -50%) rotate(90deg);
@@ -403,6 +452,11 @@
     cursor: pointer;
     border-radius: 35px;
     overflow: hidden;
+
+    @media (max-width: 1440px) {
+      max-width: 130px;
+      border-radius: 26px;
+    }
     
     img {
       width: 100%;
