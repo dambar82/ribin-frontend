@@ -257,7 +257,7 @@ const Wall = ({type, posts, editable = true, clubId}: IWall) => {
                                         {/*    )*/}
                                         {/*}*/}
                                         {/*{textareaValue.length > 0 && (*/}
-                                            <Button className={`${styles.submit_button} ${textareaValue.length > 0 ? styles.show : ''}`}>Отправить</Button>
+                                            <Button className={`${styles.submit_button} ${textareaValue.length > 0 ? styles.show : ''}`} type="submit">Отправить</Button>
                                         {/*)}*/}
                                     </div>
                                 </div>
