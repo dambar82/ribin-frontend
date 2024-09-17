@@ -106,9 +106,19 @@ const FriendsPage = () => {
         });
     };
 
-    const filteredCurrentUserFriends = currentUser?.friends.filter(friend =>
-        `${friend.name} ${friend.surname}`.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+    const filteredCurrentUserFriends = currentUser?.friends.filter(friend => {
+        const fullName = `${friend.name} ${friend.surname}`.toLowerCase();
+        //@ts-ignore
+        const isOnline = friend.online; // Добавляем проверку на онлайн
+
+        const nameMatch = fullName.includes(searchTerm.toLowerCase());
+
+        if (sortType === 1) {
+            return nameMatch && isOnline; // Фильтрация только онлайн-друзей
+        }
+
+        return nameMatch; // Фильтрация всех друзей
+    });
 
     if (!currentUser) return <p>Loading...</p>
 
