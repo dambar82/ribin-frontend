@@ -91,7 +91,18 @@ const FriendsPage = () => {
                 friend.sender
                     ? `${friend.sender.name} ${friend.sender.surname}`.toLowerCase()
                     : `${friend.receiver.name} ${friend.receiver.surname}`.toLowerCase();
-            return fullName.includes(searchTerm.toLowerCase());
+
+
+            const isOnline = friend.sender
+                ? friend.sender.online
+                : friend.receiver.online;
+
+            const nameMatch = fullName.includes(searchTerm.toLowerCase());
+
+            if (sortType === 1) {
+                return nameMatch && isOnline;
+            }
+            return nameMatch;
         });
     };
 
