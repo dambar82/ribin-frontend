@@ -123,7 +123,7 @@ const FriendsPage = () => {
     if (!currentUser) return <p>Loading...</p>
 
     return (
-        <div className={`page`}>
+        <div className={`page ${styles.page}`}>
             {
                 yourPage && friends.awaiting.length > 0 && (
                     <>
@@ -135,7 +135,6 @@ const FriendsPage = () => {
                             <div className={`section__body userList`} style={{padding: '70px 150px'}}>
                                 <Swiper
                                     spaceBetween={20}
-                                    slidesPerView={4}
                                     modules={[Navigation]}
                                     navigation={{
                                         prevEl: '.button--prev',
@@ -144,6 +143,20 @@ const FriendsPage = () => {
                                     style={{
                                         minWidth: 0,
                                         width: "100%"
+                                    }}
+                                    breakpoints={{
+                                      1200: {
+                                        slidesPerView: 4
+                                      },
+                                      768: {
+                                        slidesPerView: 3
+                                      },
+                                      480: {
+                                        slidesPerView: 2
+                                      },
+                                      360: {
+                                        slidesPerView: 1
+                                      }
                                     }}
                                 >
                                     {[...friends.awaiting]
