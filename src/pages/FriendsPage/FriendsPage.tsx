@@ -168,6 +168,9 @@ const FriendsPage = () => {
                                                         <div className={styles.awaitingFriend}>
                                                             <div className={styles.awaitingFriend_avatar}>
                                                                 <img src={friend.sender.avatar} alt=""/>
+                                                                {currentUser.online && (
+                                                                    <div style={{right: 0, bottom: '5px'}} className="big-card__avatar-status"></div>
+                                                                )}
                                                             </div>
                                                             <div className={styles.awaitingFriend_name}>
                                                                 {friend.sender.name} {friend.sender.surname}
@@ -229,6 +232,9 @@ const FriendsPage = () => {
                                             <div className={styles.friendBlock}>
                                                 <div className={styles.friendBlock_avatar}>
                                                     <img src={friend.sender.avatar} alt=""/>
+                                                    {currentUser.online && (
+                                                        <div style={{right: '-5px', bottom: '5px', width: '16px', height: '16px'}} className="big-card__avatar-status"></div>
+                                                    )}
                                                 </div>
                                                 <div className={styles.friendBlock_info}>
                                                     <div className={styles.friendBlock_info_name}>

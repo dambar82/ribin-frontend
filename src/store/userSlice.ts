@@ -6,6 +6,7 @@ import { TCheckAuthResponse, TLoginUserResponse, TConfirmEmailResponse, TRegiste
 import { TEvent } from '../shared/types/event.types'
 
 export interface User {
+    online: boolean;
     avatar: string | null;
     id: number;
     email: string;

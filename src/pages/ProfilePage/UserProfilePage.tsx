@@ -82,7 +82,9 @@ const UserProfilePage = () => {
                         <picture>
                             <img src={currentUser.avatar} alt="" />
                         </picture>
-                        <div className="big-card__avatar-status"></div>
+                        {currentUser.online && (
+                            <div className="big-card__avatar-status"></div>
+                        )}
                     </div>
                     <div className="big-card__info">
                         <div className="big-card__info-header">
