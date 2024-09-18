@@ -50,6 +50,28 @@ const menuLinks: IMenuLink[] = [
     },
 ]
 
+const navigation = [
+  { text: 'Главная', link: '/' },
+  { text: 'Пользователи', link: '/people' },
+  { text: 'Конкурсы', link: '/contests' },
+  { text: 'Новости', link: '/news' },
+  { text: 'Записи', link: '/posts' },
+  { text: 'Клубы', link: '/clubs' },
+]
+
+const club = [
+  { text: 'Программы и предложения', link: '/programs' },
+  { text: 'Фотогалерея', link: '/photogallery' },
+  { text: 'Достижения', link: '/achievements' },
+  { text: 'Тренерский состав', link: '/academy-coaches' },
+]
+
+const club_activities = [
+  { text: 'Спорт для школьников', link: '/sportslife' },
+  { text: 'Викторины', link: '/quizzes' },
+  { text: 'Мероприятия', link: '/events' },
+]
+
 const Footer = () => {
 
     const handleDownload = () => {
@@ -61,29 +83,45 @@ const Footer = () => {
 
     return (
             <div className={styles.footer}>
-                <div className={`${styles.footer_whitePart} justify_content_SB content`}>
+                <div className={`${styles.footer_whitePart} content`}>
                     <div className={styles.footer_logos}>
                         <img src={ruby} alt=""/>
                         <img src={rubyLogo} alt=""/>
                     </div>
                     <div className={styles.footer_links}>
-                        <h3>
-                            О клубе
-                        </h3>
-                        <div className={styles.footer_links_flex}>
-                            {
-                                menuLinks.map((link: IMenuLink) => (
-                                    <Link to={link.link} key={link.link}>
-                                        <div className={styles.footer_link}>
-                                            {link.title}
-                                        </div>
-                                    </Link>
-                                ))
-                            }
+                        <div>
+                          <h3>Навигация</h3>
+                          {navigation.map(link => (
+                            <Link to={link.link} key={link.link}>
+                              <div className={styles.footer_link}>
+                                  {link.text}
+                              </div>
+                            </Link>
+                          ))}
+                        </div>
+                        <div>
+                          <h3>О клубе</h3>
+                          {club.map(link => (
+                            <Link to={link.link} key={link.link}>
+                              <div className={styles.footer_link}>
+                                  {link.text}
+                              </div>
+                            </Link>
+                          ))}
+                        </div>
+                        <div>
+                          <h3>Активности клуба</h3>
+                          {club_activities.map(link => (
+                            <Link to={link.link} key={link.link}>
+                              <div className={styles.footer_link}>
+                                  {link.text}
+                              </div>
+                            </Link>
+                          ))}
                         </div>
                     </div>
-                    <div className={styles.footer_links}>
-                        <h3 className={styles.footer_number}>
+                    <div className={styles.footer_number}>
+                        <h3>
                             8 800 550 1958
                         </h3>
                         {/*<div className={styles.footer_links_flex}>*/}

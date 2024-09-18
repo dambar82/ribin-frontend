@@ -1,3 +1,28 @@
+
+.page {
+  :global(.userList) {
+    position: relative;
+    
+    @media (max-width: 1440px) {
+      padding: 70px!important;
+      column-gap: 40px!important;
+    }
+    @media (max-width: 1200px) {
+      padding: 30px!important;
+    }
+    @media (max-width: 1000px) {
+      flex-direction: column-reverse;
+
+      & > div {
+        width: 100%;
+      }
+    }
+    @media (max-width: 768px) {
+      padding: 20px!important; 
+    }
+  }
+}
+
 .awaitingFriend {
   background-color: white;
   border-radius: 35px;
@@ -51,9 +76,23 @@
 }
 
 .swiper_controls {
+  position: absolute;
+  bottom: -80px;
+  left: 50%;
+  transform: translate(-50%, 0);
   display: flex;
   justify-content: flex-end;
   gap: 20px;
+
+  @media (max-width: 1000px) {
+    width: max-content!important; 
+  }
+  @media (max-width: 480px) {
+    span {
+      display: none;
+    } 
+  }
+  
   & > * {
     &:disabled {
       background-color: rgba(180, 180, 180, 0.65);
@@ -78,6 +117,14 @@
   display: flex;
   align-items: center;
   justify-content: flex-start;
+
+  @media (max-width: 600px) {
+    position: relative;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
   &_avatar {
     width: 100px;
     min-width: 100px;
@@ -99,6 +146,11 @@
     width: 100%;
     row-gap: 14px;
     padding: 12px 18px;
+
+    @media (max-width: 600px) {
+      align-items: center; 
+    }
+
     &_name {
       font-family: Raleway;
       font-size: 28px;
@@ -107,6 +159,10 @@
       letter-spacing: -0.011em;
       text-align: left;
       color: #2A2A2A;
+
+      @media (max-width: 1000px) {
+       font-size: 22px; 
+      }
     }
   }
   &_buttons {
@@ -114,6 +170,13 @@
     align-items: center;
     column-gap: 12px;
     position: relative;
+
+    @media (max-width: 600px) {
+      position: absolute;
+      right: 20px;
+      top: 20px; 
+    }
+
     &_threeDot {
       cursor: pointer;
       background-color: #F8F8F8;
@@ -123,6 +186,11 @@
       justify-content: center;
       align-items: center;
       border-radius: 50px;
+
+      @media (max-width: 600px) {
+        width: 40px;
+        height: 40px; 
+      }
     }
   }
 }
@@ -139,6 +207,11 @@
   width: 263px;
   top: 70px;
   overflow: hidden;
+
+  @media (max-width: 1000px) {
+    right: 0; 
+  }
+
   button {
     padding: 12px 24px;
     width: 100%;
@@ -163,6 +236,7 @@
   border-radius: 35px;
   background-color: white;
   width: 30%;
+  min-width: 320px;
   display: flex;
   flex-direction: column;
   row-gap: 32px;
