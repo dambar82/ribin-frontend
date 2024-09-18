@@ -54,6 +54,7 @@ import { DownloadAppBunner } from './pages/DownloadAppBunner/DownloadAppBunner'
 import UnauthLayoutRegister from './components/layouts/UnauthLayoutRegister';
 import FriendsPage from "./pages/FriendsPage/FriendsPage";
 import NotificationFriends from "./components/Notification/NotificationFriends";
+import { HelpPage } from './pages/HelpPage/HelpPage'
 
 
 export function postFormatDate(isoString) {
@@ -151,6 +152,7 @@ function App() {
         { path: '/programs', element: <ClubProgramsPage /> , layout: UnauthLayout },
         { path: '/page/:url', element: <Page/>, layout: UnauthLayout },
         { path: '/download-app', element: <DownloadAppBunner /> },
+        { path: '/help', element: <HelpPage />, layout: UnauthLayout },
     ];
 
     const privateRoutes = [

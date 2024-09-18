@@ -1,4 +1,6 @@
 
+export { Accordion } from "./accordion/Accordion"
+
 export { Textarea } from "./input/Textarea"
 
 export { Input } from "./input/Input"
