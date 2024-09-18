@@ -232,7 +232,7 @@ const FriendsPage = () => {
                                             <div className={styles.friendBlock}>
                                                 <div className={styles.friendBlock_avatar}>
                                                     <img src={friend.sender.avatar} alt=""/>
-                                                    {currentUser.online && (
+                                                    {friend.sender.online && (
                                                         <div style={{right: '-5px', bottom: '5px', width: '16px', height: '16px'}} className="big-card__avatar-status"></div>
                                                     )}
                                                 </div>
@@ -271,6 +271,9 @@ const FriendsPage = () => {
                                             <div className={styles.friendBlock}>
                                                 <div className={styles.friendBlock_avatar}>
                                                     <img src={friend.receiver.avatar} alt=""/>
+                                                    {friend.receiver.online && (
+                                                        <div style={{right: '-5px', bottom: '5px', width: '16px', height: '16px'}} className="big-card__avatar-status"></div>
+                                                    )}
                                                 </div>
                                                 <div className={styles.friendBlock_info}>
                                                     <div className={styles.friendBlock_info_name}>
@@ -310,6 +313,9 @@ const FriendsPage = () => {
                                         <div className={styles.friendBlock}>
                                             <div className={styles.friendBlock_avatar}>
                                                 <img src={`https://api-rubin.multfilm.tatar/storage/${friend.avatar}`} alt=""/>
+                                                {friend.online && (
+                                                    <div style={{right: '-5px', bottom: '5px', width: '16px', height: '16px'}} className="big-card__avatar-status"></div>
+                                                )}
                                             </div>
                                             <div className={styles.friendBlock_info}>
                                                 <div className={styles.friendBlock_info_name}>
