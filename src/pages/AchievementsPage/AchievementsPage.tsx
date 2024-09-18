@@ -157,39 +157,39 @@ const AchievementsPage = () => {
                                     <span>Рубиков</span>
                                     <span>{awards[0]}</span>
                                 </div>
-                                <div className={styles.promo}>
-                                    <div className={styles.promo_logo}>
-                                        <img src="/images/rubin%20logo.png" alt=""/>
-                                    </div>
-                                    <div className={styles.promo_info}>
-                                        <h2>Билет на матч</h2>
-                                        <div className={styles.promo_info_button}>
-                                            Бесплатно
-                                        </div>
-                                    </div>
-                                    <div className={styles.promo_code}>
-                                        <div className={`${styles.promo_code_copy} ${isCopied ? styles.promo_code_copy_Copied : ''}`}>
-                                            {
-                                                copiedPromo === 'ШКОЛА' && (
-                                                    <div className={styles.promoMessage}>
-                                                        Промокод скопирован
-                                                    </div>
-                                                )
-                                            }
-                                            <p ref={promo}>ШКОЛА</p>
-                                            {//@ts-ignore
-                                                <div className={styles.promo_code_copy_round} onClick={() => copyToClipboard(promo.current.innerText)}>
-                                                    <img src={copy} alt=""/>
-                                                </div>
-                                            }
-                                        </div>
-                                        <Link to='https://tickets.rubin-kazan.ru/event?id_event=631' target='_blank'>
-                                            <div className={styles.promo_code_go}>
-                                                <img src={gosomewhere} alt=""/>
-                                            </div>
-                                        </Link>
-                                    </div>
-                                </div>
+                                {/*<div className={styles.promo}>*/}
+                                {/*    <div className={styles.promo_logo}>*/}
+                                {/*        <img src="/images/rubin%20logo.png" alt=""/>*/}
+                                {/*    </div>*/}
+                                {/*    <div className={styles.promo_info}>*/}
+                                {/*        <h2>Билет на матч</h2>*/}
+                                {/*        <div className={styles.promo_info_button}>*/}
+                                {/*            Бесплатно*/}
+                                {/*        </div>*/}
+                                {/*    </div>*/}
+                                {/*    <div className={styles.promo_code}>*/}
+                                {/*        <div className={`${styles.promo_code_copy} ${isCopied ? styles.promo_code_copy_Copied : ''}`}>*/}
+                                {/*            {*/}
+                                {/*                copiedPromo === 'ШКОЛА' && (*/}
+                                {/*                    <div className={styles.promoMessage}>*/}
+                                {/*                        Промокод скопирован*/}
+                                {/*                    </div>*/}
+                                {/*                )*/}
+                                {/*            }*/}
+                                {/*            <p ref={promo}>ШКОЛА</p>*/}
+                                {/*            {//@ts-ignore*/}
+                                {/*                <div className={styles.promo_code_copy_round} onClick={() => copyToClipboard(promo.current.innerText)}>*/}
+                                {/*                    <img src={copy} alt=""/>*/}
+                                {/*                </div>*/}
+                                {/*            }*/}
+                                {/*        </div>*/}
+                                {/*        <Link to='https://tickets.rubin-kazan.ru/event?id_event=631' target='_blank'>*/}
+                                {/*            <div className={styles.promo_code_go}>*/}
+                                {/*                <img src={gosomewhere} alt=""/>*/}
+                                {/*            </div>*/}
+                                {/*        </Link>*/}
+                                {/*    </div>*/}
+                                {/*</div>*/}
                             </div>
                             <div className={styles.awards_grid}>
                                 {sortedAwards.map(item => (

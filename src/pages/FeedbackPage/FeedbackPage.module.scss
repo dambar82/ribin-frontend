@@ -1,3 +1,39 @@
+.choosed_files_wrapper {
+    margin-top: 20px;
+    gap: 8px;
+    display: flex;
+    flex-flow: wrap;
+}
+
+.error {
+    padding: 0 0 20px 0;
+    text-align: center;
+    color: red;
+    font-size: 20px;
+}
+
+.fileBlock {
+    max-width: 300px;
+    padding: 12px 20px;
+    background-color: #48903A;
+    border-radius: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    column-gap: 12px;
+    flex-direction: row !important;
+    font-family: Raleway;
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 24px;
+    text-align: center;
+    color: white;
+
+    img {
+        display: block;
+    }
+}
+
 .feedback {
     &__title {
         color: #000000;
@@ -20,6 +56,11 @@
         grid-template-columns: 1fr max(480px, calc(648 / 1520 * 100%));
         gap: 60px;
         padding: calc(70 / 1660 * 100%);
+        & div:first-child {
+            display: flex;
+            flex-direction: column;
+            row-gap: 24px;
+        }
     }
     &__footer {
         background-color: var(--light-grey);
