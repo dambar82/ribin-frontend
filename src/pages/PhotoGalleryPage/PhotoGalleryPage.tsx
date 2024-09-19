@@ -9,6 +9,7 @@ import { Filter } from './components'
 import styles from "./PhotoGalleryPage.module.scss";
 import { useFilterPhotoGallery } from './hooks/useFilterPhotoGallery'
 import { FILTERS } from './constants'
+import axios from "axios";
 
 
 export type TFilters = {
@@ -19,7 +20,7 @@ export type TFilters = {
 const PhotoGalleryPage = () => {
 
   const { photoGallery, status, error } = useSelector((state: RootState) => state.photoGallery);
-
+  const [ourGallery, setOurGallery] = useState([]);
   const [album, setAlbum] = useState("Все альбомы")
   const [filters, setFilters] = useState<TFilters>(FILTERS.reduce<TFilters>((acc, elem) => {
     acc[elem.id] = elem.elements[0]
@@ -33,8 +34,18 @@ const PhotoGalleryPage = () => {
   useEffect(() => {
     if (status === 'idle') {
       dispatch(fetchPhotoGallery());
+      const fetchOurGallery = async () => {
+          const response = await axios.get('https://api-rubin.multfilm.tatar/api/photo_gallery');
+          console.log(response.data)
+          setOurGallery(response.data)
+      }
+      fetchOurGallery();
     }
   }, [status, dispatch]);
+
+useEffect(() => {
+    console.log(ourGallery)
+}, [ourGallery])
 
   useEffect(() => {
     return () => {
@@ -75,6 +86,15 @@ const PhotoGalleryPage = () => {
                   </nav>
 
                   <div className={styles.photogallery__grid}>
+                      <Link to={`/photogallery/0`}>
+                          <GalleryCard
+                              id={0}
+                              name={'Наша галерея'}
+                              category={'Клуб'}
+                              image={ourGallery[0]}
+                              date={'19.09.2024 11:20:32'}
+                          />
+                      </Link>
                       {filtredPhotoGallery.map(gallery => (
                           <Link to={`/photogallery/${gallery.id}`} key={gallery.id} >
                               <GalleryCard 

@@ -18,8 +18,8 @@ const initialState: PhotoGalleryState = {
 
 export const fetchPhotoGallery = createAsyncThunk('photoGallery/fetchPhotoGallery', async () => {
   console.log('fetchPhotoGallery');
-  
-    const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
+
+
     const photosUrl = `https://api-rubin.multfilm.tatar/api/request/photos`;
 
     const response = await axios.get(photosUrl);
