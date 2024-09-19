@@ -22,7 +22,7 @@ const SinglePhotoGalleryPage = () => {
     const { id } = useParams()
 
     const gallery = useSelector((state: RootState) => state.photoGallery.photoGalleryData)
-    const [ourGallery, setOurGallery] = useState([]);
+    const [ourGallery, setOurGallery] = useState(null);
     const [activeModal, setActiveModal] = useState(false)
     const [activePhoto, setActivePhoto] = useState(0)
 
@@ -34,9 +34,9 @@ const SinglePhotoGalleryPage = () => {
         dispatch(fetchPhotoGalleryById(id));
         if (Number(id) < 1000) {
             const fetchOurGallery = async () => {
-                const response = await axios.get('https://api-rubin.multfilm.tatar/api/photo_gallery');
-                console.log(response.data.data[0].photos)
-                setOurGallery(response.data.data[0].photos)
+                const response = await axios.get(`https://api-rubin.multfilm.tatar/api/all_galleries/${id}`);
+                console.log(response.data.data)
+                setOurGallery(response.data.data)
             }
             fetchOurGallery();
         }
@@ -116,18 +116,18 @@ const SinglePhotoGalleryPage = () => {
                 ) : (
                     <>
                         <div className={styles.photoGallery__header}>
-                            <h1 className={styles.photoGallery__title}>РУБИН. 80 гимназия</h1>
+                            <h1 className={styles.photoGallery__title}>{ourGallery?.title}</h1>
                             <div className={styles.photoGallery__info}>
                                 <div className={styles.photoGallery__date}>19.09.2024 11:20:32</div>
-                                <div className={styles.photoGallery__tag}>#Клуб</div>
+                                <div className={styles.photoGallery__tag}>#{ourGallery?.section_name}</div>
                                 <div className={styles.photoGallery__qty}>
                                     <img src={photoIcon} alt="" />
-                                    <span>{ourGallery?.length} фотографий</span>
+                                    <span>{ourGallery?.photos.length} фотографий</span>
                                 </div>
                             </div>
                         </div>
                         <div className={styles.photoGallery__grid}>
-                            {ourGallery?.map((photo, index) => (
+                            {ourGallery?.photos.map((photo, index) => (
                                 <div
                                     key={index}
                                     className={styles.photoGallery__photoCard}
@@ -154,7 +154,7 @@ const SinglePhotoGalleryPage = () => {
                                 modules={[EffectFade, Pagination, Navigation]}
                                 className={styles.photogallery_swiper}
                             >
-                                {ourGallery.map(photo => (
+                                {ourGallery?.photos.map(photo => (
                                     <SwiperSlide key={photo.id} className={styles.photogallery_slide} >
                                         <img src={photo} alt="#" />
                                     </SwiperSlide>
