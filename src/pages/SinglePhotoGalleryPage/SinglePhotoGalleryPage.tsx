@@ -32,15 +32,19 @@ const SinglePhotoGalleryPage = () => {
 
     useEffect(() => {
         dispatch(fetchPhotoGalleryById(id));
-        if (id === '0') {
+        if (Number(id) < 1000) {
             const fetchOurGallery = async () => {
                 const response = await axios.get('https://api-rubin.multfilm.tatar/api/photo_gallery');
-                console.log(response.data)
-                setOurGallery(response.data)
+                console.log(response.data.data[0].photos)
+                setOurGallery(response.data.data[0].photos)
             }
             fetchOurGallery();
         }
     }, [dispatch]);
+
+    useEffect(() => {
+        console.log(ourGallery)
+    }, [ourGallery])
 
     const openModalHandler = ( index: number ) => {
       setActivePhoto(index)
@@ -52,7 +56,7 @@ const SinglePhotoGalleryPage = () => {
     return (
         <div className="page">
             <div className={styles.photoGallery}>
-                {id !== '0' ? (
+                {Number(id) > 1000 ? (
                     <>
                         <div className={styles.photoGallery__header}>
                             <h1 className={styles.photoGallery__title}>{ gallery?.title }</h1>
@@ -118,18 +122,18 @@ const SinglePhotoGalleryPage = () => {
                                 <div className={styles.photoGallery__tag}>#Клуб</div>
                                 <div className={styles.photoGallery__qty}>
                                     <img src={photoIcon} alt="" />
-                                    <span>{ourGallery.length} фотографий</span>
+                                    <span>{ourGallery?.length} фотографий</span>
                                 </div>
                             </div>
                         </div>
                         <div className={styles.photoGallery__grid}>
-                            {ourGallery.map((photo, index) => (
+                            {ourGallery?.map((photo, index) => (
                                 <div
                                     key={index}
                                     className={styles.photoGallery__photoCard}
                                     onClick={() => openModalHandler(index)}
                                 >
-                                    <img src= {photo} alt="" />
+                                    <img src={photo} alt="" />
                                 </div>
                             ))}
                         </div>

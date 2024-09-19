@@ -37,7 +37,7 @@ const PhotoGalleryPage = () => {
       const fetchOurGallery = async () => {
           const response = await axios.get('https://api-rubin.multfilm.tatar/api/photo_gallery');
           console.log(response.data)
-          setOurGallery(response.data)
+          setOurGallery(response.data.data)
       }
       fetchOurGallery();
     }
@@ -86,15 +86,17 @@ useEffect(() => {
                   </nav>
 
                   <div className={styles.photogallery__grid}>
-                      <Link to={`/photogallery/0`}>
-                          <GalleryCard
-                              id={0}
-                              name={'РУБИН. 80 гимназия'}
-                              category={'Клуб'}
-                              image={ourGallery[0]}
-                              date={'19.09.2024 11:20:32'}
-                          />
-                      </Link>
+                      {ourGallery.map(gallery => (
+                          <Link to={`/photogallery/${gallery.id}`}>
+                              <GalleryCard
+                                  id={gallery.id}
+                                  name={'РУБИН. 80 гимназия'}
+                                  category={'Клуб'}
+                                  image={gallery.photos[0]}
+                                  date={'19.09.2024 11:20:32'}
+                              />
+                          </Link>
+                      ))}
                       {filtredPhotoGallery.map(gallery => (
                           <Link to={`/photogallery/${gallery.id}`} key={gallery.id} >
                               <GalleryCard 
