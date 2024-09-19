@@ -310,6 +310,7 @@ const AuthHeader = () => {
                                                 className={({ isActive }) => {
                                                     return isActive ? "_active" : ""
                                                 }}
+                                                onClick={closeMobileMenu}
                                             >{name}</NavLink>
                                         </li>
                                     )

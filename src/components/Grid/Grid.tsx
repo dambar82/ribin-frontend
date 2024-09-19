@@ -5,9 +5,10 @@ import buttonArrow from "../../images/svg/button_arrow.svg";
 interface GridProps {
     children: React.ReactNode;
     totalItems: number;
+    itemsPerPage?: number
 }
 
-const ITEMS_PER_PAGE = 6;
+// const ITEMS_PER_PAGE = 6;
 
 const getPages = (currentPage, totalPages) => {
     const delta = 2; // Количество страниц вокруг текущей страницы
@@ -24,9 +25,9 @@ const getPages = (currentPage, totalPages) => {
     return array;
 }
 
-const Grid = ({ children, totalItems }: GridProps) => {
+const Grid = ({ children, totalItems, itemsPerPage = 6 }: GridProps) => {
     const [currentPage, setCurrentPage] = useState(1)
-    const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE);
+    const totalPages = Math.ceil(totalItems / itemsPerPage);
 
     const changePage = (newPage) => {
         setCurrentPage(newPage);
@@ -39,7 +40,7 @@ const Grid = ({ children, totalItems }: GridProps) => {
     return (
         <div className='gird'>
             <div className='grid__list'>
-                {childrenArray.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE)}
+                {childrenArray.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)}
             </div>
             { totalPages > 1 && (
                 <div className="grid__controls">
