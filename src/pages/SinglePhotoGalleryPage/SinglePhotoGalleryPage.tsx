@@ -112,7 +112,7 @@ const SinglePhotoGalleryPage = () => {
                 ) : (
                     <>
                         <div className={styles.photoGallery__header}>
-                            <h1 className={styles.photoGallery__title}>Наша галерея</h1>
+                            <h1 className={styles.photoGallery__title}>РУБИН. 80 гимназия</h1>
                             <div className={styles.photoGallery__info}>
                                 <div className={styles.photoGallery__date}>19.09.2024 11:20:32</div>
                                 <div className={styles.photoGallery__tag}>#Клуб</div>
