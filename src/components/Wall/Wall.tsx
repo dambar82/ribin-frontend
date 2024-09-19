@@ -4,6 +4,7 @@ import styles from './Wall.module.scss';
 import loupeIcon from '../../images/svg/loupe.svg'
 import attachmentIcon from '../../images/svg/attachment.svg'
 import deletePic from '../../images/svg/deletePic.svg'
+import attachPic from '../../images/svg/attachPic.svg';
 
 import Select from 'react-select';
 
@@ -234,7 +235,7 @@ const Wall = ({type, posts, editable = true, clubId}: IWall) => {
                                                        ref={fileInputRef}
                                                        onChange={handleFileChange}/>
                                                 <label htmlFor='file'>
-                                                    <img src={attachmentIcon} alt=''/>
+                                                    <img src={attachPic} alt=''/>
                                                 </label>
                                             </div>
                                         {/*}*/}

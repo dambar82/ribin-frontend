@@ -89,7 +89,7 @@ useEffect(() => {
                       <Link to={`/photogallery/0`}>
                           <GalleryCard
                               id={0}
-                              name={'Наша галерея'}
+                              name={'РУБИН. 80 гимназия'}
                               category={'Клуб'}
                               image={ourGallery[0]}
                               date={'19.09.2024 11:20:32'}
