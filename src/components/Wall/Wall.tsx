@@ -3,6 +3,7 @@ import styles from './Wall.module.scss';
 
 import loupeIcon from '../../images/svg/loupe.svg'
 import attachmentIcon from '../../images/svg/attachment.svg'
+import deletePic from '../../images/svg/deletePic.svg'
 
 import Select from 'react-select';
 
@@ -229,7 +230,7 @@ const Wall = ({type, posts, editable = true, clubId}: IWall) => {
                                             <div className={`${styles.wall__feedFormFileField} ${files.length <= MAX_COUNT_FILES_IN_FORM && textareaValue.length > 0 ? styles.show : ''}`}
                                                  onClick={() => fileInputRef.current?.click()}
                                             >
-                                                <input type='file' id='file' accept='image/*,video/*'
+                                                <input type='file' id='file' accept='image/*,'
                                                        ref={fileInputRef}
                                                        onChange={handleFileChange}/>
                                                 <label htmlFor='file'>
@@ -265,7 +266,8 @@ const Wall = ({type, posts, editable = true, clubId}: IWall) => {
                                     {files.map(file => (
                                         <div key={file.id} className={styles.wall__feedFormFileDoc}>
                                             <span>{file?.file.name}</span>
-                                            <button type='button' onClick={() => deleteFile(file.id)}></button>
+                                            <img src={deletePic} alt="" onClick={() => deleteFile(file.id)}/>
+                                            {/*<button type='button' onClick={() => deleteFile(file.id)}></button>*/}
                                         </div>
                                     ))}
                                 </div>
