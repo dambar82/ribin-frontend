@@ -17,6 +17,9 @@
         font-size: 20px;
         font-weight: 400;
         line-height: calc(24 / 20);
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
     }
     &__image {
         aspect-ratio: calc(492 / 288);

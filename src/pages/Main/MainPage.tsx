@@ -65,6 +65,7 @@ const MainPage: React.FC = () => {
     const { people } = useSelector((state: RootState) => state.people)
     const {status: clubStatus, clubs } = useSelector((state: RootState) => state.clubs);
     const user = useSelector((state: RootState) => state.user.user);
+    const [postsImage, setPostsImage] = useState([]);
 
     const isAuth = !!user?.email_confirmed
 
@@ -288,7 +289,9 @@ const MainPage: React.FC = () => {
                         >
                             {posts.image.map((item, index) => (
                                 <SwiperSlide key={index}>
-                                    <PostCard text={item.title} image={item.source[0]} created_at={item.created_at} client={item.client}/>
+                                    <Link to='/posts'>
+                                        <PostCard text={item.description} image={item.source[0]} created_at={item.created_at} client={item.client}/>
+                                    </Link>
                                 </SwiperSlide>
                             ))}
                             {/*{[*/}

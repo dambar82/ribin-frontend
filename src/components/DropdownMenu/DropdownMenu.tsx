@@ -52,7 +52,7 @@ const DropdownMenu = ({isAuthor, post, comment, deleteClick, editClick}: IDropdo
                     </>
                 )
             }
-            <li className={styles.dropdown__menuItem}>Открыть в новом окне</li>
+            {/*<li className={styles.dropdown__menuItem}>Открыть в новом окне</li>*/}
             {
                 !isAuthor && <ComplaintButton post={post} comment={comment} />
             }
