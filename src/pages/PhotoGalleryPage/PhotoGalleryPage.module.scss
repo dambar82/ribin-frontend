@@ -40,6 +40,12 @@
 
   z-index: 10;
 
+  :global(.filter__menu-list) {
+    @media (max-width: 480px) {
+      width: 80vw; 
+    }
+  }
+
   :global(.filter__menu-item) {
     display: flex;
     flex-direction: column;

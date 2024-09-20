@@ -171,6 +171,20 @@ const SingleNewsPage = () => {
                                     minWidth: 0,
                                     width: "100%"
                                 }}
+                                breakpoints={{
+                                  1600: {
+                                    slidesPerView: 4
+                                  },
+                                  1200: {
+                                    slidesPerView: 3
+                                  },
+                                  768: {
+                                    slidesPerView: 2
+                                  },
+                                  340: {
+                                    slidesPerView: 1
+                                  }
+                                }}
                             >
                                 {news
                                     .filter(newsItem => newsItem.id !== Number(id))

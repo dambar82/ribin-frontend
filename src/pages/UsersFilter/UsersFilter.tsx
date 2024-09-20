@@ -94,6 +94,8 @@ const UsersFilter = () => {
             .filter((p) => p.school !== null || !schoolName);
 
         setFilteredPeople(filtered);
+
+        document.querySelector('#search_result')?.scrollIntoView({behavior: "smooth"})
     };
 
     useEffect(() => {
@@ -192,7 +194,7 @@ const UsersFilter = () => {
                     <img src="/images/people_page_search.png" alt=""/>
                 </div>
             </div>
-            <div className={styles.people_wrapper}>
+            <div className={styles.people_wrapper} id='search_result' >
               
                 <div className={styles.section_header} >
                     <div className='section__title'>Пользователей</div>

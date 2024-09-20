@@ -1,11 +1,21 @@
 .news {
     &__innerWrapper {
         position: relative;
+
+        @media (max-width: 1440px) {
+          padding-top: 80px; 
+        }
     }
     &__cover {
         margin: 0 auto;
         border-radius: 50px;
         overflow: hidden;
+
+        img {
+          width: 100%;
+          height: auto;
+          object-fit: contain;
+        }
     }
     &__info {
         display: flex;
@@ -108,6 +118,13 @@
         position: absolute;
         top: calc(328 / 1218 * 100%);
         left: 0;
+
+        @media (max-width: 1440px) {
+          top: 0px; 
+          flex-direction: row;
+          left: 50%;
+          transform: translate(-50%, 0);
+        }
     }
     &__favorite, &__share {
         background-color: #2A2A2A;
@@ -138,6 +155,15 @@
         display: flex;
         justify-content: flex-end;
         gap: 20px;
+        
+        button {
+          @media (max-width: 480px) {
+            span {
+              display: none;
+            } 
+          }
+        }
+
         & > * {
             &:disabled {
                 background-color: rgba(180, 180, 180, 0.65);
