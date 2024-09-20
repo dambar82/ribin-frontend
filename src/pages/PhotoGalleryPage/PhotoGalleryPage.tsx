@@ -92,7 +92,7 @@ useEffect(() => {
                                   id={gallery.id}
                                   name={gallery.title}
                                   category={gallery.section_name}
-                                  image={gallery.photos[0]}
+                                  image={gallery.album_cover}
                                   date={'19.09.2024 11:20:32'}
                               />
                           </Link>
