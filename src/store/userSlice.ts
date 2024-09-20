@@ -31,6 +31,7 @@ export interface User {
     school: string;
     school_number: number;
     status: any;
+    register_date: string
 }
 
 interface AuthResponse {

@@ -22,8 +22,8 @@ const enum ESortTypes {
 
 const SORT_TYPES = [
   { key: ESortTypes.activity, value: 'По активности' },
-  { key: ESortTypes.rating, value: 'По рейтингу' },
   { key: ESortTypes.popularity, value: 'По популярности' },
+  { key: ESortTypes.rating, value: 'По новым' },
 ]
 
 
@@ -256,15 +256,27 @@ const UsersSortSelect = ({ setSortType }: UsersSortSelectProps) => {
 
 const getMostPopularityUsers = ( users: User[] ) => {
 
-  const sorted = [...users].sort((a, b) => b.posts.length - a.posts.length);
+  const sorted = [...users].sort((a, b) => {
+    const likes_b = b.posts.reduce((acc, el) => {
+      acc += el.likes_count
+      return acc
+    }, 0)
+    const likes_a = a.posts.reduce((acc, el) => {
+      acc += el.likes_count
+      return acc
+    }, 0)
+
+    return likes_b - likes_a
+  });
   
   return sorted
 }
 
 const sortByRating = ( users: User[] ) => {
 
-  const sorted = [...users].sort((a, b) => b.posts.length - a.posts.length);
-  
+  //@ts-ignore
+  const sorted = [...users].sort((a, b) => new Date(b.register_date || '') - new Date(a.register_date) || '');
+
   return sorted
 }
 
