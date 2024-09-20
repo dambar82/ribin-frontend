@@ -56,9 +56,13 @@ const UserProfilePage = () => {
       }, [dispatch])
 
     const handleFriendAdd = async () => {
-        const friendRequest = await dispatch(sendFriendRequest({receiverId: currentUser.id}));
-        if (friendRequest.payload === 'Запрос на дружбу отправлен.') {
-            setRequestSent(true);
+        if (!requestSent) {
+            const friendRequest = await dispatch(sendFriendRequest({receiverId: currentUser.id}));
+            if (friendRequest.payload === 'Запрос на дружбу отправлен.') {
+                setRequestSent(true);
+            }
+        } else {
+
         }
     }
 

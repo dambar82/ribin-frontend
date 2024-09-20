@@ -17,6 +17,7 @@ import decline from '../../images/svg/decline.svg';
 import threeDots from '../../images/svg/threeDots.svg';
 import deleteFriend from '../../images/svg/deleteFriend.svg';
 import redFlag from '../../images/svg/redflag.svg';
+import question from '../../images/question.png';
 import axios from "axios";
 import loupeIcon from "../../images/svg/loupe.svg";
 
@@ -51,7 +52,6 @@ const FriendsPage = () => {
     }, [currentUser, people])
 
     useEffect(() => {
-        console.log(currentUser)
         if (user && currentUser) {
             if (user.id === currentUser.id) {
                 setYourPage(true);
@@ -64,13 +64,18 @@ const FriendsPage = () => {
         const config: any = {}
         const token = JSON.parse(localStorage.getItem('token') || '')
 
+        console.log(friendship);
+
         const friendsUrl = `https://api-rubin.multfilm.tatar/api/friends/accept/${friendship}`;
 
-        await axios.post(friendsUrl, {friendshipId: friendship}, {
+        const response = await axios.post(friendsUrl, {friendshipId: friendship}, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
         });
+
+        console.log(response)
+
         dispatch(fetchFriends());
     }
 
@@ -85,7 +90,6 @@ const FriendsPage = () => {
     }
 
     const filteredFriends = (friendList) => {
-        console.log(friendList);
         return friendList.filter(friend => {
             const fullName =
                 friend.sender
@@ -93,9 +97,7 @@ const FriendsPage = () => {
                     : `${friend.receiver.name} ${friend.receiver.surname}`.toLowerCase();
 
 
-            const isOnline = friend.sender
-                ? friend.sender.online
-                : friend.receiver.online;
+            const isOnline = friend.sender.id === currentUser.id ? friend.receiver.online : friend.sender.online;
 
             const nameMatch = fullName.includes(searchTerm.toLowerCase());
 
@@ -120,12 +122,16 @@ const FriendsPage = () => {
         return nameMatch; // Фильтрация всех друзей
     });
 
+    useEffect(() => {
+        console.log(friends)
+    }, [friends])
+
     if (!currentUser) return <p>Loading...</p>
 
     return (
         <div className={`page ${styles.page}`}>
             {
-                yourPage && friends.awaiting.length > 0 && (
+                yourPage && ( //&& friends.awaiting.length > 0
                     <>
                         <section className={`section`}>
                             <div className="section__header">
@@ -133,81 +139,94 @@ const FriendsPage = () => {
                                 <div className='section__counter'>{friends.awaiting.length}</div>
                             </div>
                             <div className={`section__body userList`} style={{padding: '70px 150px'}}>
-                                <Swiper
-                                    spaceBetween={20}
-                                    modules={[Navigation]}
-                                    navigation={{
-                                        prevEl: '.button--prev',
-                                        nextEl: '.button--next'
-                                    }}
-                                    style={{
-                                        minWidth: 0,
-                                        width: "100%"
-                                    }}
-                                    breakpoints={{
-                                      1200: {
-                                        slidesPerView: 4
-                                      },
-                                      768: {
-                                        slidesPerView: 3
-                                      },
-                                      480: {
-                                        slidesPerView: 2
-                                      },
-                                      360: {
-                                        slidesPerView: 1
-                                      }
-                                    }}
-                                >
-                                    {[...friends.awaiting]
-                                        .sort((a, b) => b.sender.rubick - a.sender.rubick)
-                                        .map((friend, index) => {
-                                            return (
-                                                <SwiperSlide key={friend.id}>
-                                                    <Link to={`/user/${friend.sender.id}`}>
-                                                        <div className={styles.awaitingFriend}>
-                                                            <div className={styles.awaitingFriend_avatar}>
-                                                                <img src={friend.sender.avatar} alt=""/>
-                                                                {currentUser.online && (
-                                                                    <div style={{right: 0, bottom: '5px'}} className="big-card__avatar-status"></div>
-                                                                )}
-                                                            </div>
-                                                            <div className={styles.awaitingFriend_name}>
-                                                                {friend.sender.name} {friend.sender.surname}
-                                                            </div>
-                                                            <div className="levelButton" style={{marginTop: '12px'}}>
-                                                                Рубиков <span>{friend.sender.rubick}</span>
-                                                            </div>
-                                                            <div className={styles.awaitingFriend_buttons}>
-                                                                <div
-                                                                    onClick={(event) => handleAcceptFriendship(event, friend.id)}
-                                                                    className={`${styles.awaitingFriend_button} ${styles.awaitingFriend_buttonAccept}`}>
-                                                                    <img src={access} alt=""/>
+                                {friends.awaiting.length > 0 ? (
+                                    <>
+                                        <Swiper
+                                            spaceBetween={20}
+                                            modules={[Navigation]}
+                                            navigation={{
+                                                prevEl: '.button--prev',
+                                                nextEl: '.button--next'
+                                            }}
+                                            style={{
+                                                minWidth: 0,
+                                                width: "100%"
+                                            }}
+                                            breakpoints={{
+                                                1200: {
+                                                    slidesPerView: 4
+                                                },
+                                                768: {
+                                                    slidesPerView: 3
+                                                },
+                                                480: {
+                                                    slidesPerView: 2
+                                                },
+                                                360: {
+                                                    slidesPerView: 1
+                                                }
+                                            }}
+                                        >
+                                            {[...friends.awaiting]
+                                                .sort((a, b) => b.sender.rubick - a.sender.rubick)
+                                                .map((friend, index) => {
+                                                    return (
+                                                        <SwiperSlide key={friend.id}>
+                                                            <Link to={`/user/${friend.sender.id}`}>
+                                                                <div className={styles.awaitingFriend}>
+                                                                    <div className={styles.awaitingFriend_avatar}>
+                                                                        <img src={friend.sender.avatar} alt=""/>
+                                                                        {currentUser.online && (
+                                                                            <div style={{right: 0, bottom: '5px'}} className="big-card__avatar-status"></div>
+                                                                        )}
+                                                                    </div>
+                                                                    <div className={styles.awaitingFriend_name}>
+                                                                        {friend.sender.name} {friend.sender.surname}
+                                                                    </div>
+                                                                    <div className="levelButton" style={{marginTop: '12px'}}>
+                                                                        Рубиков <span>{friend.sender.rubick}</span>
+                                                                    </div>
+                                                                    <div className={styles.awaitingFriend_buttons}>
+                                                                        <div
+                                                                            onClick={(event) => handleAcceptFriendship(event, friend.id)}
+                                                                            className={`${styles.awaitingFriend_button} ${styles.awaitingFriend_buttonAccept}`}>
+                                                                            <img src={access} alt=""/>
+                                                                        </div>
+                                                                        <div
+                                                                            onClick={(event) => handleDeleteFriendship(event, friend.sender.id)}
+                                                                            className={`${styles.awaitingFriend_button} ${styles.awaitingFriend_buttonDecline}`}>
+                                                                            <img src={decline} alt=""/>
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
-                                                                <div
-                                                                    onClick={(event) => handleDeleteFriendship(event, friend.sender.id)}
-                                                                    className={`${styles.awaitingFriend_button} ${styles.awaitingFriend_buttonDecline}`}>
-                                                                    <img src={decline} alt=""/>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </Link>
-                                                </SwiperSlide>
-                                            );
-                                        })}
-                                </Swiper>
-                                <div className={styles.swiper_controls}>
-                                    <button className={`button button--black button--prev ${styles.swiper_controls__more}`}
-                                            type="button">
-                                        <span>Предыдущие</span>
-                                        <img src={buttonArrow} alt=""/>
-                                    </button>
-                                    <button className={`button button--black button--next ${styles.swiper_controls__more}`}
-                                            type="button">
-                                        <span>Показать ещё</span>
-                                        <img src={buttonArrow} alt=""/>
-                                    </button>
-                                </div>
+                                                            </Link>
+                                                        </SwiperSlide>
+                                                    );
+                                                })}
+                                        </Swiper>
+                                        <div className={styles.swiper_controls}>
+                                            <button className={`button button--black button--prev ${styles.swiper_controls__more}`}
+                                                    type="button">
+                                                <span>Предыдущие</span>
+                                                <img src={buttonArrow} alt=""/>
+                                            </button>
+                                            <button className={`button button--black button--next ${styles.swiper_controls__more}`}
+                                                    type="button">
+                                                <span>Показать ещё</span>
+                                                <img src={buttonArrow} alt=""/>
+                                            </button>
+                                        </div>
+                                    </>
+                                ) : (
+                                    <>
+                                        <div className={styles.illustration}>
+                                            <img src={question} alt=""/>
+                                            <p>
+                                                Тут пока тихо...
+                                            </p>
+                                        </div>
+                                    </>
+                                )}
                             </div>
                         </section>
                     </>
@@ -228,7 +247,7 @@ const FriendsPage = () => {
                             yourPage ? (
                                 filteredFriends(friends.friends).map(friend => (
                                     friend.sender.id !== currentUser.id ? (
-                                        <Link to={`/user/${friend.sender.id}`}>
+                                        <Link to={`/user/${friend.sender.id}`} key={friend.sender.id}>
                                             <div className={styles.friendBlock}>
                                                 <div className={styles.friendBlock_avatar}>
                                                     <img src={friend.sender.avatar} alt=""/>
@@ -257,17 +276,17 @@ const FriendsPage = () => {
                                                                 <img src={deleteFriend} alt=""/>
                                                                 Удалить из друзей
                                                             </button>
-                                                            <button onClick={() => console.log('Пожаловаться')}>
-                                                                <img src={redFlag} alt=""/>
-                                                                Пожаловаться
-                                                            </button>
+                                                            {/*<button onClick={() => console.log('Пожаловаться')}>*/}
+                                                            {/*    <img src={redFlag} alt=""/>*/}
+                                                            {/*    Пожаловаться*/}
+                                                            {/*</button>*/}
                                                         </div>
                                                     )}
                                                 </div>
                                             </div>
                                         </Link>
                                     ) : (
-                                        <Link to={`/user/${friend.receiver.id}`}>
+                                        <Link to={`/user/${friend.receiver.id}`} key={friend.receiver.id}>
                                             <div className={styles.friendBlock}>
                                                 <div className={styles.friendBlock_avatar}>
                                                     <img src={friend.receiver.avatar} alt=""/>
@@ -296,10 +315,10 @@ const FriendsPage = () => {
                                                                 <img src={deleteFriend} alt=""/>
                                                                 Удалить из друзей
                                                             </button>
-                                                            <button onClick={() => console.log('Пожаловаться')}>
-                                                                <img src={redFlag} alt=""/>
-                                                                Пожаловаться
-                                                            </button>
+                                                            {/*<button onClick={() => console.log('Пожаловаться')}>*/}
+                                                            {/*    <img src={redFlag} alt=""/>*/}
+                                                            {/*    Пожаловаться*/}
+                                                            {/*</button>*/}
                                                         </div>
                                                     )}
                                                 </div>
@@ -340,10 +359,10 @@ const FriendsPage = () => {
                                                                 Удалить из друзей
                                                             </button>
                                                         ) }
-                                                        <button onClick={() => console.log('Пожаловаться')}>
-                                                            <img src={redFlag} alt=""/>
-                                                            Пожаловаться
-                                                        </button>
+                                                        {/*<button onClick={() => console.log('Пожаловаться')}>*/}
+                                                        {/*    <img src={redFlag} alt=""/>*/}
+                                                        {/*    Пожаловаться*/}
+                                                        {/*</button>*/}
                                                     </div>
                                                 )}
                                             </div>

@@ -29,11 +29,12 @@ const NotificationFriends = ({sender, onClose, onMouseEnter, onMouseLeave }) => 
 
         const friendsUrl = `https://api-rubin.multfilm.tatar/api/friends/accept/${friendship}`;
 
-        await axios.post(friendsUrl, {friendshipId: friendship}, {
+        const response = await axios.post(friendsUrl, {friendshipId: friendship}, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
         });
+        console.log(response)
     }
 
     const handleDeleteFriendship = async (event, receiverId: number) => {

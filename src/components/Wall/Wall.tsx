@@ -392,18 +392,18 @@ const Wall = ({type, posts, editable = true, clubId}: IWall) => {
                             >{item}</button>
                         ))}
                     </div>
-                    { type === "post" ?
-                        <div className={styles.wall__filter}>
-                            {["Мои записи", "Записи друзей", "Записи Клубов"].map((item, index) => (
-                                <button
-                                    key={item + index}
-                                    className={postType === index ? `${styles.wall__filterItem} ${styles.wall__filterItemActive}` : styles.wall__filterItem}
-                                    type="button"
-                                    onClick={() => setPostType(index)}
-                                >{item}</button>
-                            ))}
-                        </div> : null
-                    }
+                    {/*{ type === "post" ?*/}
+                    {/*    <div className={styles.wall__filter}>*/}
+                    {/*        {["Мои записи", "Записи друзей", "Записи Клубов"].map((item, index) => (*/}
+                    {/*            <button*/}
+                    {/*                key={item + index}*/}
+                    {/*                className={postType === index ? `${styles.wall__filterItem} ${styles.wall__filterItemActive}` : styles.wall__filterItem}*/}
+                    {/*                type="button"*/}
+                    {/*                onClick={() => setPostType(index)}*/}
+                    {/*            >{item}</button>*/}
+                    {/*        ))}*/}
+                    {/*    </div> : null*/}
+                    {/*}*/}
                 </div>
                 { type === "post" ?
                     <div className={styles.wall__asideBlock}>

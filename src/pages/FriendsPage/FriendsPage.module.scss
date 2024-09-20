@@ -75,6 +75,21 @@
   }
 }
 
+.illustration {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  p {
+    font-family: Raleway;
+    font-size: 32px;
+    font-weight: 500;
+    line-height: 38px;
+    text-align: left;
+  }
+}
+
 .swiper_controls {
   position: absolute;
   bottom: -80px;
