@@ -186,8 +186,13 @@
   @media (max-width: 480px) {
     flex-direction: column;
 
+    span {
+      font-size: 20px;
+    }
+
     > div {
       justify-content: space-between;
+      padding: 12px;
     }
   }
 }

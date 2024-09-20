@@ -104,7 +104,7 @@ const MainPage: React.FC = () => {
         <div className={styles.main}>
             {isAuth
             ?
-              <div className='content'>
+              <section className='section'>
                 <div className={classNames(styles.greenZone, c.authorized_hellow_section)}>
                     <div className={styles.greenZone_leftPart}>
                         <div className={styles.greenZone_text}>
@@ -117,7 +117,7 @@ const MainPage: React.FC = () => {
                         </div>
                     </div>
                 </div>
-            </div>
+            </section>
             :
             <FirstScreenSlider />
             }
