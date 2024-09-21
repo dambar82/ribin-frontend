@@ -59,7 +59,6 @@
     position: relative;
     width: max-content;
     min-width: 300px;
-    z-index: 10;
 
     .value {
       background-color: var(--white);
@@ -110,6 +109,7 @@
       bottom: -12px;
       transform: translate(0, 100%);
       width: 100%;
+      z-index: 2;
 
       background-color: var(--white);
       border-radius: 35px;
