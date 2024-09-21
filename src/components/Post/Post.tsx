@@ -321,6 +321,10 @@ const Post = ({ id, name, surname, avatar, created_by, source, tags, comments, t
             </div>
             { showCommentSection ? (
                 <div className={styles.post__comments}>
+                    <div>
+                      <p>Комментарии</p>
+                      <span>{commentsToDisplay.length}</span>
+                    </div>
                     <ul className={styles.post__commentsList}>
                         {commentsToDisplay.map((comment, index) => (
                             <li key={comment.id}>

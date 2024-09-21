@@ -2,8 +2,23 @@ import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
 import {User} from "./userSlice";
 
+export type TFriend = {
+  accepted: 1 | 0
+  created_at: string
+  id: number
+  receiver: User
+  receiver_id: number
+  sender: User
+  sender_id: number
+  updated_at: string
+}
+
 interface StudentsState {
-    friends: {[id: string]: any[]};
+    friends: {
+      friends: TFriend[]
+      awaiting: TFriend[]
+      pending: TFriend[]
+    };
     friendDetails: { [id: string]: any }; // Кэширование данных студентов по id
     status: 'idle' | 'loading' | 'succeeded' | 'failed';
     error: string | null;

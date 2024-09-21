@@ -1,6 +1,7 @@
 .comment {
     border-bottom: 2px solid #F8F8F8;
     padding: 0 0 20px;
+    
     &__header {
         display: flex;
         justify-content: space-between;
@@ -8,6 +9,9 @@
         &:not(:last-child) {
             margin: 0 0 20px;
         }
+    }
+    &__body, &__footer {
+      padding-left: 64px;
     }
     &__body {
         p {
