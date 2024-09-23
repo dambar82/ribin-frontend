@@ -32,6 +32,7 @@ const UserProfilePage = () => {
 
     useEffect(() => {
         if (currentUser) {
+            console.log(friends);
             if (friends.pending.some(element =>
                 element.receiver_id === currentUser.id
             )) {
