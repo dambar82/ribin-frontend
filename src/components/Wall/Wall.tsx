@@ -15,7 +15,7 @@ import {useAppDispatch} from "../../store/hooks";
 import {useSelector} from "react-redux";
 import {RootState} from "../../store/store";
 import {fetchPeople} from "../../store/peopleSlice";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import { getMostActiveUsers } from '../../shared/utils'
 
 
@@ -85,6 +85,8 @@ const Wall = ({type, posts, editable = true, clubId}: IWall) => {
     const [incorrectWords, setIncorrectWords] = useState(false);
     const textareaRef = useRef(null);
     const fileInputRef = useRef<HTMLInputElement>(null);
+    const navigate = useNavigate();
+    const user = useSelector((state: RootState) => state.user);
 
     useEffect(() => {
         if (textareaRef.current) {
@@ -142,56 +144,60 @@ const Wall = ({type, posts, editable = true, clubId}: IWall) => {
 
     const onSubmit = async ( e: React.FormEvent<HTMLFormElement> ) => {
       e.preventDefault()
-        if (textareaValue.length > 60) {
-            const form = e.currentTarget;
-            const formData = new FormData(form);
+        if (user.user) {
+            if (textareaValue.length > 60) {
+                const form = e.currentTarget;
+                const formData = new FormData(form);
 
-            formData.append('description', formData.get('description') as string);
-            // formData.append('title', formData.get('description') as string);
+                formData.append('description', formData.get('description') as string);
+                // formData.append('title', formData.get('description') as string);
 
-            files.forEach(file => {
-                formData.append('source[]', file.file);
-            });
+                files.forEach(file => {
+                    formData.append('source[]', file.file);
+                });
 
 
-            try {
-                if (type !== 'club') {
-                    const newPost = await dispatch(createPost(formData)).unwrap();
-                    if (newPost !== 'Вы используете не допустимые слова. Измените текст и повторите попытку.') {
-                        dispatch(addPost(newPost));
+                try {
+                    if (type !== 'club') {
+                        const newPost = await dispatch(createPost(formData)).unwrap();
+                        if (newPost !== 'Вы используете не допустимые слова. Измените текст и повторите попытку.') {
+                            dispatch(addPost(newPost));
+                        } else {
+                            setIncorrectWords(true);
+                            setTimeout(() => {
+                                setIncorrectWords(false);
+                            }, 2000)
+                            return
+                        }
                     } else {
-                        setIncorrectWords(true);
-                        setTimeout(() => {
-                            setIncorrectWords(false);
-                        }, 2000)
-                        return
-                    }
-                } else {
-                    const newPost = await dispatch(createPostInClub({clubId, formData})).unwrap();
-                    // @ts-ignore
-                    if (newPost !== 'Вы используете не допустимые слова. Измените текст и повторите попытку.') {
+                        const newPost = await dispatch(createPostInClub({clubId, formData})).unwrap();
                         // @ts-ignore
-                        dispatch(addPost(newPost));
-                    } else {
-                        setIncorrectWords(true);
-                        setTimeout(() => {
-                            setIncorrectWords(false);
-                        }, 2000)
-                        return
+                        if (newPost !== 'Вы используете не допустимые слова. Измените текст и повторите попытку.') {
+                            // @ts-ignore
+                            dispatch(addPost(newPost));
+                        } else {
+                            setIncorrectWords(true);
+                            setTimeout(() => {
+                                setIncorrectWords(false);
+                            }, 2000)
+                            return
+                        }
                     }
+                    setFiles([]);
+                    setTextareaValue('');
+                } catch (error) {
+                    console.error('Ошибка при создании поста:', error);
                 }
-                setFiles([]);
-                setTextareaValue('');
-            } catch (error) {
-                console.error('Ошибка при создании поста:', error);
+            } else {
+                if (textareaValue.length > 0) {
+                    setSymbols(true);
+                    setTimeout(() => {
+                        setSymbols(false);
+                    }, 2000)
+                }
             }
         } else {
-            if (textareaValue.length > 0) {
-                setSymbols(true);
-                setTimeout(() => {
-                    setSymbols(false);
-                }, 2000)
-            }
+            navigate('/login');
         }
     }
 

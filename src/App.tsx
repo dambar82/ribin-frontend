@@ -153,6 +153,8 @@ function App() {
         { path: '/page/:url', element: <Page/>, layout: UnauthLayout },
         { path: '/download-app', element: <DownloadAppBunner /> },
         { path: '/help', element: <HelpPage />, layout: UnauthLayout },
+        { path: '/events', element: <EventsPage />, layout: UnauthLayout },
+        { path: '/posts', element: <PostsPage />, layout: UnauthLayout },
     ];
 
     const privateRoutes = [
@@ -166,8 +168,6 @@ function App() {
         { path: '/settings', element: <SettingsPage /> },
         { path: '/chat/:userId', element: <Chat/>},
         { path: '/photogallery/:id', element: <SinglePhotoGalleryPage /> },
-        { path: '/posts', element: <PostsPage /> },
-        { path: '/events', element: <EventsPage /> },
         { path: '/events/event/:id', element: <SingleEventPage /> },
         { path: '/clubs/events/new', element: <CreateEventPage /> },
         { path: '/user/:id/friends', element: <FriendsPage />}

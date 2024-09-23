@@ -23,7 +23,7 @@ import 'react-image-lightbox/style.css'; // Импорт стилей для lig
 import Lightbox from 'react-image-lightbox';
 import {Button} from "../../shared/UI";
 import {postFormatDate} from "../../App";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {fetchPeople} from "../../store/peopleSlice";
 import TextWithVideo from "../TextWithVideo/TextWithVideo";
 
@@ -75,11 +75,16 @@ const Post = ({ id, name, surname, avatar, created_by, source, tags, comments, t
     const [isEditing, setIsEditing] = useState(false);
     const [incorrectWords, setIncorrectWords] = useState(false);
     const contentRef = useRef(null);
-
+    const navigate = useNavigate();
     const post = useSelector((state: RootState) => state.post.posts[type].find(post => post.id === id));
     const user = useSelector((state: RootState) => state.user);
 
-    const [isLiked, setIsLiked] = useState(liked_by.includes(user.user.id));
+    const [isLiked, setIsLiked] = useState(() => {
+        if (user && user.user && liked_by) {
+            return liked_by.includes(user.user.id);
+        }
+        return false; // Возвращаем false, если пользователь не найден или liked_by не задан
+    });
 
     useEffect(() => {
         const hasVideo = /https?:\/\/(?:www\.)?(?:youtube\.com|youtu\.be|vk\.com|vimeo\.com)\S*/.test(postContent);
@@ -99,58 +104,64 @@ const Post = ({ id, name, surname, avatar, created_by, source, tags, comments, t
     };
 
     useEffect(() => {
-        if (user.user.id === created_by) {
-            setIsAuthor(true);
+        if (user && user.user) {
+            if (user.user.id === created_by) {
+                setIsAuthor(true);
+            }
         }
     }, [])
 
     const onSubmit = async ( e: React.FormEvent<HTMLFormElement> ) => {
         e.preventDefault()
 
-        const form = e.currentTarget;
-        const formData = new FormData(form);
+        if (user.user) {
+            const form = e.currentTarget;
+            const formData = new FormData(form);
 
-        formData.append('text', formData.get('commentText') as string);
+            formData.append('text', formData.get('commentText') as string);
 
-        try {
-            const newPost = await dispatch(createComment({formData, postId: id})).unwrap();
+            try {
+                const newPost = await dispatch(createComment({formData, postId: id})).unwrap();
 
-            if (newPost) {
-                setPostComments([
-                    ...postComments,
-                    {
-                        id: newPost.id,
-                        text: newPost.text,
-                        created_at: newPost.created_at,
-                        avatar: newPost.avatar,
-                        created_by: newPost.created_by,
-                        name: newPost.name,
-                        liked_by: [],
-                        likes_count: 0,
-                        child: []
-                    }
-                ])
+                if (newPost) {
+                    setPostComments([
+                        ...postComments,
+                        {
+                            id: newPost.id,
+                            text: newPost.text,
+                            created_at: newPost.created_at,
+                            avatar: newPost.avatar,
+                            created_by: newPost.created_by,
+                            name: newPost.name,
+                            liked_by: [],
+                            likes_count: 0,
+                            child: []
+                        }
+                    ])
 
-                setCommentText('');
-                setShowAllComments(true);
-            } else {
-                setIncorrectWords(true);
-                setTimeout(() => {
-                    setIncorrectWords(false);
-                }, 2000)
-                return
+                    setCommentText('');
+                    setShowAllComments(true);
+                } else {
+                    setIncorrectWords(true);
+                    setTimeout(() => {
+                        setIncorrectWords(false);
+                    }, 2000)
+                    return
+                }
+
+            } catch (error) {
+                console.error('Ошибка при создании комментария:', error);
             }
-
-        } catch (error) {
-            console.error('Ошибка при создании комментария:', error);
+        } else {
+            navigate('/login');
         }
     }
 
     useEffect(() => {
-        if (post) {
+        if (post && user.user) {
             setIsLiked(post.liked_by.includes(user.user.id));
         }
-    }, [post, user.user.id]);
+    }, [post, user]);
 
     const handleLikeClick = () => {
         if (post && !isLiked) {
