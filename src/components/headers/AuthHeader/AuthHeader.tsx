@@ -6,7 +6,7 @@ import {useAppDispatch} from "../../../store/hooks";
 import {RootState} from "../../../store/store";
 
 import styles from './AuthHeader.module.scss';
-
+import rubik from '../../../images/svg/rubik.svg'
 import rubyLogo from '../../../images/rubyLogo.svg';
 import profilePic from '../../../images/svg/profilePic.svg';
 import buttonArrowDown from '../../../images/svg/button_arrow_down.svg';
@@ -163,6 +163,9 @@ const AuthHeader = () => {
                                         >
                                             <img src={myProfile} alt=""/>
                                             <span>Мой профиль</span>
+                                            {
+                                                user.filled === 0 && <img src={rubik} style={{marginLeft: 'auto'}} alt=""/>
+                                            }
                                         </NavLink>
                                     </li>
                                     <li>
@@ -210,6 +213,9 @@ const AuthHeader = () => {
                                         >
                                             <img src={options} alt=""/>
                                             <span>Настройки</span>
+                                            {
+                                                user.filled === 0 && <img src={rubik} style={{marginLeft: 'auto'}} alt=""/>
+                                            }
                                         </NavLink>
                                     </li>
                                     <li>
