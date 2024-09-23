@@ -124,7 +124,7 @@
       appearance: none;
       width: 100%;
       padding: 19px 30px;
-      background-color: #EEEEEE;
+      background-color: #F8F8F8;
       border-radius: 50px;
       outline: none;
       border: none;
@@ -147,7 +147,7 @@
       width: 100%;
       padding: 19px 64px;
       color: #6F6F6F;
-      background-color: #EEEEEE;
+      background-color: #F8F8F8;
       border-radius: 50px;
       outline: none;
       border: none;
@@ -289,7 +289,7 @@
       bottom: -12px;
       transform: translate(0, 100%);
       width: 100%;
-
+      overflow: hidden;
       background-color: var(--white);
       border-radius: 35px;
       padding: 18px 0;
