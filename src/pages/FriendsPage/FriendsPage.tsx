@@ -137,14 +137,8 @@ const FriendsPage = () => {
                             <div className={`section__body userList`} style={{padding: '70px 150px'}}>
                                 <UsersSlider
                                   friends={sortRequestsType === ESortTypes.waiting
-                                    ? friends.awaiting.reduce((acc, el) => {
-                                      acc.push(el.sender)
-                                      return acc
-                                    }, [])
-                                    : friends.pending.reduce((acc, el) => {
-                                      acc.push(el.receiver)
-                                      return acc
-                                    }, [])
+                                    ? friends.awaiting
+                                    : friends.pending
                                   }
                                   sended={sortRequestsType === ESortTypes.pending}
                                   currentUser={currentUser}
@@ -325,7 +319,7 @@ const FriendsPage = () => {
 };
 
 interface UsersSliderProps {
-  friends: User[]
+  friends: any[]
   currentUser: User
   sended: boolean
   handleDeleteFriendship: (
@@ -335,6 +329,7 @@ interface UsersSliderProps {
 }
 const UsersSlider = ({ friends, currentUser, sended, handleDeleteFriendship }: UsersSliderProps) => {
 
+    console.log('friends', friends);
   const dispatch = useAppDispatch();
 
   const handleAcceptFriendship = async (event:any, friendship: number) => {

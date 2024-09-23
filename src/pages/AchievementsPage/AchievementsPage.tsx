@@ -12,6 +12,7 @@ import {buyAward} from "../../store/awardSlice";
 import axios from "axios";
 import blackArrowDown from '../../images/svg/blackArrowDown.svg';
 import blackArrowUp from '../../images/svg/blackArrowUp.svg';
+import rubiki from '../../images/rubiki.png';
 
 const token = JSON.parse(localStorage.getItem('token') || '0')
 
@@ -157,6 +158,28 @@ const AchievementsPage = () => {
                                     <span>Рубиков</span>
                                     <span>{awards[0]}</span>
                                 </div>
+                                {
+                                    user?.filled === 0 && (
+                                        <div className={styles.message}>
+                                            <div className={styles.promo_logo}>
+                                                <img src={rubiki} alt=""/>
+                                            </div>
+                                            <div className={styles.promo_info}>
+                                                <h2>
+                                                    100 рубиков за заполнение профиля и настроек!
+                                                </h2>
+                                                <p>
+                                                    Просто закончи заполнение профиля: добавь аватарку, обложку и расскажи о себе, а в настройках укажи возраст, школу и город. Потрать пару минут — и бонус твой!
+                                                </p>
+                                            </div>
+                                            <Link to='/settings'>
+                                                <div className={styles.promo_code_go}>
+                                                    <img src={gosomewhere} alt=""/>
+                                                </div>
+                                            </Link>
+                                        </div>
+                                    )
+                                }
                                 {/*<div className={styles.promo}>*/}
                                 {/*    <div className={styles.promo_logo}>*/}
                                 {/*        <img src="/images/rubin%20logo.png" alt=""/>*/}
