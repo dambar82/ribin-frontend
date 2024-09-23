@@ -29,7 +29,7 @@ const Register = () => {
       return acc
     }, {}))
     const [errors, setErrors] = useState<Record<string, string>>({})
-    const [confirmEmailModal, setConfirmEmailModal] = useState(false)
+    const [confirmEmail, setConfirmEmailModal] = useState(0)
     const [errorMessage, setErrorMessage] = useState('')
 
     const dispatch = useAppDispatch();
@@ -66,20 +66,19 @@ const Register = () => {
         dispatch(registerUser({ email, password, name, surname }))
           .then((res: any) => {
             console.log(res);
-            
-            if ( res.payload?.token ) {
-               // @ts-ignore
-                ym(98214114,'reachGoal','registration_dnevnik')
-              setConfirmEmailModal(true)
-            }
             if ( res.payload?.message ) {
               setErrorMessage(res.payload?.message)
             }
+            else if ( res.payload ) {
+              // @ts-ignore
+              ym(98214114,'reachGoal','registration_dnevnik')
+             setConfirmEmailModal(res.payload.user_id)
+           }
           })
     };
 
-    if ( confirmEmailModal ) {
-      return <ConfirmEmailModal email={formData?.email} />
+    if ( confirmEmail ) {
+      return <ConfirmEmailModal email={formData?.email} user_id={confirmEmail} />
     }
 
     return (

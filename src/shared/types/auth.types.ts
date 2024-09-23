@@ -5,10 +5,12 @@ export type TLoginUserRequest = {
   password: string
 }
 export type TLoginUserResponse = {
-  client: User
-  token: string
+  client?: User
+  token?: string
   message: string
   errors?: any
+  status?: "email_not_verified"
+  user_id?: number
 }
 
 export type TRegisterUserRequest = {
@@ -18,8 +20,7 @@ export type TRegisterUserRequest = {
   password: string
 }
 export type TRegisterUserResponse = {
-  client: User
-  token: string
+  email_confirmed: false
 }
 
 export type TCheckAuthResponse = {

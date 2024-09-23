@@ -9,8 +9,9 @@ import { SuccessConfirmEmailModal, TimeoutConfirmEmailModal } from './components
 
 interface ConfirmEmailModalProps {
   email: string
+  user_id: number
 }
-const ConfirmEmailModal = ({ email }: ConfirmEmailModalProps) => {
+const ConfirmEmailModal = ({ email, user_id }: ConfirmEmailModalProps) => {
   
   const confirmEmailStatus = useAppSelector(state => state.user.confirmEmailStatus)
   const user = useAppSelector(state => state.user.user)
@@ -27,7 +28,7 @@ const ConfirmEmailModal = ({ email }: ConfirmEmailModalProps) => {
   }, [params])
 
   const resendEmailConfirmation = () => {
-    dispatch(resendConfirmEmail({ client_id: user.id }))
+    dispatch(resendConfirmEmail({ client_id: user_id }))
   }
 
   const cancelHandler = () => {
@@ -45,7 +46,7 @@ const ConfirmEmailModal = ({ email }: ConfirmEmailModalProps) => {
   }
 
   if ( confirmEmailStatus?.status === 'error' ) {
-    return <TimeoutConfirmEmailModal client_id={user.id} />
+    return <TimeoutConfirmEmailModal client_id={user_id} />
   }
 
   return (

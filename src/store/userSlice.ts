@@ -97,13 +97,13 @@ export const resendConfirmEmail = createAsyncThunk('user/resendConfirmEmail', as
 });
 
 export const registerUser = createAsyncThunk('user/registerUser', async (sendObj: TRegisterUserRequest) => {
-    try {
-      const response = await axios.post<TRegisterUserResponse>('https://api-rubin.multfilm.tatar/api/clients', sendObj);
-      return response.data
-    } catch (error) {
-      console.log(error);
-      return error?.response.data
-    }
+  try {
+    const response = await axios.post<TRegisterUserResponse>('https://api-rubin.multfilm.tatar/api/clients', sendObj);
+    return response.data
+  } catch (error) {
+    console.log(error);
+    return error?.response.data
+  }
 });
 
 export const checkAuth = createAsyncThunk('user/checkAuth', async () => {
@@ -175,7 +175,7 @@ const userSlice = createSlice({
             })
             .addCase(loginUser.fulfilled, (state, action: PayloadAction<TLoginUserResponse>) => {
               console.log(action.payload);
-
+              
               //@ts-ignore
                 if ( action.payload?.status === 'error' ) {
                   return
@@ -214,10 +214,10 @@ const userSlice = createSlice({
                   return
                 }
                 if (action.payload?.token) {
-                state.user = action.payload.client;
+                // state.user = action.payload.client;
                 state.status = 'succeeded';
-                localStorage.setItem('token', JSON.stringify(action.payload.token));
-                localStorage.setItem('user_id', JSON.stringify(action.payload.client.id));
+                // localStorage.setItem('token', JSON.stringify(action.payload.token));
+                // localStorage.setItem('user_id', JSON.stringify(action.payload.client.id));
                 state.error = null;
                 } else {
                     // Если токен отсутствует, это может быть ошибка

@@ -16,6 +16,7 @@ const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
+    const [confirmEmail, setConfirmEmail] = useState(0);
 
     const dispatch = useAppDispatch();
 
@@ -26,6 +27,9 @@ const Login = () => {
             const msg = res?.payload?.message
             if ( msg ) {
               setErrorMessage(msg)
+            }
+            if ( res?.payload?.status === 'email_not_verified' ) {
+              setConfirmEmail(res?.payload?.user_id)
             }
           })
     };
@@ -38,8 +42,8 @@ const Login = () => {
         }
     }, [user, navigate])
 
-    if ( user && !user.email_confirmed ) {
-      return <ConfirmEmailModal email={user?.email} />
+    if ( confirmEmail ) {
+      return <ConfirmEmailModal email={user?.email} user_id={confirmEmail} />
     }
 
     return (
