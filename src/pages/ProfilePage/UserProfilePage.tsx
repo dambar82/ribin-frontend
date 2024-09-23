@@ -1,16 +1,17 @@
 import styles from "./ProfilePage.module.scss"
-
+import achievementsStyles from '../AchievementsPage/AchievementsPage.module.scss';
 import Wall from '../../components/Wall/Wall';
 import {useAppDispatch} from "../../store/hooks";
 import {useSelector} from "react-redux";
 import {RootState} from "../../store/store";
 import {Link, useParams} from "react-router-dom";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {fetchPostsByUserId} from "../../store/postSlice";
 import {fetchPeople, sendFriendRequest} from "../../store/peopleSlice";
 import {User} from "../../store/userSlice";
 import { classNames } from "../../shared/utils"
 import {fetchFriends} from "../../store/friendsSlice";
+import {Button, Modal} from "../../shared/UI";
 
 const UserProfilePage = () => {
     const dispatch = useAppDispatch();
@@ -22,6 +23,7 @@ const UserProfilePage = () => {
     const [currentUser, setCurrentUser] = useState<User>(null);
     const [requestSent, setRequestSent] = useState(false);
     const [yourPage, setYourPage] = useState(false);
+    const [filled, setFilled] = useState(false);
 
     useEffect(() => {
         dispatch(fetchPeople());
@@ -40,18 +42,22 @@ const UserProfilePage = () => {
 
     useEffect(() => {
         setCurrentUser(people.find(user => user.id.toString() === id));
-    }, [currentUser, people])
+    }, [people, id]);
 
     useEffect(() => {
-        console.log(currentUser)
         if (user && currentUser) {
             if (user.id === currentUser.id) {
                 setYourPage(true);
+                // Убедимся, что значение filled устанавливается корректно только один раз
+                if (!filled && currentUser.filled === 0) {
+                    setFilled(true);
+                }
             }
         }
-    }, [currentUser, user])
+        // Зависим от currentUser, чтобы обновления происходили корректно
+    }, [user, currentUser]);
 
-     useEffect(() => {
+    useEffect(() => {
          dispatch(fetchPostsByUserId({userId: Number(id)}));
       }, [dispatch])
 
@@ -156,6 +162,16 @@ const UserProfilePage = () => {
                             )}
                         </div>
                     </div>
+                    <Modal active={filled} setActive={setFilled} className={achievementsStyles.modal} bodyClassName={achievementsStyles.modalNotEnough}>
+                        <div className={achievementsStyles.modal_content}>
+                            <h1>
+                                Заполните профиль — получите <span>100 рубиков!</span>
+                            </h1>
+                            <p>
+                                Закончите заполнение вашего профиля и получите бонус в 100 рубиков! Это займёт всего пару минут, а вознаграждение вы сможете использовать на любые активности в нашем клубе!
+                            </p>
+                        </div>
+                    </Modal>
                 </div>
             </section>
             <section className="section">

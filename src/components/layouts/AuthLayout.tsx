@@ -48,6 +48,7 @@ const AuthLayout: React.FC<AuthLayoutProps> = ({ children, notificationFriend, s
                 {children}
                 {notificationFriend.visible && (<NotificationFriends
                     sender={notificationFriend.data.client}
+                    friendship={notificationFriend.data.friendship}
                     onClose={handleCloseNotification} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}
                 />)}
             </main>

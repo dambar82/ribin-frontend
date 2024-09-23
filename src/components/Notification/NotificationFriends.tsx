@@ -15,11 +15,12 @@ interface INotification {
     onMouseLeave: any;
 }
 
-const NotificationFriends = ({sender, onClose, onMouseEnter, onMouseLeave }) => {
+const NotificationFriends = ({sender, friendship, onClose, onMouseEnter, onMouseLeave }) => {
     const navigate = useNavigate();
     const userId = useSelector((state: RootState) => state.user);
     const dispatch = useAppDispatch();
 
+    console.log(sender)
 
     const handleAcceptFriendship = async (event, friendship: number) => {
         const config: any = {}
@@ -60,10 +61,10 @@ const NotificationFriends = ({sender, onClose, onMouseEnter, onMouseLeave }) => 
             <div className={styles.mainContent}>
                 <p>Пользователь <span>{sender.name} {sender.surname}</span> хочет добавить вас в список друзей</p>
                 <div style={{display: 'flex', gap: '12px'}}>
-                    <button className={styles.acceptButton} onClick={(event) => handleAcceptFriendship(event, sender.id)}>
+                    <button className={styles.acceptButton} onClick={(event) => handleAcceptFriendship(event, friendship)}>
                         Принять
                     </button>
-                    <button className={styles.declineButton} onClick={(event) => handleDeleteFriendship(event, sender.id)}>
+                    <button className={styles.declineButton} onClick={(event) => handleDeleteFriendship(event, friendship)}>
                         Отклонить
                     </button>
                 </div>
