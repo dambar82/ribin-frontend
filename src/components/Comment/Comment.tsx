@@ -28,6 +28,8 @@ interface IComment {
     deleteComment: (number) => void;
 }
 
+const token = JSON.parse(localStorage.getItem('token') || '0')
+
 const Comment = ({ id, liked_by, text, created_at, likes_count, name, avatar, created_by, deleteComment }: IComment) => {
 
     const dispatch = useAppDispatch();
@@ -86,12 +88,26 @@ const Comment = ({ id, liked_by, text, created_at, likes_count, name, avatar, cr
         const form = e.currentTarget;
         const formData = new FormData(form);
 
-        formData.append('description', commentText);
+        formData.append('text', commentText);
         formData.set('_method', 'put');
 
-        //const editComment = await axios.post(editPostAsync({postId: id, formData}));
+        const editComment = await axios.post(`https://api-rubin.multfilm.tatar/api/comments/${id}`, formData,
+            {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+        console.log(editComment);
 
-        setIsEditing(false);
+        if (editComment.data === 'Вы используете не допустимые слова. Измените текст и повторите попытку.') {
+            setIncorrectWords(true);
+            setTimeout(() => {
+                setIncorrectWords(false);
+            }, 2000)
+            return
+        } else {
+            setIsEditing(false);
+        }
     }
 
     const goToProfile = () => {

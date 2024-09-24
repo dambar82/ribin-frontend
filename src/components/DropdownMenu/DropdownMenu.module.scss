@@ -1,5 +1,6 @@
 .dropdown {
     position: relative;
+  z-index: 99;
     &__button {
         background-color: #F8F8F8;
         border-radius: 50%;
