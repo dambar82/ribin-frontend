@@ -81,7 +81,6 @@ export const fetchPostsByClubId = createAsyncThunk('post/fetchPostsByClubId', as
             'Authorization': `Bearer ${token}`
         }
     })
-    console.log(response.data)
     return response.data as PostAnswer;
 })
 
@@ -91,7 +90,6 @@ export const createPostInClub = createAsyncThunk('post/createPostInClub', async 
             'Authorization': `Bearer ${token}`
         }
     })
-    console.log(response);
     return response.data as PostAnswer;
 })
 
@@ -118,7 +116,6 @@ export const createPost = createAsyncThunk('post/createPost', async (formData: F
             'Authorization': `Bearer ${token}`
         },
     });
-    console.log(response.data)
     return response.data;
 });
 
@@ -162,7 +159,6 @@ export const commentLikeAsync = createAsyncThunk(
 export const toggleLikeAsync = createAsyncThunk(
     'posts/toggleLikeAsync',
     async ({ postId, postType, userId }: { postId: number, postType: 'all' | 'image' | 'video', userId: number }, { dispatch }) => {
-        console.log(token);
         try {
             await axios.post(
                 `https://api-rubin.multfilm.tatar/api/posts/${postId}/like`,
@@ -209,12 +205,9 @@ const postSlice = createSlice({
     initialState,
     reducers: {
         addPost: (state, action: any) => {
-            console.log(action.payload)
             state.posts.all = [action.payload, ...state.posts.all]; // Добавляем новый пост в начало массива
-            console.log(state.posts.all);
         },
         addComment: (state, action: any) => {
-            console.log(action.payload);
         },
         addLike: (state, action: PayloadAction<{ postId: number, postType: 'all' | 'image' | 'video' }>) => {
             const { postId, postType } = action.payload;
@@ -294,10 +287,8 @@ const postSlice = createSlice({
             })
 
             .addCase(sendPostComplaint.fulfilled, (state, action: PayloadAction<any>) => {
-              console.log(action.payload);
             })
             .addCase(sendCommentComplaint.fulfilled, (state, action: PayloadAction<any>) => {
-              console.log(action.payload);
             })
     }
 });
