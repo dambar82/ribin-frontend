@@ -74,6 +74,7 @@ const Post = ({ id, name, surname, avatar, created_by, source, tags, comments, t
     const [isTruncated, setIsTruncated] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
     const [incorrectWords, setIncorrectWords] = useState(false);
+    const [incorrectWordsPost, setIncorrectWordsPost] = useState(false);
     const contentRef = useRef(null);
     const navigate = useNavigate();
     const post = useSelector((state: RootState) => state.post.posts[type].find(post => post.id === id));
@@ -193,16 +194,25 @@ const Post = ({ id, name, surname, avatar, created_by, source, tags, comments, t
         dispatch(deletePostAsync({postId: id}));
     }
 
-    const handleEditPost = (e) => {
+    const handleEditPost = async (e) => {
         e.preventDefault();
-        setIsEditing(false);
         const form = e.currentTarget;
         const formData = new FormData(form);
 
         formData.append('description', postContent);
         formData.set('_method', 'put');
 
-        dispatch(editPostAsync({postId: id, formData}))
+        const editPost = await dispatch(editPostAsync({postId: id, formData}));
+
+        if (!editPost.payload) {
+            setIncorrectWordsPost(true);
+            setTimeout(() => {
+                setIncorrectWordsPost(false);
+            }, 2000)
+            return
+        } else {
+            setIsEditing(false);
+        }
 
     }
 
@@ -249,6 +259,13 @@ const Post = ({ id, name, surname, avatar, created_by, source, tags, comments, t
                                         value={postContent}
                                         onChange={(e) => setPostContent(e.target.value)}
                                     ></textarea>
+                                    {
+                                        incorrectWordsPost && (
+                                            <div className={`${styles.symbols_message} ${incorrectWords ? styles.show : ''}`}>
+                                                Вы используете недопустимые слова. Измените текст и повторите попытку.
+                                            </div>
+                                        )
+                                    }
                                     <Button className={styles.submit_button}>Сохранить</Button>
                                 </div>
                             </form>
