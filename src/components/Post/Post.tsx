@@ -203,8 +203,10 @@ const Post = ({ id, name, surname, avatar, created_by, source, tags, comments, t
         formData.set('_method', 'put');
 
         const editPost = await dispatch(editPostAsync({postId: id, formData}));
+        console.log(editPost)
 
-        if (!editPost.payload) {
+        // @ts-ignore
+        if (editPost.error) {
             setIncorrectWordsPost(true);
             setTimeout(() => {
                 setIncorrectWordsPost(false);
