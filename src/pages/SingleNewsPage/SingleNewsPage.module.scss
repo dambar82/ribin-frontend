@@ -57,6 +57,10 @@
             &:not(:last-child) {
                 margin: 0 0 40px;
             }
+
+            @media (max-width: 768px) {
+              font-size: 18px; 
+            }
         }
     }
     &__footer {
@@ -120,10 +124,7 @@
         left: 0;
 
         @media (max-width: 1440px) {
-          top: 0px; 
-          flex-direction: row;
-          left: 50%;
-          transform: translate(-50%, 0);
+          display: none;
         }
     }
     &__favorite, &__share {

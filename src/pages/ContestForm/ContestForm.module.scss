@@ -6,7 +6,7 @@
 }
 
 .contestForm {
-  margin-top: 60px;
+  margin: 60px 0;
   & > h2 {
     font-size: 40px;
     font-weight: 500;
@@ -216,7 +216,6 @@
   @media (max-width: 480px) {
     border-radius: 16px;
     padding: 14px;
-    font-size: 14px;
     line-height: 18px;
     height: 160px;
   }

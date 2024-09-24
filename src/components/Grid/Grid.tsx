@@ -39,7 +39,7 @@ const Grid = ({ children, totalItems, itemsPerPage = 6 }: GridProps) => {
 
     return (
         <div className='gird'>
-            <div className='grid__list' style={{backgroundColor: '#F8F8F8', padding: '70px', borderRadius: '35px'}}>
+            <div className='grid__list' >
                 {childrenArray.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)}
             </div>
             { totalPages > 1 && (

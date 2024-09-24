@@ -184,7 +184,7 @@
         white-space: nowrap;
       }
     }
-    @media (max-width: 480px) {
+    @media (max-width: 600px) {
       flex-direction: row;
 
       span {
@@ -192,6 +192,14 @@
       }
       div {
         font-size: 16px;
+      }
+    }
+    @media (max-width: 480px) {
+      padding: 6px 6px 6px 20px;
+
+      div {
+        width: 100%;
+        padding: 12px;
       }
     }
   }
@@ -224,9 +232,14 @@
   @media (max-width: 1200px) {
     width: 100%;
   }
+  @media (max-width: 480px) {
+    & > a {
+      width: 100%;
+    } 
+  }
 
   .btns_wrapper {
-    @media (max-width: 480px) {
+    @media (max-width: 600px) {
       width: 100%;
       flex-direction: column;
       gap: 10px;
@@ -240,8 +253,13 @@
   }
 
   .action_button {
-    @media (max-width: 480px) {
+    @media (max-width: 600px) {
       font-size: 16px; 
+    }
+    @media (max-width: 480px) {
+      width: 100%;
+      padding: 18px;
+      justify-content: center;
     }
   }
 }

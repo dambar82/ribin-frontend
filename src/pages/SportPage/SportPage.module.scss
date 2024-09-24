@@ -132,6 +132,8 @@
         background-color: var(--white);
         border-radius: 50px;
         padding-bottom: 60px;
+        max-height: 85vh;
+        overflow-y: auto;
 
         & > img {
           border-radius: 50px 50px 30px 30px;
@@ -148,12 +150,27 @@
           font-size: 64px;
           font-weight: 600;
           margin: 0 100px;
+
+          @media (max-width: 768px) {
+            font-size: 32px; 
+            margin: 0 20px;
+          }
+        }
+
+        & > p {
+          display: block;
+          
         }
   
         p {
           font-size: 24px;
           line-height: 32px;
           margin: 0 100px;
+
+          @media (max-width: 768px) {
+            font-size: 18px;
+            margin: 0 40px;
+          }
         }
 
         ol {

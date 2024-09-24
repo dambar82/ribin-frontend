@@ -64,6 +64,10 @@
 .awards_select {
   width: 350px;
   position: relative;
+  
+  @media (max-width: 480px) {
+    width: 100%; 
+  }
 }
 
 .awards_selected {

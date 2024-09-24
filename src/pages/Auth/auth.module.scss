@@ -70,6 +70,13 @@
     p {
       font-size: 18px;
     }
+    & > span {
+      position: relative!important;
+      top: auto!important;
+      left: auto!important;
+      transform: none!important;
+      font-size: 18px!important;
+    }
   }
   @media (max-width: 480px) {
     padding: 40px 20px; 
