@@ -14,7 +14,7 @@ const TextWithVideo = ({ htmlContent }) => {
             // Если часть совпадает с URL, проверяем, поддерживается ли она ReactPlayer
             if (ReactPlayer.canPlay(part)) {
                 return (
-                    <div key={index} className='post_video_wrapper' >
+                    <div key={index} className='post_video_wrapper'>
                         <ReactPlayer
                             url={part}
                             controls={true}
@@ -40,8 +40,16 @@ const TextWithVideo = ({ htmlContent }) => {
                     </div>
                 );
             }
-            // Иначе возвращаем часть текста как HTML
-            return <span key={index} dangerouslySetInnerHTML={{ __html: part }} />;
+            // Если это URL, который не является видео, оборачиваем его в тег <a>
+            if (urlPattern.test(part)) {
+                return (
+                    <a key={index} href={part} target="_blank" rel="noopener noreferrer" style={{color: '#91172C'}}>
+                        {part}
+                    </a>
+                );
+            }
+            // Иначе возвращаем часть текста как обычный текст
+            return <span key={index}>{part}</span>;
         });
     };
 

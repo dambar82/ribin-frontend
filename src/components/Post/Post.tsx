@@ -203,7 +203,6 @@ const Post = ({ id, name, surname, avatar, created_by, source, tags, comments, t
         formData.set('_method', 'put');
 
         const editPost = await dispatch(editPostAsync({postId: id, formData}));
-        console.log(editPost)
 
         // @ts-ignore
         if (editPost.error) {
