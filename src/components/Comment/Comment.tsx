@@ -12,7 +12,7 @@ import {RootState} from "../../store/store";
 import likeIconLiked from "../../images/svg/likes_red.svg";
 import {User} from "../../store/userSlice";
 import {fetchPeople} from "../../store/peopleSlice";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {Button} from "../../shared/UI";
 import axios from "axios";
 
@@ -33,9 +33,15 @@ const token = JSON.parse(localStorage.getItem('token') || '0')
 const Comment = ({ id, liked_by, text, created_at, likes_count, name, avatar, created_by, deleteComment }: IComment) => {
 
     const dispatch = useAppDispatch();
+    const navigate = useNavigate();
     const user = useSelector((state: RootState) => state.user);
     const [likes, setLikes] = useState(likes_count);
-    const [isLiked, setIsLiked] = useState(liked_by.includes(user.user.id));
+    const [isLiked, setIsLiked] = useState(() => {
+        if (user && user.user && liked_by) {
+            return liked_by.includes(user.user.id);
+        }
+        return false; // Возвращаем false, если пользователь не найден или liked_by не задан
+    });
     const [isAuthor, setIsAuthor] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
     const [commentText, setCommentText] = useState(text);
@@ -66,10 +72,14 @@ const Comment = ({ id, liked_by, text, created_at, likes_count, name, avatar, cr
     };
 
     const handleLikeClick = () => {
-        if (!isLiked) {
-            dispatch(commentLikeAsync({commentId: id}))
-            setLikes(likes + 1);
-            setIsLiked(true);
+        if (user.user) {
+            if (!isLiked) {
+                dispatch(commentLikeAsync({commentId: id}))
+                setLikes(likes + 1);
+                setIsLiked(true);
+            }
+        } else {
+            navigate('/login')
         }
     }
 
@@ -115,8 +125,10 @@ const Comment = ({ id, liked_by, text, created_at, likes_count, name, avatar, cr
     }
 
     useEffect(() => {
-        if (user.user.id === created_by) {
-            setIsAuthor(true);
+        if (user.user) {
+            if (user.user.id === created_by) {
+                setIsAuthor(true);
+            }
         }
     }, [])
 
