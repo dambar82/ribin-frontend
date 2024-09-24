@@ -140,6 +140,7 @@ export const deleteCommentAsync = createAsyncThunk('post/deleteCommentAsync', as
 export const commentLikeAsync = createAsyncThunk(
     'posts/commentLikeAsync',
     async ({commentId} : {commentId: number}) => {
+        console.log(commentId);
         try {
             await axios.post(
                 `https://api-rubin.multfilm.tatar/api/comments/${commentId}/like`,

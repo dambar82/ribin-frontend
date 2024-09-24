@@ -111,7 +111,7 @@ const TextWithVideo = ({ htmlContent }) => {
             // Если часть совпадает с URL, проверяем, поддерживается ли она ReactPlayer
             if (ReactPlayer.canPlay(part)) {
                 return (
-                    <div key={index} className='post_video_wrapper' style={{border: '1px solid red'}}>
+                    <div key={index} className='post_video_wrapper'>
                         <ReactPlayer
                             url={part}
                             controls={true}
