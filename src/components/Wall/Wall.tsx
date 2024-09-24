@@ -145,6 +145,11 @@ const Wall = ({type, posts, editable = true, clubId}: IWall) => {
     const onSubmit = async ( e: React.FormEvent<HTMLFormElement> ) => {
       e.preventDefault()
         if (user.user) {
+            if (!window.FormData) {
+                alert("Ваш браузер не поддерживает отправку файлов.");
+                return
+            }
+
             if (textareaValue.length > 60) {
                 const form = e.currentTarget;
                 const formData = new FormData(form);
