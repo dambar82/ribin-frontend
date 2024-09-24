@@ -189,6 +189,7 @@ const SingleClubPage = () => {
                         type="club"
                         posts={posts}
                         clubId={club.id}
+                        joined={club.clients?.some(el => el.id === id)}
                     />
                 </div>
             </section>

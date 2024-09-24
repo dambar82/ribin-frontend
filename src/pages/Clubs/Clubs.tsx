@@ -33,7 +33,6 @@ const Clubs = () => {
         return <p>{error}</p>;
     }
 
-    console.log(clubs);
     
 
     return (
