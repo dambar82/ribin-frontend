@@ -88,7 +88,7 @@ const Post = ({ id, name, surname, avatar, created_by, source, tags, comments, t
     });
 
     useEffect(() => {
-        const hasVideo = /https?:\/\/(?:www\.)?(?:youtube\.com|youtu\.be|vk\.com|vimeo\.com)\S*/.test(postContent);
+        const hasVideo = /https?:\/\/(?:www\.)?(?:youtube\.com|youtu\.be|vk\.com|vimeo\.com|ok\.ru)\S*/.test(postContent);
         const textLength = postContent.replace(/<[^>]+>/g, '').length;
 
         if (hasVideo || textLength < 100) {
