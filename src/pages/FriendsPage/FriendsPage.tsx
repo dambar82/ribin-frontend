@@ -131,7 +131,10 @@ const FriendsPage = () => {
                         <section className={`section`}>
                             <div className="section__header">
                                 <h2 className="section__title">Заявки в друзья</h2>
-                                <div className='section__counter'>{friends.awaiting.length}</div>
+                                <div className='section__counter'>{
+                                    sortRequestsType === ESortTypes.waiting ?
+                                    friends.awaiting.length : friends.pending.length
+                                }</div>
                                 <UsersSortSelect setSortType={setSortRequestsType} />
                             </div>
                             <div className={`section__body userList`} style={{padding: '70px 150px'}}>
@@ -372,12 +375,11 @@ const UsersSlider = ({ friends, currentUser, sended, handleDeleteFriendship }: U
                 nextEl: '.button--next'
             }}
             style={{
-                minWidth: 0,
-                width: "100%"
+                width: "100%",
             }}
             breakpoints={{
                 1200: {
-                    slidesPerView: 4
+                    slidesPerView: 3
                 },
                 768: {
                     slidesPerView: 3
@@ -395,46 +397,91 @@ const UsersSlider = ({ friends, currentUser, sended, handleDeleteFriendship }: U
                 .map((friend, index) => {
                     return (
                         <SwiperSlide key={friend.id}>
-                            <Link to={`/user/${friend.id}`}>
-                                <div className={styles.awaitingFriend}>
-                                    <div className={styles.awaitingFriend_avatar}>
-                                        <img src={friend.avatar} alt=""/>
-                                        {currentUser.online && (
-                                            <div style={{right: 0, bottom: '5px'}} className="big-card__avatar-status"></div>
-                                        )}
-                                    </div>
-                                    <div className={styles.awaitingFriend_name}>
-                                        {friend.name} {friend.surname}
-                                    </div>
-                                    <div className="levelButton" style={{marginTop: '12px'}}>
-                                        Рубиков <span>{friend.rubick}</span>
-                                    </div>
-                                    {!sended &&
-                                      <div className={styles.awaitingFriend_buttons}>
-                                        <div
-                                            onClick={(event) => handleAcceptFriendship(event, friend.id)}
-                                            className={`${styles.awaitingFriend_button} ${styles.awaitingFriend_buttonAccept}`}>
-                                            <img src={access} alt=""/>
+                            {
+                                friend.sender.id === currentUser.id ? (
+                                    <Link to={`/user/${friend.receiver.id}`}>
+                                        <div className={styles.awaitingFriend}>
+                                            <div className={styles.awaitingFriend_avatar}>
+                                                <img src={friend.receiver.avatar} alt=""/>
+                                                {friend.receiver.online && (
+                                                    <div style={{right: 0, bottom: '5px'}} className="big-card__avatar-status"></div>
+                                                )}
+                                            </div>
+                                            <div className={styles.awaitingFriend_name}>
+                                                {friend.receiver.name} {friend.receiver.surname}
+                                            </div>
+                                            <div className="levelButton" style={{marginTop: '12px'}}>
+                                                Рубиков <span>{friend.receiver.rubick}</span>
+                                            </div>
+                                            {!sended &&
+                                                <div className={styles.awaitingFriend_buttons}>
+                                                    <div
+                                                        onClick={(event) => handleAcceptFriendship(event, friend.id)}
+                                                        className={`${styles.awaitingFriend_button} ${styles.awaitingFriend_buttonAccept}`}>
+                                                        <img src={access} alt=""/>
+                                                    </div>
+                                                    <div
+                                                        onClick={(event) => handleDeleteFriendship(event, friend.id)}
+                                                        className={`${styles.awaitingFriend_button} ${styles.awaitingFriend_buttonDecline}`}>
+                                                        <img src={decline} alt=""/>
+                                                    </div>
+                                                </div>
+                                            }
+                                            {sended &&
+                                                <div className={styles.awaitingFriend_buttons}>
+                                                    <Button
+                                                        type='button'
+                                                        onClick={e => handleDeleteFriendship(e, friend.id)}
+                                                    >
+                                                        Отменить
+                                                    </Button>
+                                                </div>
+                                            }
                                         </div>
-                                        <div
-                                            onClick={(event) => handleDeleteFriendship(event, friend.id)}
-                                            className={`${styles.awaitingFriend_button} ${styles.awaitingFriend_buttonDecline}`}>
-                                            <img src={decline} alt=""/>
+                                    </Link>
+                                ) : (
+                                    <Link to={`/user/${friend.id}`}>
+                                        <div className={styles.awaitingFriend}>
+                                            <div className={styles.awaitingFriend_avatar}>
+                                                <img src={friend.sender.avatar} alt=""/>
+                                                {friend.sender.online && (
+                                                    <div style={{right: 0, bottom: '5px'}} className="big-card__avatar-status"></div>
+                                                )}
+                                            </div>
+                                            <div className={styles.awaitingFriend_name}>
+                                                {friend.sender.name} {friend.sender.surname}
+                                            </div>
+                                            <div className="levelButton" style={{marginTop: '12px'}}>
+                                                Рубиков <span>{friend.sender.rubick}</span>
+                                            </div>
+                                            {!sended &&
+                                                <div className={styles.awaitingFriend_buttons}>
+                                                    <div
+                                                        onClick={(event) => handleAcceptFriendship(event, friend.id)}
+                                                        className={`${styles.awaitingFriend_button} ${styles.awaitingFriend_buttonAccept}`}>
+                                                        <img src={access} alt=""/>
+                                                    </div>
+                                                    <div
+                                                        onClick={(event) => handleDeleteFriendship(event, friend.id)}
+                                                        className={`${styles.awaitingFriend_button} ${styles.awaitingFriend_buttonDecline}`}>
+                                                        <img src={decline} alt=""/>
+                                                    </div>
+                                                </div>
+                                            }
+                                            {sended &&
+                                                <div className={styles.awaitingFriend_buttons}>
+                                                    <Button
+                                                        type='button'
+                                                        onClick={e => handleDeleteFriendship(e, friend.id)}
+                                                    >
+                                                        Отменить
+                                                    </Button>
+                                                </div>
+                                            }
                                         </div>
-                                      </div>
-                                    }
-                                    {sended &&
-                                      <div className={styles.awaitingFriend_buttons}>
-                                        <Button
-                                          type='button'
-                                          onClick={e => handleDeleteFriendship(e, friend.id)}
-                                        >
-                                          Отменить
-                                        </Button>
-                                      </div>
-                                    }
-                                </div>
-                            </Link>
+                                    </Link>
+                                )
+                            }
                         </SwiperSlide>
                     );
                 })}
