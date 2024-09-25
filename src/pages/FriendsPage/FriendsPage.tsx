@@ -34,6 +34,7 @@ const SORT_TYPES = [
   { key: ESortTypes.pending, value: 'Отправленные заявки' }
 ]
 
+const token = JSON.parse(localStorage.getItem('token') || '')
 
 const FriendsPage = () => {
 
@@ -74,9 +75,18 @@ const FriendsPage = () => {
         }
     }, [currentUser, user])
 
+    const handleCancelFriendOffer = async (event: any, receiverId: number) => {
+        event.preventDefault();
+
+        const friendsUrl = `https://api-rubin.multfilm.tatar/api/friends/request/${receiverId}`
+
+        await axios.delete(friendsUrl, {headers: {Authorization: `Bearer ${token}`}});
+
+        dispatch(fetchFriends());
+    }
+
     const handleDeleteFriendship = async (event: any, receiverId: number) => {
       event.preventDefault();
-      const token = JSON.parse(localStorage.getItem('token') || '')
 
       const friendsUrl = `https://api-rubin.multfilm.tatar/api/friends/remove/${receiverId}`;
 
@@ -146,6 +156,7 @@ const FriendsPage = () => {
                                   sended={sortRequestsType === ESortTypes.pending}
                                   currentUser={currentUser}
                                   handleDeleteFriendship={handleDeleteFriendship}
+                                  handleCancelFriendOffer={handleCancelFriendOffer}
                                 />
                             </div>
                         </section>
@@ -328,9 +339,13 @@ interface UsersSliderProps {
   handleDeleteFriendship: (
     event: any,
     id: number
+  ) => void,
+  handleCancelFriendOffer: (
+      event: any,
+      id: number
   ) => void
 }
-const UsersSlider = ({ friends, currentUser, sended, handleDeleteFriendship }: UsersSliderProps) => {
+const UsersSlider = ({ friends, currentUser, sended, handleDeleteFriendship, handleCancelFriendOffer }: UsersSliderProps) => {
 
     console.log('friends', friends);
   const dispatch = useAppDispatch();
@@ -340,8 +355,6 @@ const UsersSlider = ({ friends, currentUser, sended, handleDeleteFriendship }: U
     const config: any = {}
     const token = JSON.parse(localStorage.getItem('token') || '')
 
-    console.log(friendship);
-
     const friendsUrl = `https://api-rubin.multfilm.tatar/api/friends/accept/${friendship}`;
 
     const response = await axios.post(friendsUrl, {friendshipId: friendship}, {
@@ -349,8 +362,6 @@ const UsersSlider = ({ friends, currentUser, sended, handleDeleteFriendship }: U
             Authorization: `Bearer ${token}`
         }
     });
-
-    console.log(response)
 
     dispatch(fetchFriends());
   }
@@ -379,7 +390,7 @@ const UsersSlider = ({ friends, currentUser, sended, handleDeleteFriendship }: U
             }}
             breakpoints={{
                 1200: {
-                    slidesPerView: 3
+                    slidesPerView: 4
                 },
                 768: {
                     slidesPerView: 3
@@ -431,7 +442,7 @@ const UsersSlider = ({ friends, currentUser, sended, handleDeleteFriendship }: U
                                                 <div className={styles.awaitingFriend_buttons}>
                                                     <Button
                                                         type='button'
-                                                        onClick={e => handleDeleteFriendship(e, friend.id)}
+                                                        onClick={e => handleCancelFriendOffer(e, friend.receiver.id)}
                                                     >
                                                         Отменить
                                                     </Button>
@@ -472,7 +483,7 @@ const UsersSlider = ({ friends, currentUser, sended, handleDeleteFriendship }: U
                                                 <div className={styles.awaitingFriend_buttons}>
                                                     <Button
                                                         type='button'
-                                                        onClick={e => handleDeleteFriendship(e, friend.id)}
+                                                        onClick={e => handleCancelFriendOffer(e, friend.receiver.id)}
                                                     >
                                                         Отменить
                                                     </Button>
