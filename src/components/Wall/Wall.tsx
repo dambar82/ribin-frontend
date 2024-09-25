@@ -90,6 +90,7 @@ const Wall = ({type, posts, editable = true, clubId, joined}: IWall) => {
     const fileInputRef = useRef<HTMLInputElement>(null);
     const navigate = useNavigate();
     const user = useSelector((state: RootState) => state.user);
+    const formRef = useRef(null);
 
     useEffect(() => {
         if (textareaRef.current) {
@@ -232,7 +233,7 @@ const Wall = ({type, posts, editable = true, clubId, joined}: IWall) => {
                 {feedType === 0 && (
                     <div className={styles.wall__feed}>
                         { type === 'club' && !joined ? null :
-                            <form className={styles.wall__feedForm} onSubmit={onSubmit} >
+                            <form className={styles.wall__feedForm} onSubmit={onSubmit} ref={formRef}>
                                 <div className={styles.textarea_wrapper} >
                                   <textarea
                                       name="description"
@@ -277,7 +278,13 @@ const Wall = ({type, posts, editable = true, clubId, joined}: IWall) => {
                                         {/*    )*/}
                                         {/*}*/}
                                         {/*{textareaValue.length > 0 && (*/}
-                                            <Button className={`${styles.submit_button} ${textareaValue.length > 0 ? styles.show : ''}`} type="submit">Отправить</Button>
+                                        <Button
+                                            className={`${styles.submit_button} ${textareaValue.length > 0 ? styles.show : ''}`}
+                                            type="submit"
+                                            onClick={formRef.current?.submit()}
+                                        >
+                                            Отправить 
+                                        </Button>
                                         {/*)}*/}
                                     </div>
                                 </div>
@@ -444,7 +451,7 @@ const Wall = ({type, posts, editable = true, clubId, joined}: IWall) => {
                                         </Link>
                                     </li>
                                 ))}
-                                
+
                             </ul>
                         </div>
                     </div> : null
