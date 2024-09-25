@@ -10,6 +10,7 @@ import {fetchPostsByUserId} from "../../store/postSlice";
 import {fetchPeople, sendFriendRequest} from "../../store/peopleSlice";
 import {User} from "../../store/userSlice";
 import { classNames } from "../../shared/utils"
+import verified from '../../images/svg/verified.svg';
 import {fetchFriends} from "../../store/friendsSlice";
 import {Button, Modal} from "../../shared/UI";
 
@@ -47,6 +48,7 @@ const UserProfilePage = () => {
 
     useEffect(() => {
         if (user && currentUser) {
+            console.log(currentUser)
             if (user.id === currentUser.id) {
                 setYourPage(true);
             }
@@ -96,7 +98,8 @@ const UserProfilePage = () => {
                     <div className="big-card__info">
                         <div className="big-card__info-header">
                             <div>
-                                <h1 className="big-card__title">{currentUser.name} {currentUser.surname}</h1>
+                                <h1 className="big-card__title">
+                                    {currentUser.name} {currentUser.surname} {currentUser.verified === 1 && <img src={verified} alt='' title="Этот профиль имеет официальную верификацию"/>}</h1>
                                 <div className="big-card__level">Рубиков <span>{currentUser.rubick}</span></div>
                             </div>
                             {

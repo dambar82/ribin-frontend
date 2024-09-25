@@ -4,6 +4,7 @@ import { User } from "./store/userSlice"
 import { TEvent } from "./shared/types/event.types"
 
 export interface Client {
+    verified: number;
     rubick: number;
     address: string | null;
     age: number;

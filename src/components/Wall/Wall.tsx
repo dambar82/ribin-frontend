@@ -17,6 +17,7 @@ import {RootState} from "../../store/store";
 import {fetchPeople} from "../../store/peopleSlice";
 import {Link, useNavigate} from "react-router-dom";
 import { getMostActiveUsers } from '../../shared/utils'
+import axios from "axios";
 
 
 interface IWall {
@@ -34,6 +35,7 @@ interface IUser {
     level: number
 }
 
+const token = JSON.parse(localStorage.getItem('token') || '')
 
 const MAX_COUNT_FILES_IN_FORM = 8
 
@@ -164,6 +166,10 @@ const Wall = ({type, posts, editable = true, clubId, joined}: IWall) => {
                         const newPost = await dispatch(createPost(formData)).unwrap();
                         if (newPost !== 'Вы используете не допустимые слова. Измените текст и повторите попытку.') {
                             dispatch(addPost(newPost));
+
+                            const response = await axios.get(`https://api-rubin.multfilm.tatar/api/messages/rubick_notifications`, {headers: {Authorization: `Bearer ${token}`}});
+                            console.log(response.data);
+
                         } else {
                             setIncorrectWords(true);
                             setTimeout(() => {
@@ -177,6 +183,10 @@ const Wall = ({type, posts, editable = true, clubId, joined}: IWall) => {
                         if (newPost !== 'Вы используете не допустимые слова. Измените текст и повторите попытку.') {
                             // @ts-ignore
                             dispatch(addPost(newPost));
+
+                            const response = await axios.get(`https://api-rubin.multfilm.tatar/api/messages/rubick_notifications`, {headers: {Authorization: `Bearer ${token}`}});
+                            console.log(response.data);
+
                         } else {
                             setIncorrectWords(true);
                             setTimeout(() => {
@@ -317,6 +327,7 @@ const Wall = ({type, posts, editable = true, clubId, joined}: IWall) => {
                                 created_by={post.client.id}
                                 tags={null}
                                 source={post.source}
+                                verified={post.client.verified}
                                 comments={post.comments}
                                 likes={post.likes_count}
                                 liked_by={post.liked_by}
@@ -340,6 +351,7 @@ const Wall = ({type, posts, editable = true, clubId, joined}: IWall) => {
                                 name={post.client.name}
                                 surname={post.client.surname}
                                 avatar={post.client.avatar}
+                                verified={post.client.verified}
                                 tags={null}
                                 source={post.source}
                                 comments={post.comments}
@@ -362,6 +374,7 @@ const Wall = ({type, posts, editable = true, clubId, joined}: IWall) => {
                                 name={post.client.name}
                                 surname={post.client.surname}
                                 avatar={post.client.avatar}
+                                verified={post.client.verified}
                                 tags={null}
                                 source={post.source}
                                 comments={post.comments}

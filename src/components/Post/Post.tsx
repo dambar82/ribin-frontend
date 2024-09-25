@@ -6,6 +6,7 @@ import commentIcon from '../../images/svg/comments.svg'
 import sharedIcon from '../../images/svg/shared.svg'
 import Comment from '../Comment/Comment';
 import DropdownMenu from '../DropdownMenu/DropdownMenu'
+import verifiedPost from '../../images/svg/verifiedPost.svg';
 import {IComment} from "../../types";
 import {useSelector} from "react-redux";
 import {useAppDispatch} from "../../store/hooks";
@@ -26,6 +27,7 @@ import {postFormatDate} from "../../App";
 import {Link, useNavigate} from "react-router-dom";
 import {fetchPeople} from "../../store/peopleSlice";
 import TextWithVideo from "../TextWithVideo/TextWithVideo";
+import axios from "axios";
 
 interface ICard {
     id: number;
@@ -34,6 +36,7 @@ interface ICard {
     avatar?: string;
     created_by: number;
     source?: string[];
+    verified: number;
     tags?: string;
     comments?: IComment[]
     children?: React.ReactNode;
@@ -43,6 +46,8 @@ interface ICard {
     title: string;
     type: 'all' | 'image' | 'video';
 }
+
+const token = JSON.parse(localStorage.getItem('token') || '')
 
 const determineMediaType = (src: string): 'image' | 'video' | undefined  => {
     if (src.endsWith('.mp4')) return 'video';
@@ -59,7 +64,7 @@ function srcset(image: string, size: number, rows = 1, cols = 1) {
     };
 }
 
-const Post = ({ id, name, surname, avatar, created_by, source, tags, comments, title, likes, liked_by, updated_at, type }: ICard) => {
+const Post = ({ id, name, surname, avatar, created_by, source, tags, comments, verified, title, likes, liked_by, updated_at, type }: ICard) => {
 
     const dispatch = useAppDispatch();
     const [isOpen, setIsOpen] = useState(false);
@@ -189,9 +194,11 @@ const Post = ({ id, name, surname, avatar, created_by, source, tags, comments, t
         setIsOpen(false);
     };
 
-    const handleDeleteClick = () => {
+    const handleDeleteClick = async () => {
         dispatch(deletePost({postId: id}));
         dispatch(deletePostAsync({postId: id}));
+        const response = await axios.get(`https://api-rubin.multfilm.tatar/api/messages/rubick_notifications`, {headers: {Authorization: `Bearer ${token}`}});
+        console.log(response.data);
     }
 
     const handleEditPost = async (e) => {
@@ -238,7 +245,7 @@ const Post = ({ id, name, surname, avatar, created_by, source, tags, comments, t
                                 <img src="/images/club-image.png" alt="" />
                             }
                     </div>
-                    <div className={styles.post__title}>{name} {surname}</div>
+                    <div className={styles.post__title}>{name} {surname} {verified && <img src={verifiedPost} alt='' />}</div>
                     <div className={styles.post__createdAt}>{postFormatDate(post.created_at)}</div>
                 </div>
                 </Link>
