@@ -305,8 +305,8 @@ const ContestPage = () => {
                             </div>
                             <div className='section__body'>
                                 <div className={styles.participants_content}>
-                                    {contest && topParticipants
-                                        .slice(0, 20)
+                                    {contest && contest.participants
+                                        .slice(0, 10)
                                         .map(participant => (
                                             <Link to={`/user/${participant.client.id}`}>
                                                 <ActiveUserCard
