@@ -34,7 +34,19 @@ const SORT_TYPES = [
   { key: ESortTypes.pending, value: 'Отправленные заявки' }
 ]
 
-const token = JSON.parse(localStorage.getItem('token') || '')
+let token;
+
+try {
+    const storedToken = localStorage.getItem('token');
+    token = JSON.parse(storedToken);
+
+    // Проверка, если токена нет, просто присваиваем его значение null
+    if (storedToken === null) {
+        token = null; // Токен отсутствует
+    }
+} catch (error) {
+    console.error('Ошибка при получении токена:', error);
+}
 
 const FriendsPage = () => {
 
