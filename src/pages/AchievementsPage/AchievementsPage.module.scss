@@ -147,7 +147,7 @@
     padding: 30px 20px; 
   }
 
-  p {
+  & > p {
     width: 70%;
     text-align: center;
     font-family: Raleway;
@@ -393,6 +393,11 @@
   border-radius: 35px;
   background-color: #FFE7DF;
   padding: 22px 26px;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    row-gap: 20px;
+  }
 }
 
 .copyPromo {
