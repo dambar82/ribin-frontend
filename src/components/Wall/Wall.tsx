@@ -37,6 +37,8 @@ interface IUser {
 
 const token = JSON.parse(localStorage.getItem('token') || '')
 
+console.log(token);
+
 const MAX_COUNT_FILES_IN_FORM = 8
 
 

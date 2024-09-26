@@ -49,6 +49,8 @@ interface ICard {
 
 const token = JSON.parse(localStorage.getItem('token') || '')
 
+console.log(token);
+
 const determineMediaType = (src: string): 'image' | 'video' | undefined  => {
     if (src.endsWith('.mp4')) return 'video';
     if (src.endsWith('.png') || src.endsWith('.jpg') || src.endsWith('.jpeg')) return 'image';
