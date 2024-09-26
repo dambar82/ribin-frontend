@@ -155,6 +155,7 @@ function App() {
         { path: '/help', element: <HelpPage />, layout: UnauthLayout },
         { path: '/events', element: <EventsPage />, layout: UnauthLayout },
         { path: '/posts', element: <PostsPage />, layout: UnauthLayout },
+        { path: '/user/:id', element: <UserProfilePage />, layout: UnauthLayout },
     ];
 
     const privateRoutes = [
@@ -163,7 +164,6 @@ function App() {
         { path: '/quizzes/:id', element: <SingleQuizPage /> },
         { path: '/clubs/:id', element: <SingleClubPage /> },
         { path: '/user/:id/edit/', element: <EditProfilePage /> },
-        { path: '/user/:id', element: <UserProfilePage /> },
         { path: '/feedback', element: <FeedbackPage /> },
         { path: '/settings', element: <SettingsPage /> },
         { path: '/chat/:userId', element: <Chat/>},
@@ -173,7 +173,19 @@ function App() {
         { path: '/user/:id/friends', element: <FriendsPage />}
     ];
 
-    const token = JSON.parse(localStorage.getItem('token') || '0')
+    let token;
+
+    try {
+        const storedToken = localStorage.getItem('token');
+        token = JSON.parse(storedToken);
+
+        // Проверка, если токена нет, просто присваиваем его значение null
+        if (storedToken === null) {
+            token = null; // Токен отсутствует
+        }
+    } catch (error) {
+        console.error('Ошибка при получении токена:', error);
+    }
 
     useEffect(() => {
       if ( token ) {

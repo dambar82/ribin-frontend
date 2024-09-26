@@ -47,20 +47,6 @@ interface ICard {
     type: 'all' | 'image' | 'video';
 }
 
-let token;
-
-try {
-    const storedToken = localStorage.getItem('token');
-    token = JSON.parse(storedToken);
-
-    // Проверка, если токена нет, просто присваиваем его значение null
-    if (storedToken === null) {
-        token = null; // Токен отсутствует
-    }
-} catch (error) {
-    console.error('Ошибка при получении токена:', error);
-}
-
 const determineMediaType = (src: string): 'image' | 'video' | undefined  => {
     if (src.endsWith('.mp4')) return 'video';
     if (src.endsWith('.png') || src.endsWith('.jpg') || src.endsWith('.jpeg')) return 'image';
@@ -207,10 +193,24 @@ const Post = ({ id, name, surname, avatar, created_by, source, tags, comments, v
     };
 
     const handleDeleteClick = async () => {
+        let token;
+
+        try {
+            const storedToken = localStorage.getItem('token');
+            token = JSON.parse(storedToken);
+
+            // Проверка, если токена нет, просто присваиваем его значение null
+            if (storedToken === null) {
+                token = null; // Токен отсутствует
+            }
+        } catch (error) {
+            console.error('Ошибка при получении токена:', error);
+        }
+
         dispatch(deletePost({postId: id}));
         dispatch(deletePostAsync({postId: id}));
-   //     const response = await axios.get(`https://api-rubin.multfilm.tatar/api/messages/rubick_notifications`, {headers: {Authorization: `Bearer ${token}`}});
-   //     console.log(response.data);
+        const response = await axios.get(`https://api-rubin.multfilm.tatar/api/messages/rubick_notifications`, {headers: {Authorization: `Bearer ${token}`}});
+        console.log(response.data);
     }
 
     const handleEditPost = async (e) => {

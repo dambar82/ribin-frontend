@@ -4,7 +4,7 @@ import Wall from '../../components/Wall/Wall';
 import {useAppDispatch} from "../../store/hooks";
 import {useSelector} from "react-redux";
 import {RootState} from "../../store/store";
-import {Link, useParams} from "react-router-dom";
+import {Link, useNavigate, useParams} from "react-router-dom";
 import React, {useEffect, useState} from "react";
 import {fetchPostsByUserId} from "../../store/postSlice";
 import {fetchPeople, sendFriendRequest} from "../../store/peopleSlice";
@@ -24,7 +24,12 @@ const UserProfilePage = () => {
     const [currentUser, setCurrentUser] = useState<User>(null);
     const [requestSent, setRequestSent] = useState(false);
     const [yourPage, setYourPage] = useState(false);
+    const navigate = useNavigate();
     // const [filled, setFilled] = useState(false);
+
+    useEffect(() => {
+        console.log(user);
+    }, [user])
 
     useEffect(() => {
         dispatch(fetchPeople());
@@ -57,17 +62,23 @@ const UserProfilePage = () => {
     }, [user, currentUser]);
 
     useEffect(() => {
-         dispatch(fetchPostsByUserId({userId: Number(id)}));
-      }, [dispatch])
+        if (user) {
+            dispatch(fetchPostsByUserId({userId: Number(id)}));
+        }
+      }, [dispatch, user])
 
     const handleFriendAdd = async () => {
-        if (!requestSent) {
-            const friendRequest = await dispatch(sendFriendRequest({receiverId: currentUser.id}));
-            if (friendRequest.payload === 'Запрос на дружбу отправлен.') {
-                setRequestSent(true);
+        if (user) {
+            if (!requestSent) {
+                const friendRequest = await dispatch(sendFriendRequest({receiverId: currentUser.id}));
+                if (friendRequest.payload === 'Запрос на дружбу отправлен.') {
+                    setRequestSent(true);
+                }
+            } else {
+
             }
         } else {
-
+            navigate('/login');
         }
     }
 
@@ -113,11 +124,13 @@ const UserProfilePage = () => {
                                     </div>
                                     ) : (
                                     <div className="big-card__actions">
-                                        <Link to={`/chat/${user.id}`}>
-                                        <button className="button button--main-outlined" type="button">
-                                            <span>Написать сообщение</span>
-                                        </button>
-                                        </Link>
+                                        {user && (
+                                            <Link to={`/chat/${user.id}`}>
+                                                <button className="button button--main-outlined" type="button">
+                                                    <span>Написать сообщение</span>
+                                                </button>
+                                            </Link>
+                                        )}
                                         {currentUser.friends.find(el => el.id === user.id)
                                         ?
                                           <button className={classNames('button', 'button--main', styles.added_friend_button)} type="button" >

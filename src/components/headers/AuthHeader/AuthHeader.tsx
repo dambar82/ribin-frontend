@@ -156,7 +156,7 @@ const AuthHeader = () => {
                                   </div>
                                     <li onClick={goToProfile}>
                                         <NavLink
-                                            to={`/user/${user.id}`}
+                                            to=''
                                             className={({ isActive }) => {
                                                 return isActive ? "_active" : ""
                                             }}
