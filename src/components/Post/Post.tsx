@@ -257,7 +257,7 @@ const Post = ({ id, name, surname, avatar, created_by, source, tags, comments, v
                                 <img src="/images/club-image.png" alt="" />
                             }
                     </div>
-                    <div className={styles.post__title}>{name} {surname} {verified && <img src={verifiedPost} alt='' />}</div>
+                    <div className={styles.post__title}>{name} {surname} {verified ? <img src={verifiedPost} alt='' /> : ''}</div>
                     <div className={styles.post__createdAt}>{postFormatDate(post.created_at)}</div>
                 </div>
                 </Link>
