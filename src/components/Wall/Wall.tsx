@@ -102,6 +102,7 @@ const Wall = ({type, posts, editable = true, clubId, joined}: IWall) => {
     const [video, setVideo] = useState(false);
     const [incorrectWords, setIncorrectWords] = useState(false);
     const textareaRef = useRef(null);
+    const [isValid, setIsValid] = useState(true);
     const fileInputRef = useRef<HTMLInputElement>(null);
     const navigate = useNavigate();
     const user = useSelector((state: RootState) => state.user);
@@ -145,6 +146,19 @@ const Wall = ({type, posts, editable = true, clubId, joined}: IWall) => {
         });
     };
 
+    const validateVideoLink = (link) => {
+        if (link.trim() === '') return true;
+        const videoPattern = /^(https?:\/\/)?(www\.)?(youtube\.com|ok\.ru|vk\.com|rutube\.ru)\/.+/;
+        return videoPattern.test(link);
+    };
+
+    const handleVideoLinkChange = (event) => {
+        const value = event.target.value;
+        setVideoLink(value);
+
+        setIsValid(validateVideoLink(value));
+    }
+
     const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setSearchTerm(e.target.value);
     };
@@ -166,6 +180,7 @@ const Wall = ({type, posts, editable = true, clubId, joined}: IWall) => {
             }
 
             if (textareaValue.length > 60) {
+                if (!isValid) return;
                 const form = e.currentTarget;
                 const formData = new FormData(form);
 
@@ -290,8 +305,9 @@ const Wall = ({type, posts, editable = true, clubId, joined}: IWall) => {
                                                     </h2>
                                                     <input type="text"
                                                            value={videoLink}
-                                                           onChange={(event) => setVideoLink(event.target.value)}
+                                                           onChange={handleVideoLinkChange}
                                                            placeholder='Введите ссылку на видео с YouTube, VK, Однокласники или Rutube'/>
+                                                    {!isValid && <p style={{ color: 'red' }}>Пожалуйста, введите корректную ссылку на видео.</p>}
                                                 </div>
                                             )
                                         }
