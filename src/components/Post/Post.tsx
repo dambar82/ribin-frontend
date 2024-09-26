@@ -47,9 +47,14 @@ interface ICard {
     type: 'all' | 'image' | 'video';
 }
 
-const token = JSON.parse(localStorage.getItem('token') || '')
+let token;
 
-console.log(token);
+try {
+    const storedToken = localStorage.getItem('token');
+    token = JSON.parse(storedToken || '');
+} catch (error) {
+    console.error('Ошибка при получении токена:', error);
+}
 
 const determineMediaType = (src: string): 'image' | 'video' | undefined  => {
     if (src.endsWith('.mp4')) return 'video';
