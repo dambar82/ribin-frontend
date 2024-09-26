@@ -180,8 +180,8 @@ const Wall = ({type, posts, editable = true, clubId, joined}: IWall) => {
                         if (newPost !== 'Вы используете не допустимые слова. Измените текст и повторите попытку.') {
                             dispatch(addPost(newPost));
 
-                            const response = await axios.get(`https://api-rubin.multfilm.tatar/api/messages/rubick_notifications`, {headers: {Authorization: `Bearer ${token}`}});
-                            console.log(response.data);
+                        //    const response = await axios.get(`https://api-rubin.multfilm.tatar/api/messages/rubick_notifications`, {headers: {Authorization: `Bearer ${token}`}});
+                        //    console.log(response.data);
 
                         } else {
                             setIncorrectWords(true);
@@ -197,8 +197,8 @@ const Wall = ({type, posts, editable = true, clubId, joined}: IWall) => {
                             // @ts-ignore
                             dispatch(addPost(newPost));
 
-                            const response = await axios.get(`https://api-rubin.multfilm.tatar/api/messages/rubick_notifications`, {headers: {Authorization: `Bearer ${token}`}});
-                            console.log(response.data);
+                         //   const response = await axios.get(`https://api-rubin.multfilm.tatar/api/messages/rubick_notifications`, {headers: {Authorization: `Bearer ${token}`}});
+                         //   console.log(response.data);
 
                         } else {
                             setIncorrectWords(true);
@@ -293,7 +293,7 @@ const Wall = ({type, posts, editable = true, clubId, joined}: IWall) => {
                                         <Button
                                             className={`${styles.submit_button} ${textareaValue.length > 0 ? styles.show : ''}`}
                                             type="submit"
-                                            onClick={formRef.current?.submit()}
+                                     //       onClick={formRef.current?.submit()}
                                         >
                                             Отправить 
                                         </Button>
