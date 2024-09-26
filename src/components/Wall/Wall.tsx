@@ -35,7 +35,19 @@ interface IUser {
     level: number
 }
 
-const token = JSON.parse(localStorage.getItem('token') || '')
+let token;
+
+try {
+    const storedToken = localStorage.getItem('token');
+    token = JSON.parse(storedToken);
+
+    // Проверка, если токена нет, просто присваиваем его значение null
+    if (storedToken === null) {
+        token = null; // Токен отсутствует
+    }
+} catch (error) {
+    console.error('Ошибка при получении токена:', error);
+}
 
 const MAX_COUNT_FILES_IN_FORM = 8
 
