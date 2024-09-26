@@ -51,6 +51,7 @@ let token;
 
 try {
     const storedToken = localStorage.getItem('token');
+    console.log(storedToken);
     token = JSON.parse(storedToken || '');
 } catch (error) {
     console.error('Ошибка при получении токена:', error);
