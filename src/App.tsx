@@ -210,9 +210,9 @@ function App() {
         }
     }, [isAuth])
 
-    if ( token && (loading || !user) ) {
-      return <Loader />
-    }
+    // if ( token && (loading || !user) ) {
+    //   return <Loader />
+    // }
 
     return (
         <BrowserRouter>
