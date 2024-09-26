@@ -50,7 +50,7 @@ interface ICard {
 let token;
 
 try {
-    const storedToken = await localStorage.getItem('token');
+    const storedToken = localStorage.getItem('token');
     token = JSON.parse(storedToken);
 
     // Проверка, если токена нет, просто присваиваем его значение null
