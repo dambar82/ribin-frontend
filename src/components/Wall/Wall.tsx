@@ -5,6 +5,7 @@ import loupeIcon from '../../images/svg/loupe.svg'
 import attachmentIcon from '../../images/svg/attachment.svg'
 import deletePic from '../../images/svg/deletePic.svg'
 import attachPic from '../../images/svg/attachPic.svg';
+import attachVideo from '../../images/svg/attachVideo.svg';
 
 import Select from 'react-select';
 
@@ -96,7 +97,9 @@ const Wall = ({type, posts, editable = true, clubId, joined}: IWall) => {
     const [files, setFiles] = useState<{ id: number, file: File }[]>([])
     const [option, setOption] = useState(optionsMap.public)
     const [searchTerm, setSearchTerm] = useState('')
+    const [videoLink, setVideoLink] = useState('');
     const [symbols, setSymbols] = useState(false);
+    const [video, setVideo] = useState(false);
     const [incorrectWords, setIncorrectWords] = useState(false);
     const textareaRef = useRef(null);
     const fileInputRef = useRef<HTMLInputElement>(null);
@@ -166,7 +169,7 @@ const Wall = ({type, posts, editable = true, clubId, joined}: IWall) => {
                 const form = e.currentTarget;
                 const formData = new FormData(form);
 
-                formData.append('description', formData.get('description') as string);
+                formData.append('description', formData.get('description') + videoLink as string);
                 // formData.append('title', formData.get('description') as string);
 
                 files.forEach(file => {
@@ -261,6 +264,7 @@ const Wall = ({type, posts, editable = true, clubId, joined}: IWall) => {
                                         {/*    files.length <= MAX_COUNT_FILES_IN_FORM && textareaValue.length > 0 &&*/}
                                             <div className={`${styles.wall__feedFormFileField} ${files.length <= MAX_COUNT_FILES_IN_FORM && textareaValue.length > 0 ? styles.show : ''}`}
                                                  onClick={() => fileInputRef.current?.click()}
+                                                 title='Прикрепить картинку'
                                             >
                                                 <input type='file' id='file' accept='image/*,'
                                                        ref={fileInputRef}
@@ -269,6 +273,28 @@ const Wall = ({type, posts, editable = true, clubId, joined}: IWall) => {
                                                     <img src={attachPic} alt=''/>
                                                 </label>
                                             </div>
+                                            <div
+                                                className={`${styles.wall__feedFormFileField} ${textareaValue.length > 0 ? styles.show : ''}`}
+                                                onClick={() => setVideo(!video)}
+                                                title='Прикрепить видео'
+                                            >
+                                                <label>
+                                                    <img src={attachVideo} alt=""/>
+                                                </label>
+                                            </div>
+                                        {
+                                            textareaValue.length > 0 && video && (
+                                                <div className={styles.videoAttachment}>
+                                                    <h2>
+                                                        URL видео
+                                                    </h2>
+                                                    <input type="text"
+                                                           value={videoLink}
+                                                           onChange={(event) => setVideoLink(event.target.value)}
+                                                           placeholder='Введите ссылку на видео с YouTube, VK, Однокласники или Rutube'/>
+                                                </div>
+                                            )
+                                        }
                                         {/*}*/}
                                         {
                                             symbols && (
@@ -344,6 +370,7 @@ const Wall = ({type, posts, editable = true, clubId, joined}: IWall) => {
                                 surname={post.client.surname}
                                 avatar={post.client.avatar}
                                 created_by={post.client.id}
+                                videoLink={videoLink}
                                 tags={null}
                                 source={post.source}
                                 verified={post.client.verified}
@@ -371,6 +398,7 @@ const Wall = ({type, posts, editable = true, clubId, joined}: IWall) => {
                                 surname={post.client.surname}
                                 avatar={post.client.avatar}
                                 verified={post.client.verified}
+                                videoLink={videoLink}
                                 tags={null}
                                 source={post.source}
                                 comments={post.comments}
@@ -394,6 +422,7 @@ const Wall = ({type, posts, editable = true, clubId, joined}: IWall) => {
                                 surname={post.client.surname}
                                 avatar={post.client.avatar}
                                 verified={post.client.verified}
+                                videoLink={videoLink}
                                 tags={null}
                                 source={post.source}
                                 comments={post.comments}
