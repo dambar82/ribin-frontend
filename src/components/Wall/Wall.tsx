@@ -92,14 +92,15 @@ const Wall = ({type, posts, editable = true, clubId, joined}: IWall) => {
     const { people, status } = useSelector((state: RootState) => state.people)
     const [feedType, setFeedType] = useState(0)
     const [sortType, setSortType] = useState(1)
-    const [postType, setPostType] = useState(0)
+   // const [postType, setPostType] = useState(0)
     const [textareaValue, setTextareaValue] = useState('');
     const [files, setFiles] = useState<{ id: number, file: File }[]>([])
+    const [videos, setVideos] = useState([]);
+    const [isInputVisible, setIsInputVisible] = useState(false);
     const [option, setOption] = useState(optionsMap.public)
     const [searchTerm, setSearchTerm] = useState('')
     const [videoLink, setVideoLink] = useState('');
     const [symbols, setSymbols] = useState(false);
-    const [video, setVideo] = useState(false);
     const [incorrectWords, setIncorrectWords] = useState(false);
     const textareaRef = useRef(null);
     const [isValid, setIsValid] = useState(true);
@@ -107,6 +108,10 @@ const Wall = ({type, posts, editable = true, clubId, joined}: IWall) => {
     const navigate = useNavigate();
     const user = useSelector((state: RootState) => state.user);
     const formRef = useRef(null);
+
+    useEffect(() => {
+        console.log(videos)
+    }, [videos])
 
     useEffect(() => {
         if (textareaRef.current) {
@@ -147,7 +152,7 @@ const Wall = ({type, posts, editable = true, clubId, joined}: IWall) => {
     };
 
     const validateVideoLink = (link) => {
-        if (link.trim() === '') return true;
+     //   if (link.trim() === '') return true;
         const videoPattern = /^(https?:\/\/)?(www\.)?(youtube\.com|ok\.ru|vk\.com|rutube\.ru)\/.+/;
         return videoPattern.test(link);
     };
@@ -156,7 +161,29 @@ const Wall = ({type, posts, editable = true, clubId, joined}: IWall) => {
         const value = event.target.value;
         setVideoLink(value);
 
-        setIsValid(validateVideoLink(value));
+        const isValidLink = validateVideoLink(value);
+        setIsValid(isValidLink);
+
+        if (isValidLink) {
+            setVideos((prevVideos) => [...prevVideos, value]);
+            setIsInputVisible(false);
+            setVideoLink('');
+        }
+    }
+
+    const removeVideo = (index) => {
+        const updatedVideos = videos.filter((_, i) => i !== index);
+        setVideos(updatedVideos);
+    };
+
+    const changeVisible = () => {
+        if (isInputVisible) {
+            setIsInputVisible(false);
+            setIsValid(true);
+            setVideoLink('');
+        } else {
+            setIsInputVisible(true);
+        }
     }
 
     const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -184,7 +211,7 @@ const Wall = ({type, posts, editable = true, clubId, joined}: IWall) => {
                 const form = e.currentTarget;
                 const formData = new FormData(form);
 
-                formData.append('description', formData.get('description') + videoLink as string);
+                formData.append('description', formData.get('description') + videos.join(' ') as string);
                 // formData.append('title', formData.get('description') as string);
 
                 files.forEach(file => {
@@ -198,8 +225,8 @@ const Wall = ({type, posts, editable = true, clubId, joined}: IWall) => {
                         if (newPost !== 'Вы используете не допустимые слова. Измените текст и повторите попытку.') {
                             dispatch(addPost(newPost));
 
-                        //    const response = await axios.get(`https://api-rubin.multfilm.tatar/api/messages/rubick_notifications`, {headers: {Authorization: `Bearer ${token}`}});
-                        //    console.log(response.data);
+                            const response = await axios.get(`https://api-rubin.multfilm.tatar/api/messages/rubick_notifications`, {headers: {Authorization: `Bearer ${token}`}});
+                            console.log(response.data);
 
                         } else {
                             setIncorrectWords(true);
@@ -215,8 +242,8 @@ const Wall = ({type, posts, editable = true, clubId, joined}: IWall) => {
                             // @ts-ignore
                             dispatch(addPost(newPost));
 
-                         //   const response = await axios.get(`https://api-rubin.multfilm.tatar/api/messages/rubick_notifications`, {headers: {Authorization: `Bearer ${token}`}});
-                         //   console.log(response.data);
+                            const response = await axios.get(`https://api-rubin.multfilm.tatar/api/messages/rubick_notifications`, {headers: {Authorization: `Bearer ${token}`}});
+                            console.log(response.data);
 
                         } else {
                             setIncorrectWords(true);
@@ -227,6 +254,7 @@ const Wall = ({type, posts, editable = true, clubId, joined}: IWall) => {
                         }
                     }
                     setFiles([]);
+                    setVideos([]);
                     setTextareaValue('');
                 } catch (error) {
                     console.error('Ошибка при создании поста:', error);
@@ -290,7 +318,7 @@ const Wall = ({type, posts, editable = true, clubId, joined}: IWall) => {
                                             </div>
                                             <div
                                                 className={`${styles.wall__feedFormFileField} ${textareaValue.length > 0 ? styles.show : ''}`}
-                                                onClick={() => setVideo(!video)}
+                                                onClick={changeVisible}
                                                 title='Прикрепить видео'
                                             >
                                                 <label>
@@ -298,7 +326,7 @@ const Wall = ({type, posts, editable = true, clubId, joined}: IWall) => {
                                                 </label>
                                             </div>
                                         {
-                                            textareaValue.length > 0 && video && (
+                                            textareaValue.length > 0 && isInputVisible && (
                                                 <div className={styles.videoAttachment}>
                                                     <h2>
                                                         URL видео
@@ -347,7 +375,12 @@ const Wall = ({type, posts, editable = true, clubId, joined}: IWall) => {
                                         <div key={file.id} className={styles.wall__feedFormFileDoc}>
                                             <span>{file?.file.name}</span>
                                             <img src={deletePic} alt="" onClick={() => deleteFile(file.id)}/>
-                                            {/*<button type='button' onClick={() => deleteFile(file.id)}></button>*/}
+                                        </div>
+                                    ))}
+                                    {videos.map((video, index) => (
+                                        <div key={index} className={styles.wall__feedFormFileDoc}>
+                                            <span>{video}</span>
+                                            <img src={deletePic} alt="" onClick={() => removeVideo(index)}/>
                                         </div>
                                     ))}
                                 </div>
@@ -386,7 +419,7 @@ const Wall = ({type, posts, editable = true, clubId, joined}: IWall) => {
                                 surname={post.client.surname}
                                 avatar={post.client.avatar}
                                 created_by={post.client.id}
-                                videoLink={videoLink}
+                                videos={videos}
                                 tags={null}
                                 source={post.source}
                                 verified={post.client.verified}
@@ -414,13 +447,13 @@ const Wall = ({type, posts, editable = true, clubId, joined}: IWall) => {
                                 surname={post.client.surname}
                                 avatar={post.client.avatar}
                                 verified={post.client.verified}
-                                videoLink={videoLink}
+                                videos={videos}
                                 tags={null}
                                 source={post.source}
                                 comments={post.comments}
                                 likes={post.likes_count}
                                 liked_by={post.liked_by}
-                                title={post.description}
+                                title={post.description + videos.join(' ')}
                                 updated_at={post.created_at}
                                 type={'video'}
                                 created_by={post.client.id}>
@@ -438,7 +471,7 @@ const Wall = ({type, posts, editable = true, clubId, joined}: IWall) => {
                                 surname={post.client.surname}
                                 avatar={post.client.avatar}
                                 verified={post.client.verified}
-                                videoLink={videoLink}
+                                videos={videos}
                                 tags={null}
                                 source={post.source}
                                 comments={post.comments}

@@ -48,35 +48,6 @@ const OKPlayer = ({ url }) => {
     );
 };
 
-const MailRuPlayer = ({ url }) => {
-    // Регулярное выражение для поиска части ссылки после /video/
-    const videoIdMatch = url.match(/\/video\/([-\w]+)\/(\d+)/);
-
-    if (!videoIdMatch) {
-        return <p>Invalid Mail.ru video URL</p>;
-    }
-
-    // Формируем embed ID из найденных частей URL
-    const embedId = `-158${videoIdMatch[1]}${videoIdMatch[2]}`;
-
-    console.log(embedId);
-
-    // Создаем embed-ссылку для iframe
-    const embedUrl = `https://my.mail.ru/video/embed/${embedId}`;
-
-    return (
-        <iframe
-            src={embedUrl}
-            width="100%"
-            height="480"
-            frameBorder="0"
-            scrolling="no"
-            allow="encrypted-media; fullscreen; picture-in-picture"
-            allowFullScreen
-        />
-    );
-};
-
 const RuTubePlayer = ({ url }) => {
     const videoIdMatch = url.match(/\/video\/([a-zA-Z0-9_-]+)/);
 
@@ -140,12 +111,6 @@ const TextWithVideo = ({ htmlContent }) => {
                 return (
                     <div key={index} className='post_video_wrapper'>
                         <OKPlayer url={part} />
-                    </div>
-                );
-            } else if (part.includes('my.mail.ru/v')) {
-                return (
-                    <div key={index} className='post_video_wrapper'>
-                        <MailRuPlayer url={part} />
                     </div>
                 );
             } else if (part.includes('rutube.ru/video')) {

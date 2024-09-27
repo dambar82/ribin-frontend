@@ -37,7 +37,7 @@ interface ICard {
     created_by: number;
     source?: string[];
     verified: number;
-    videoLink: string;
+    videos: string[];
     tags?: string;
     comments?: IComment[]
     children?: React.ReactNode;
@@ -63,11 +63,11 @@ function srcset(image: string, size: number, rows = 1, cols = 1) {
     };
 }
 
-const Post = ({ id, name, surname, avatar, created_by, source, tags, comments, verified, title, videoLink, likes, liked_by, updated_at, type }: ICard) => {
+const Post = ({ id, name, surname, avatar, created_by, source, tags, comments, verified, title, videos, likes, liked_by, updated_at, type }: ICard) => {
 
     const dispatch = useAppDispatch();
     const [isOpen, setIsOpen] = useState(false);
-    const [postContent, setPostContent] = useState(title + videoLink);
+    const [postContent, setPostContent] = useState(title);
     const [photoIndex, setPhotoIndex] = useState(0);
     const [showAllComments, setShowAllComments] = useState(false);
     const [showCommentSection, setShowCommentSection] = useState(false);
