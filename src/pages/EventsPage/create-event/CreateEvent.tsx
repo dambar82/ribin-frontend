@@ -1,7 +1,7 @@
 import { Clubs } from '../../../types'
 import c from './createEvent.module.scss'
 import { Button, Input, Modal, Textarea } from '../../../shared/UI'
-import { ChangeEvent, useRef, useState } from 'react'
+import {ChangeEvent, useEffect, useRef, useState} from 'react'
 import { arrayFromTo, classNames, getResizedImg } from '../../../shared/utils'
 import { MONTHS } from '../../../shared/constants'
 import { getMonth, getYear } from 'date-fns'
@@ -14,6 +14,7 @@ import Map from '../../../components/Map/Map'
 import { createEvent } from '../../../store/eventsSlice'
 import {MapContainer, useMapEvents} from "react-leaflet";
 import MapSet from "../../../components/MapSet/MapSet";
+import { OpenStreetMapProvider } from 'leaflet-geosearch';
 
 //@ts-ignore
 registerLocale('ru', ru)
@@ -34,6 +35,8 @@ const CreateEvent = ({ setActiveTab }: CreateEventProps) => {
   const [mapCoordinates, setMapCoordinates] = useState<[number, number] | null>(null);
   const [activeModal, setActiveModal] = useState<boolean | null>(null)
   const [errorMessage, setErrorMessage] = useState<string>('')
+  const [eventAddress, setEventAddress] = useState('');
+  const [eventCity, setEventCity] = useState('');
 
   const dataPickerEl = useRef(null)
   const timePickerEl = useRef(null)
@@ -52,15 +55,22 @@ const CreateEvent = ({ setActiveTab }: CreateEventProps) => {
     const name = data.get('name')
     const description = data.get('description')
 
-    const city = data.get('city')
-    const location = data.get('location')
+    console.log(mapCoordinates);
+
+    if (eventCity) {
+      data.append('city', eventCity)
+    }
+
+    if (eventAddress) {
+      data.append('location', eventAddress)
+    }
 
     if ( !name || !description ) {
       setErrorMessage('Не все поля заполнены')
       return
     }
 
-    if ( (!city || !location) && !mapCoordinates ) {
+    if ( (!eventCity || !eventAddress) && !mapCoordinates ) {
       setErrorMessage('Не все поля заполнены')
       return
     }
@@ -262,7 +272,7 @@ const CreateEvent = ({ setActiveTab }: CreateEventProps) => {
               <div className={c.header} >
                 <span>Место проведения <span>*</span></span>
                 {/* Логика мероприятия //////////////////////////////////////////////// */}
-                {/* <div>
+                <div>
                   <span>На карте</span>
                   <button
                     type='button'
@@ -271,25 +281,28 @@ const CreateEvent = ({ setActiveTab }: CreateEventProps) => {
                   >
                     <span></span>
                   </button>
-                </div> */}
-                {/* Логика мероприятия //////////////////////////////////////////////// */}
+                </div>
               </div>
 
               <div>
                 { !activeToggle &&
                   <div className={c.address_input_wrapper} >
                     <Input
+                        value={eventCity}
+                        onChange={(e) => setEventCity(e.target.value)}
                       name='city'
                       placeholder='Укажите город'
                     />
                     <Input
+                        value={eventAddress}
+                        onChange={(e) => setEventAddress(e.target.value)}
                       name='location'
                       placeholder='Укажите полный адрес проведения мероприятия'
                     />
                   </div>
                 }
                 {activeToggle &&
-                  <MapWrapper coordinates={mapCoordinates ? mapCoordinates : [55.783063, 49.119782]} setCoordinates={handleSetCoordinates}></MapWrapper>
+                  <MapWrapper city={eventCity} address={eventAddress} coordinates={mapCoordinates ? mapCoordinates : [55.783063, 49.119782]} setCoordinates={handleSetCoordinates}></MapWrapper>
                 }
               </div>
             </div>
@@ -363,19 +376,38 @@ const DatePickerHeader = ({
 }
 
 interface MapWrapperProps {
+  city: string;
+  address: string;
   coordinates: [number, number];
   setCoordinates: (coordinates) => void;
 }
-const MapWrapper = ({ coordinates, setCoordinates }: MapWrapperProps) => {
+const MapWrapper = ({ city, address, coordinates, setCoordinates }: MapWrapperProps) => {
   const [activeModal, setActiveModal] = useState<boolean | null>(null);
-  const [coords, setCoords] = useState();
-
+  const [searchResult, setSearchResult] = useState(null);
+  const [coords, setCoords] = useState<any>();
+  const [coordinatesForMapSet, setCoordinatesForMapSet] = useState(coords ? coords : coordinates)
+  const provider = new OpenStreetMapProvider();
   const handleCoordsSet = (coords) => {
     setCoords(coords)
     setCoordinates(coords);
   }
 
-  const coordinatesForMapSet = coords ? coords : coordinates
+  useEffect(() => {
+    const searchAddres = async () => {
+      const query = city +" "+ address
+      if (query !== " ") {
+        const result = await provider.search({ query })
+        setSearchResult(result[0].bounds[0]);
+        setCoords(result[0].bounds[0])
+        setCoordinates(result[0].bounds[0])
+      }
+    }
+    searchAddres();
+  }, [city, address])
+
+  useEffect(() => {
+    setCoordinatesForMapSet(coords ? coords : coordinates)
+  }, [coords])
 
   return <>
     <div className={c.map_wrapper} onClick={() => setActiveModal(true)} >

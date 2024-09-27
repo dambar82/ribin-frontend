@@ -13,7 +13,7 @@ const customIcon = new L.Icon({
     shadowSize: [41, 41] // Размер тени
 });
 
-const Map = ({coordinates = [55.783063, 49.119782]}) => {
+const Map = ({coordinates}) => {
 
 useEffect(() => {
     console.log(coordinates)
