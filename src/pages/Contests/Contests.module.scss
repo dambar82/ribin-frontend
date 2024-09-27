@@ -7,8 +7,109 @@
 }
 
 .image {
+  height: max-content;
+
+  img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+  }
+}
+.hero {
+  // background-image: url();
+  background: linear-gradient(228deg, #51CC39 0%, #51CC39 100%);
+
+  @media (max-width: 1440px) {
+    height: 480px; 
+  }
   @media (max-width: 1000px) {
-    height: max-content;
+    height: 420px; 
+  }
+  @media (max-width: 768px) {
+    height: 360px;
+  }
+  @media (max-width: 480px) {
+    height: 320px; 
+  }
+
+  &__title {
+      background-color: #91172C;
+      backdrop-filter: blur(40px);
+      border: 6px solid #FFFFFF;
+      top: calc(90 / 560 * 100%);
+      left: calc(48 / 1660 * 100%);
+      transform: rotate(-15deg);
+      transform-origin: center;
+
+      @media (max-width: 1440px) {
+        font-size: 30px; 
+      }
+      @media (max-width: 768px) {
+        font-size: 22px; 
+      }
+  }
+  &__subtitle {
+      background-color: #1890FF;
+      top: calc(85 / 560 * 100%);
+      left: calc(37 / 1660 * 100%);
+      transform: rotate(-15deg);
+      transform-origin: center;
+      text-transform: capitalize;
+
+      @media (max-width: 1440px) {
+        font-size: 30px; 
+      }
+      @media (max-width: 768px) {
+        font-size: 22px; 
+      }
+  }
+  &__bg {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      // mix-blend-mode: screen;
+  }
+  &__ruby {
+      top: 50%;
+      right: calc(200 / 1660 * 100%);
+      transform: translate(0, -50%);
+      z-index: 2;
+
+      @media (max-width: 1600px) {
+        right: 20px; 
+      }
+      @media (max-width: 1440px) {
+        height: 100%;
+      }
+      @media (max-width: 768px) {
+        // width: 60%;
+        bottom: 0;
+        top: auto;
+        transform: none;
+        z-index: auto;
+      }
+      @media (max-width: 600px) {
+        height: 80%; 
+      }
+      @media (max-width: 480px) {
+        height: 70%; 
+      }
+  }
+
+  .hero__football_net {
+    left: 100px;
+    bottom: 20px;
+    z-index: 1;
+
+    @media (max-width: 1440px) {
+      height: 70%;
+    }
+    @media (max-width: 1200px) {
+      left: 20px; 
+    }
+    @media (max-width: 768px) {
+      display: none; 
+    }
   }
 }
 

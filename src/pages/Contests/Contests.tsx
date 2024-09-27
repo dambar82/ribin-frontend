@@ -73,8 +73,14 @@ const Contests = () => {
 
     return (
         <div className='page'>
-            <div className={classNames('image', styles.image)}>
+            {/* <div className={classNames('image', styles.image)}>
                 <img src={contestImg} alt=""/>
+            </div> */}
+            <div className={`hero ${styles.hero}`}>
+                <img src="images/contests-banner-bg.png" className={`${styles.hero__bg} hero__bg`} />
+                <img src="images/contests-banner-ruby.png" className={`${styles.hero__ruby} hero__ruby`} />
+                <img src="images/contests-banner-football-net.png" className={`${styles.hero__football_net}`} />
+                <p className={`${styles.hero__subtitle} hero__title`}>Конкурсы</p>
             </div>
             <div className='content_after_image'>
                 <div className={`${styles.contests_header} justify_content_SB`}>

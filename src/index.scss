@@ -1679,6 +1679,10 @@ input:-webkit-autofill {
 
 .content_after_image {
   margin-top: 160px;
+
+  @media (max-width: 600px) {
+    margin-top: 60px; 
+  }
 }
 
 .newsBlock {
