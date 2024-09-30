@@ -133,7 +133,7 @@ function App() {
         { path: '/register', element: <Register />, layout: UnauthLayoutRegister },
         { path: '/restore', element: <Restore />, layout: RestoreLayout },
         { path: '/restore/password/:token', element: <NewPassword />, layout: RestoreLayout },
-        { path: '/', element: <MainPage/>, layout: UnauthLayout },
+        { path: '/', element: <MainPage/>, layout: MainAuthorizedLayout },
         { path: '/email-confirmation/:hash', element: <ConfirmEmailModal email='' user_id={0} />, layout: UnauthLayout },
         { path: '/contests', element: <Contests />, layout: UnauthLayout },
         { path: '/contests/:contestId', element: <ContestPage />, layout: UnauthLayout },
@@ -229,8 +229,21 @@ function App() {
     return (
         <BrowserRouter>
             <Routes>
-                {publicRoutes.map(({ path, element, layout: Layout }) => (
-                    <Route key={path} path={path} element={Layout ? <Layout>{element}</Layout> : element} />
+                {publicRoutes.map(({ path, element, layout }) => (
+                    <Route
+                        key={path}
+                        path={path}
+                        element={
+                            <UnauthLayout
+                                notificationFriend={notificationFriend}
+                                setNotificationFriend={setNotificationFriend}
+                                autoCloseTimeout={autoCloseTimeout}
+                                setAutoCloseTimeout={setAutoCloseTimeout}
+                            >
+                                {element}
+                            </UnauthLayout>
+                    }
+                    />
                 ))}
                 {/*<Route*/}
                 {/*    path="/"*/}

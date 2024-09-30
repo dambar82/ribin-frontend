@@ -444,7 +444,7 @@ const UsersSlider = ({ friends, currentUser, sended, handleDeleteFriendship, han
                                                         <img src={access} alt=""/>
                                                     </div>
                                                     <div
-                                                        onClick={(event) => handleDeleteFriendship(event, friend.id)}
+                                                        onClick={(event) => handleDeleteFriendship(event, friend.receiver.id)}
                                                         className={`${styles.awaitingFriend_button} ${styles.awaitingFriend_buttonDecline}`}>
                                                         <img src={decline} alt=""/>
                                                     </div>
@@ -485,7 +485,7 @@ const UsersSlider = ({ friends, currentUser, sended, handleDeleteFriendship, han
                                                         <img src={access} alt=""/>
                                                     </div>
                                                     <div
-                                                        onClick={(event) => handleDeleteFriendship(event, friend.id)}
+                                                        onClick={(event) => handleDeleteFriendship(event, friend.sender.id)}
                                                         className={`${styles.awaitingFriend_button} ${styles.awaitingFriend_buttonDecline}`}>
                                                         <img src={decline} alt=""/>
                                                     </div>
