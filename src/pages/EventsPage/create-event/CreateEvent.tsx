@@ -55,8 +55,6 @@ const CreateEvent = ({ setActiveTab }: CreateEventProps) => {
     const name = data.get('name')
     const description = data.get('description')
 
-    console.log(mapCoordinates);
-
     if (eventCity) {
       data.append('city', eventCity)
     }
