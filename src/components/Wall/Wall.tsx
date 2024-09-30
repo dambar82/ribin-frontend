@@ -110,10 +110,6 @@ const Wall = ({type, posts, editable = true, clubId, joined}: IWall) => {
     const formRef = useRef(null);
 
     useEffect(() => {
-        console.log(videos)
-    }, [videos])
-
-    useEffect(() => {
         if (textareaRef.current) {
             const textarea = textareaRef.current;
             textarea.style.height = 'auto';
@@ -378,7 +374,7 @@ const Wall = ({type, posts, editable = true, clubId, joined}: IWall) => {
                                         </div>
                                     ))}
                                     {videos.map((video, index) => (
-                                        <div key={index} className={styles.wall__feedFormFileDoc}>
+                                        <div key={index} className={styles.wall__feedFormFileDoc} style={{maxWidth: '100%'}} title={video}>
                                             <span>{video}</span>
                                             <img src={deletePic} alt="" onClick={() => removeVideo(index)}/>
                                         </div>

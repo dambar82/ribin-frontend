@@ -1,4 +1,4 @@
-import { useMemo } from "react"
+import {useEffect, useMemo} from "react"
 import { PhotoGallery } from "../../../types"
 import { TFilters } from "../PhotoGalleryPage"
 
@@ -10,6 +10,10 @@ export const useFilterPhotoGallery = (
   filtredPhotoGallery: PhotoGallery[]
   albums: string[]
 } => {
+
+  useEffect(() => {
+    console.log(photoGallery)
+  }, [photoGallery])
 
   return useMemo(() => {
 

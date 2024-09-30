@@ -29,14 +29,14 @@ const PhotoGalleryPage = () => {
   
   const dispatch = useDispatch<AppDispatch>()
 
-  const { filtredPhotoGallery, albums } = useFilterPhotoGallery(photoGallery, filters, album)
+  const { filtredPhotoGallery, albums } = useFilterPhotoGallery([...ourGallery,...photoGallery], filters, album)
 
   useEffect(() => {
     if (status === 'idle') {
       dispatch(fetchPhotoGallery());
       const fetchOurGallery = async () => {
           const response = await axios.get('https://api-rubin.multfilm.tatar/api/all_galleries');
-          console.log(response.data)
+          console.log(response.data.data)
           setOurGallery(response.data.data)
       }
       fetchOurGallery();
@@ -44,8 +44,8 @@ const PhotoGalleryPage = () => {
   }, [status, dispatch]);
 
 useEffect(() => {
-    console.log(ourGallery)
-}, [ourGallery])
+    console.log(photoGallery)
+}, [photoGallery])
 
   useEffect(() => {
     return () => {
@@ -61,6 +61,7 @@ useEffect(() => {
       return <p>{error}</p>;
   }
 
+    // @ts-ignore
     return (
         <div className="page">
             <section className={`section ${styles.photogallery}`}>
@@ -86,28 +87,41 @@ useEffect(() => {
                   </nav>
 
                   <div className={styles.photogallery__grid}>
-                      {ourGallery.map(gallery => (
-                          <Link to={`/photogallery/${gallery.id}`}>
-                              <GalleryCard
-                                  id={gallery.id}
-                                  name={gallery.title}
-                                  category={gallery.section_name}
-                                  image={gallery.album_cover}
-                                  date={gallery.publishDate}
-                              />
-                          </Link>
-                      ))}
-                      {filtredPhotoGallery.map(gallery => (
-                          <Link to={`/photogallery/${gallery.id}`} key={gallery.id} >
-                              <GalleryCard 
-                                  id={gallery.id}
-                                  name={gallery.title}
-                                  category={gallery.sectionName}
-                                  image={gallery.imagePreviewResized}
-                                  date={gallery.publishDate}
-                              />
-                          </Link>
-                      ))}
+                      {
+                          filtredPhotoGallery.map(gallery => {
+                              if ('tags' in gallery) {
+                                  return (
+                                      <Link to={`/photogallery/${gallery.id}`} key={gallery.id} >
+                                          <GalleryCard
+                                              id={gallery.id}
+                                              name={gallery.title}
+                                              category={gallery.sectionName}
+                                              image={gallery.imagePreviewResized}
+                                              date={gallery.publishDate}
+                                          />
+                                      </Link>
+                                      )
+                              } else {
+                                  return (
+                                      //@ts-ignore
+                                      <Link to={`/photogallery/${gallery.id}`} key={gallery.id}>
+                                          <GalleryCard
+                                              //@ts-ignore
+                                              id={gallery.id}
+                                              //@ts-ignore
+                                              name={gallery.title}
+                                              //@ts-ignore
+                                              category={gallery.sectionName}
+                                              //@ts-ignore
+                                              image={gallery.album_cover}
+                                              //@ts-ignore
+                                              date={gallery.publishDate}
+                                          />
+                                      </Link>
+                                  )
+                              }
+                        })
+                      }
                   </div>
 
                 </div>
