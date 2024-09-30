@@ -80,7 +80,7 @@ const CreateEvent = ({ setActiveTab }: CreateEventProps) => {
     })
 
     if (mapCoordinates) {
-      data.set('coordinates', JSON.stringify(mapCoordinates));
+      data.set('coordinates', ''+mapCoordinates[0] +', '+ mapCoordinates[1]);
     }
 
     const date = `${startDate.getFullYear()}-${('0' + (startDate.getMonth()+1)).slice(-2)}-${('0' + startDate.getDate()).slice(-2)}`
@@ -93,7 +93,6 @@ const CreateEvent = ({ setActiveTab }: CreateEventProps) => {
 
     dispatch(createEvent(data))
       .then((res: any) => {
-        console.log(res);
         if ( !res.payload?.errors && !res.payload?.exception ) {
           setActiveModal(true)
           //@ts-ignore

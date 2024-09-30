@@ -47,6 +47,7 @@ export const cancelParticipateInEvent = createAsyncThunk('clubs/cancelParticipat
 
 export const createEvent = createAsyncThunk('clubs/createEvent', async ( formData: TCreateEventRequest ) => {
   const response = await $api.post<TCreateEventResponse>('/api/event/create', formData);
+  console.log(response.data.data)
   return response.data.data
 })
 
