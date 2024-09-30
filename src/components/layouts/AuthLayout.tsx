@@ -17,10 +17,6 @@ interface AuthLayoutProps {
 
 const AuthLayout: React.FC<AuthLayoutProps> = ({ children, notificationFriend, setNotificationFriend, autoCloseTimeout, setAutoCloseTimeout }) => {
 
-    useEffect(() => {
-        console.log(notificationFriend)
-    }, [notificationFriend])
-
 
     const handleCloseNotification = () => {
         setNotificationFriend({ visible: false, data: null });

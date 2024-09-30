@@ -16,9 +16,6 @@ interface UnauthLayoutProps {
 
 const UnauthLayout: React.FC<UnauthLayoutProps> = ({ children, notificationFriend, setNotificationFriend, autoCloseTimeout, setAutoCloseTimeout }) => {
     const user = useSelector((state: RootState) => state.user.user);
-    useEffect(() => {
-        console.log(notificationFriend)
-    }, [notificationFriend])
 
     const isAuth = !!user?.email_confirmed
 

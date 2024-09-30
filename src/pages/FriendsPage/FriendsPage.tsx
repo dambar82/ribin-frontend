@@ -34,20 +34,6 @@ const SORT_TYPES = [
   { key: ESortTypes.pending, value: 'Отправленные заявки' }
 ]
 
-let token;
-
-try {
-    const storedToken = localStorage.getItem('token');
-    token = JSON.parse(storedToken);
-
-    // Проверка, если токена нет, просто присваиваем его значение null
-    if (storedToken === null) {
-        token = null; // Токен отсутствует
-    }
-} catch (error) {
-    console.error('Ошибка при получении токена:', error);
-}
-
 const FriendsPage = () => {
 
     const user = useSelector((state: RootState) => state.user.user);
@@ -90,6 +76,20 @@ const FriendsPage = () => {
     const handleCancelFriendOffer = async (event: any, receiverId: number) => {
         event.preventDefault();
 
+        let token;
+
+        try {
+            const storedToken = localStorage.getItem('token');
+            token = JSON.parse(storedToken);
+
+            // Проверка, если токена нет, просто присваиваем его значение null
+            if (storedToken === null) {
+                token = null; // Токен отсутствует
+            }
+        } catch (error) {
+            console.error('Ошибка при получении токена:', error);
+        }
+
         const friendsUrl = `https://api-rubin.multfilm.tatar/api/friends/request/${receiverId}`
 
         await axios.delete(friendsUrl, {headers: {Authorization: `Bearer ${token}`}});
@@ -99,6 +99,20 @@ const FriendsPage = () => {
 
     const handleDeleteFriendship = async (event: any, receiverId: number) => {
       event.preventDefault();
+
+        let token;
+
+        try {
+            const storedToken = localStorage.getItem('token');
+            token = JSON.parse(storedToken);
+
+            // Проверка, если токена нет, просто присваиваем его значение null
+            if (storedToken === null) {
+                token = null; // Токен отсутствует
+            }
+        } catch (error) {
+            console.error('Ошибка при получении токена:', error);
+        }
 
       const friendsUrl = `https://api-rubin.multfilm.tatar/api/friends/remove/${receiverId}`;
 

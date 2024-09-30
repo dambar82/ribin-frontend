@@ -13,6 +13,7 @@ import { classNames } from "../../shared/utils"
 import verified from '../../images/svg/verified.svg';
 import {fetchFriends} from "../../store/friendsSlice";
 import {Button, Modal} from "../../shared/UI";
+import axios from "axios";
 
 const UserProfilePage = () => {
     const dispatch = useAppDispatch();
@@ -70,12 +71,29 @@ const UserProfilePage = () => {
     const handleFriendAdd = async () => {
         if (user) {
             if (!requestSent) {
+                setRequestSent(true);
                 const friendRequest = await dispatch(sendFriendRequest({receiverId: currentUser.id}));
                 if (friendRequest.payload === 'Запрос на дружбу отправлен.') {
-                    setRequestSent(true);
                 }
             } else {
 
+                setRequestSent(false);
+
+                let token;
+
+                try {
+                    const storedToken = localStorage.getItem('token');
+                    token = JSON.parse(storedToken);
+
+                    // Проверка, если токена нет, просто присваиваем его значение null
+                    if (storedToken === null) {
+                        token = null; // Токен отсутствует
+                    }
+                } catch (error) {
+                    console.error('Ошибка при получении токена:', error);
+                }
+
+                await axios.delete(`https://api-rubin.multfilm.tatar/api/friends/request/${currentUser.id}`, {headers: {Authorization: `Bearer ${token}`}})
             }
         } else {
             navigate('/login');
