@@ -250,7 +250,6 @@ function App() {
                 {/*    element={*/}
                 {/*      <MainAuthorizedLayout>*/}
                 {/*        <MainPage />*/}
-                {/*          {notificationFriend.visible && <NotificationFriends sender={notificationFriend.data.client}></NotificationFriends>}*/}
                 {/*      </MainAuthorizedLayout>*/}
                 {/*    }*/}
                 {/*/>*/}
