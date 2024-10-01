@@ -1355,7 +1355,7 @@ li {
   }
   span {
     white-space: nowrap;
-    color: black;
+    color: #2A2A2A;
     font-size: 20px;
     font-weight: 500;
     line-height: 24px;
@@ -1539,6 +1539,7 @@ li {
 }
 
 .authBlock {
+  color: #2a2a2a;
   display: flex;
   justify-content: space-between;
   column-gap: 20%;
