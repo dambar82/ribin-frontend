@@ -121,6 +121,9 @@ const Wall = ({type, posts, editable = true, clubId, joined}: IWall) => {
         dispatch(fetchPeople());
     }, [dispatch]);
 
+    useEffect(() => {
+        console.log(user);
+    }, [user])
 
     const handleFileChange = ( e: React.ChangeEvent<HTMLInputElement> ) => {
         const file = e.target.files[0]
@@ -286,7 +289,7 @@ const Wall = ({type, posts, editable = true, clubId, joined}: IWall) => {
             <div className={styles.wall__content}>
                 {feedType === 0 && (
                     <div className={styles.wall__feed}>
-                        { type === 'club' && !joined ? null :
+                        { (type === 'club' && !joined || user.user === null) ? null :
                             <form className={styles.wall__feedForm} onSubmit={onSubmit} ref={formRef}>
                                 <div className={styles.textarea_wrapper} >
                                   <textarea
