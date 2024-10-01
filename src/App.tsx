@@ -128,12 +128,15 @@ function App() {
 
     const dispatch = useDispatch<AppDispatch>()
 
-    const publicRoutes = [
+    const otherLayouts = [
         { path: '/login', element: <Login />, layout: UnauthLayoutRegister },
         { path: '/register', element: <Register />, layout: UnauthLayoutRegister },
         { path: '/restore', element: <Restore />, layout: RestoreLayout },
         { path: '/restore/password/:token', element: <NewPassword />, layout: RestoreLayout },
         { path: '/', element: <MainPage/>, layout: MainAuthorizedLayout },
+    ]
+
+    const publicRoutes = [
         { path: '/email-confirmation/:hash', element: <ConfirmEmailModal email='' user_id={0} />, layout: UnauthLayout },
         { path: '/contests', element: <Contests />, layout: UnauthLayout },
         { path: '/contests/:contestId', element: <ContestPage />, layout: UnauthLayout },
@@ -244,6 +247,11 @@ function App() {
                             </UnauthLayout>
                     }
                     />
+                ))}
+                {otherLayouts.map(({path, element, layout: Layout}) => (
+                    <Route>
+                        <Route key={path} path={path} element={Layout ? <Layout>{element}</Layout> : element} />
+                    </Route>
                 ))}
                 {/*<Route*/}
                 {/*    path="/"*/}
