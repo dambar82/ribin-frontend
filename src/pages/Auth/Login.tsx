@@ -91,6 +91,11 @@ const Login = () => {
                     </div>
                     <button type="submit" className='action_button'>Войти в аккаунт</button>
                 </form>
+                <Link to='/register'>
+                    <button className={`action_button register_mobile`}>
+                        У меня ещё нет аккаунта
+                    </button>
+                </Link>
             </div>
         </div>
     );

@@ -101,6 +101,13 @@ li {
   }
 }
 
+.register_mobile {
+  display: none !important;
+  @media screen and (max-width: 600px) {
+    display: block !important;
+  }
+}
+
 .levelButton {
   font-family: Raleway;
   font-size: 16px;
@@ -1383,6 +1390,9 @@ li {
   font-size: 20px;
   line-height: 24px;
   border: 2px solid #2A2A2A;
+  @media screen and (max-width: 600px) {
+    display: none;
+  }
 }
 
 .white_button {
@@ -1573,6 +1583,7 @@ li {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
+  align-items: center;
   row-gap: 26px;
 }
 
