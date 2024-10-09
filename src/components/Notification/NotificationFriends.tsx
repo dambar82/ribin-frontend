@@ -20,7 +20,6 @@ const NotificationFriends = ({sender, friendship, onClose, onMouseEnter, onMouse
     const userId = useSelector((state: RootState) => state.user);
     const dispatch = useAppDispatch();
 
-    console.log(sender)
 
     const handleAcceptFriendship = async (event, friendship: number) => {
         const config: any = {}

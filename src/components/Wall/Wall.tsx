@@ -1,4 +1,4 @@
-import {useEffect, useRef, useState} from 'react'
+import React, {useEffect, useRef, useState} from 'react'
 import styles from './Wall.module.scss';
 
 import loupeIcon from '../../images/svg/loupe.svg'
@@ -19,6 +19,7 @@ import {fetchPeople} from "../../store/peopleSlice";
 import {Link, useNavigate} from "react-router-dom";
 import { getMostActiveUsers } from '../../shared/utils'
 import axios from "axios";
+import NotificationPost from "../Notification/NotificationPost";
 
 
 interface IWall {
@@ -108,6 +109,8 @@ const Wall = ({type, posts, editable = true, clubId, joined}: IWall) => {
     const navigate = useNavigate();
     const user = useSelector((state: RootState) => state.user);
     const formRef = useRef(null);
+    const [notification, setNotification] = useState({visible: false, data: null});
+    const [autoCloseTimeout, setAutoCloseTimeout] = React.useState<NodeJS.Timeout | null>(null);
 
     useEffect(() => {
         if (textareaRef.current) {
@@ -120,10 +123,6 @@ const Wall = ({type, posts, editable = true, clubId, joined}: IWall) => {
     useEffect(() => {
         dispatch(fetchPeople());
     }, [dispatch]);
-
-    useEffect(() => {
-        console.log(user);
-    }, [user])
 
     const handleFileChange = ( e: React.ChangeEvent<HTMLInputElement> ) => {
         const file = e.target.files[0]
@@ -189,6 +188,32 @@ const Wall = ({type, posts, editable = true, clubId, joined}: IWall) => {
         setSearchTerm(e.target.value);
     };
 
+    const handleSetNotification = (response) => {
+        setNotification({visible: true, data: response})
+        setTimeout(() => {
+            setNotification({ visible: false, data: response });
+        }, 5000);
+    }
+
+    const handleCloseNotification = () => {
+        setNotification({visible: false, data: null})
+    }
+
+    const handleNotificationMouseEnter = () => {
+        if (autoCloseTimeout) {
+            clearTimeout(autoCloseTimeout);
+            setAutoCloseTimeout(null); // Очищаем таймер
+        }
+    };
+
+    // Возобновляем таймер при уходе курсора
+    const handleNotificationMouseLeave = () => {
+        const timeout = setTimeout(() => {
+            setNotification({ visible: false, data: null });
+        }, 5000); // Возобновляем таймер на 2 секунды
+        setAutoCloseTimeout(timeout);
+    };
+
     const sortedAllPosts = sortPosts(filteredPosts(posts.all), sortType);
     const sortedVideoPosts = sortPosts(filteredPosts(posts.video), sortType);
     const sortedImagePosts = sortPosts(filteredPosts(posts.image), sortType);
@@ -225,7 +250,12 @@ const Wall = ({type, posts, editable = true, clubId, joined}: IWall) => {
                             dispatch(addPost(newPost));
 
                             const response = await axios.get(`https://api-rubin.multfilm.tatar/api/messages/rubick_notifications`, {headers: {Authorization: `Bearer ${token}`}});
-                            console.log(response.data);
+                            if (response.data) {
+                                setNotification({visible: true, data: response.data})
+                                setTimeout(() => {
+                                    setNotification({ visible: false, data: response.data });
+                                }, 5000);
+                            }
 
                         } else {
                             setIncorrectWords(true);
@@ -242,7 +272,12 @@ const Wall = ({type, posts, editable = true, clubId, joined}: IWall) => {
                             dispatch(addPost(newPost));
 
                             const response = await axios.get(`https://api-rubin.multfilm.tatar/api/messages/rubick_notifications`, {headers: {Authorization: `Bearer ${token}`}});
-                            console.log(response.data);
+                            if (response.data) {
+                                setNotification({visible: true, data: response.data})
+                                setTimeout(() => {
+                                    setNotification({ visible: false, data: response.data });
+                                }, 5000);
+                            }
 
                         } else {
                             setIncorrectWords(true);
@@ -428,6 +463,7 @@ const Wall = ({type, posts, editable = true, clubId, joined}: IWall) => {
                                 updated_at={post.created_at}
                                 title={post.description}
                                 type={'all'}
+                                handleSetNotification={handleSetNotification}
                             >
                             </Post>
                         )) : null}
@@ -455,7 +491,9 @@ const Wall = ({type, posts, editable = true, clubId, joined}: IWall) => {
                                 title={post.description + videos.join(' ')}
                                 updated_at={post.created_at}
                                 type={'video'}
-                                created_by={post.client.id}>
+                                created_by={post.client.id}
+                                handleSetNotification={handleSetNotification}
+                            >
                             </Post>
                         )) : null}
                     </div>
@@ -480,6 +518,7 @@ const Wall = ({type, posts, editable = true, clubId, joined}: IWall) => {
                                 updated_at={post.created_at}
                                 type={'image'}
                                 created_by={post.client.id}
+                                handleSetNotification={handleSetNotification}
                             >
                             </Post>
                         )) : null}
@@ -546,6 +585,9 @@ const Wall = ({type, posts, editable = true, clubId, joined}: IWall) => {
                     </div> : null
                 }
             </aside>
+            {notification.visible && (
+                <NotificationPost data={notification.data} onMouseLeave={handleNotificationMouseLeave} onMouseEnter={handleNotificationMouseEnter} onClose={handleCloseNotification}/>
+            )}
         </div>
     )
 }

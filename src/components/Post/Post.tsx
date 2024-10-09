@@ -46,6 +46,7 @@ interface ICard {
     updated_at: string;
     title: string;
     type: 'all' | 'image' | 'video';
+    handleSetNotification: (any) => void;
 }
 
 const determineMediaType = (src: string): 'image' | 'video' | undefined  => {
@@ -63,7 +64,7 @@ function srcset(image: string, size: number, rows = 1, cols = 1) {
     };
 }
 
-const Post = ({ id, name, surname, avatar, created_by, source, tags, comments, verified, title, videos, likes, liked_by, updated_at, type }: ICard) => {
+const Post = ({ id, name, surname, avatar, created_by, source, tags, comments, verified, title, videos, likes, liked_by, updated_at, type, handleSetNotification }: ICard) => {
 
     const dispatch = useAppDispatch();
     const [isOpen, setIsOpen] = useState(false);
@@ -211,7 +212,9 @@ const Post = ({ id, name, surname, avatar, created_by, source, tags, comments, v
         dispatch(deletePost({postId: id}));
         dispatch(deletePostAsync({postId: id}));
         const response = await axios.get(`https://api-rubin.multfilm.tatar/api/messages/rubick_notifications`, {headers: {Authorization: `Bearer ${token}`}});
-        console.log(response.data);
+        if (response.data) {
+            handleSetNotification(response.data)
+        }
     }
 
     const handleEditPost = async (e) => {
