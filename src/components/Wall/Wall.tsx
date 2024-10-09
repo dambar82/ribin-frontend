@@ -249,7 +249,7 @@ const Wall = ({type, posts, editable = true, clubId, joined}: IWall) => {
                         if (newPost !== 'Вы используете не допустимые слова. Измените текст и повторите попытку.') {
                             dispatch(addPost(newPost));
 
-                            const response = await axios.get(`https://api-rubin.multfilm.tatar/api/messages/rubick_notifications`, {headers: {Authorization: `Bearer ${token}`}});
+                            const response = await axios.get(`https://api-rubin.multfilm.tatar/api/messages/rubick_notification/more`, {headers: {Authorization: `Bearer ${token}`}});
                             if (response.data) {
                                 console.log(response.data)
                                 setNotification({visible: true, data: response.data})
@@ -272,7 +272,7 @@ const Wall = ({type, posts, editable = true, clubId, joined}: IWall) => {
                             // @ts-ignore
                             dispatch(addPost(newPost));
 
-                            const response = await axios.get(`https://api-rubin.multfilm.tatar/api/messages/rubick_notifications`, {headers: {Authorization: `Bearer ${token}`}});
+                            const response = await axios.get(`https://api-rubin.multfilm.tatar/api/messages/rubick_notification/more`, {headers: {Authorization: `Bearer ${token}`}});
                             if (response.data) {
                                 setNotification({visible: true, data: response.data})
                                 setTimeout(() => {
