@@ -212,6 +212,7 @@ const Post = ({ id, name, surname, avatar, created_by, source, tags, comments, v
         dispatch(deletePost({postId: id}));
         dispatch(deletePostAsync({postId: id}));
         const response = await axios.get(`https://api-rubin.multfilm.tatar/api/messages/rubick_notification/less`, {headers: {Authorization: `Bearer ${token}`}});
+        console.log(response.data)
         if (response.data) {
             handleSetNotification(response.data)
         }

@@ -7,9 +7,9 @@ const NotificationPost = ({data, onClose, onMouseEnter, onMouseLeave}) => {
     const [bgColor, setBgColor] = useState('#48903A')
 
     useEffect(() => {
-        if (data.data[0]?.message === 'Спасибо за новую запись! Вам начислено 5 рубиков!') {
+        if (data.data[0]?.type === 'rubicks_more') {
             setBgColor('#48903A')
-        } else if (data.data[0]?.message === 'За удаление поста списано 5 рубиков.') {
+        } else if (data.data[0]?.type === 'rubicks_less') {
             setBgColor('#E11F1F')
         }
     }, [data])
