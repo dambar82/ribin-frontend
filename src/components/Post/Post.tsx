@@ -212,10 +212,9 @@ const Post = ({ id, name, surname, avatar, created_by, source, tags, comments, v
         dispatch(deletePost({postId: id}));
         dispatch(deletePostAsync({postId: id}));
         const response = await axios.get(`https://api-rubin.multfilm.tatar/api/messages/rubick_notifications`, {headers: {Authorization: `Bearer ${token}`}});
+        console.log(response.data)
         if (response.data) {
-            handleSetNotification({data: [{
-                message: 'За удаление поста списано 5 рубиков.'
-                }]})
+            handleSetNotification(response.data)
         }
     }
 

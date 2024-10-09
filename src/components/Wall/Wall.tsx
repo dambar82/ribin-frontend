@@ -189,11 +189,10 @@ const Wall = ({type, posts, editable = true, clubId, joined}: IWall) => {
     };
 
     const handleSetNotification = (response) => {
-        console.log(response)
         setNotification({visible: true, data: response})
         setTimeout(() => {
             setNotification({ visible: false, data: response });
-        }, 5000);
+        }, 8000);
     }
 
     const handleCloseNotification = () => {
@@ -252,10 +251,11 @@ const Wall = ({type, posts, editable = true, clubId, joined}: IWall) => {
 
                             const response = await axios.get(`https://api-rubin.multfilm.tatar/api/messages/rubick_notifications`, {headers: {Authorization: `Bearer ${token}`}});
                             if (response.data) {
+                                console.log(response.data)
                                 setNotification({visible: true, data: response.data})
                                 setTimeout(() => {
                                     setNotification({ visible: false, data: response.data });
-                                }, 5000);
+                                }, 8000);
                             }
 
                         } else {
@@ -277,7 +277,7 @@ const Wall = ({type, posts, editable = true, clubId, joined}: IWall) => {
                                 setNotification({visible: true, data: response.data})
                                 setTimeout(() => {
                                     setNotification({ visible: false, data: response.data });
-                                }, 5000);
+                                }, 8000);
                             }
 
                         } else {
