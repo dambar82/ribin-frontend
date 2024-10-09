@@ -12,7 +12,7 @@ const NotificationPost = ({data, onClose, onMouseEnter, onMouseLeave}) => {
         } else if (data.data[0]?.message === 'За удаление поста списано 5 рубиков.') {
             setBgColor('#E11F1F')
         }
-    }, [])
+    }, [data])
 
     return (
         <div

@@ -189,6 +189,7 @@ const Wall = ({type, posts, editable = true, clubId, joined}: IWall) => {
     };
 
     const handleSetNotification = (response) => {
+        console.log(response)
         setNotification({visible: true, data: response})
         setTimeout(() => {
             setNotification({ visible: false, data: response });
