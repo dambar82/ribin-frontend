@@ -15,8 +15,6 @@ const pusher = new Pusher('05817bdeb548cb607678', {
     cluster: 'mt1',
 });
 
-const token25 = 'Bearer c1fc8ce230373f88fc86199a514f98fb76e64dcb420ebe3584b53969e2c27f21';
-const token24 = 'Bearer 0e689d92c54070dce474ccb444e8704d12001f5d05cdb989c2f38ec61af33dc2';
 
 function formatDateTime(dateTimeString) {
     // Массив с названиями месяцев на русском языке
@@ -40,7 +38,20 @@ function formatDateTime(dateTimeString) {
     return `${day} ${monthName} ${dateTimeString.split(' ')[1].slice(0, 5)}`;
 }
 
-const token = JSON.parse(localStorage.getItem('token') || '0')
+let token;
+
+try {
+    const storedToken = localStorage.getItem('token');
+    token = JSON.parse(storedToken);
+
+    // Проверка, если токена нет, просто присваиваем его значение null
+    if (storedToken === null) {
+        token = null; // Токен отсутствует
+    }
+} catch (error) {
+    console.error('Ошибка при получении токена:', error);
+}
+
 
 const Chat = () => {
     const { userId } = useParams(); // Получение userId из параметров URL
@@ -58,10 +69,6 @@ const Chat = () => {
     const [isSending, setIsSending] = useState(false); // Состояние для отслеживания отправки сообщения
     const messagesEndRef = useRef(null);
     const { user } = useSelector((state) => state.user);
-
-    useEffect(() => {
-        console.log(user)
-    }, [user])
 
     useEffect(() => {
         const fetchContacts = async () => {
@@ -125,12 +132,19 @@ const Chat = () => {
     };
 
     useEffect(() => {
+        if (messages.length > 0) {
+            scrollToBottom();
+            scrollToMessagesList();
+        }
+    }, [messages]);
+
+    useEffect(() => {
         fetchMessages();
     }, [selectedContact]);
 
-    useEffect(() => {
-        console.log(contacts);
-    }, [contacts])
+    // useEffect(() => {
+    //     console.log(contacts);
+    // }, [contacts])
 
     const sendMessage = async () => {
         if (newMessage.trim() !== '') {
@@ -143,6 +157,7 @@ const Chat = () => {
                 setNewMessage('');
                 setIsTyping(false);
                 scrollToBottom(); // Прокрутка вниз после отправки сообщения
+                scrollToMessagesList();
             } catch (error) {
                 console.error('Ошибка при отправке сообщения:', error);
             } finally {
@@ -154,16 +169,12 @@ const Chat = () => {
     const handleContactSelect = (contact) => {
         setSelectedContact(contact);
         setMessages([]);
-        fetchMessages()
     };
 
     const filteredMessages = messages?.filter((msg) => {
         return msg.message.toLowerCase().includes(searchQuery.toLowerCase());
     });
 
-    useEffect(() => {
-        console.log(messages);
-    }, [messages])
 
     const toggleSidebar = () => {
         setIsSidebarCollapsed(!isSidebarCollapsed);
@@ -229,7 +240,17 @@ const Chat = () => {
     };
 
     const scrollToBottom = () => {
-        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+        const messagesList = document.querySelector('.messages-list');
+        if (messagesList) {
+            messagesList.scrollTop = messagesList.scrollHeight;
+        }
+    };
+
+    const scrollToMessagesList = () => {
+        const messagesList = document.querySelector('.messages-list');
+        if (messagesList) {
+            messagesList.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
     };
 
     return (
@@ -274,10 +295,6 @@ const Chat = () => {
             <div className={classNames('chat-window', selectedContact ? '_active' : '')}>
                 {selectedContact ? (
                     <>
-                        {/*<div className="chat-header">*/}
-                        {/*    <h2>{selectedContact.name}</h2>*/}
-                        {/*    <span className="status">{selectedContact.online ? 'Online' : 'Offline'}</span>*/}
-                        {/*</div>*/}
                         <button
                           type='button'
                           className='back_button'
