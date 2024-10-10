@@ -6,6 +6,8 @@ import {useLocation, useParams} from "react-router-dom";
 import axios from "axios";
 import {formatDate} from "../../App";
 import {MemoryGame} from "../../components/MemoryGame/MemoryGame";
+import {Box} from "@mui/material";
+import CircularProgress from "@mui/material/CircularProgress";
 
 
 const Page = () => {
@@ -38,7 +40,21 @@ const Page = () => {
     }, [url])
 
     if (!page) {
-        return <p>Загрузка...</p>
+        return (
+            <Box
+                sx={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    height: '80vh',
+                }}
+            >
+                <CircularProgress
+                    size="3rem"
+                    sx={{ color: '#91172C' }}
+                />
+            </Box>
+        )
     }
 
     return (

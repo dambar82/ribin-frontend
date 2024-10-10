@@ -6,6 +6,8 @@ import {useDispatch, useSelector} from "react-redux";
 import {useAppDispatch} from "../../store/hooks";
 import {useEffect} from "react";
 import {fetchComplaintTypes, fetchPosts} from "../../store/postSlice";
+import {Box} from "@mui/material";
+import CircularProgress from "@mui/material/CircularProgress";
 
 const PostsPage = () => {
     const dispatch = useAppDispatch();
@@ -17,7 +19,21 @@ const PostsPage = () => {
     }, [dispatch]);
 
     if (status === 'loading') {
-        return <p>Loading...</p>;
+        return (
+            <Box
+                sx={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    height: '80vh',
+                }}
+            >
+                <CircularProgress
+                    size="3rem"
+                    sx={{ color: '#91172C' }}
+                />
+            </Box>
+        )
     }
 
     if (status === 'failed') {

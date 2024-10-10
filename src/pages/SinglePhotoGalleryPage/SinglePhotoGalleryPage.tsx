@@ -42,9 +42,6 @@ const SinglePhotoGalleryPage = () => {
         }
     }, [dispatch]);
 
-    useEffect(() => {
-        console.log(ourGallery)
-    }, [ourGallery])
 
     const openModalHandler = ( index: number ) => {
       setActivePhoto(index)

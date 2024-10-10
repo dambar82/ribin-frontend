@@ -9,6 +9,8 @@ import {useEffect, useState} from "react";
 import {fetchPostsByUserId} from "../../store/postSlice";
 import {useAppDispatch} from "../../store/hooks";
 import { classNames } from "../../shared/utils"
+import {Box} from "@mui/material";
+import CircularProgress from "@mui/material/CircularProgress";
 
 const ProfilePage = () => {
     const dispatch = useAppDispatch();
@@ -27,7 +29,21 @@ const ProfilePage = () => {
 
 
     if (status === 'loading' || !currentUser) {
-        return <p>Loading...</p>;
+        return (
+            <Box
+                sx={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    height: '80vh',
+                }}
+            >
+                <CircularProgress
+                    size="3rem"
+                    sx={{ color: '#91172C' }}
+                />
+            </Box>
+        )
     }
 
     if (status === 'failed') {

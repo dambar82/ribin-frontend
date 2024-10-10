@@ -10,6 +10,8 @@ import styles from "./PhotoGalleryPage.module.scss";
 import { useFilterPhotoGallery } from './hooks/useFilterPhotoGallery'
 import { FILTERS } from './constants'
 import axios from "axios";
+import {Box} from "@mui/material";
+import CircularProgress from "@mui/material/CircularProgress";
 
 
 export type TFilters = {
@@ -54,7 +56,21 @@ useEffect(() => {
   }, []);
 
   if (status === 'loading') {
-      return <p>Loading...</p>;
+      return (
+          <Box
+              sx={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  height: '80vh',
+              }}
+          >
+              <CircularProgress
+                  size="3rem"
+                  sx={{ color: '#91172C' }}
+              />
+          </Box>
+      )
   }
 
   if (status === 'failed') {

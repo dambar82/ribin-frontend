@@ -9,6 +9,8 @@ import plusSVG from '../../images/svg/plus.svg';
 import minusSVG from '../../images/svg/minus.svg'
 import {Link} from "react-router-dom";
 import { classNames } from '../../shared/utils'
+import {Box} from "@mui/material";
+import CircularProgress from "@mui/material/CircularProgress";
 
 interface IFaq {
     question: string;
@@ -64,7 +66,21 @@ const Contests = () => {
     }, [contestStatus, dispatch]);
 
     if (contestStatus === 'loading') {
-        return <p>Loading...</p>;
+        return (
+            <Box
+                sx={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    height: '80vh',
+                }}
+            >
+                <CircularProgress
+                    size="3rem"
+                    sx={{ color: '#91172C' }}
+                />
+            </Box>
+        )
     }
 
     if (contestStatus === 'failed') {

@@ -22,6 +22,8 @@ import axios from "axios";
 import loupeIcon from "../../images/svg/loupe.svg";
 import { classNames } from '../../shared/utils'
 import { Button } from '../../shared/UI'
+import {Box} from "@mui/material";
+import CircularProgress from "@mui/material/CircularProgress";
 
 
 const enum ESortTypes {
@@ -157,7 +159,22 @@ const FriendsPage = () => {
         console.log(friends)
     }, [friends])
 
-    if (!currentUser) return <p>Loading...</p>
+    if (!currentUser)
+        return (
+        <Box
+            sx={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                height: '80vh',
+            }}
+        >
+            <CircularProgress
+                size="3rem"
+                sx={{ color: '#91172C' }}
+            />
+        </Box>
+    )
 
     return (
         <div className={`page ${styles.page}`}>

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState, AppDispatch } from '../../store/store';
-
+import CircularProgress from '@mui/material/CircularProgress';
 import { Link, useNavigate } from 'react-router-dom';
 
 import styles from './Clubs.module.scss';
@@ -11,6 +11,8 @@ import ClubCard from '../../components/ClubCard/ClubCard';
 
 import { createClub, fetchClubs } from '../../store/clubsSlice';
 import { Modal } from '../../shared/UI'
+import { styled } from '@mui/material/styles';
+import {Box} from "@mui/material";
 
 const Clubs = () => {
 
@@ -26,7 +28,21 @@ const Clubs = () => {
     }, [status, dispatch]);
 
     if (status === 'loading') {
-        return <p>Loading...</p>;
+        return (
+            <Box
+                sx={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    height: '80vh',
+                }}
+            >
+                <CircularProgress
+                    size="3rem"
+                    sx={{ color: '#91172C' }}
+                />
+            </Box>
+        )
     }
 
     if (status === 'failed') {

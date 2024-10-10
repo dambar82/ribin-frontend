@@ -14,6 +14,8 @@ import verified from '../../images/svg/verified.svg';
 import {fetchFriends} from "../../store/friendsSlice";
 import {Button, Modal} from "../../shared/UI";
 import axios from "axios";
+import {Box} from "@mui/material";
+import CircularProgress from "@mui/material/CircularProgress";
 
 const UserProfilePage = () => {
     const dispatch = useAppDispatch();
@@ -102,7 +104,21 @@ const UserProfilePage = () => {
 
 
     if (status === 'loading' || !currentUser) {
-        return <p>Loading...</p>;
+        return (
+            <Box
+                sx={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    height: '80vh',
+                }}
+            >
+                <CircularProgress
+                    size="3rem"
+                    sx={{ color: '#91172C' }}
+                />
+            </Box>
+        )
     }
 
     if (status === 'failed') {

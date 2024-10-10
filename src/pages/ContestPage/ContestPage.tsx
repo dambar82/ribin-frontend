@@ -13,6 +13,8 @@ import info from '../../images/svg/akar-icons_info-fill.svg';
 import trophy from '../../images/svg/healthicons_award-trophy.svg';
 import resultsDragon from '../../images/resultsDragon.svg';
 import ActiveUserCard from "../../components/ActiveUserCard/ActiveUserCard";
+import {Box} from "@mui/material";
+import CircularProgress from "@mui/material/CircularProgress";
 
 type TimeLeft = {
     days: number;
@@ -74,16 +76,10 @@ const ContestPage = () => {
     }, [contest]);
 
     useEffect(() => {
-        console.log(user);
-        console.log(contest);
         if (user?.contests?.find(item => item.id === Number(contestId))) {
             setParticipating(true);
         }
     }, [user, contest])
-
-    useEffect(() => {
-        console.log(participating);
-    }, [participating])
 
     useEffect(() => {
         if (contest) {
@@ -97,9 +93,6 @@ const ContestPage = () => {
         }
     }, [contest])
 
-    useEffect(() => {
-        console.log(topParticipants)
-    }, [topParticipants])
 
     useEffect(() => {
         if (contestStatus === 'idle') {
@@ -108,7 +101,21 @@ const ContestPage = () => {
     }, [contestStatus, dispatch]);
 
     if (contestStatus === 'loading' || !contest) {
-        return <p>Loading...</p>;
+        return (
+            <Box
+                sx={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    height: '80vh',
+                }}
+            >
+                <CircularProgress
+                    size="3rem"
+                    sx={{ color: '#91172C' }}
+                />
+            </Box>
+        )
     }
 
     if (contestStatus === 'failed') {
