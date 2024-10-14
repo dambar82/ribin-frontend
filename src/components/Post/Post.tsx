@@ -318,7 +318,7 @@ const Post = ({ id, name, surname, avatar, created_by, source, tags, comments, v
                     )
                 }
                 <div className={styles.post__tags}>{tags}</div>
-                <div className={styles.post__media}>
+                <div className={`${styles.post__media} ${source?.length === 1 ? styles.post__media_single : source?.length === 2 ? styles.post__media_double : styles.post__media_multiple}`}>
                     {source?.map((media, index) => {
                         const type = determineMediaType(media);
                         if (!type) return null;
