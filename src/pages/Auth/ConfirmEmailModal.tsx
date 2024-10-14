@@ -28,7 +28,7 @@ const ConfirmEmailModal = ({ email, user_id }: ConfirmEmailModalProps) => {
   }, [params])
 
   const resendEmailConfirmation = () => {
-    dispatch(resendConfirmEmail({ client_id: user_id }))
+    dispatch(resendConfirmEmail({ client_id: user_id, hash: params.hash }))
   }
 
   const cancelHandler = () => {

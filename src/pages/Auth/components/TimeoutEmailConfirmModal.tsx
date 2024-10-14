@@ -1,3 +1,4 @@
+import { useParams } from 'react-router-dom'
 import { Button, Logo } from '../../../shared/UI'
 import { useAppDispatch } from '../../../store/hooks'
 import { resendConfirmEmail } from '../../../store/userSlice'
@@ -10,9 +11,10 @@ interface TimeoutConfirmEmailModalProps {
 const TimeoutConfirmEmailModal = ({ client_id }: TimeoutConfirmEmailModalProps) => {
 
   const dispatch = useAppDispatch();
+  const params = useParams()
 
   const onSubmit = () => {
-    dispatch(resendConfirmEmail({ client_id }))
+    dispatch(resendConfirmEmail({ client_id, hash: params.hash }))
   }
 
   return (
