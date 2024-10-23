@@ -131,7 +131,7 @@ const SingleNewsPage = () => {
                                 singleNews?.video && (
                                     <div style={{marginTop: '20px'}}>
                                         {// @ts-ignore
-                                            <video src={singleNews.video}></video>
+                                            <video src={singleNews.video} controls></video>
                                         }
                                     </div>
                             )
