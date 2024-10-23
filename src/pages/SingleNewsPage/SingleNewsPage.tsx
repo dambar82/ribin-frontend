@@ -22,9 +22,11 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules'
 import 'swiper/css';
 import 'swiper/css/navigation';
+import CircularProgress from "@mui/material/CircularProgress";
 
 import {addViewNews, fetchNewsAndNewsBack, newsLikeAsync} from "../../store/newsSlice";
 import { fetchPhotoGalleryById } from '../../store/photoGallerySlice';
+import {Box} from "@mui/material";
 
 function formatDate(dateString) {
     const [year, month, day] = dateString.split("-");
@@ -73,13 +75,27 @@ const SingleNewsPage = () => {
         }
     }
 
-    // useEffect(() => {
-    //     //@ts-ignore
-    //     console.log(singleNews?.full_content)
-    // }, [singleNews])
+    useEffect(() => {
+        //@ts-ignore
+        console.log(singleNews)
+    }, [singleNews])
 
     if (status === 'loading' || !singleNews) {
-        return <p>Loading...</p>;
+        return (
+            <Box
+                sx={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    height: '80vh',
+                }}
+            >
+                <CircularProgress
+                    size="3rem"
+                    sx={{ color: '#91172C' }}
+                />
+            </Box>
+        )
     }
 
     if (status === 'failed') {
@@ -110,13 +126,23 @@ const SingleNewsPage = () => {
                                         }}
                                 >
                                 </div>
-                        </div>
-                        <div className={styles.news__cover}>
-                            {
-                                //@ts-ignore
-                                <img style={{maxHeight: '800px'}} src={singleNews.images[0]} alt="" />
+
+                            {//@ts-ignore
+                                singleNews?.video && (
+                                    <div style={{marginTop: '20px'}}>
+                                        {// @ts-ignore
+                                            <video src={singleNews.video}></video>
+                                        }
+                                    </div>
+                            )
                             }
                         </div>
+                        {/*<div className={styles.news__cover}>*/}
+                        {/*    {*/}
+                        {/*        //@ts-ignore*/}
+                        {/*        <img style={{maxHeight: '800px'}} src={singleNews.images[0]} alt="" />*/}
+                        {/*    }*/}
+                        {/*</div>*/}
                         <div className={styles.news__footer}>
                             {
                                 user.user && (

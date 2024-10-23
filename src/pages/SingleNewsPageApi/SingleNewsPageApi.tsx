@@ -10,8 +10,10 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules'
 import NewsCard from "../../components/NewsCard/NewsCard";
 import buttonArrow from "../../images/svg/button_arrow.svg";
+import CircularProgress from "@mui/material/CircularProgress";
 import 'swiper/css';
 import 'swiper/css/navigation';
+import {Box} from "@mui/material";
 
 function convertDatetimeToDate(datetimeStr) {
     const dateStr = datetimeStr.split(' ')[0];
@@ -31,7 +33,21 @@ const SingleNewsPageApi = () => {
     const currentNews = news[0];
 
     if (!currentNews) {
-        return <p>Loading...</p>;
+        return (
+            <Box
+                sx={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    height: '80vh',
+                }}
+            >
+                <CircularProgress
+                    size="3rem"
+                    sx={{ color: '#91172C' }}
+                />
+            </Box>
+        )
     }
 
     if (status === 'failed') {
