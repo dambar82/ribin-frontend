@@ -148,6 +148,7 @@ function App() {
         { path: '/rubylife', element: <RubyLife />, layout: UnauthLayout },
         { path: '/sportslife', element: <SportPage />, layout: UnauthLayout },
         { path: '/photogallery', element: <PhotoGalleryPage />, layout: UnauthLayout  },
+        { path: '/photogallery/:id', element: <SinglePhotoGalleryPage />, layout: UnauthLayout },
         { path: '/students', element: <StudentsPage /> , layout: UnauthLayout },
         { path: '/academy-coaches', element: <CoachesPage /> , layout: UnauthLayout },
         { path: '/achievements', element: <AwardsPage /> , layout: UnauthLayout },
@@ -170,7 +171,6 @@ function App() {
         { path: '/feedback', element: <FeedbackPage /> },
         { path: '/settings', element: <SettingsPage /> },
         { path: '/chat/:userId', element: <Chat/>},
-        { path: '/photogallery/:id', element: <SinglePhotoGalleryPage /> },
         { path: '/events/event/:id', element: <SingleEventPage /> },
         { path: '/clubs/events/new', element: <CreateEventPage /> },
         { path: '/user/:id/friends', element: <FriendsPage />}

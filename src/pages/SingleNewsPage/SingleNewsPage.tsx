@@ -73,6 +73,11 @@ const SingleNewsPage = () => {
         }
     }
 
+    // useEffect(() => {
+    //     //@ts-ignore
+    //     console.log(singleNews?.full_content)
+    // }, [singleNews])
+
     if (status === 'loading' || !singleNews) {
         return <p>Loading...</p>;
     }
