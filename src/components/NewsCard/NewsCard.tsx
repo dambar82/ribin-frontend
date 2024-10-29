@@ -5,10 +5,11 @@ interface INewsCard {
     title: string,
     date: string,
     image: string,
-    newsBack: boolean
+    newsBack: boolean,
+    isFixed: boolean
 }
 
-const NewsCard = ({title, image, date, newsBack}: INewsCard) => {
+const NewsCard = ({title, image, date, newsBack, isFixed}: INewsCard) => {
     return (
         <div className={styles.card}>
             { image && <img src={image} alt="" className={styles.card__image} /> }
@@ -20,7 +21,7 @@ const NewsCard = ({title, image, date, newsBack}: INewsCard) => {
                         formatDateToDayMonth(parseAndFormatDate(date))
                 }
             </div>
-            <div className={styles.card__title}>{title}</div>
+            {!isFixed && <div className={styles.card__title}>{title}</div>}
         </div>
     )
 }

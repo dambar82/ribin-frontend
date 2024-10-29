@@ -181,6 +181,7 @@ const MainPage: React.FC = () => {
                                                                 date={newsItem.publishDate}
                                                                 image={newsItem.imagePreviewResized}
                                                                 newsBack={false}
+                                                                isFixed={isFixed}
                                                             />
                                                         </Link>
                                                     </SwiperSlide>
@@ -195,6 +196,7 @@ const MainPage: React.FC = () => {
                                                                 image={newsItem.images[0]}
                                                                 title={newsItem.title}
                                                                 newsBack={true}
+                                                                isFixed={isFixed}
                                                             />
                                                         </Link>
                                                     </SwiperSlide>

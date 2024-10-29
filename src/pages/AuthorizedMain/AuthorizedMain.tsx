@@ -130,6 +130,7 @@ const AuthorizedMain: React.FC = () => {
                                                                 date={newsItem.publishDate}
                                                                 image={newsItem.imagePreviewResized}
                                                                 newsBack={false}
+                                                                isFixed={false}
                                                             />
                                                         </Link>
                                                     </SwiperSlide>
@@ -144,6 +145,7 @@ const AuthorizedMain: React.FC = () => {
                                                                 image={newsItem.images[0]}
                                                                 title={newsItem.title}
                                                                 newsBack={true}
+                                                                isFixed={false}
                                                             />
                                                         </Link>
                                                     </SwiperSlide>

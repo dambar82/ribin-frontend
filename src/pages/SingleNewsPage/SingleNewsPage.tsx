@@ -229,6 +229,7 @@ const SingleNewsPage = () => {
                                                         date={newsItem.publishDate}
                                                         image={newsItem.imagePreviewResized}
                                                         newsBack={false}
+                                                        isFixed={false}
                                                     />
                                                 </Link>
                                             </SwiperSlide>
@@ -243,6 +244,7 @@ const SingleNewsPage = () => {
                                                         image={newsItem.images[0]}
                                                         title={newsItem.title}
                                                         newsBack={true}
+                                                        isFixed={false}
                                                     />
                                                 </Link>
                                             </SwiperSlide>

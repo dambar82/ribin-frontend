@@ -78,6 +78,7 @@ const NewsPage = () => {
                                                 date={newsItem.publishDate}
                                                 image={newsItem.imagePreviewResized}
                                                 newsBack={false}
+                                                isFixed={false}
                                             />
                                         </Link>
                                     );
@@ -90,6 +91,7 @@ const NewsPage = () => {
                                                 title={newsItem.title}
                                                 key={newsItem.id}
                                                 newsBack={true}
+                                                isFixed={false}
                                             />
                                         </Link>
                                     );
