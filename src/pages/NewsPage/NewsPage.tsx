@@ -32,7 +32,10 @@ const NewsPage = () => {
         dispatch(fetchNewsAndNewsBack());
     }, [dispatch]);
 
-    const sortedNews = news.slice().sort((a, b) => {
+    const sortedNews = news
+        // @ts-ignore
+        .filter((item) => item.is_visible === 1)
+        .slice().sort((a, b) => {
         // @ts-ignore
         const dateA = a.createdAt ? normalizeDate(a.createdAt) : normalizeDate(a.date);
         // @ts-ignore
@@ -52,9 +55,11 @@ const NewsPage = () => {
                 <div className='section__header'>
                     <div className='section__title'>Актуальное</div>
                 </div>
-                <div className='news_actual'>
-                    <img src="images/newsActual.jpg" alt=""/>
-                </div>
+                <Link to='/news/26'>
+                    <div className='news_actual'>
+                        <img src="images/newsActual.jpg" alt=""/>
+                    </div>
+                </Link>
             </div>
             <div className='section'>
                 <div className='section__header'>
