@@ -90,7 +90,10 @@ const MainPage: React.FC = () => {
         dispatch(fetchPeople())
     }, [])
 
-    const sortedNews = news.slice().sort((a, b) => {
+    const sortedNews = news
+        //@ts-ignore
+        .filter((item) => item.is_visible === 1)
+        .slice().sort((a, b) => {
         // @ts-ignore
         if (a.fixed && !b.fixed) return -1;
         // @ts-ignore
