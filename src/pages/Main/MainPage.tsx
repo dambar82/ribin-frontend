@@ -92,6 +92,10 @@ const MainPage: React.FC = () => {
 
     const sortedNews = news.slice().sort((a, b) => {
         // @ts-ignore
+        if (a.fixed && !b.fixed) return -1;
+        // @ts-ignore
+        if (!a.fixed && b.fixed) return 1;
+        // @ts-ignore
         const dateA = a.createdAt ? normalizeDate(a.createdAt) : normalizeDate(a.date);
         // @ts-ignore
         const dateB = b.createdAt ? normalizeDate(b.createdAt) : normalizeDate(b.date);
@@ -99,6 +103,8 @@ const MainPage: React.FC = () => {
         return dateB - dateA;
     });
 
+
+    console.log(sortedNews)
 
     return (
         <div className={styles.main}>
@@ -142,6 +148,7 @@ const MainPage: React.FC = () => {
                             ? (
                                 <>
                                     <Swiper
+                                        style={{display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)'}}
                                         spaceBetween={20}
                                         modules={[Navigation]}
                                         breakpoints={{
@@ -160,11 +167,14 @@ const MainPage: React.FC = () => {
                                         }}
                                     >
                                         {sortedNews.map((newsItem, index) => {
+                                            //@ts-ignore
+                                            const isFixed = newsItem.fixed === 1;
+                                            const slideClass = isFixed ? 'swiper-slide--fixed' : '';
                                             // Проверяем, есть ли у newsItem свойство imagePreviewResized
                                             if ('imagePreviewResized' in newsItem) {
                                                 // Теперь TypeScript знает, что newsItem имеет тип News
                                                 return (
-                                                    <SwiperSlide key={newsItem.id}>
+                                                    <SwiperSlide key={newsItem.id} className={slideClass}>
                                                         <Link to={`/news/api/${newsItem.id}`}>
                                                             <NewsCard
                                                                 title={newsItem.title}
@@ -178,7 +188,7 @@ const MainPage: React.FC = () => {
                                             } else {
                                                 // Здесь newsItem обрабатывается как NewsBack
                                                 return (
-                                                    <SwiperSlide key={newsItem.id}>
+                                                    <SwiperSlide key={newsItem.id} className={slideClass}>
                                                         <Link to={`/news/${newsItem.id}`}>
                                                             <NewsCard
                                                                 date={newsItem.date}

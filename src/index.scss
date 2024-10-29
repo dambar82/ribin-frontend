@@ -1778,3 +1778,8 @@ input:-webkit-autofill {
     height: 500px;
   }
 }
+
+.swiper-slide--fixed {
+ // min-height: 540px;
+  width: 55vw !important;
+}
