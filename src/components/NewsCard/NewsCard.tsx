@@ -21,6 +21,10 @@ const NewsCard = ({title, image, date, newsBack, isFixed}: INewsCard) => {
                         formatDateToDayMonth(parseAndFormatDate(date))
                 }
             </div>
+            {isFixed && <div className={styles.card__title_fixed}>
+                {title}
+            </div>
+            }
             {!isFixed && <div className={styles.card__title}>{title}</div>}
         </div>
     )

@@ -158,3 +158,17 @@
   line-height: 2vw;
   text-align: left;
 }
+
+.card__title_fixed {
+  position: absolute;
+  top: 8vw;
+  right: 5%;
+  width: 50%;
+  color: white;
+  font-family: Raleway;
+  font-size: 3em;
+  font-weight: 500;
+  line-height: 64px;
+  text-align: right;
+  z-index: 1;
+}
