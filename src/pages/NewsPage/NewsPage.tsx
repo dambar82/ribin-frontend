@@ -32,9 +32,12 @@ const NewsPage = () => {
         dispatch(fetchNewsAndNewsBack());
     }, [dispatch]);
 
+    // @ts-ignore
+    const hasVisibleFixedNews = news.some(item => item.is_visible === 1 && item.fixed === 1);
+
     const sortedNews = news
         // @ts-ignore
-        .filter((item) => item.is_visible === 1)
+        .filter((item) => item.fixed === 0)
         .slice().sort((a, b) => {
         // @ts-ignore
         const dateA = a.createdAt ? normalizeDate(a.createdAt) : normalizeDate(a.date);
@@ -51,16 +54,18 @@ const NewsPage = () => {
                 <img src="images/hero-news-ruby.png" className={`${styles.hero__ruby} hero__ruby`}alt="" />
                 <h1 className={`${styles.hero__title} hero__title`}>Новости</h1>
             </div>
-            <div className='section'>
-                <div className='section__header'>
-                    <div className='section__title'>Актуальное</div>
-                </div>
-                <Link to='/news/26'>
-                    <div className='news_actual'>
-                        <img src="images/newsActual.jpg" alt=""/>
+            {hasVisibleFixedNews && (
+                <div className="section">
+                    <div className="section__header">
+                        <div className="section__title">Актуальное</div>
                     </div>
-                </Link>
-            </div>
+                    <Link to="/news/26">
+                        <div className="news_actual">
+                            <img src="images/newsActual.jpg" alt="" />
+                        </div>
+                    </Link>
+                </div>
+            )}
             <div className='section'>
                 <div className='section__header'>
                     <div className='section__title'>Все новости</div>
