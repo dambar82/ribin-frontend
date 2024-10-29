@@ -218,6 +218,8 @@ const SingleNewsPage = () => {
                                 }}
                             >
                                 {news
+                                    //@ts-ignore
+                                    .filter((item) => item.is_visible === 1)
                                     .filter(newsItem => newsItem.id !== Number(id))
                                     .map((newsItem, index) => {
                                     if ('imagePreviewResized' in newsItem) {
