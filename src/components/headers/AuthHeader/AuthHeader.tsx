@@ -36,7 +36,7 @@ const menuLinks: IMenuLink[] = [
     { title: 'Конкурсы', link: '/contests' },
     { title: 'Новости', link: '/news' },
     { title: 'Записи', link: '/posts' },
-    { title: 'Клубы', link: '/clubs' },
+    { title: "Фотогалерея", link: "/photogallery" },
 ];
 
 const AuthHeader = () => {
@@ -277,7 +277,6 @@ const AuthHeader = () => {
                                     // { name: 'Активисты', path: "/students" },
                                     { name: "Программы и предложения клуба", path: "/programs" },
                                     { name: "Достижения", path: "/achievements" },
-                                    { name: "Фотогалерея", path: "/photogallery" },
                                 ].map(({ name, path }) => {
                                     return (
                                         <li key={name}>
@@ -307,6 +306,7 @@ const AuthHeader = () => {
                                     { name: "Спорт для школьников", path: "/sportslife" },
                                     { name: "Викторины", path: "/quizzes" },
                                     { name: "Мероприятия", path: "/events" },
+                                    { name: 'Клубы', path: '/clubs' },
                                 ].map(({ name, path }) => {
                                     return (
                                         <li>

@@ -50,6 +50,14 @@ const NewsPage = () => {
             </div>
             <div className='section'>
                 <div className='section__header'>
+                    <div className='section__title'>Актуальное</div>
+                </div>
+                <div className='news_actual'>
+                    <img src="images/newsActual.jpg" alt=""/>
+                </div>
+            </div>
+            <div className='section'>
+                <div className='section__header'>
                     <div className='section__title'>Все новости</div>
                     <div className='section__counter'>{news.length}</div>
                 </div>
