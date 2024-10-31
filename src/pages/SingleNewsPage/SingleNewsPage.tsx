@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import {useDispatch, useSelector} from "react-redux";
 import {Link, useParams} from 'react-router-dom';
 import {AppDispatch, RootState} from "../../store/store";
@@ -27,6 +27,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import {addViewNews, fetchNewsAndNewsBack, newsLikeAsync} from "../../store/newsSlice";
 import { fetchPhotoGalleryById } from '../../store/photoGallerySlice';
 import {Box} from "@mui/material";
+import {Modal} from "../../shared/UI";
 
 function formatDate(dateString) {
     const [year, month, day] = dateString.split("-");
@@ -52,6 +53,8 @@ const SingleNewsPage = () => {
     const [isLiked, setIsLiked] = useState(false);
     // @ts-ignore
     const [likes, setLikes] = useState(0);
+    const [activeModal, setActiveModal] = useState(false)
+    const [activePhoto, setActivePhoto] = useState(0)
 
     useEffect(() => {
         if (singleNews && user.user) {
@@ -83,6 +86,14 @@ const SingleNewsPage = () => {
         //@ts-ignore
         console.log(singleNews)
     }, [singleNews])
+
+    const openModalHandler = ( index: number ) => {
+        setActivePhoto(index)
+        setTimeout(() => {
+            setActiveModal(true)
+        }, 100)
+    }
+
 
     if (status === 'loading' || !singleNews) {
         return (
@@ -130,13 +141,55 @@ const SingleNewsPage = () => {
                                         }}
                                 >
                                 </div>
+                                <div className={styles.news__cover}>
+                                    {//@ts-ignore
+                                        <img src={singleNews.images[0]} alt=""/>
+                                    }
+                                </div>
                         </div>
                         {//@ts-ignore
                             singleNews?.video && (
-                                <div style={{width: '100%'}}>
+                                <div style={{width: '100%', borderRadius: '25px'}}>
                                     {// @ts-ignore
-                                        <video src={singleNews.video} poster={singleNews.preview} controls style={{width: '100%'}}></video>
+                                        <video src={singleNews.video} poster={singleNews.preview} controls style={{width: '100%', borderRadius: '25px'}}></video>
                                     }
+                                </div>
+                            )
+                        }
+                        {
+                            //@ts-ignore
+                            singleNews?.images.length > 1 && (
+                                <div className={styles.eventPage_Deck}>
+                                    <h2 className={styles.eventPage_regularHeader}>
+                                        Фотогалерея
+                                    </h2>
+                                    <div className={styles.eventPage_gallery}>
+                                        {//@ts-ignore
+                                            singleNews.images.map((photo, index) => {
+                                            return (
+                                                <div
+                                                    key={photo}
+                                                    className={styles.eventPage_gallery_photo}
+                                                    onClick={() => openModalHandler(index)}
+                                                >
+                                                    <img src={photo} />
+                                                </div>
+                                            )}
+                                        )}
+                                        <Modal
+                                            active={activeModal}
+                                            setActive={setActiveModal}
+                                            className={styles.photogallery_modal}
+                                            bodyClassName={styles.photogallery_modal_body}
+                                        >
+                                            <div className={styles.photogallery_slide} >
+                                                {
+                                                    //@ts-ignore
+                                                    <img src={singleNews.images.find((_, i) => i === activePhoto)} alt="#" />
+                                                }
+                                            </div>
+                                        </Modal>
+                                    </div>
                                 </div>
                             )
                         }
@@ -207,7 +260,7 @@ const SingleNewsPage = () => {
                                 }}
                                 breakpoints={{
                                   1600: {
-                                    slidesPerView: 4
+                                    slidesPerView: 3
                                   },
                                   1200: {
                                     slidesPerView: 3
