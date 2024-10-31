@@ -35,6 +35,10 @@ function formatDate(dateString) {
 
 const SingleNewsPage = () => {
 
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
+
     const dispatch = useDispatch<AppDispatch>();
 
     const { id } = useParams();
