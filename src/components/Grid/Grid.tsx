@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, {useEffect, useState} from "react"
 
 import buttonArrow from "../../images/svg/button_arrow.svg";
 
@@ -29,6 +29,10 @@ const Grid = ({ children, totalItems, itemsPerPage = 6 }: GridProps) => {
     const [currentPage, setCurrentPage] = useState(1)
     const totalPages = Math.ceil(totalItems / itemsPerPage);
 
+    useEffect(() => {
+        console.log(totalItems + "/" + itemsPerPage + "=", totalPages)
+    }, [totalPages])
+
     const changePage = (newPage) => {
         setCurrentPage(newPage);
     };
@@ -38,8 +42,8 @@ const Grid = ({ children, totalItems, itemsPerPage = 6 }: GridProps) => {
     const childrenArray = React.Children.toArray(children);
 
     return (
-        <div className='gird'>
-            <div className='grid__list' >
+        <div className='grid'>
+            <div className='grid__list'>
                 {childrenArray.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)}
             </div>
             { totalPages > 1 && (
@@ -65,7 +69,7 @@ const Grid = ({ children, totalItems, itemsPerPage = 6 }: GridProps) => {
                             }
                         </ul>
                     </nav>
-                    <div className='grid__buttons'>
+                    <div className='grid__buttons' style={{marginLeft: 'auto'}}>
                         { currentPage > 1 && (
                             <button className='grid__button grid__button--prev button button--black' type='button' onClick={() => changePage(currentPage - 1)}>
                                 <img src={buttonArrow} alt="" />

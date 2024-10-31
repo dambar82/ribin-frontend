@@ -33,7 +33,7 @@ const QuizzesPage = () => {
                     <div className="section__counter">{quizzes?.length}</div>
                 </div>
                 <div className="section__body">
-                    <Grid totalItems={12}>
+                    <Grid totalItems={quizzes?.length}>
                         {quizzes?.map(quiz => (
                             <Card
                                 key={quiz.id}

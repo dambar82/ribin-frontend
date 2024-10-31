@@ -107,8 +107,6 @@ const MainPage: React.FC = () => {
     });
 
 
-    console.log(sortedNews)
-
     return (
         <div className={styles.main}>
             {isAuth
@@ -158,12 +156,9 @@ const MainPage: React.FC = () => {
                                           1200: {
                                             slidesPerView: 3
                                           },
-                                          760: {
-                                            slidesPerView: 2
-                                          },
-                                          360: {
+                                          768: {
                                             slidesPerView: 1
-                                          }
+                                          },
                                         }}
                                         navigation={{
                                             nextEl: '.button--next'

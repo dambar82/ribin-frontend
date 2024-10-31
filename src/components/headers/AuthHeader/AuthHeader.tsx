@@ -32,10 +32,10 @@ interface IMenuLink {
 
 const menuLinks: IMenuLink[] = [
     { title: 'Главная', link: '/' },
-    { title: 'Пользователи', link: '/people' },
     { title: 'Конкурсы', link: '/contests' },
     { title: 'Новости', link: '/news' },
     { title: 'Записи', link: '/posts' },
+    { title: 'Пользователи', link: '/people' },
     { title: "Фотогалерея", link: "/photogallery" },
 ];
 
