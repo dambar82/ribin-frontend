@@ -157,14 +157,13 @@ const UserProfilePage = () => {
                                         </Link>
                                     </div>
                                     ) : (
+                                    user && (
                                     <div className="big-card__actions">
-                                        {user && (
                                             <Link to={`/chat/${user.id}`}>
                                                 <button className="button button--main-outlined" type="button">
                                                     <span>Написать сообщение</span>
                                                 </button>
                                             </Link>
-                                        )}
                                         {currentUser.friends.find(el => el.id === user.id)
                                         ?
                                           <button className={classNames('button', 'button--main', styles.added_friend_button)} type="button" >
@@ -177,6 +176,7 @@ const UserProfilePage = () => {
                                           </button>
                                         }
                                     </div>
+                                    )
                                 )
                             }
                         </div>
