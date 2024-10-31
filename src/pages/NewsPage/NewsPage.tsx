@@ -72,7 +72,7 @@ const NewsPage = () => {
                     <div className='section__counter'>{news.length}</div>
                 </div>
                 <div className='section__body'>
-                    <Grid totalItems={news.length} itemsPerPage={12}>
+                    <Grid totalItems={news.length} itemsPerPage={12} threeCols={true}>
                         {
                             sortedNews.map((newsItem) => {
                                 if ('imagePreviewResized' in newsItem) {

@@ -5,7 +5,8 @@ import buttonArrow from "../../images/svg/button_arrow.svg";
 interface GridProps {
     children: React.ReactNode;
     totalItems: number;
-    itemsPerPage?: number
+    itemsPerPage?: number;
+    threeCols?: boolean;
 }
 
 // const ITEMS_PER_PAGE = 6;
@@ -25,7 +26,7 @@ const getPages = (currentPage, totalPages) => {
     return array;
 }
 
-const Grid = ({ children, totalItems, itemsPerPage = 6 }: GridProps) => {
+const Grid = ({ children, totalItems, itemsPerPage = 6, threeCols }: GridProps) => {
     const [currentPage, setCurrentPage] = useState(1)
     const totalPages = Math.ceil(totalItems / itemsPerPage);
 
@@ -43,7 +44,8 @@ const Grid = ({ children, totalItems, itemsPerPage = 6 }: GridProps) => {
 
     return (
         <div className='grid'>
-            <div className='grid__list'>
+            <div className='grid__list'
+                 style={{ gridTemplateColumns: threeCols ? '1fr 1fr 1fr' : '1fr 1fr 1fr 1fr' }}>
                 {childrenArray.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)}
             </div>
             { totalPages > 1 && (
