@@ -1,4 +1,5 @@
 .card {
+ border: 3px solid #F2F2F2;
  background-color: white;
  padding: 28px 26px;
   border-radius: 35px;
@@ -8,6 +9,9 @@
  align-items: center;
  justify-content: center;
  row-gap: 36px;
+ &:hover {
+  background-color: #F2F2F2;
+ }
 }
 
 .card_avatar {
