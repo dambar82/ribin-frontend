@@ -141,11 +141,14 @@ const SingleNewsPage = () => {
                                         }}
                                 >
                                 </div>
+                            {//@ts-ignore
+                                singleNews.fixed === 0 && (
                                 <div className={styles.news__cover}>
                                     {//@ts-ignore
                                         <img src={singleNews.images[0]} alt=""/>
                                     }
                                 </div>
+                            )}
                         </div>
                         {//@ts-ignore
                             singleNews?.video && (
