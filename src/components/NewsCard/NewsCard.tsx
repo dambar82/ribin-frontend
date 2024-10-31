@@ -13,6 +13,7 @@ const NewsCard = ({title, image, date, newsBack, isFixed}: INewsCard) => {
     return (
         <div className={styles.card}>
             { image && <img src={image} alt="" className={styles.card__image} /> }
+            <div className={styles.card__overlay}></div>
             <div className={styles.card__date}>
                 {
                     newsBack ?
