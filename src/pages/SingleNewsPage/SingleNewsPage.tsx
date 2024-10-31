@@ -129,9 +129,9 @@ const SingleNewsPage = () => {
 
                             {//@ts-ignore
                                 singleNews?.video && (
-                                    <div style={{marginTop: '20px'}}>
+                                    <div style={{marginTop: '20px', width: '100%'}}>
                                         {// @ts-ignore
-                                            <video src={singleNews.video} controls></video>
+                                            <video src={singleNews.video} poster={singleNews.preview} controls></video>
                                         }
                                     </div>
                             )
