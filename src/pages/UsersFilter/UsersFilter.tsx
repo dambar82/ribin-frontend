@@ -203,7 +203,7 @@ const UsersFilter = () => {
                 </div>
 
                 <div className={`section__body`}>
-                    <Grid totalItems={sortedPeople.length} itemsPerPage={24} >
+                    <Grid totalItems={sortedPeople.length} itemsPerPage={15} >
                         {sortedPeople && sortedPeople.map((user: User) => (
                             <FoundUserCard key={user.id} image={user.avatar} name={user.name} surname={user.surname} level={user.level} rubick={user.rubick} id={user.id}/>
                         ))}
