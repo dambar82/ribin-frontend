@@ -51,7 +51,7 @@
     box-shadow: inset 0 -100px 40px rgba(0, 0, 0, 0.7); /* Внутренняя тень */
     z-index: 1; /* Поставить выше изображения, но ниже текста */
     &:hover {
-      box-shadow: inset 0 -400px 400px rgba(0, 0, 0, 0.7);
+      box-shadow: inset 500px -500px 500px rgba(0, 0, 0, 0.5);
     }
   }
 
