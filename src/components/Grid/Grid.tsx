@@ -45,7 +45,7 @@ const Grid = ({ children, totalItems, itemsPerPage = 6, threeCols }: GridProps) 
     return (
         <div className='grid'>
             <div className='grid__list'
-                 style={{ gridTemplateColumns: threeCols ? '1fr 1fr 1fr' : '1fr 1fr 1fr 1fr' }}>
+                 style={{ gridTemplateColumns: threeCols ? '1fr 1fr 1fr' : '', backgroundColor: threeCols ? 'white' : '', padding: threeCols ? '0' : '' }}>
                 {childrenArray.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)}
             </div>
             { totalPages > 1 && (
