@@ -126,17 +126,16 @@ const SingleNewsPage = () => {
                                         }}
                                 >
                                 </div>
-
-                            {//@ts-ignore
-                                singleNews?.video && (
-                                    <div style={{marginTop: '20px', width: '100%'}}>
-                                        {// @ts-ignore
-                                            <video src={singleNews.video} poster={singleNews.preview} controls></video>
-                                        }
-                                    </div>
-                            )
-                            }
                         </div>
+                        {//@ts-ignore
+                            singleNews?.video && (
+                                <div style={{width: '100%'}}>
+                                    {// @ts-ignore
+                                        <video src={singleNews.video} poster={singleNews.preview} controls style={{width: '100%'}}></video>
+                                    }
+                                </div>
+                            )
+                        }
                         {/*<div className={styles.news__cover}>*/}
                         {/*    {*/}
                         {/*        //@ts-ignore*/}
