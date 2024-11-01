@@ -13,7 +13,7 @@ const VKPlayer = ({ url }) => {
     const oid = videoIdMatch[1];
     const id = videoIdMatch[2];
     const embedUrl = `https://vk.com/video_ext.php?oid=${oid}&id=${id}&hd=2`;
-    const height = url.includes('clip') ? '646' : '480';
+    const height = url.includes('clip') ? '700' : '480';
     const width = url.includes('clip') ? '50%' : '100%';
 
     return (
