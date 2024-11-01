@@ -4,7 +4,7 @@ import ReactPlayer from 'react-player';
 
 
 const VKPlayer = ({ url }) => {
-    const videoIdMatch = url.match(/video(-?\d+)_(\d+)/);
+    const videoIdMatch = url.match(/(?:video|clip)(-?\d+)_(\d+)/);
 
     if (!videoIdMatch) {
         return <p>Invalid VK video URL</p>;
@@ -20,7 +20,7 @@ const VKPlayer = ({ url }) => {
             width="100%"
             height="480"
             frameBorder="0"
-            allow="encrypted-media; fullscreen; picture-in-picture; screen-wake-lock"
+            allow="autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock"
             allowFullScreen
         />
     );
@@ -101,7 +101,7 @@ const TextWithVideo = ({ htmlContent }) => {
                         />
                     </div>
                 );
-            } else if (part.includes('vk.com/video')) {
+            } else if (part.includes('vk.com/video') || part.includes('vk.com/clip')) {
                 return (
                     <div key={index} className='post_video_wrapper'>
                         <VKPlayer url={part} />
