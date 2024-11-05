@@ -10,7 +10,7 @@ const Restore = () => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate()
     const params = useParams()
-
+    console.log(params)
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [error, setError] = useState('')

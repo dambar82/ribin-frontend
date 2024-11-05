@@ -60,81 +60,46 @@ const token = JSON.parse(localStorage.getItem('token') || '0')
 // })
 
 export const fetchPosts = createAsyncThunk('post/fetchPosts', async () => {
-    const response = await axios.get('https://api-rubin.multfilm.tatar/api/posts');
+    const response = await $api.get('/api/posts');
     return response.data as PostAnswer;
 })
 
 export const fetchPostsByUserId = createAsyncThunk('post/fetchPostsByUserId', async ({userId} : { userId: number }) => {
-    const response = await axios.get(`https://api-rubin.multfilm.tatar/api/reposts/${userId}`,
-        {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        }
-    )
+    const response = await $api.get(`/api/reposts/${userId}`)
     return response.data as PostAnswer;
 })
 
 export const fetchPostsByClubId = createAsyncThunk('post/fetchPostsByClubId', async ({clubId} : {clubId: number}) => {
-    const response = await axios.get(`https://api-rubin.multfilm.tatar/api/club/posts/${clubId}`, {
-        headers: {
-            'Authorization': `Bearer ${token}`
-        }
-    })
+    const response = await $api.get(`https://api-rubin.multfilm.tatar/api/club/posts/${clubId}`)
     return response.data as PostAnswer;
 })
 
 export const createPostInClub = createAsyncThunk('post/createPostInClub', async ({clubId, formData} : {clubId: number, formData: FormData}) => {
-    const response = await axios.post(`https://api-rubin.multfilm.tatar/api/club/${clubId}/posts`, formData, {
-        headers: {
-            'Authorization': `Bearer ${token}`
-        }
-    })
+    const response = await $api.post(`https://api-rubin.multfilm.tatar/api/club/${clubId}/posts`, formData)
     return response.data as PostAnswer;
 })
 
 export const deletePostAsync = createAsyncThunk('post/deletePost', async ({postId}: {postId: number}) => {
-    const response = await axios.delete(`https://api-rubin.multfilm.tatar/api/posts/${postId}`, {
-        headers: {
-            'Authorization': `Bearer ${token}`
-        },
-    })
+    const response = await $api.delete(`https://api-rubin.multfilm.tatar/api/posts/${postId}`)
 })
 
 export const editPostAsync = createAsyncThunk('post/editPostAsync', async ({postId, formData}: {postId: number, formData: FormData}) => {
-    const response = await axios.post(`https://api-rubin.multfilm.tatar/api/posts/${postId}`, formData, {
-        headers: {
-            'Authorization': `Bearer ${token}`
-        },
-    })
+    const response = await $api.post(`https://api-rubin.multfilm.tatar/api/posts/${postId}`, formData)
 })
 
 export const createPost = createAsyncThunk('post/createPost', async (formData: FormData) => {
-    const response = await axios.post('https://api-rubin.multfilm.tatar/api/posts', formData, {
-        headers: {
-            'Content-Type': 'multipart/form-data',
-            'Authorization': `Bearer ${token}`
-        },
-    });
+    const response = await $api.post('https://api-rubin.multfilm.tatar/api/posts', formData);
     return response.data;
 });
 
 export const createComment = createAsyncThunk('post/createComment', async ({formData, postId} : {formData: FormData, postId: number}) => {
   //  console.log(token)
-    const response = await axios.post(`https://api-rubin.multfilm.tatar/api/posts/${postId}/comments`, formData, {
-        headers: {
-            'Authorization': `Bearer ${token}`
-        }
-    })
+    const response = await $api.post(`https://api-rubin.multfilm.tatar/api/posts/${postId}/comments`, formData)
     return response.data.comment;
 })
 
 export const deleteCommentAsync = createAsyncThunk('post/deleteCommentAsync', async ({commentId}: {commentId: number}) => {
-    const response = await axios.delete(`https://api-rubin.multfilm.tatar/api/comments/${commentId}`, {
-        headers: {
-            'Authorization': `Bearer ${token}`
-        }
-    })
+    const response = await $api.delete(`https://api-rubin.multfilm.tatar/api/comments/${commentId}`)
 })
 
 export const commentLikeAsync = createAsyncThunk(

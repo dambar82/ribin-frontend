@@ -222,6 +222,10 @@ const Wall = ({type, posts, editable = true, clubId, joined}: IWall) => {
       setFiles(prev => prev.filter(el => el.id !== fileId))
     }
 
+    useEffect(() => {
+        console.log(sortedAllPosts)
+    }, [sortedAllPosts])
+
     const onSubmit = async ( e: React.FormEvent<HTMLFormElement> ) => {
       e.preventDefault()
         if (user.user) {
