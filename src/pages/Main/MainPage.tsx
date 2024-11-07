@@ -161,6 +161,7 @@ const MainPage: React.FC = () => {
                                           },
                                         }}
                                         navigation={{
+                                            prevEl: '.button--prev',
                                             nextEl: '.button--next'
                                         }}
                                     >
@@ -203,6 +204,10 @@ const MainPage: React.FC = () => {
                                         })}
                                     </Swiper>
                                     <div className="section__sliderControls">
+                                        <button className={`button button--black button--prev`} type="button">
+                                            <img src={buttonArrow} alt="" style={{transform: 'rotate(-180deg)'}}/>
+                                            <span>Предыдущие</span>
+                                        </button>
                                         <button className="button button--black button--next" type="button">
                                             <span>Вперед</span>
                                             <img src={buttonArrow} alt="" />
