@@ -53,3 +53,17 @@
     grid-template-columns: 1fr 1fr;
     column-gap: 20px;
 }
+
+@media screen and (max-width: 1150px) {
+    .actualNews {
+        column-gap: 15px;
+    }
+}
+
+@media screen and (max-width: 762px) {
+    .actualNews {
+        grid-template-columns: 1fr;
+        column-gap: 0;
+        row-gap: 20px;
+    }
+}

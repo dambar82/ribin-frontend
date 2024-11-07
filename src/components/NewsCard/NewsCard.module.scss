@@ -191,3 +191,35 @@
   text-align: right;
   z-index: 1;
 }
+
+@media screen and (max-width: 1440px) {
+  .card__title_fixed {
+    top: 5vw;
+    font-size: 2.5em;
+    line-height: 55px;
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .card__title_fixed {
+    right: 6%;
+    line-height: 50px;
+  }
+}
+
+@media screen and (max-width: 762px) {
+  .card__title_fixed {
+    top: 15%;
+    font-size: 2em;
+    right: 6%;
+    line-height: 40px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .card__title_fixed {
+    top: 15%;
+    font-size: 20px;
+    line-height: 24px;
+  }
+}

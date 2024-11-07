@@ -1771,29 +1771,6 @@ input:-webkit-autofill {
   box-shadow: 0px 0px 8px 0px #0000001F;
 }
 
-@media screen and (max-width: 1600px) {
-  .image {
-    height: 500px;
-  }
-}
-
-.swiper-slide--fixed {
- // min-height: 540px;
-  width: 55vw !important;
-}
-
-@media screen and (max-width: 1024px) {
-  .swiper-slide--fixed {
-    width: 90vw !important;
-  }
-}
-
-@media screen and (max-width: 600px) {
-  .swiper-slide--fixed {
-    width: auto !important;
-  }
-}
-
 .news_actual {
   position: relative;
   img {
@@ -1803,8 +1780,8 @@ input:-webkit-autofill {
   }
 
   &_text {
-    top: 100px;
-    right: 50px;
+    top: 25%;
+    right: 5%;
     position: absolute;
     width: 47%;
     font-family: Raleway;
@@ -1813,5 +1790,89 @@ input:-webkit-autofill {
     line-height: 38px;
     text-align: right;
     color: white;
+  }
+}
+
+.swiper-slide--fixed {
+  // min-height: 540px;
+  width: 55vw !important;
+}
+
+@media screen and (max-width: 1600px) {
+  .swiper-slide--fixed {
+    // min-height: 540px;
+    width: 85vw !important;
+  }
+
+  .image {
+    height: 500px;
+  }
+
+  .news_actual {
+    &_text {
+      right: 4%;
+      font-size: 28px;
+      line-height: 32px;
+      top: 20%;
+    }
+  }
+}
+
+@media screen and (max-width: 1150px) {
+  .news_actual {
+    &_text {
+      right: 4%;
+      font-size: 24px;
+      line-height: 28px;
+      top: 10%;
+    }
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .swiper-slide--fixed {
+    width: 90vw !important;
+  }
+
+  .news_actual {
+    &_text {
+      right: 4%;
+      font-size: 18px;
+      line-height: 22px;
+      top: 10%;
+    }
+  }
+}
+
+@media screen and (max-width: 762px) {
+  .swiper-slide--fixed {
+    width: 85vw !important;
+  }
+
+
+  .news_actual {
+    &_text {
+      right: 5%;
+      font-size: 24px;
+      line-height: 32px;
+      top: 20%;
+    }
+  }
+}
+
+@media screen and (max-width: 600px) {
+  //.swiper-slide--fixed {
+  //  width: auto !important;
+  //}
+}
+
+@media screen and (max-width: 550px) {
+  .news_actual {
+    &_text {
+      right: 4%;
+      font-size: 18px;
+      line-height: 22px;
+      top: 15%;
+    }
   }
 }
