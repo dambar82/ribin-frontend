@@ -1833,18 +1833,17 @@ input:-webkit-autofill {
   .swiper-slide--fixed {
     width: 90vw !important;
   }
-
   .news_actual {
     &_text {
-      right: 4%;
-      font-size: 18px;
-      line-height: 22px;
-      top: 10%;
+      right: 5%;
+      font-size: 24px;
+      line-height: 32px;
+      top: 20%;
     }
   }
 }
 
-@media screen and (max-width: 762px) {
+@media screen and (max-width: 768px) {
   .swiper-slide--fixed {
     width: 85vw !important;
   }
