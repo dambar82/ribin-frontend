@@ -59,11 +59,24 @@ const NewsPage = () => {
                     <div className="section__header">
                         <div className="section__title">Актуальное</div>
                     </div>
-                    <Link to="/news/26">
-                        <div className="news_actual">
-                            <img src="images/newsActual.jpg" alt="" />
-                        </div>
-                    </Link>
+                    <div className={`${styles.actualNews}`}>
+                        <Link to="/news/26">
+                            <div className="news_actual">
+                                <img src="images/actualNewsCard1.jpg" alt="" />
+                                <div className='news_actual_text'>
+                                    Игроки Рубина проводят уроки в школе. Узнай, как пригласить их в свою школу!
+                                </div>
+                            </div>
+                        </Link>
+                        <Link to="/news/32">
+                            <div className="news_actual">
+                                <img src="images/actualNewsCard2.jpg" alt="" />
+                                <div className='news_actual_text'>
+                                    Пригласи МФЦ к себе в школу и оформи карту болельщика всем классом!
+                                </div>
+                            </div>
+                        </Link>
+                    </div>
                 </div>
             )}
             <div className='section'>
