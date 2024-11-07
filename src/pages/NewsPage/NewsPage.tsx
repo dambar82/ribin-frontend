@@ -38,6 +38,8 @@ const NewsPage = () => {
     const sortedNews = news
         // @ts-ignore
         .filter((item) => item.fixed === 0)
+        // @ts-ignore
+        .filter((item) => item.is_visible === 1)
         .slice().sort((a, b) => {
         // @ts-ignore
         const dateA = a.createdAt ? normalizeDate(a.createdAt) : normalizeDate(a.date);
