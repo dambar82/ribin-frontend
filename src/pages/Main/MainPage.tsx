@@ -147,73 +147,96 @@ const MainPage: React.FC = () => {
                         {
                             news.length
                             ? (
-                                <>
-                                    <Swiper
-                                        style={{display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)'}}
-                                        spaceBetween={20}
-                                        modules={[Navigation]}
-                                        breakpoints={{
-                                          1200: {
-                                            slidesPerView: 3
-                                          },
-                                          768: {
-                                            slidesPerView: 1
-                                          },
-                                        }}
-                                        navigation={{
-                                            prevEl: '.button--prev',
-                                            nextEl: '.button--next'
-                                        }}
-                                    >
-                                        {sortedNews.map((newsItem, index) => {
-                                            //@ts-ignore
-                                            const isFixed = newsItem.fixed === 1;
-                                            const slideClass = isFixed ? 'swiper-slide--fixed' : '';
-                                            // Проверяем, есть ли у newsItem свойство imagePreviewResized
-                                            if ('imagePreviewResized' in newsItem) {
-                                                // Теперь TypeScript знает, что newsItem имеет тип News
-                                                return (
-                                                    <SwiperSlide key={newsItem.id} className={slideClass}>
-                                                        <Link to={`/news/api/${newsItem.id}`}>
-                                                            <NewsCard
-                                                                title={newsItem.title}
-                                                                date={newsItem.publishDate}
-                                                                image={newsItem.imagePreviewResized}
-                                                                newsBack={false}
-                                                                isFixed={isFixed}
-                                                            />
-                                                        </Link>
-                                                    </SwiperSlide>
-                                                );
-                                            } else {
-                                                // Здесь newsItem обрабатывается как NewsBack
-                                                return (
-                                                    <SwiperSlide key={newsItem.id} className={slideClass}>
-                                                        <Link to={`/news/${newsItem.id}`}>
-                                                            <NewsCard
-                                                                date={newsItem.date}
-                                                                image={newsItem.images[0]}
-                                                                title={newsItem.title}
-                                                                newsBack={true}
-                                                                isFixed={isFixed}
-                                                            />
-                                                        </Link>
-                                                    </SwiperSlide>
-                                                );
-                                            }
-                                        })}
-                                    </Swiper>
-                                    <div className="section__sliderControls">
-                                        <button className={`button button--black button--prev`} type="button">
-                                            <img src={buttonArrow} alt="" style={{transform: 'rotate(-180deg)'}}/>
-                                            <span>Предыдущие</span>
-                                        </button>
-                                        <button className="button button--black button--next" type="button">
-                                            <span>Вперед</span>
-                                            <img src={buttonArrow} alt="" />
-                                        </button>
-                                    </div>
-                                </>
+                                    <>
+                                        <Swiper
+                                            spaceBetween={20}
+                                            modules={[Navigation]}
+                                            breakpoints={{
+                                                1600: {
+                                                    slidesPerView: 3
+                                                },
+                                                1300: {
+                                                  slidesPerView: 3
+                                                },
+                                                1200: {
+                                                    slidesPerView: 2
+                                                },
+                                                768: {
+                                                    slidesPerView: 1
+                                                },
+                                            }}
+                                            navigation={{
+                                                prevEl: '.button--prev',
+                                                nextEl: '.button--next'
+                                            }}
+                                        >
+                                            {sortedNews.map((newsItem, index) => {
+                                                //@ts-ignore
+                                                const isFixed = newsItem.fixed === 1;
+                                                //@ts-ignore
+                                                const slideClass = newsItem.fixed === 1 ? 'swiper-slide--fixed' : '';
+//@ts-ignore
+                                                if (newsItem.fixed === 1) {
+                                                    // Дублируем элемент с `fixed === 1` на три слайда
+                                                    return (
+                                                        <>
+                                                            <SwiperSlide key={`${newsItem.id}`} className={slideClass}>
+                                                                <Link to={`/news/${newsItem.id}`}>
+                                                                    <NewsCard
+                                                                        //@ts-ignore
+                                                                        date={newsItem.date}
+                                                                        //@ts-ignore
+                                                                        image={newsItem.images[0]}
+                                                                        title={newsItem.title}
+                                                                        newsBack={true}
+                                                                        isFixed={isFixed}
+                                                                    />
+                                                                </Link>
+                                                            </SwiperSlide>
+                                                        </>
+                                                    );
+                                                } else if ('imagePreviewResized' in newsItem) {
+                                                    return (
+                                                        <SwiperSlide key={newsItem.id}>
+                                                            <Link to={`/news/api/${newsItem.id}`}>
+                                                                <NewsCard
+                                                                    title={newsItem.title}
+                                                                    date={newsItem.publishDate}
+                                                                    image={newsItem.imagePreviewResized}
+                                                                    newsBack={false}
+                                                                    isFixed={isFixed}
+                                                                />
+                                                            </Link>
+                                                        </SwiperSlide>
+                                                    );
+                                                } else {
+                                                    return (
+                                                        <SwiperSlide key={newsItem.id}>
+                                                            <Link to={`/news/${newsItem.id}`}>
+                                                                <NewsCard
+                                                                    date={newsItem.date}
+                                                                    image={newsItem.images[0]}
+                                                                    title={newsItem.title}
+                                                                    newsBack={true}
+                                                                    isFixed={isFixed}
+                                                                />
+                                                            </Link>
+                                                        </SwiperSlide>
+                                                    );
+                                                }
+                                            })}
+                                        </Swiper>
+                                        <div className="section__sliderControls">
+                                            <button className={`button button--black button--prev`} type="button">
+                                                <img src={buttonArrow} alt="" style={{transform: 'rotate(-180deg)'}}/>
+                                                <span>Предыдущие</span>
+                                            </button>
+                                            <button className="button button--black button--next" type="button">
+                                                <span>Вперед</span>
+                                                <img src={buttonArrow} alt="" />
+                                            </button>
+                                        </div>
+                                    </>
                             ) : null
                         }
                     </div>

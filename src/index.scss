@@ -1794,8 +1794,8 @@ input:-webkit-autofill {
 }
 
 .swiper-slide--fixed {
-  // min-height: 540px;
-  width: 55vw !important;
+  flex: 0 0 calc(49%); /* Увеличивает ширину в три раза */
+  max-width: calc(300%);
 }
 
 @media screen and (max-width: 1600px) {
@@ -1813,12 +1813,16 @@ input:-webkit-autofill {
       right: 4%;
       font-size: 28px;
       line-height: 32px;
-      top: 20%;
+      top: 15%;
     }
   }
 }
 
-@media screen and (max-width: 1150px) {
+@media screen and (max-width: 1200px) {
+  .swiper-slide--fixed {
+    flex: 0 0 calc(100%);
+  }
+
   .news_actual {
     &_text {
       right: 4%;

@@ -180,45 +180,38 @@
 
 .card__title_fixed {
   position: absolute;
-  top: 8vw;
-  right: 3vw;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 4%;
   width: 40%;
   color: white;
   font-family: Raleway;
-  font-size: 3em;
+  font-size: 36px;
   font-weight: 500;
-  line-height: 64px;
+  line-height: 42px;
   text-align: right;
   z-index: 1;
 }
 
-@media screen and (max-width: 1440px) {
-  .card__title_fixed {
-    top: 5vw;
-    font-size: 2.5em;
-    line-height: 55px;
-  }
-}
-
-@media screen and (max-width: 1024px) {
-  .card__title_fixed {
-    right: 6%;
-    line-height: 50px;
-  }
-}
-
-@media screen and (max-width: 768px) {
-  .card__title_fixed {
-    top: 15%;
-    font-size: 2em;
-    right: 6%;
-    line-height: 40px;
-  }
-}
+//@media screen and (max-width: 1024px) {
+//  .card__title_fixed {
+//    right: 6%;
+//    line-height: 50px;
+//  }
+//}
+//
+//@media screen and (max-width: 768px) {
+//  .card__title_fixed {
+//    top: 15%;
+//    font-size: 2em;
+//    right: 6%;
+//    line-height: 40px;
+//  }
+//}
 
 @media screen and (max-width: 480px) {
   .card__title_fixed {
-    top: 15%;
+    //top: 15%;
     font-size: 20px;
     line-height: 24px;
   }
