@@ -70,7 +70,7 @@ const NewsPage = () => {
                                 </div>
                             </div>
                         </Link>
-                        <Link to="/news/35">
+                        <Link to="/news/37">
                             <div className="news_actual">
                                 <img src="images/actualNewsCard2.jpg" alt="" />
                                 {/*<div className='news_actual_text'>*/}
