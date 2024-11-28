@@ -40,6 +40,22 @@
     }
 }
 
+.pagination {
+    margin-top: 20px;
+    column-gap: 20px;
+    display: flex;
+    align-items: center;
+    button {
+        background-color: #91172C;
+        color: white;
+    }
+
+    span {
+        font-family: Saira;
+        font-size: 20px;
+    }
+}
+
 .wall {
     background-color: #F8F8F8;
     border-radius: 50px;

@@ -93,7 +93,6 @@ const Wall = ({type, posts, editable = true, clubId, joined}: IWall) => {
     const { people, status } = useSelector((state: RootState) => state.people)
     const [feedType, setFeedType] = useState(0)
     const [sortType, setSortType] = useState(1)
-   // const [postType, setPostType] = useState(0)
     const [textareaValue, setTextareaValue] = useState('');
     const [files, setFiles] = useState<{ id: number, file: File }[]>([])
     const [videos, setVideos] = useState([]);
@@ -111,6 +110,20 @@ const Wall = ({type, posts, editable = true, clubId, joined}: IWall) => {
     const formRef = useRef(null);
     const [notification, setNotification] = useState({visible: false, data: null});
     const [autoCloseTimeout, setAutoCloseTimeout] = React.useState<NodeJS.Timeout | null>(null);
+    const [currentPage, setCurrentPage] = useState(1);
+    const postsPerPage = 15;
+
+    const handleNextPage = () => {
+        if (currentPage < Math.ceil(sortedAllPosts.length / postsPerPage)) {
+            setCurrentPage(currentPage + 1);
+        }
+    };
+
+    const handlePreviousPage = () => {
+        if (currentPage > 1) {
+            setCurrentPage(currentPage - 1);
+        }
+    };
 
     useEffect(() => {
         if (textareaRef.current) {
@@ -311,6 +324,10 @@ const Wall = ({type, posts, editable = true, clubId, joined}: IWall) => {
         }
     }
 
+    const paginatedPosts = sortedAllPosts.slice(
+        (currentPage - 1) * postsPerPage,
+        currentPage * postsPerPage
+    );
 
     return (
         <div className={styles.wall}>
@@ -450,7 +467,7 @@ const Wall = ({type, posts, editable = true, clubId, joined}: IWall) => {
                                 </div>
                             </form>
                         }
-                        {sortedAllPosts.length ? sortedAllPosts.map((post, index) => (
+                        {paginatedPosts.length ? paginatedPosts.map((post, index) => (
                             <Post
                                 key={post.id}
                                 id={post.id}
@@ -529,6 +546,15 @@ const Wall = ({type, posts, editable = true, clubId, joined}: IWall) => {
                         )) : null}
                     </div>
                 )}
+                <div className={styles.pagination}>
+                    <button onClick={handlePreviousPage} disabled={currentPage === 1}>
+                        Назад
+                    </button>
+                    <span>{currentPage} / {Math.ceil(sortedAllPosts.length / postsPerPage)}</span>
+                    <button onClick={handleNextPage} disabled={currentPage === Math.ceil(sortedAllPosts.length / postsPerPage)}>
+                        Вперед
+                    </button>
+                </div>
             </div>
             <aside className={ type === "post" || type === "club" || type ==="profile" ? styles.wall__aside : `${styles.wall__aside} ${styles.wall__aside_sticky}`}>
                 <div className={styles.wall__asideBlock}>
@@ -553,18 +579,6 @@ const Wall = ({type, posts, editable = true, clubId, joined}: IWall) => {
                             >{item}</button>
                         ))}
                     </div>
-                    {/*{ type === "post" ?*/}
-                    {/*    <div className={styles.wall__filter}>*/}
-                    {/*        {["Мои записи", "Записи друзей", "Записи Клубов"].map((item, index) => (*/}
-                    {/*            <button*/}
-                    {/*                key={item + index}*/}
-                    {/*                className={postType === index ? `${styles.wall__filterItem} ${styles.wall__filterItemActive}` : styles.wall__filterItem}*/}
-                    {/*                type="button"*/}
-                    {/*                onClick={() => setPostType(index)}*/}
-                    {/*            >{item}</button>*/}
-                    {/*        ))}*/}
-                    {/*    </div> : null*/}
-                    {/*}*/}
                 </div>
                 { type === "post" ?
                     <div className={styles.wall__asideBlock}>
