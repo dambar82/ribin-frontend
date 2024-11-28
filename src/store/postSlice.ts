@@ -134,8 +134,12 @@ export const toggleLikeAsync = createAsyncThunk(
                         'Authorization': `Bearer ${token}`
                     }
                 }
-            );
-            dispatch(addLike({ postId, postType }));
+            ).then(res =>{
+                const count =  res.data.count;
+
+                dispatch(addLike({ postId, postType, count }));
+
+            });
         } catch (error) {
             console.error('Failed to toggle like:', error);
         }
@@ -175,15 +179,15 @@ const postSlice = createSlice({
         },
         addComment: (state, action: any) => {
         },
-        addLike: (state, action: PayloadAction<{ postId: number, postType: 'all' | 'image' | 'video' }>) => {
-            const { postId, postType } = action.payload;
+        addLike: (state, action: PayloadAction<{ postId: number, postType: 'all' | 'image' | 'video' , count: number | null}>) => {
+            const { postId, postType, count } = action.payload;
             const postsArray = state.posts[postType];
             const post = postsArray.find(p => p.id === postId);
             if (post) {
-                if (!state.likedPosts.includes(postId)) {
-                    post.likes_count += 1;
+
+                    post.likes_count = count;
                     state.likedPosts.push(postId);
-                }
+
             }
         },
         deletePost: (state, action: PayloadAction<{ postId: number }>) => {

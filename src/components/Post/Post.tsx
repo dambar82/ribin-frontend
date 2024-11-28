@@ -170,11 +170,11 @@ const Post = ({ id, name, surname, avatar, created_by, source, tags, comments, v
     }, [post, user]);
 
     const handleLikeClick = () => {
-        if (post && !isLiked) {
+        if (post) {
             dispatch(toggleLikeAsync({postId: id, postType: type, userId: user.user.id}))
                 .unwrap()
                 .then(() => {
-                    setIsLiked(true);
+                    setIsLiked(!isLiked);
                 })
         }
     };

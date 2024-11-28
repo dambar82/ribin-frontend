@@ -236,7 +236,6 @@ const Wall = ({type, posts, editable = true, clubId, joined}: IWall) => {
     }
 
     useEffect(() => {
-        console.log(sortedAllPosts)
     }, [sortedAllPosts])
 
     const onSubmit = async ( e: React.FormEvent<HTMLFormElement> ) => {
@@ -268,7 +267,6 @@ const Wall = ({type, posts, editable = true, clubId, joined}: IWall) => {
 
                             const response = await axios.get(`https://api-rubin.multfilm.tatar/api/messages/rubick_notification/more`, {headers: {Authorization: `Bearer ${token}`}});
                             if (response.data) {
-                                console.log(response.data)
                                 setNotification({visible: true, data: response.data})
                                 setTimeout(() => {
                                     setNotification({ visible: false, data: response.data });
