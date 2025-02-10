@@ -43,7 +43,6 @@ const AchievementsPage = () => {
             const response = await axios.get('https://api-rubin.multfilm.tatar/api/gifts/promo_code', {
                 headers: { 'Authorization': `Bearer ${token}` }
             })
-            console.log(response.data.data);
             setMyAwards(response.data.data)
         }
         fetchAwards();
@@ -68,7 +67,7 @@ const AchievementsPage = () => {
         // @ts-ignore
         const buy = await dispatch(buyAward(data));
         if (buy) {
-            setPromocode(buy.payload.promo_codes.promo_code);
+            setPromocode(buy.payload.promo_codes[0].promo_code);
             setIsTradeModalOpen(false);
             setIsBoughtModal(true);
         } else {
@@ -78,7 +77,6 @@ const AchievementsPage = () => {
     }
 
     const copyToClipboard = (promoCode) => {
-        console.log(promoCode)
         navigator.clipboard.writeText(promoCode).then(() => {
             setCopiedPromo(promoCode); // Устанавливаем состояние для отображения сообщения
             setTimeout(() => {
@@ -94,6 +92,7 @@ const AchievementsPage = () => {
             setSortedAwards(awards[1].sort((a, b) => a.value - b.value));
         }
     }, awards)
+
 
     const [selectedOption, setSelectedOption] = useState('Все вознаграждения');
     const selectRef = useRef(null);
@@ -180,39 +179,6 @@ const AchievementsPage = () => {
                                         </div>
                                     )
                                 }
-                                {/*<div className={styles.promo}>*/}
-                                {/*    <div className={styles.promo_logo}>*/}
-                                {/*        <img src="/images/rubin%20logo.png" alt=""/>*/}
-                                {/*    </div>*/}
-                                {/*    <div className={styles.promo_info}>*/}
-                                {/*        <h2>Билет на матч</h2>*/}
-                                {/*        <div className={styles.promo_info_button}>*/}
-                                {/*            <span>50%</span> на все сектора*/}
-                                {/*        </div>*/}
-                                {/*    </div>*/}
-                                {/*    <div className={styles.promo_code}>*/}
-                                {/*        <div className={`${styles.promo_code_copy} ${isCopied ? styles.promo_code_copy_Copied : ''}`}>*/}
-                                {/*            {*/}
-                                {/*                copiedPromo === 'СТАДИОН50' && (*/}
-                                {/*                    <div className={styles.promoMessage}>*/}
-                                {/*                        Промокод скопирован*/}
-                                {/*                    </div>*/}
-                                {/*                )*/}
-                                {/*            }*/}
-                                {/*            <p ref={promo}>СТАДИОН50</p>*/}
-                                {/*            {//@ts-ignore*/}
-                                {/*                <div className={styles.promo_code_copy_round} onClick={() => copyToClipboard(promo.current.innerText)}>*/}
-                                {/*                    <img src={copy} alt=""/>*/}
-                                {/*                </div>*/}
-                                {/*            }*/}
-                                {/*        </div>*/}
-                                {/*        <Link to='https://tickets.rubin-kazan.ru/event?id_event=668' target='_blank'>*/}
-                                {/*            <div className={styles.promo_code_go}>*/}
-                                {/*                <img src={gosomewhere} alt=""/>*/}
-                                {/*            </div>*/}
-                                {/*        </Link>*/}
-                                {/*    </div>*/}
-                                {/*</div>*/}
                             </div>
                             <div className={styles.awards_grid}>
                                 {sortedAwards.map(item => (
@@ -319,9 +285,15 @@ const AchievementsPage = () => {
                     </div>
                     <div className={styles.modal_info}>
                         <h1>Ваш промокод для активации</h1>
-                        <p>
-                            Скопируйте промокод и воспользуйтесь им на сайте: <a href='https://store.rubin-kazan.ru'>https://store.rubin-kazan.ru</a> для получения бонуса.
-                        </p>
+                        {currentItem?.is_material === 1 ? (
+                            <p>
+                                Скопируйте промокод и воспользуйтесь им на сайте: <a href='https://store.rubin-kazan.ru'>https://store.rubin-kazan.ru</a> для получения бонуса.
+                            </p>
+                        ) : (
+                            <p>
+                                Для получения вознаграждения свяжитесь по почте rubinkids@yandex.ru
+                            </p>
+                        )}
                     </div>
                     <div className={`${styles.promo_code_copy} ${isCopied ? styles.promo_code_copy_Copied : ''}`} style={{width: '100%'}}>
                         {
