@@ -53,6 +53,10 @@ const AuthHeader = () => {
     const menuRef = useRef(null);
     const navigate = useNavigate();
 
+    useEffect(() => {
+        console.log(user);
+    }, [user])
+
     const dispatch = useAppDispatch();
 
     const handleLogout = () => {
@@ -98,10 +102,6 @@ const AuthHeader = () => {
 
     const closeMobileMenu = () => {
       setActiveMenu(false)
-    }
-
-    const goToProfile = () => {
-        window.location.href = `/user/${user.id}`;
     }
 
     const award = useSelector(selectAward);
@@ -153,10 +153,19 @@ const AuthHeader = () => {
                                       <img src={user.avatar} alt=""/>
                                     </div>
                                     <span>{user.name}</span>
+                                    <Link to='/balance-history' style={{display: 'contents'}}>
+                                        <div className={styles.rubickWrapper}>
+                                            <div className={styles.rubick}>
+                                                <img src={rubik}/>
+                                                {user.rubick}
+                                            </div>
+                                            <div className={styles.tooltip}>История баланса</div>
+                                        </div>
+                                    </Link>
                                   </div>
-                                    <li onClick={goToProfile}>
+                                    <li>
                                         <NavLink
-                                            to=''
+                                            to={`/user/${user.id}`}
                                             className={({ isActive }) => {
                                                 return isActive ? "_active" : ""
                                             }}

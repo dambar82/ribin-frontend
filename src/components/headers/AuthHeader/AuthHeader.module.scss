@@ -2,6 +2,56 @@
   font-size: 20px;
 }
 
+.rubickWrapper {
+  position: relative;
+  display: inline-block;
+  margin-left: auto;
+  min-width: 104px;
+  max-width: 104px;
+  max-height: 36px;
+}
+
+.rubick {
+  max-height: 36px;
+  font-family: 'Saira', sans-serif;
+  color: #2A2A2A;
+  background-color: white;
+  padding: 6px 8px;
+  min-width: 104px;
+  max-width: 104px;
+  font-size: 20px;
+  line-height: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  column-gap: 4px;
+  border-radius: 30px;
+  font-weight: 500;
+}
+
+.tooltip {
+  position: absolute;
+  bottom: 120%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 12px;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s, transform 0.3s;
+  pointer-events: none;
+}
+
+.rubickWrapper:hover .tooltip {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(300%);
+}
+
 .awardNotify {
   font-size: 16px;
   line-height: 20px;

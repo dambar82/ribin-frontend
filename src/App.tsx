@@ -55,6 +55,7 @@ import UnauthLayoutRegister from './components/layouts/UnauthLayoutRegister';
 import FriendsPage from "./pages/FriendsPage/FriendsPage";
 import NotificationFriends from "./components/Notification/NotificationFriends";
 import { HelpPage } from './pages/HelpPage/HelpPage'
+import BalanceHistory from "./pages/BalanceHistory/BalanceHistory";
 
 
 export function postFormatDate(isoString) {
@@ -173,7 +174,8 @@ function App() {
         { path: '/chat/:userId', element: <Chat/>},
         { path: '/events/event/:id', element: <SingleEventPage /> },
         { path: '/clubs/events/new', element: <CreateEventPage /> },
-        { path: '/user/:id/friends', element: <FriendsPage />}
+        { path: '/user/:id/friends', element: <FriendsPage />},
+        { path: '/balance-history', element: <BalanceHistory/> }
     ];
 
     let token;
