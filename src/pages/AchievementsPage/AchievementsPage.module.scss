@@ -41,12 +41,19 @@
 
 
 .myAwards_block {
-  display: flex;
-  align-items: center;
   background-color: white;
   padding: 22px 26px;
   border-radius: 35px;
-  column-gap: 18px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 20px;
+
+  .flex {
+    display: flex;
+    align-items: center;
+    column-gap: 18px;
+  }
+
   &_image {
     height: 106px;
     min-width: 106px;
@@ -431,9 +438,9 @@
 
     p {
       font-family: Raleway;
-      font-size: 20px;
+      font-size: 18px;
       font-weight: 400;
-      line-height: 24px;
+      line-height: 22px;
       text-align: left;
     }
 

@@ -384,7 +384,7 @@ const MainPage: React.FC = () => {
                 <div className="section__body">
                     <div className={styles.users__content}>
                         {getMostActiveUsers(people, 5).map(item => (
-                            <Link to={`/user/${item.id}`}>
+                            <Link to={`/user/${item.id}`} key={item.id}>
                                 <ActiveUserCard key={item.id} image={item.avatar} name={item.name} surname={item.surname} points={item.rubick}/>
                             </Link>
                         ))}
@@ -520,7 +520,7 @@ const FirstScreenSlider = () => {
 
       <div className={c.pagination} >
         {arrayFromTo(1, 3).map(num => (
-          <span className={num === slide ? c._active : ''} ></span>
+          <span key={num} className={num === slide ? c._active : ''} ></span>
         ))}
       </div>
 

@@ -37,12 +37,14 @@ const AchievementsPage = () => {
             const response = await axios.get('https://api-rubin.multfilm.tatar/api/gifts', {
                 headers: { 'Authorization': `Bearer ${token}` }
             })
+            console.log(response.data)
             setAwards(response.data);
         }
         const fetchMyAwards = async () => {
             const response = await axios.get('https://api-rubin.multfilm.tatar/api/gifts/promo_code', {
                 headers: { 'Authorization': `Bearer ${token}` }
             })
+            console.log(response.data.data);
             setMyAwards(response.data.data)
         }
         fetchAwards();
@@ -91,7 +93,7 @@ const AchievementsPage = () => {
         if (awards) {
             setSortedAwards(awards[1].sort((a, b) => a.value - b.value));
         }
-    }, awards)
+    }, [awards])
 
 
     const [selectedOption, setSelectedOption] = useState('Все вознаграждения');
@@ -215,7 +217,7 @@ const AchievementsPage = () => {
                             </div>
                             <div className={styles.awards_grid}>
                                 {sortedAwards.map(item => (
-                                    <div className={styles.award_card} onClick={() => handleBuy(item)}>
+                                    <div className={styles.award_card} key={item.id} onClick={() => handleBuy(item)}>
                                         <div className={styles.award_card_image}>
                                             <img className={styles.award_card_image_IMG} src={item.image} alt=""/>
                                             {item.open === 0 && (
@@ -240,35 +242,46 @@ const AchievementsPage = () => {
                     ) : (
                         <div className={`${styles.achievements__body} ${styles.achievements__body_myAwards}`}>
                             {myAwards.map(awards => (
-                                <div className={styles.myAwards_block}>
-                                    <div className={styles.myAwards_block_image}>
-                                        <img src={awards.image} alt=""/>
-                                    </div>
-                                    <div className={styles.promo_info}>
-                                        <h2>{awards.gift}</h2>
-                                        <div className={styles.promo_info_button} style={{width: '138px'}}>
-                                            Рубиков <span>{awards.price}</span>
+                                <div className={styles.myAwards_block} key={awards.id}>
+                                    <div className={styles.flex}>
+                                        <div className={styles.myAwards_block_image}>
+                                            <img src={awards.image} alt=""/>
                                         </div>
-                                    </div>
-                                    <div className={styles.promo_code}>
-                                        <div className={`${styles.promo_code_copy} ${copiedPromo === awards.promo_code ? styles.promo_code_copy_Copied : ''}`}>
-                                            {
-                                                copiedPromo === awards.promo_code && (
-                                                    <div className={styles.promoMessage}>
-                                                        Промокод скопирован
-                                                    </div>
-                                                )
-                                            }
-                                            <p>{awards.promo_code}</p>
-                                            <div className={styles.promo_code_copy_round} onClick={() => copyToClipboard(awards.promo_code)}>
-                                                <img src={copy} alt=""/>
+                                        <div className={styles.promo_info}>
+                                            <h2>{awards.gift}</h2>
+                                            <div className={styles.promo_info_button} style={{width: '138px'}}>
+                                                Рубиков <span>{awards.price}</span>
                                             </div>
+                                            {awards.is_material === 1 ? (
+                                                <p>
+                                                    Скопируйте промокод и воспользуйтесь им на сайте: <a href='https://store.rubin-kazan.ru'>https://store.rubin-kazan.ru</a> для получения бонуса.
+                                                </p>
+                                            ) : (
+                                                <p>
+                                                    Для получения вознаграждения свяжитесь по почте rubinkids@yandex.ru
+                                                </p>
+                                            )}
                                         </div>
-                                        <Link to='https://store.rubin-kazan.ru' target='_blank'>
-                                            <div className={styles.promo_code_go}>
-                                                <img src={gosomewhere} alt=""/>
+                                        <div className={styles.promo_code}>
+                                            <div className={`${styles.promo_code_copy} ${copiedPromo === awards.promo_code ? styles.promo_code_copy_Copied : ''}`}>
+                                                {
+                                                    copiedPromo === awards.promo_code && (
+                                                        <div className={styles.promoMessage}>
+                                                            Промокод скопирован
+                                                        </div>
+                                                    )
+                                                }
+                                                <p>{awards.promo_code}</p>
+                                                <div className={styles.promo_code_copy_round} onClick={() => copyToClipboard(awards.promo_code)}>
+                                                    <img src={copy} alt=""/>
+                                                </div>
                                             </div>
-                                        </Link>
+                                            <Link to='https://store.rubin-kazan.ru' target='_blank'>
+                                                <div className={styles.promo_code_go}>
+                                                    <img src={gosomewhere} alt=""/>
+                                                </div>
+                                            </Link>
+                                        </div>
                                     </div>
                                 </div>
                             ))}
