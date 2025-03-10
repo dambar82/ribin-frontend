@@ -23,13 +23,11 @@ const ContestCard = ({title, image, status, short_description, start_date, end_d
                         {title}
                     </h3>
                     {status === 1 ? (
-                        <div className='orange_button'>
-                            Активен
-                        </div>
+                        <div className='orange_button'>Активен</div>
+                    ) : status === 2 ? (
+                        <div className='gray_button'>Завершён</div>
                     ) : (
-                        <div className='gray_button'>
-                            Завершён
-                        </div>
+                        <div className='orange_button'>Подведение итогов</div>
                     )}
                 </div>
                 <div className={styles.card__right_content}>

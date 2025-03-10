@@ -136,13 +136,11 @@ const ContestPage = () => {
                                 {contest?.name}
                             </h3>
                             {contest?.status === 1 ? (
-                                <div className='orange_button'>
-                                    Идёт приём работ
-                                </div>
+                                <div className='orange_button'>Идёт приём работ</div>
+                            ) : contest?.status === 2 ? (
+                                <div className='gray_button'>Завершён</div>
                             ) : (
-                                <div className='gray_button'>
-                                    Завершён
-                                </div>
+                                <div className='orange_button'>Подведение итогов</div>
                             )}
                         </div>
                         <div className={styles.card__right_footer}>
