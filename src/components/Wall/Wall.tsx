@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react'
+import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react'
 import styles from './Wall.module.scss';
 
 import loupeIcon from '../../images/svg/loupe.svg'
@@ -102,6 +102,7 @@ const Wall = ({type, posts, editable = true, clubId, joined}: IWall) => {
     const [videoLink, setVideoLink] = useState('');
     const [symbols, setSymbols] = useState(false);
     const [incorrectWords, setIncorrectWords] = useState(false);
+    const [samePost, setSamePost] = useState(false);
     const textareaRef = useRef(null);
     const [isValid, setIsValid] = useState(true);
     const fileInputRef = useRef<HTMLInputElement>(null);
@@ -110,20 +111,11 @@ const Wall = ({type, posts, editable = true, clubId, joined}: IWall) => {
     const formRef = useRef(null);
     const [notification, setNotification] = useState({visible: false, data: null});
     const [autoCloseTimeout, setAutoCloseTimeout] = React.useState<NodeJS.Timeout | null>(null);
-    const [currentPage, setCurrentPage] = useState(1);
+    const [loadedPosts, setLoadedPosts] = useState([]);
+    const [hasMore, setHasMore] = useState(true);
+    const observer = useRef();
     const postsPerPage = 15;
-
-    const handleNextPage = () => {
-        if (currentPage < Math.ceil(sortedAllPosts.length / postsPerPage)) {
-            setCurrentPage(currentPage + 1);
-        }
-    };
-
-    const handlePreviousPage = () => {
-        if (currentPage > 1) {
-            setCurrentPage(currentPage - 1);
-        }
-    };
+    const pageRef = useRef(1);
 
     useEffect(() => {
         if (textareaRef.current) {
@@ -136,6 +128,56 @@ const Wall = ({type, posts, editable = true, clubId, joined}: IWall) => {
     useEffect(() => {
         dispatch(fetchPeople());
     }, [dispatch]);
+
+    useEffect(() => {
+        loadMorePosts();
+    }, [posts]);
+
+    const filteredPosts = (posts: IPost[]) => {
+        return posts.filter(post => {
+            if (!searchTerm) {
+                return true;
+            }
+            return post.description && post.description.toLowerCase().includes(searchTerm.toLowerCase());
+        });
+    };
+
+    const filteredSortedPosts = useMemo(() => {
+        return sortPosts(filteredPosts(posts.all), sortType);
+    }, [posts.all, searchTerm, sortType]);
+
+    const loadMorePosts = () => {
+        const nextPagePosts = filteredSortedPosts.slice((pageRef.current - 1) * postsPerPage, pageRef.current * postsPerPage);
+        if (nextPagePosts.length > 0) {
+            setLoadedPosts((prev) => [...prev, ...nextPagePosts]);
+            pageRef.current += 1;
+        } else {
+            setHasMore(false);
+        }
+    };
+
+    useEffect(() => {
+        setLoadedPosts([]); // Очищаем загруженные посты
+        pageRef.current = 1; // Начинаем с первой страницы
+        setHasMore(true);
+        loadMorePosts(); // Загружаем новые данные
+    }, [searchTerm, sortType]);
+
+    const lastPostRef = useCallback((node) => {
+        if (observer.current) { // @ts-ignore
+            observer.current.disconnect();
+        }
+        // @ts-ignore
+        observer.current = new IntersectionObserver((entries) => {
+            if (entries[0].isIntersecting && hasMore) {
+                loadMorePosts();
+            }
+        });
+        if (node) { // @ts-ignore
+            observer.current.observe(node);
+        }
+    }, [hasMore]);
+
 
     const handleFileChange = ( e: React.ChangeEvent<HTMLInputElement> ) => {
         const file = e.target.files[0]
@@ -152,15 +194,6 @@ const Wall = ({type, posts, editable = true, clubId, joined}: IWall) => {
           return [...prev]
         })
     }
-
-    const filteredPosts = (posts: IPost[]) => {
-        return posts.filter(post => {
-            if (!searchTerm) {
-                return true;
-            }
-            return post.description && post.description.toLowerCase().includes(searchTerm.toLowerCase());
-        });
-    };
 
     const validateVideoLink = (link) => {
      //   if (link.trim() === '') return true;
@@ -236,6 +269,7 @@ const Wall = ({type, posts, editable = true, clubId, joined}: IWall) => {
     }
 
     useEffect(() => {
+        console.log(sortedAllPosts)
     }, [sortedAllPosts])
 
     const onSubmit = async ( e: React.FormEvent<HTMLFormElement> ) => {
@@ -262,23 +296,30 @@ const Wall = ({type, posts, editable = true, clubId, joined}: IWall) => {
                 try {
                     if (type !== 'club') {
                         const newPost = await dispatch(createPost(formData)).unwrap();
-                        if (newPost !== 'Вы используете не допустимые слова. Измените текст и повторите попытку.') {
+                        console.log('new post', newPost);
+                        if (newPost === 'Вы используете не допустимые слова. Измените текст и повторите попытку.') {
+                            setIncorrectWords(true);
+                            setTimeout(() => {
+                                setIncorrectWords(false);
+                            }, 2000)
+                            return
+                        } else if (newPost === 'Данный пост был опубликован ранее.') {
+                            console.log('we here')
+                            setSamePost(true);
+                            setTimeout(() => {
+                                setSamePost(false);
+                            }, 2000)
+                            return
+                        } else {
                             dispatch(addPost(newPost));
 
                             const response = await axios.get(`https://api-rubin.multfilm.tatar/api/messages/rubick_notification/more`, {headers: {Authorization: `Bearer ${token}`}});
                             if (response.data) {
                                 setNotification({visible: true, data: response.data})
                                 setTimeout(() => {
-                                    setNotification({ visible: false, data: response.data });
+                                    setNotification({visible: false, data: response.data});
                                 }, 8000);
                             }
-
-                        } else {
-                            setIncorrectWords(true);
-                            setTimeout(() => {
-                                setIncorrectWords(false);
-                            }, 2000)
-                            return
                         }
                     } else {
                         const newPost = await dispatch(createPostInClub({clubId, formData})).unwrap();
@@ -322,11 +363,6 @@ const Wall = ({type, posts, editable = true, clubId, joined}: IWall) => {
         }
     }
 
-    const paginatedPosts = sortedAllPosts.slice(
-        (currentPage - 1) * postsPerPage,
-        currentPage * postsPerPage
-    );
-
     return (
         <div className={styles.wall}>
             <nav className={styles.wall__nav}>
@@ -357,8 +393,6 @@ const Wall = ({type, posts, editable = true, clubId, joined}: IWall) => {
                                   >
                                   </textarea>
                                     <div className={styles.textarea_wrapper_low}>
-                                        {/*{*/}
-                                        {/*    files.length <= MAX_COUNT_FILES_IN_FORM && textareaValue.length > 0 &&*/}
                                             <div className={`${styles.wall__feedFormFileField} ${files.length <= MAX_COUNT_FILES_IN_FORM && textareaValue.length > 0 ? styles.show : ''}`}
                                                  onClick={() => fileInputRef.current?.click()}
                                                  title='Прикрепить картинку'
@@ -402,22 +436,16 @@ const Wall = ({type, posts, editable = true, clubId, joined}: IWall) => {
                                             )
                                         }
                                         {
-                                            incorrectWords && (
-                                                <div className={`${styles.symbols_message} ${incorrectWords ? styles.show : ''}`}>
-                                                    Вы используете недопустимые слова. Измените текст и повторите попытку.
+                                            (incorrectWords || samePost) && (
+                                                <div className={`${styles.symbols_message} ${(incorrectWords || samePost) ? styles.show : ''}`}>
+                                                    {incorrectWords ? 'Вы используете недопустимые слова. Измените текст и повторите попытку.' : 'Данный пост был опубликован ранее.'}
                                                 </div>
                                             )
                                         }
-                                        {/*{*/}
-                                        {/*    textareaValue.length < 60 && textareaValue.length > 0 && (*/}
-                                                <span className={`${styles.symbol_counter} ${symbols && styles.symbol_counterRED} ${textareaValue.length < 60 && textareaValue.length > 0 ? styles.show : ''}`}>{textareaValue.length}/60</span>
-                                        {/*    )*/}
-                                        {/*}*/}
-                                        {/*{textareaValue.length > 0 && (*/}
+                                        <span className={`${styles.symbol_counter} ${symbols && styles.symbol_counterRED} ${textareaValue.length < 60 && textareaValue.length > 0 ? styles.show : ''}`}>{textareaValue.length}/60</span>
                                         <Button
                                             className={`${styles.submit_button} ${textareaValue.length > 0 ? styles.show : ''}`}
                                             type="submit"
-                                     //       onClick={formRef.current?.submit()}
                                         >
                                             Отправить 
                                         </Button>
@@ -465,9 +493,10 @@ const Wall = ({type, posts, editable = true, clubId, joined}: IWall) => {
                                 </div>
                             </form>
                         }
-                        {paginatedPosts.length ? paginatedPosts.map((post, index) => (
+                        {loadedPosts.length ? loadedPosts.map((post, index) => (
+                            <div key={post.id} ref={index === loadedPosts.length - 1 ? lastPostRef : null}>
                             <Post
-                                key={post.id}
+                               // key={post.id}
                                 id={post.id}
                                 name={post.client.name}
                                 surname={post.client.surname}
@@ -486,6 +515,7 @@ const Wall = ({type, posts, editable = true, clubId, joined}: IWall) => {
                                 handleSetNotification={handleSetNotification}
                             >
                             </Post>
+                            </div>
                         )) : null}
                     </div>
                 )}
@@ -544,15 +574,6 @@ const Wall = ({type, posts, editable = true, clubId, joined}: IWall) => {
                         )) : null}
                     </div>
                 )}
-                <div className={styles.pagination}>
-                    <button onClick={handlePreviousPage} disabled={currentPage === 1}>
-                        Назад
-                    </button>
-                    <span>{currentPage} / {Math.ceil(sortedAllPosts.length / postsPerPage)}</span>
-                    <button onClick={handleNextPage} disabled={currentPage === Math.ceil(sortedAllPosts.length / postsPerPage)}>
-                        Вперед
-                    </button>
-                </div>
             </div>
             <aside className={ type === "post" || type === "club" || type ==="profile" ? styles.wall__aside : `${styles.wall__aside} ${styles.wall__aside_sticky}`}>
                 <div className={styles.wall__asideBlock}>
