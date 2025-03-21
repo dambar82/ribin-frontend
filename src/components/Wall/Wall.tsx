@@ -260,17 +260,9 @@ const Wall = ({type, posts, editable = true, clubId, joined}: IWall) => {
         setAutoCloseTimeout(timeout);
     };
 
-    const sortedAllPosts = sortPosts(filteredPosts(posts.all), sortType);
-    const sortedVideoPosts = sortPosts(filteredPosts(posts.video), sortType);
-    const sortedImagePosts = sortPosts(filteredPosts(posts.image), sortType);
-
     const deleteFile = ( fileId: number ) => {
       setFiles(prev => prev.filter(el => el.id !== fileId))
     }
-
-    useEffect(() => {
-        console.log(sortedAllPosts)
-    }, [sortedAllPosts])
 
     const onSubmit = async ( e: React.FormEvent<HTMLFormElement> ) => {
       e.preventDefault()
@@ -521,58 +513,6 @@ const Wall = ({type, posts, editable = true, clubId, joined}: IWall) => {
                 )}
                 {feedType === 1 && (
                     <p>Здесь должны быть комментарии</p>
-                )}
-                {feedType === 2 && (
-                    <div className={styles.wall__feed}>
-                        {sortedVideoPosts.length ? sortedVideoPosts.map((post, index) => (
-                            <Post
-                                key={post.id}
-                                id={post.id}
-                                name={post.client.name}
-                                surname={post.client.surname}
-                                avatar={post.client.avatar}
-                                verified={post.client.verified}
-                                videos={videos}
-                                tags={null}
-                                source={post.source}
-                                comments={post.comments}
-                                likes={post.likes_count}
-                                liked_by={post.liked_by}
-                                title={post.description + videos.join(' ')}
-                                updated_at={post.created_at}
-                                type={'video'}
-                                created_by={post.client.id}
-                                handleSetNotification={handleSetNotification}
-                            >
-                            </Post>
-                        )) : null}
-                    </div>
-                )}
-                {feedType === 3 && (
-                    <div className={styles.wall__feed}>
-                        {sortedImagePosts.length ? sortedImagePosts.map((post, index) => (
-                            <Post
-                                key={post.id}
-                                id={post.id}
-                                name={post.client.name}
-                                surname={post.client.surname}
-                                avatar={post.client.avatar}
-                                verified={post.client.verified}
-                                videos={videos}
-                                tags={null}
-                                source={post.source}
-                                comments={post.comments}
-                                likes={post.likes_count}
-                                liked_by={post.liked_by}
-                                title={post.description}
-                                updated_at={post.created_at}
-                                type={'image'}
-                                created_by={post.client.id}
-                                handleSetNotification={handleSetNotification}
-                            >
-                            </Post>
-                        )) : null}
-                    </div>
                 )}
             </div>
             <aside className={ type === "post" || type === "club" || type ==="profile" ? styles.wall__aside : `${styles.wall__aside} ${styles.wall__aside_sticky}`}>
