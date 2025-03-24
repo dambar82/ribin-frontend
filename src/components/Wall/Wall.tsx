@@ -9,7 +9,7 @@ import attachVideo from '../../images/svg/attachVideo.svg';
 
 import Select from 'react-select';
 
-import {addPost, createPost, createPostInClub, IPost, PostAnswer} from "../../store/postSlice";
+import {addPost, createPost, createPostInClub, IPost} from "../../store/postSlice";
 import Post from '../Post/Post';
 import {Button} from '../../shared/UI'
 import {useAppDispatch} from "../../store/hooks";
@@ -23,7 +23,7 @@ import NotificationPost from "../Notification/NotificationPost";
 
 
 interface IWall {
-    posts: PostAnswer;
+    posts: IPost[];
     type: string;
     editable?: boolean;
     clubId?: number;
@@ -143,8 +143,8 @@ const Wall = ({type, posts, editable = true, clubId, joined}: IWall) => {
     };
 
     const filteredSortedPosts = useMemo(() => {
-        return sortPosts(filteredPosts(posts.all), sortType);
-    }, [posts.all, searchTerm, sortType]);
+        return sortPosts(filteredPosts(posts), sortType);
+    }, [posts, searchTerm, sortType]);
 
     const loadMorePosts = () => {
         const nextPagePosts = filteredSortedPosts.slice((pageRef.current - 1) * postsPerPage, pageRef.current * postsPerPage);

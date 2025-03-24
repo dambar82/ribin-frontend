@@ -64,7 +64,7 @@ function srcset(image: string, size: number, rows = 1, cols = 1) {
     };
 }
 
-const Post = ({ id, name, surname, avatar, created_by, source, tags, comments, verified, title, videos, likes, liked_by, updated_at, type, handleSetNotification }: ICard) => {
+const Post = ({ id, name, surname, avatar, created_by, source, tags, comments, verified, title, videos, likes, liked_by, updated_at, handleSetNotification }: ICard) => {
 
     const dispatch = useAppDispatch();
     const [isOpen, setIsOpen] = useState(false);
@@ -82,7 +82,7 @@ const Post = ({ id, name, surname, avatar, created_by, source, tags, comments, v
     const [incorrectWordsPost, setIncorrectWordsPost] = useState(false);
     const contentRef = useRef(null);
     const navigate = useNavigate();
-    const post = useSelector((state: RootState) => state.post.posts[type].find(post => post.id === id));
+    const post = useSelector((state: RootState) => state.post.posts.find(post => post.id === id));
     const user = useSelector((state: RootState) => state.user);
 
     const [isLiked, setIsLiked] = useState(() => {
@@ -171,7 +171,7 @@ const Post = ({ id, name, surname, avatar, created_by, source, tags, comments, v
 
     const handleLikeClick = () => {
         if (post) {
-            dispatch(toggleLikeAsync({postId: id, postType: type, userId: user.user.id}))
+            dispatch(toggleLikeAsync({postId: id, userId: user.user.id}))
                 .unwrap()
                 .then(() => {
                     setIsLiked(!isLiked);

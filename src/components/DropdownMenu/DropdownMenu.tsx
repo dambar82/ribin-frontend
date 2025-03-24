@@ -1,6 +1,6 @@
 import {useEffect, useState} from 'react'
 import styles from './DropdownMenu.module.scss'
-import {PostAnswer, sendCommentComplaint, sendPostComplaint} from "../../store/postSlice";
+import {sendCommentComplaint, sendPostComplaint} from "../../store/postSlice";
 import { Button, Modal } from '../../shared/UI'
 import { useAppDispatch, useAppSelector } from '../../store/hooks'
 import { classNames, getFormData } from '../../shared/utils'

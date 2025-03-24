@@ -325,12 +325,19 @@ const MainPage: React.FC = () => {
                                 nextEl: '.button--next'
                             }}
                         >
-                            {posts.image.map((item, index) => (
-                                <SwiperSlide key={index}>
-                                    <Link to='/posts'>
-                                        <PostCard text={item.description} image={item.source[0]} created_at={item.created_at} client={item.client}/>
-                                    </Link>
-                                </SwiperSlide>
+                            {posts
+                                .filter(item => item.source && item.source.length > 0)
+                                .map((item, index) => (
+                                    <SwiperSlide key={index}>
+                                        <Link to='/posts'>
+                                            <PostCard
+                                                text={item.description}
+                                                image={item.source[0]}
+                                                created_at={item.created_at}
+                                                client={item.client}
+                                            />
+                                        </Link>
+                                    </SwiperSlide>
                             ))}
                             {/*{[*/}
                             {/*    { text: 'Футбольный клуб "Рубин" — это не просто команда, это целая история, наполненная триумфами, испытаниями и великими победами. В этой записи я расскажу вам о том, как начинался путь "Рубина" и как клуб стал тем, кем он является сегодня.', image: "/images/post-card-01.png" },*/}

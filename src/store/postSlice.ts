@@ -15,14 +15,14 @@ export interface IPost {
     created_at: string;
 }
 
-export interface PostAnswer {
-    all: IPost[];
-    image: IPost[];
-    video: IPost[];
-}
+// export interface PostAnswer {
+//     all: IPost[];
+//     image: IPost[];
+//     video: IPost[];
+// }
 
 interface PostState {
-    posts: PostAnswer;
+    posts: IPost[];
     complaint_types:  {id:number,title:string}[]
     status: 'idle' | 'loading' | 'succeeded' | 'failed';
     error: string | null;
@@ -30,11 +30,7 @@ interface PostState {
 }
 
 const initialState: PostState = {
-    posts: {
-        all: [],
-        image: [],
-        video: []
-    },
+    posts: [],
     complaint_types: [],
     status: 'idle',
     error: null,
@@ -60,23 +56,25 @@ const token = JSON.parse(localStorage.getItem('token') || '0')
 // })
 
 export const fetchPosts = createAsyncThunk('post/fetchPosts', async () => {
-    const response = await $api.get('/api/posts');
-    return response.data as PostAnswer;
+    const response = await $api.get('/api/posts?page');
+    console.log(response.data.data)
+    return response.data.data as IPost[];
 })
 
 export const fetchPostsByUserId = createAsyncThunk('post/fetchPostsByUserId', async ({userId} : { userId: number }) => {
     const response = await $api.get(`/api/reposts/${userId}`)
-    return response.data as PostAnswer;
+    console.log(response.data.data)
+    return response.data as IPost[];
 })
 
 export const fetchPostsByClubId = createAsyncThunk('post/fetchPostsByClubId', async ({clubId} : {clubId: number}) => {
     const response = await $api.get(`https://api-rubin.multfilm.tatar/api/club/posts/${clubId}`)
-    return response.data as PostAnswer;
+    return response.data as IPost[];
 })
 
 export const createPostInClub = createAsyncThunk('post/createPostInClub', async ({clubId, formData} : {clubId: number, formData: FormData}) => {
     const response = await $api.post(`https://api-rubin.multfilm.tatar/api/club/${clubId}/posts`, formData)
-    return response.data as PostAnswer;
+    return response.data as IPost[];
 })
 
 export const deletePostAsync = createAsyncThunk('post/deletePost', async ({postId}: {postId: number}) => {
@@ -124,7 +122,7 @@ export const commentLikeAsync = createAsyncThunk(
 
 export const toggleLikeAsync = createAsyncThunk(
     'posts/toggleLikeAsync',
-    async ({ postId, postType, userId }: { postId: number, postType: 'all' | 'image' | 'video', userId: number }, { dispatch }) => {
+    async ({ postId, userId }: { postId: number, userId: number }, { dispatch }) => {
         try {
             await axios.post(
                 `https://api-rubin.multfilm.tatar/api/posts/${postId}/like`,
@@ -137,7 +135,7 @@ export const toggleLikeAsync = createAsyncThunk(
             ).then(res =>{
                 const count =  res.data.count;
 
-                dispatch(addLike({ postId, postType, count }));
+                dispatch(addLike({ postId, count }));
 
             });
         } catch (error) {
@@ -175,13 +173,13 @@ const postSlice = createSlice({
     initialState,
     reducers: {
         addPost: (state, action: any) => {
-            state.posts.all = [action.payload, ...state.posts.all]; // Добавляем новый пост в начало массива
+            state.posts = [action.payload, ...state.posts]; // Добавляем новый пост в начало массива
         },
         addComment: (state, action: any) => {
         },
-        addLike: (state, action: PayloadAction<{ postId: number, postType: 'all' | 'image' | 'video' , count: number | null}>) => {
-            const { postId, postType, count } = action.payload;
-            const postsArray = state.posts[postType];
+        addLike: (state, action: PayloadAction<{ postId: number, count: number | null}>) => {
+            const { postId, count } = action.payload;
+            const postsArray = state.posts;
             const post = postsArray.find(p => p.id === postId);
             if (post) {
 
@@ -192,49 +190,37 @@ const postSlice = createSlice({
         },
         deletePost: (state, action: PayloadAction<{ postId: number }>) => {
             const { postId } = action.payload;
-            state.posts.all = state.posts.all.filter(post => post.id !== postId);
-            state.posts.image = state.posts.image.filter(post => post.id !== postId);
-            state.posts.video = state.posts.video.filter(post => post.id !== postId);
+            state.posts = state.posts.filter(post => post.id !== postId);
+            // state.posts.image = state.posts.image.filter(post => post.id !== postId);
+            // state.posts.video = state.posts.video.filter(post => post.id !== postId);
         },
     },
     extraReducers: (builder) => {
         builder
             .addCase(fetchPosts.pending, (state) => {
-                state.posts = {
-                    all: [],
-                    video: [],
-                    image: []
-                };
+                state.posts = [];
                 state.status = 'loading';
             })
             .addCase(fetchPostsByUserId.pending, (state) => {
-                state.posts = {
-                    all: [],
-                    video: [],
-                    image: []
-                };
+                state.posts = [];
                 state.status = 'loading';
             })
             .addCase(fetchPostsByClubId.pending, (state) => {
-                state.posts = {
-                    all: [],
-                    video: [],
-                    image: []
-                };
+                state.posts = [];
                 state.status = 'loading';
             })
-            .addCase(fetchPosts.fulfilled, (state, action: PayloadAction<PostAnswer>) => {
+            .addCase(fetchPosts.fulfilled, (state, action: PayloadAction<IPost[]>) => {
                 // @ts-ignore
                 state.posts = action.payload;
                 state.status = 'succeeded';
                 state.error = null;
             })
-            .addCase(fetchPostsByUserId.fulfilled, (state, action: PayloadAction<PostAnswer>) => {
+            .addCase(fetchPostsByUserId.fulfilled, (state, action: PayloadAction<IPost[]>) => {
                 state.posts = action.payload;
                 state.status = 'succeeded';
                 state.error = null;
             })
-            .addCase(fetchPostsByClubId.fulfilled, (state, action: PayloadAction<PostAnswer>) => {
+            .addCase(fetchPostsByClubId.fulfilled, (state, action: PayloadAction<IPost[]>) => {
                 state.posts = action.payload;
                 state.status = 'succeeded';
                 state.error = null;
