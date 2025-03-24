@@ -39,6 +39,7 @@ import {MemoryGame} from "../../components/MemoryGame/MemoryGame";
 import kazanorgsintez from '../../images/svg/Казань Оргсинтез.svg';
 import neftehim from '../../images/svg/Нижнекамск нефтехим.svg';
 import { User } from '../../store/userSlice'
+import axios from "axios";
 
 const sponsors = [
     kazanorgsintez, neftehim
@@ -61,7 +62,7 @@ const MainPage: React.FC = () => {
     const dispatch = useDispatch<AppDispatch>();
     const { news } = useSelector((state: RootState) => state.news);
     const { contestStatus, contests } = useSelector((state: RootState) => state.contests)
-    const { posts } = useSelector((state: RootState) => state.post)
+    //const { posts } = useSelector((state: RootState) => state.post)
     const { people } = useSelector((state: RootState) => state.people)
     const {status: clubStatus, clubs } = useSelector((state: RootState) => state.clubs);
     const user = useSelector((state: RootState) => state.user.user);
@@ -86,8 +87,13 @@ const MainPage: React.FC = () => {
     }, [isAuth, contestStatus, dispatch])
 
     useEffect(() => {
-        dispatch(fetchPosts())
+   //     dispatch(fetchPosts())
         dispatch(fetchPeople())
+        const fetchPostsImages = async () => {
+            const response = await axios.get('https://api-rubin.multfilm.tatar/api/posts_images');
+            setPostsImage(response.data.data);
+        }
+        fetchPostsImages();
     }, [])
 
     const sortedNews = news
@@ -325,8 +331,7 @@ const MainPage: React.FC = () => {
                                 nextEl: '.button--next'
                             }}
                         >
-                            {posts
-                                .filter(item => item.source && item.source.length > 0)
+                            {postsImage
                                 .map((item, index) => (
                                     <SwiperSlide key={index}>
                                         <Link to='/posts'>

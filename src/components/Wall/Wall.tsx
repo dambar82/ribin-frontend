@@ -129,10 +129,6 @@ const Wall = ({type, posts, editable = true, clubId, joined}: IWall) => {
         dispatch(fetchPeople());
     }, [dispatch]);
 
-    useEffect(() => {
-        loadMorePosts();
-    }, [posts]);
-
     const filteredPosts = (posts: IPost[]) => {
         return posts.filter(post => {
             if (!searchTerm) {
@@ -145,39 +141,6 @@ const Wall = ({type, posts, editable = true, clubId, joined}: IWall) => {
     const filteredSortedPosts = useMemo(() => {
         return sortPosts(filteredPosts(posts), sortType);
     }, [posts, searchTerm, sortType]);
-
-    const loadMorePosts = () => {
-        const nextPagePosts = filteredSortedPosts.slice((pageRef.current - 1) * postsPerPage, pageRef.current * postsPerPage);
-        if (nextPagePosts.length > 0) {
-            setLoadedPosts((prev) => [...prev, ...nextPagePosts]);
-            pageRef.current += 1;
-        } else {
-            setHasMore(false);
-        }
-    };
-
-    useEffect(() => {
-        setLoadedPosts([]); // Очищаем загруженные посты
-        pageRef.current = 1; // Начинаем с первой страницы
-        setHasMore(true);
-        loadMorePosts(); // Загружаем новые данные
-    }, [searchTerm, sortType]);
-
-    const lastPostRef = useCallback((node) => {
-        if (observer.current) { // @ts-ignore
-            observer.current.disconnect();
-        }
-        // @ts-ignore
-        observer.current = new IntersectionObserver((entries) => {
-            if (entries[0].isIntersecting && hasMore) {
-                loadMorePosts();
-            }
-        });
-        if (node) { // @ts-ignore
-            observer.current.observe(node);
-        }
-    }, [hasMore]);
-
 
     const handleFileChange = ( e: React.ChangeEvent<HTMLInputElement> ) => {
         const file = e.target.files[0]
@@ -304,7 +267,7 @@ const Wall = ({type, posts, editable = true, clubId, joined}: IWall) => {
                             return
                         } else {
                             dispatch(addPost(newPost));
-
+                          //  setLoadedPosts([...loadedPosts, newPost])
                             const response = await axios.get(`https://api-rubin.multfilm.tatar/api/messages/rubick_notification/more`, {headers: {Authorization: `Bearer ${token}`}});
                             if (response.data) {
                                 setNotification({visible: true, data: response.data})
@@ -485,10 +448,10 @@ const Wall = ({type, posts, editable = true, clubId, joined}: IWall) => {
                                 </div>
                             </form>
                         }
-                        {loadedPosts.length ? loadedPosts.map((post, index) => (
-                            <div key={post.id} ref={index === loadedPosts.length - 1 ? lastPostRef : null}>
+                        {filteredSortedPosts.length ? filteredSortedPosts.map((post, index) => (
+                            // <div key={post.id} ref={index === loadedPosts.length - 1 ? lastPostRef : null}>
                             <Post
-                               // key={post.id}
+                                key={`${post.id}${index}`}
                                 id={post.id}
                                 name={post.client.name}
                                 surname={post.client.surname}
@@ -507,7 +470,7 @@ const Wall = ({type, posts, editable = true, clubId, joined}: IWall) => {
                                 handleSetNotification={handleSetNotification}
                             >
                             </Post>
-                            </div>
+                            // </div>
                         )) : null}
                     </div>
                 )}

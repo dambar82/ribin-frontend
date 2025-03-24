@@ -55,8 +55,8 @@ const token = JSON.parse(localStorage.getItem('token') || '0')
 //     await axios.post('https://rubin/api/club/1/comments')
 // })
 
-export const fetchPosts = createAsyncThunk('post/fetchPosts', async () => {
-    const response = await $api.get('/api/posts?page');
+export const fetchPosts = createAsyncThunk('post/fetchPosts', async (page: number) => {
+    const response = await $api.get(`/api/posts?page=${page}`);
     //console.log(response.data.data)
     return response.data.data as IPost[];
 })
@@ -173,7 +173,9 @@ const postSlice = createSlice({
     initialState,
     reducers: {
         addPost: (state, action: any) => {
+            console.log('payload', action.payload)
             state.posts = [action.payload, ...state.posts]; // Добавляем новый пост в начало массива
+            console.log('state posts', state.posts)
         },
         addComment: (state, action: any) => {
         },
@@ -198,30 +200,30 @@ const postSlice = createSlice({
     extraReducers: (builder) => {
         builder
             .addCase(fetchPosts.pending, (state) => {
-                state.posts = [];
+          //      state.posts = [];
                 state.status = 'loading';
             })
             .addCase(fetchPostsByUserId.pending, (state) => {
-                state.posts = [];
+         //       state.posts = [];
                 state.status = 'loading';
             })
             .addCase(fetchPostsByClubId.pending, (state) => {
-                state.posts = [];
+          //      state.posts = [];
                 state.status = 'loading';
             })
             .addCase(fetchPosts.fulfilled, (state, action: PayloadAction<IPost[]>) => {
                 // @ts-ignore
-                state.posts = action.payload;
+                state.posts = [...state.posts, ...action.payload];
                 state.status = 'succeeded';
                 state.error = null;
             })
             .addCase(fetchPostsByUserId.fulfilled, (state, action: PayloadAction<IPost[]>) => {
-                state.posts = action.payload;
+                state.posts = [...state.posts, ...action.payload];
                 state.status = 'succeeded';
                 state.error = null;
             })
             .addCase(fetchPostsByClubId.fulfilled, (state, action: PayloadAction<IPost[]>) => {
-                state.posts = action.payload;
+                state.posts = [...state.posts, ...action.payload];
                 state.status = 'succeeded';
                 state.error = null;
             })
