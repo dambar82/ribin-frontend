@@ -111,11 +111,6 @@ const Wall = ({type, posts, editable = true, clubId, joined}: IWall) => {
     const formRef = useRef(null);
     const [notification, setNotification] = useState({visible: false, data: null});
     const [autoCloseTimeout, setAutoCloseTimeout] = React.useState<NodeJS.Timeout | null>(null);
-    const [loadedPosts, setLoadedPosts] = useState([]);
-    const [hasMore, setHasMore] = useState(true);
-    const observer = useRef();
-    const postsPerPage = 15;
-    const pageRef = useRef(1);
 
     useEffect(() => {
         if (textareaRef.current) {
@@ -142,24 +137,73 @@ const Wall = ({type, posts, editable = true, clubId, joined}: IWall) => {
         return sortPosts(filteredPosts(posts), sortType);
     }, [posts, searchTerm, sortType]);
 
-    const handleFileChange = ( e: React.ChangeEvent<HTMLInputElement> ) => {
-        const file = e.target.files[0]
-        if ( !file ) return
+    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+
         if (file.size > 100 * 1024 * 1024) {
-            alert("Размер файла не должен превышать 30 MB")
-            return
+            alert("Размер файла не должен превышать 100 MB");
+            return;
         }
-        setFiles(prev => {
-          prev.push({
-            id: Date.now(),
-            file
-          })
-          return [...prev]
-        })
-    }
+
+        const compressImage = (file: File, maxSizeKB: number, callback: (compressedFile: File) => void) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+
+            reader.onload = (event) => {
+                const img = new Image();
+                img.src = event.target?.result as string;
+                img.onload = () => {
+                    const canvas = document.createElement("canvas");
+                    const ctx = canvas.getContext("2d");
+                    if (!ctx) return;
+
+                    const MAX_WIDTH = 1920; // Ограничение по ширине
+                    const MAX_HEIGHT = 1080; // Ограничение по высоте
+                    let width = img.width;
+                    let height = img.height;
+
+                    // Сохранение пропорций
+                    if (width > MAX_WIDTH || height > MAX_HEIGHT) {
+                        const aspectRatio = width / height;
+                        if (width > height) {
+                            width = MAX_WIDTH;
+                            height = Math.round(MAX_WIDTH / aspectRatio);
+                        } else {
+                            height = MAX_HEIGHT;
+                            width = Math.round(MAX_HEIGHT * aspectRatio);
+                        }
+                    }
+
+                    canvas.width = width;
+                    canvas.height = height;
+                    ctx.drawImage(img, 0, 0, width, height);
+
+                    let quality = 0.9;
+                    const tryCompression = () => {
+                        canvas.toBlob((blob) => {
+                            if (!blob) return;
+                            if (blob.size / 1024 <= maxSizeKB || quality <= 0.1) {
+                                const compressedFile = new File([blob], file.name, { type: "image/jpeg" });
+                                callback(compressedFile);
+                            } else {
+                                quality -= 0.1;
+                                tryCompression();
+                            }
+                        }, "image/jpeg", quality);
+                    };
+
+                    tryCompression();
+                };
+            };
+        };
+
+        compressImage(file, 600, (compressedFile) => {
+            setFiles((prev) => [...prev, { id: Date.now(), file: compressedFile }]);
+        });
+    };
 
     const validateVideoLink = (link) => {
-     //   if (link.trim() === '') return true;
         const videoPattern = /^(https?:\/\/)?(www\.)?(youtube\.com|ok\.ru|vk\.com|rutube\.ru)\/.+/;
         return videoPattern.test(link);
     };

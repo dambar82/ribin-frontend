@@ -6,8 +6,6 @@ import {useDispatch, useSelector} from "react-redux";
 import {useAppDispatch} from "../../store/hooks";
 import {useCallback, useEffect, useRef, useState} from "react";
 import {fetchComplaintTypes, fetchPosts} from "../../store/postSlice";
-import {Box} from "@mui/material";
-import CircularProgress from "@mui/material/CircularProgress";
 
 const PostsPage = () => {
     const dispatch = useAppDispatch();
@@ -15,9 +13,8 @@ const PostsPage = () => {
     const [page, setPage] = useState(1);
     const observer = useRef<IntersectionObserver | null>(null);
 
-    const isFetching = useRef(false); // Флаг для предотвращения дублирующих запросов
+    const isFetching = useRef(false);
 
-    // Загружаем посты при изменении страницы
     useEffect(() => {
         isFetching.current = true;
         dispatch(fetchPosts(page)).finally(() => {
@@ -37,7 +34,6 @@ const PostsPage = () => {
             observer.current = new IntersectionObserver(
                 (entries) => {
                     if (entries[0].isIntersecting && !isFetching.current) {
-                        console.log('Last post visible, fetching next page');
                         isFetching.current = true; // Устанавливаем флаг сразу
                         setPage((prevPage) => prevPage + 1);
                     }
@@ -67,7 +63,7 @@ const PostsPage = () => {
                     type="post"
                     posts={posts}
                 />
-                <div ref={lastPostCallback} style={{ height: 20 }} />
+                <div ref={lastPostCallback} style={{ height: 20 }}/>
             </section>
         </div>
     )
