@@ -251,9 +251,7 @@ function App() {
                     />
                 ))}
                 {otherLayouts.map(({path, element, layout: Layout}) => (
-                    <Route>
                         <Route key={path} path={path} element={Layout ? <Layout>{element}</Layout> : element} />
-                    </Route>
                 ))}
                 {/*<Route*/}
                 {/*    path="/"*/}

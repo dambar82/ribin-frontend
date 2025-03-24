@@ -57,19 +57,19 @@ const token = JSON.parse(localStorage.getItem('token') || '0')
 
 export const fetchPosts = createAsyncThunk('post/fetchPosts', async () => {
     const response = await $api.get('/api/posts?page');
-    console.log(response.data.data)
+    //console.log(response.data.data)
     return response.data.data as IPost[];
 })
 
 export const fetchPostsByUserId = createAsyncThunk('post/fetchPostsByUserId', async ({userId} : { userId: number }) => {
     const response = await $api.get(`/api/reposts/${userId}`)
-    console.log(response.data.data)
     return response.data as IPost[];
 })
 
 export const fetchPostsByClubId = createAsyncThunk('post/fetchPostsByClubId', async ({clubId} : {clubId: number}) => {
     const response = await $api.get(`https://api-rubin.multfilm.tatar/api/club/posts/${clubId}`)
-    return response.data as IPost[];
+    //console.log('club id', response.data)
+    return response.data.data as IPost[];
 })
 
 export const createPostInClub = createAsyncThunk('post/createPostInClub', async ({clubId, formData} : {clubId: number, formData: FormData}) => {
