@@ -12,17 +12,25 @@ const PostsPage = () => {
     const { posts, status, error } = useSelector((state: RootState) => state.post);
     const [page, setPage] = useState(1);
     const observer = useRef<IntersectionObserver | null>(null);
-
+    const isFirstLoad = useRef(true);
     const isFetching = useRef(false);
 
     useEffect(() => {
+        if (!isFirstLoad.current) return; // ✅ Не загружаем заново, если уже загружали
+
+        isFirstLoad.current = false; // После первого запроса сбрасываем флаг
         isFetching.current = true;
         dispatch(fetchPosts(page)).finally(() => {
             setTimeout(() => {
                 isFetching.current = false;
             }, 300);
         });
-    }, [dispatch, page]);
+    }, [dispatch]);
+
+
+    useEffect(() => {
+        console.log('page', posts)
+    }, [posts])
 
     useEffect(() => {
         dispatch(fetchComplaintTypes());
@@ -34,8 +42,13 @@ const PostsPage = () => {
             observer.current = new IntersectionObserver(
                 (entries) => {
                     if (entries[0].isIntersecting && !isFetching.current) {
-                        isFetching.current = true; // Устанавливаем флаг сразу
+                        isFetching.current = true;
                         setPage((prevPage) => prevPage + 1);
+                        dispatch(fetchPosts(page + 1)).finally(() => {
+                            setTimeout(() => {
+                                isFetching.current = false;
+                            }, 300);
+                        });
                     }
                 },
                 { threshold: 1.0 }
@@ -43,7 +56,7 @@ const PostsPage = () => {
 
             if (node) observer.current.observe(node);
         },
-        []
+        [dispatch, page]
     );
 
     if (status === 'failed') {

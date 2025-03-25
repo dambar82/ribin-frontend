@@ -138,6 +138,10 @@ const Wall = ({type, posts, editable = true, clubId, joined}: IWall) => {
         return sortPosts(filteredPosts(posts), sortType);
     }, [posts, searchTerm, sortType]);
 
+    useEffect(() => {
+        console.log(filteredSortedPosts)
+    }, [filteredSortedPosts])
+
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
         if (!file) return;

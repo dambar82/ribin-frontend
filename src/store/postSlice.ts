@@ -211,19 +211,32 @@ const postSlice = createSlice({
             })
             .addCase(fetchPosts.fulfilled, (state, action: PayloadAction<IPost[]>) => {
                 // @ts-ignore
-                state.posts = [...state.posts, ...action.payload];
+                console.log('user action', action.payload)
                 state.status = 'succeeded';
                 state.error = null;
+                const newPosts = action.payload.filter(
+                    (newPost) => !state.posts.some((post) => post.id === newPost.id)
+                );
+
+                state.posts = [...state.posts, ...newPosts];
             })
             .addCase(fetchPostsByUserId.fulfilled, (state, action: PayloadAction<IPost[]>) => {
-                state.posts = [...state.posts, ...action.payload];
                 state.status = 'succeeded';
                 state.error = null;
+                const newPosts = action.payload.filter(
+                    (newPost) => !state.posts.some((post) => post.id === newPost.id)
+                );
+
+                state.posts = [...state.posts, ...newPosts];
             })
             .addCase(fetchPostsByClubId.fulfilled, (state, action: PayloadAction<IPost[]>) => {
-                state.posts = [...state.posts, ...action.payload];
                 state.status = 'succeeded';
                 state.error = null;
+                const newPosts = action.payload.filter(
+                    (newPost) => !state.posts.some((post) => post.id === newPost.id)
+                );
+
+                state.posts = [...state.posts, ...newPosts];
             })
             .addCase(fetchPosts.rejected, (state, action) => {
                 state.status = 'failed';
