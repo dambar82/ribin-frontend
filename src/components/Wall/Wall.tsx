@@ -158,12 +158,11 @@ const Wall = ({type, posts, editable = true, clubId, joined}: IWall) => {
                     const ctx = canvas.getContext("2d");
                     if (!ctx) return;
 
-                    const MAX_WIDTH = 1920; // Ограничение по ширине
-                    const MAX_HEIGHT = 1080; // Ограничение по высоте
+                    const MAX_WIDTH = 1920;
+                    const MAX_HEIGHT = 1080;
                     let width = img.width;
                     let height = img.height;
 
-                    // Сохранение пропорций
                     if (width > MAX_WIDTH || height > MAX_HEIGHT) {
                         const aspectRatio = width / height;
                         if (width > height) {
@@ -179,18 +178,20 @@ const Wall = ({type, posts, editable = true, clubId, joined}: IWall) => {
                     canvas.height = height;
                     ctx.drawImage(img, 0, 0, width, height);
 
-                    let quality = 0.9;
+                    const isPNG = file.type === "image/png";
+                    let quality = isPNG ? 1.0 : 0.9; // Для PNG — максимальное качество
+
                     const tryCompression = () => {
                         canvas.toBlob((blob) => {
                             if (!blob) return;
-                            if (blob.size / 1024 <= maxSizeKB || quality <= 0.1) {
-                                const compressedFile = new File([blob], file.name, { type: "image/jpeg" });
+                            if (blob.size / 1024 <= maxSizeKB || (!isPNG && quality <= 0.1)) {
+                                const compressedFile = new File([blob], file.name, { type: file.type });
                                 callback(compressedFile);
-                            } else {
+                            } else if (!isPNG) {
                                 quality -= 0.1;
                                 tryCompression();
                             }
-                        }, "image/jpeg", quality);
+                        }, isPNG ? "image/png" : "image/jpeg", quality);
                     };
 
                     tryCompression();
