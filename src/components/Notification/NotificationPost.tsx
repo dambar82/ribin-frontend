@@ -7,13 +7,17 @@ const NotificationPost = ({data, onClose, onMouseEnter, onMouseLeave}) => {
     const [bgColor, setBgColor] = useState('#48903A')
 
     useEffect(() => {
-        console.log('data type', data.data[0].type)
+        console.log('data type', data.data[0])
         if (data.data[0]?.type === 'rubicks_more') {
             setBgColor('#48903A')
         } else if (data.data[0]?.type === 'rubicks_less') {
             setBgColor('#E11F1F')
+        } else if (data.data[0]?.type === 'add_post_info') {
+            setBgColor('#48903A');
+        } else if (data.data[0]?.type === 'delete_post_info') {
+            setBgColor('#48903A');
         }
-    }, [data])
+     }, [data])
 
     return (
         <div
@@ -33,13 +37,21 @@ const NotificationPost = ({data, onClose, onMouseEnter, onMouseLeave}) => {
             </div>
             <div className={styles.mainContent}>
                 {
-                    bgColor === '#48903A' ? (
+                    data.data[0]?.type === 'rubicks_more' ? (
                         <h2 style={{color: 'white'}}>
                             Ура, Ваш баланс пополнился!
                         </h2>
-                    ) : (
+                    ) : data.data[0]?.type === 'rubicks_less' ? (
                         <h2 style={{color: 'white'}}>
                             С вашего баланса списаны рубики!
+                        </h2>
+                    ) : data.data[0]?.type === 'add_post_info' ? (
+                        <h2 style={{color: 'white'}}>
+                            Новый пост добавлен!
+                        </h2>
+                    ) : data.data[0]?.type === 'delete_post_info' && (
+                        <h2 style={{color: 'white'}}>
+                            Пост удалён!
                         </h2>
                     )
                 }

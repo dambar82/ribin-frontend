@@ -244,7 +244,6 @@ const Wall = ({type, posts, editable = true, clubId, joined}: IWall) => {
     };
 
     const handleSetNotification = (response) => {
-        console.log('notif resp', response)
         setNotification({visible: true, data: response})
         setTimeout(() => {
             setNotification({ visible: false, data: response });
@@ -298,7 +297,6 @@ const Wall = ({type, posts, editable = true, clubId, joined}: IWall) => {
                 try {
                     if (type !== 'club') {
                         const newPost = await dispatch(createPost(formData)).unwrap();
-                        console.log('new post', newPost);
                         if (newPost === 'Вы используете не допустимые слова. Измените текст и повторите попытку.') {
                             setIncorrectWords(true);
                             setTimeout(() => {
@@ -306,7 +304,6 @@ const Wall = ({type, posts, editable = true, clubId, joined}: IWall) => {
                             }, 2000)
                             return
                         } else if (newPost === 'Данный пост был опубликован ранее.') {
-                            console.log('we here')
                             setSamePost(true);
                             setTimeout(() => {
                                 setSamePost(false);
