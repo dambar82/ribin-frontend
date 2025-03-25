@@ -111,6 +111,7 @@ const Wall = ({type, posts, editable = true, clubId, joined}: IWall) => {
     const formRef = useRef(null);
     const [notification, setNotification] = useState({visible: false, data: null});
     const [autoCloseTimeout, setAutoCloseTimeout] = React.useState<NodeJS.Timeout | null>(null);
+    const [myPosts, setMyPosts] = useState([]);
 
     useEffect(() => {
         if (textareaRef.current) {
@@ -243,6 +244,7 @@ const Wall = ({type, posts, editable = true, clubId, joined}: IWall) => {
     };
 
     const handleSetNotification = (response) => {
+        console.log('notif resp', response)
         setNotification({visible: true, data: response})
         setTimeout(() => {
             setNotification({ visible: false, data: response });
@@ -366,7 +368,7 @@ const Wall = ({type, posts, editable = true, clubId, joined}: IWall) => {
     return (
         <div className={styles.wall}>
             <nav className={styles.wall__nav}>
-                {["Записи"].map((item, index) => (
+                {["Все записи", "Мои записи"].map((item, index) => (
                     <button
                         key={item + index}
                         className={feedType !== index ? styles.wall__navButton : `${styles.wall__navButton} ${styles.wall__navButtonActive}`}
@@ -378,7 +380,6 @@ const Wall = ({type, posts, editable = true, clubId, joined}: IWall) => {
                 ))}
             </nav>
             <div className={styles.wall__content}>
-                {feedType === 0 && (
                     <div className={styles.wall__feed}>
                         { (type === 'club' && !joined || user.user === null) ? null :
                             <form className={styles.wall__feedForm} onSubmit={onSubmit} ref={formRef}>
@@ -427,7 +428,6 @@ const Wall = ({type, posts, editable = true, clubId, joined}: IWall) => {
                                                 </div>
                                             )
                                         }
-                                        {/*}*/}
                                         {
                                             symbols && (
                                                 <div className={`${styles.symbols_message} ${symbols ? styles.show : ''}`}>
@@ -493,35 +493,58 @@ const Wall = ({type, posts, editable = true, clubId, joined}: IWall) => {
                                 </div>
                             </form>
                         }
-                        {filteredSortedPosts.length ? filteredSortedPosts.map((post, index) => (
-                            // <div key={post.id} ref={index === loadedPosts.length - 1 ? lastPostRef : null}>
-                            <Post
-                                key={`${post.id}${index}`}
-                                id={post.id}
-                                name={post.client.name}
-                                surname={post.client.surname}
-                                avatar={post.client.avatar}
-                                created_by={post.client.id}
-                                videos={videos}
-                                tags={null}
-                                source={post.source}
-                                verified={post.client.verified}
-                                comments={post.comments}
-                                likes={post.likes_count}
-                                liked_by={post.liked_by}
-                                updated_at={post.created_at}
-                                title={post.description}
-                                type={'all'}
-                                handleSetNotification={handleSetNotification}
-                            >
-                            </Post>
-                            // </div>
-                        )) : null}
+                        {feedType === 0 ? (
+                            (filteredSortedPosts.length ? filteredSortedPosts.map((post, index) => (
+                                    // <div key={post.id} ref={index === loadedPosts.length - 1 ? lastPostRef : null}>
+                                    <Post
+                                        key={`${post.id}${index}`}
+                                        id={post.id}
+                                        name={post.client.name}
+                                        surname={post.client.surname}
+                                        avatar={post.client.avatar}
+                                        created_by={post.client.id}
+                                        videos={videos}
+                                        tags={null}
+                                        source={post.source}
+                                        verified={post.client.verified}
+                                        comments={post.comments}
+                                        likes={post.likes_count}
+                                        liked_by={post.liked_by}
+                                        updated_at={post.created_at}
+                                        title={post.description}
+                                        type={'all'}
+                                        handleSetNotification={handleSetNotification}
+                                    >
+                                    </Post>
+                                    // </div>
+                                )) : null)
+                        ) : feedType === 1 && (
+                            filteredSortedPosts
+                                .filter(post => post.client.id === user.user.id)
+                                .map((post, index) => (
+                                    <Post
+                                        key={`${post.id}${index}`}
+                                        id={post.id}
+                                        name={post.client.name}
+                                        surname={post.client.surname}
+                                        avatar={post.client.avatar}
+                                        created_by={post.client.id}
+                                        videos={videos}
+                                        tags={null}
+                                        source={post.source}
+                                        verified={post.client.verified}
+                                        comments={post.comments}
+                                        likes={post.likes_count}
+                                        liked_by={post.liked_by}
+                                        updated_at={post.created_at}
+                                        title={post.description}
+                                        type={'all'}
+                                        handleSetNotification={handleSetNotification}
+                                    >
+                                    </Post>
+                                ))
+                        )}
                     </div>
-                )}
-                {feedType === 1 && (
-                    <p>Здесь должны быть комментарии</p>
-                )}
             </div>
             <aside className={ type === "post" || type === "club" || type ==="profile" ? styles.wall__aside : `${styles.wall__aside} ${styles.wall__aside_sticky}`}>
                 <div className={styles.wall__asideBlock}>

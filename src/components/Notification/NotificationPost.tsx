@@ -7,6 +7,7 @@ const NotificationPost = ({data, onClose, onMouseEnter, onMouseLeave}) => {
     const [bgColor, setBgColor] = useState('#48903A')
 
     useEffect(() => {
+        console.log('data type', data.data[0].type)
         if (data.data[0]?.type === 'rubicks_more') {
             setBgColor('#48903A')
         } else if (data.data[0]?.type === 'rubicks_less') {
