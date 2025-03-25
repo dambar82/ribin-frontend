@@ -63,7 +63,7 @@ export const fetchPosts = createAsyncThunk('post/fetchPosts', async (page: numbe
 
 export const fetchPostsByUserId = createAsyncThunk('post/fetchPostsByUserId', async ({userId} : { userId: number }) => {
     const response = await $api.get(`/api/reposts/${userId}`)
-    return response.data as IPost[];
+    return response.data.data as IPost[];
 })
 
 export const fetchPostsByClubId = createAsyncThunk('post/fetchPostsByClubId', async ({clubId} : {clubId: number}) => {
@@ -223,6 +223,7 @@ const postSlice = createSlice({
             .addCase(fetchPostsByUserId.fulfilled, (state, action: PayloadAction<IPost[]>) => {
                 state.status = 'succeeded';
                 state.error = null;
+                console.log('user', action.payload)
                 const newPosts = action.payload.filter(
                     (newPost) => !state.posts.some((post) => post.id === newPost.id)
                 );
