@@ -284,12 +284,28 @@ const MainPage: React.FC = () => {
                                                 </div>
                                             </div>
                                         </div>
-                                        <Link to={`/contests/${contests[0].id}`} style={{marginTop: 'auto'}}>
-                                            <div className={`action_button ${styles.action_button}`} style={{marginTop: 'auto'}}>
-                                                Участвовать
-                                                <img src={buttonArrow} alt=""/>
-                                            </div>
-                                        </Link>
+                                        {
+                                            contests[0].status === 1 ? (
+                                                <Link to={`/contests/${contests[0].id}`} style={{marginTop: 'auto'}}>
+                                                    <div className={`action_button ${styles.action_button}`} style={{marginTop: 'auto'}}>
+                                                        Участвовать
+                                                        <img src={buttonArrow} alt=""/>
+                                                    </div>
+                                                </Link>
+                                            ) : contests[0].status === 2 ? (
+                                                <Link to={`/contests/${contests[0].id}`}>
+                                                    <div className='gray_button'>
+                                                        Завершён
+                                                    </div>
+                                                </Link>
+                                            ) : (
+                                                <Link to={`/contests/${contests[0].id}`}>
+                                                    <div className='orange_button'>
+                                                        Подведение итогов
+                                                    </div>
+                                                </Link>
+                                            )
+                                        }
                                     </div>
                                     <div className={styles.contestZone_card_rightPart}>
                                         <img src={contests[0]?.source} alt=""/>

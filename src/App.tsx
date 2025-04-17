@@ -56,6 +56,7 @@ import FriendsPage from "./pages/FriendsPage/FriendsPage";
 import NotificationFriends from "./components/Notification/NotificationFriends";
 import { HelpPage } from './pages/HelpPage/HelpPage'
 import BalanceHistory from "./pages/BalanceHistory/BalanceHistory";
+import ScrollToTop from "./components/ScrollToTop";
 
 
 export function postFormatDate(isoString) {
@@ -233,6 +234,7 @@ function App() {
 
     return (
         <BrowserRouter>
+            <ScrollToTop/>
             <Routes>
                 {publicRoutes.map(({ path, element, layout }) => (
                     <Route

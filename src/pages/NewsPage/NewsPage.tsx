@@ -73,9 +73,9 @@ const NewsPage = () => {
                         <Link to="/news/37">
                             <div className="news_actual">
                                 <img src="images/actualNewsCard2.jpg" alt="" />
-                                {/*<div className='news_actual_text'>*/}
-                                {/*    Пригласи МФЦ к себе в школу и оформи карту болельщика всем классом!*/}
-                                {/*</div>*/}
+                                <div className='news_actual_text'>
+                                    Пригласи МФЦ к себе в школу и оформи карту болельщика всем классом!
+                                </div>
                             </div>
                         </Link>
                     </div>
