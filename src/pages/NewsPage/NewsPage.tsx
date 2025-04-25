@@ -72,7 +72,7 @@ const NewsPage = () => {
                         </Link>
                         <Link to="/news/37">
                             <div className="news_actual">
-                                <img src="images/actualNewsCard2.jpg" alt="" />
+                                <img src="images/actualNewsCardMFC.png" alt="" />
                                 <div className='news_actual_text'>
                                     Пригласи МФЦ к себе в школу и оформи карту болельщика всем классом!
                                 </div>
