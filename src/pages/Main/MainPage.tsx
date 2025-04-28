@@ -10,7 +10,7 @@ import Ruby2 from '../../images/first-screen-ruby-2.png';
 import Ruby3 from '../../images/first-screen-ruby-3.png';
 import orangeZone from '../../images/orange_background.svg';
 import buttonArrow from '../../images/svg/button_arrow.svg';
-import rubyStore from '../../images/ruby_store.png';
+import rubyStore from '../../images/ruby_store.jpg';
 import pacan from '../../images/pacan.jpg';
 
 import {AppDispatch, RootState} from "../../store/store";
