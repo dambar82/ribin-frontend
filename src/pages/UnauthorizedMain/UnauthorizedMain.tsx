@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import styles from './UnauthorizedMain.module.scss';
 import drakon from '../../images/svg/Drakon.svg';
-import orangeZone from '../../images/orange_background.svg';
 import buttonArrow from '../../images/svg/button_arrow.svg';
 import {Link} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";

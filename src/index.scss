@@ -210,10 +210,10 @@ li {
     // z-index: 2;
   }
   &--orange {
-    background-color: #FFB800;
+    background-image: url("/images/orange-background.jpg");
   }
   &--green {
-    background-color: #51CC39;
+    background-color: url("/images/green-background.jpg");
   }
   &--vector-bg {
     position: relative;

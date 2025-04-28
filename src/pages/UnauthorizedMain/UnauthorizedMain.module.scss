@@ -130,14 +130,8 @@
 
 .news {
   position: relative;
-  &::before {
-    background-image: url(../../../public/images/orange-background.svg);
-  }
   &__title {
     transform: translate(-21%, 0) rotate(-12deg);
-    &::before {
-      background-color: #FF7A00;
-    }
   }
 
   :global(.section__header) {
@@ -170,8 +164,8 @@
 
   }
   &__content {
-    background-color: #91172C;
-    background-image: url(../../../public/images/red-background.svg);
+ //   background-color: #91172C;
+    background-image: url(../../../public/images/contests-bg.jpg);
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
@@ -336,7 +330,7 @@
 .blog {
   position: relative;
   &::before {
-    background-image: url(../../../public/images/green-background.svg);
+    background-image: url(../../../public/images/green-background.jpg);
     mix-blend-mode: soft-light;
   }
   &__title {
@@ -451,7 +445,7 @@
 
 .users {
   &::before {
-    background-image: url(../../../public/images/orange-background-01.svg);
+   // background-image: url(../../../public/images/orange-background-01.svg);
   }
   :global(.section__header) {
     @media (max-width: 1200px) {
@@ -606,7 +600,7 @@
 
 .clubs {
   &::before {
-    background-image: url(../../../public/images/green-background.svg);
+    background-image: url(../../../public/images/green-background.jpg);
     mix-blend-mode: soft-light;
   }
   :global(.section__header) {
