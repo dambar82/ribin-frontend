@@ -211,7 +211,7 @@ const Post = ({ id, name, surname, avatar, created_by, source, tags, comments, v
 
         dispatch(deletePost({postId: id}));
         dispatch(deletePostAsync({postId: id}));
-        const response = await axios.get(`https://api-rubin.multfilm.tatar/api/messages/rubick_notification/less`, {headers: {Authorization: `Bearer ${token}`}});
+        const response = await axios.get(`https://dnevnik-api.rubin-kazan.ru/api/messages/rubick_notification/less`, {headers: {Authorization: `Bearer ${token}`}});
         if (response.data) {
             console.log('deleete post', response.data)
             handleSetNotification(response.data)

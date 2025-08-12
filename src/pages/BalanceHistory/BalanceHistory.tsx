@@ -69,7 +69,7 @@ const BalanceHistory = () => {
         const fetchHistory = async () => {
             try {
                 const response = await axios.get(
-                    "https://api-rubin.multfilm.tatar/api/rubicks",
+                    "https://dnevnik-api.rubin-kazan.ru/api/rubicks",
                     {
                         headers: { Authorization: `Bearer ${token}` },
                     }

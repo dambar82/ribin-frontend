@@ -38,7 +38,7 @@ const QuizzesPage = () => {
                             <Card
                                 key={quiz.id}
                                 name={quiz.title}
-                                image={'https://api-rubin.multfilm.tatar/storage/'+quiz.image}
+                                image={'https://dnevnik-api.rubin-kazan.ru/storage/'+quiz.image}
                                 buttonLabel="Начать викторину"
                                 onClick={() => {
                                   navigate(`/quizzes/${quiz.id}`)

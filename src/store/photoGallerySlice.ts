@@ -20,7 +20,7 @@ export const fetchPhotoGallery = createAsyncThunk('photoGallery/fetchPhotoGaller
   console.log('fetchPhotoGallery');
 
 
-    const photosUrl = `https://api-rubin.multfilm.tatar/api/request/photos`;
+    const photosUrl = `https://dnevnik-api.rubin-kazan.ru/api/request/photos`;
 
     const response = await axios.get(photosUrl);
 
@@ -29,7 +29,7 @@ export const fetchPhotoGallery = createAsyncThunk('photoGallery/fetchPhotoGaller
 
 
 export const fetchPhotoGalleryById = createAsyncThunk('photoGallery/fetchPhotoGalleryById', async (id: string) => {
-    const photosUrl = `https://api-rubin.multfilm.tatar/api/request/photos/${id}`;
+    const photosUrl = `https://dnevnik-api.rubin-kazan.ru/api/request/photos/${id}`;
 
     const response = await axios.get(photosUrl);
 

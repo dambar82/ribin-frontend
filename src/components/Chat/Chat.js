@@ -73,7 +73,7 @@ const Chat = () => {
     useEffect(() => {
         const fetchContacts = async () => {
             try {
-                const response = await axios.get('https://api-rubin.multfilm.tatar/api/messages/contacts', {
+                const response = await axios.get('https://dnevnik-api.rubin-kazan.ru/api/messages/contacts', {
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
                 setContacts(response.data.data.map(contact => ({ ...contact, unreadCount: 0 })));
@@ -120,7 +120,7 @@ const Chat = () => {
     const fetchMessages = async () => {
         if (selectedContact) {
             try {
-                const response = await axios.get(`https://api-rubin.multfilm.tatar/api/messages/get/${selectedContact.id}`, {
+                const response = await axios.get(`https://dnevnik-api.rubin-kazan.ru/api/messages/get/${selectedContact.id}`, {
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
                 setMessages(response.data.data || []);
@@ -150,7 +150,7 @@ const Chat = () => {
         if (newMessage.trim() !== '') {
             setIsSending(true); // Устанавливаем состояние отправки сообщения
             try {
-                const answer = await axios.post(`https://api-rubin.multfilm.tatar/api/messages/send/${selectedContact.id}`, { message: newMessage }, {
+                const answer = await axios.post(`https://dnevnik-api.rubin-kazan.ru/api/messages/send/${selectedContact.id}`, { message: newMessage }, {
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
                 setMessages(prevMessages => [...prevMessages, answer.data.data]);
@@ -191,7 +191,7 @@ const Chat = () => {
 
     const deleteMessage = async (messageId) => {
         try {
-            await axios.delete(`https://api-rubin.multfilm.tatar/api/messages/delete-message/${messageId}`, {
+            await axios.delete(`https://dnevnik-api.rubin-kazan.ru/api/messages/delete-message/${messageId}`, {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             setMessages(prevMessages => prevMessages.filter(msg => msg.id !== messageId));
@@ -203,7 +203,7 @@ const Chat = () => {
 
     const editMessage = async (messageId, newContent) => {
         try {
-            await axios.put(`https://api-rubin.multfilm.tatar/api/messages/edit-message/${messageId}`, { message: newContent }, {
+            await axios.put(`https://dnevnik-api.rubin-kazan.ru/api/messages/edit-message/${messageId}`, { message: newContent }, {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             setMessages(prevMessages => prevMessages.map(msg => msg.id === messageId ? { ...msg, message: newContent } : msg));

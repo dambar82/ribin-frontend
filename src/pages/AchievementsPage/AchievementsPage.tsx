@@ -34,14 +34,14 @@ const AchievementsPage = () => {
 
     useEffect(() => {
         const fetchAwards = async () => {
-            const response = await axios.get('https://api-rubin.multfilm.tatar/api/gifts', {
+            const response = await axios.get('https://dnevnik-api.rubin-kazan.ru/api/gifts', {
                 headers: { 'Authorization': `Bearer ${token}` }
             })
             console.log(response.data)
             setAwards(response.data);
         }
         const fetchMyAwards = async () => {
-            const response = await axios.get('https://api-rubin.multfilm.tatar/api/gifts/promo_code', {
+            const response = await axios.get('https://dnevnik-api.rubin-kazan.ru/api/gifts/promo_code', {
                 headers: { 'Authorization': `Bearer ${token}` }
             })
             console.log(response.data.data);

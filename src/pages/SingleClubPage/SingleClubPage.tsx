@@ -118,7 +118,7 @@ const SingleClubPage = () => {
                         <div className={c.clubInfo__infoFooter}>
                             <div className={c.clubInfo__author + " " + c.author}>
                                 <div className={c.author__avatar}>
-                                    <img src={'https://api-rubin.multfilm.tatar/storage/'+club.created_by?.avatar} alt="" />
+                                    <img src={'https://dnevnik-api.rubin-kazan.ru/storage/'+club.created_by?.avatar} alt="" />
                                 </div>
                                 <div className={c.author__position}>Организатор</div>
                                 <div className={c.author__name}>{club.created_by?.name} {club.created_by?.surname}</div>
@@ -127,14 +127,14 @@ const SingleClubPage = () => {
                                 {club.clients.length > 1 &&
                                   club.clients?.map((client, i) => (
                                     <div key={i} className={c.clubInfo__client}>
-                                      <img src={'https://api-rubin.multfilm.tatar/storage/'+client?.avatar} />
+                                      <img src={'https://dnevnik-api.rubin-kazan.ru/storage/'+client?.avatar} />
                                     </div>
                                   ))
                                 }
                                 {club.clients.length === 1 &&
                                   <div className={c.clubInfo__client_wrapper} >
                                     <div className={c.clubInfo__client}>
-                                      <img src={'https://api-rubin.multfilm.tatar/storage/'+club.clients[0]?.avatar} />
+                                      <img src={'https://dnevnik-api.rubin-kazan.ru/storage/'+club.clients[0]?.avatar} />
                                     </div>
                                     <span>{club.clients[0]?.name}</span>
                                   </div>

@@ -18,13 +18,13 @@ const initialState: PeopleState = {
 const token = JSON.parse(localStorage.getItem('token') || '0')
 
 export const fetchPeople = createAsyncThunk('people/fetchPeople', async () => {
-    const response = await axios.get('https://api-rubin.multfilm.tatar/api/clients');
+    const response = await axios.get('https://dnevnik-api.rubin-kazan.ru/api/clients');
     return response.data.data as User[];
 });
 
 export const editClient = createAsyncThunk('people/editClient', async (data: {id: number, formData: any}) => {
     console.log(data.formData)
-    const response = await axios.post(`https://api-rubin.multfilm.tatar/api/clients/${data.id}`, data.formData, {
+    const response = await axios.post(`https://dnevnik-api.rubin-kazan.ru/api/clients/${data.id}`, data.formData, {
         headers: {
             'Authorization': `Bearer ${token}`
         }
@@ -33,7 +33,7 @@ export const editClient = createAsyncThunk('people/editClient', async (data: {id
 })
 
 export const sendFriendRequest = createAsyncThunk('people/sendFriendRequest', async ({receiverId}: {receiverId: number}) => {
-    const response = await axios.post(`https://api-rubin.multfilm.tatar/api/friends/request/${receiverId}`, {}, {
+    const response = await axios.post(`https://dnevnik-api.rubin-kazan.ru/api/friends/request/${receiverId}`, {}, {
         headers: {
             'Authorization': `Bearer ${token}`
         }

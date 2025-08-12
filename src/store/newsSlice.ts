@@ -17,8 +17,8 @@ const initialState: NewsState = {
 const token = JSON.parse(localStorage.getItem('token') || '0')
 
 export const fetchNewsAndNewsBack = createAsyncThunk('news/fetchNewsAndNewsBack', async () => {
-    const newsBackUrl = 'https://api-rubin.multfilm.tatar/api/news';
-    const newsUrl = `https://api-rubin.multfilm.tatar/api/request/news?isTop=true`;
+    const newsBackUrl = 'https://dnevnik-api.rubin-kazan.ru/api/news';
+    const newsUrl = `https://dnevnik-api.rubin-kazan.ru/api/request/news?isTop=true`;
 
     const results = await Promise.allSettled([
       //  axios.get(newsUrl),
@@ -36,14 +36,14 @@ export const fetchNewsAndNewsBack = createAsyncThunk('news/fetchNewsAndNewsBack'
 });
 
 export const fetchNewsApiById = createAsyncThunk('news/fetchNewsApiById', async ({newsId} : {newsId: number}) => {
-    const response = await axios.get(`https://api-rubin.multfilm.tatar/api/request/news/${newsId}`);
+    const response = await axios.get(`https://dnevnik-api.rubin-kazan.ru/api/request/news/${newsId}`);
     return response.data;
 })
 
 export const newsLikeAsync = createAsyncThunk('news/newsLike', async ({newsId} : {newsId: number}) => {
     try {
         await axios.post(
-            `https://api-rubin.multfilm.tatar/api/news/${newsId}/like`,
+            `https://dnevnik-api.rubin-kazan.ru/api/news/${newsId}/like`,
             {},
             {
                 headers: {
@@ -59,7 +59,7 @@ export const newsLikeAsync = createAsyncThunk('news/newsLike', async ({newsId} :
 export const addViewNews = createAsyncThunk('news/addViewNews', async ({newsId} : {newsId: number}) => {
     try {
         await axios.get(
-            `https://api-rubin.multfilm.tatar/api/news/${newsId}`,
+            `https://dnevnik-api.rubin-kazan.ru/api/news/${newsId}`,
             {
                 headers: {
                     'Authorization': `Bearer ${token}`

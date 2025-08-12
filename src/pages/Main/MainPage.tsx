@@ -90,7 +90,7 @@ const MainPage: React.FC = () => {
    //     dispatch(fetchPosts())
         dispatch(fetchPeople())
         const fetchPostsImages = async () => {
-            const response = await axios.get('https://api-rubin.multfilm.tatar/api/posts_images');
+            const response = await axios.get('https://dnevnik-api.rubin-kazan.ru/api/posts_images');
             setPostsImage(response.data.data);
         }
         fetchPostsImages();

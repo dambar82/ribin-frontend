@@ -21,7 +21,7 @@ const initialState: ClubsState = {
 const token = JSON.parse(localStorage.getItem('user'))?.token;
 
 const $api = axios.create({
-  baseURL: 'https://api-rubin.multfilm.tatar'
+  baseURL: 'https://dnevnik-api.rubin-kazan.ru/'
 })
 
 $api.interceptors.request.use(config => {
@@ -33,7 +33,7 @@ $api.interceptors.request.use(config => {
 })
 
 export const fetchClubs = createAsyncThunk('clubs/fetchClubs', async () => {
-  const response = await axios.get('https://api-rubin.multfilm.tatar/api/club');
+  const response = await axios.get('https://dnevnik-api.rubin-kazan.ru/api/club');
   return response.data.data as Clubs[];
 });
 

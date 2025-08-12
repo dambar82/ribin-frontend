@@ -92,7 +92,7 @@ const FriendsPage = () => {
             console.error('Ошибка при получении токена:', error);
         }
 
-        const friendsUrl = `https://api-rubin.multfilm.tatar/api/friends/request/${receiverId}`
+        const friendsUrl = `https://dnevnik-api.rubin-kazan.ru/api/friends/request/${receiverId}`
 
         await axios.delete(friendsUrl, {headers: {Authorization: `Bearer ${token}`}});
 
@@ -116,7 +116,7 @@ const FriendsPage = () => {
             console.error('Ошибка при получении токена:', error);
         }
 
-      const friendsUrl = `https://api-rubin.multfilm.tatar/api/friends/remove/${receiverId}`;
+      const friendsUrl = `https://dnevnik-api.rubin-kazan.ru/api/friends/remove/${receiverId}`;
 
       await axios.delete(friendsUrl, {headers: {Authorization: `Bearer ${token}`}});
       dispatch(fetchFriends());
@@ -305,7 +305,7 @@ const FriendsPage = () => {
                                     <Link to={`/user/${friend.id}`}>
                                         <div className={styles.friendBlock}>
                                             <div className={styles.friendBlock_avatar}>
-                                                <img src={`https://api-rubin.multfilm.tatar/storage/${friend.avatar}`} alt=""/>
+                                                <img src={`https://dnevnik-api.rubin-kazan.ru/storage/${friend.avatar}`} alt=""/>
                                                 {friend.online && (
                                                     <div style={{right: '-5px', bottom: '5px', width: '16px', height: '16px'}} className="big-card__avatar-status"></div>
                                                 )}
@@ -398,7 +398,7 @@ const UsersSlider = ({ friends, currentUser, sended, handleDeleteFriendship, han
     const config: any = {}
     const token = JSON.parse(localStorage.getItem('token') || '')
 
-    const friendsUrl = `https://api-rubin.multfilm.tatar/api/friends/accept/${friendship}`;
+    const friendsUrl = `https://dnevnik-api.rubin-kazan.ru/api/friends/accept/${friendship}`;
 
     const response = await axios.post(friendsUrl, {friendshipId: friendship}, {
         headers: {

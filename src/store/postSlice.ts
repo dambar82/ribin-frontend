@@ -38,7 +38,7 @@ const initialState: PostState = {
 };
 
 const $api = axios.create({
-  baseURL: 'https://api-rubin.multfilm.tatar'
+  baseURL: 'https://dnevnik-api.rubin-kazan.ru/'
 })
 
 $api.interceptors.request.use(config => {
@@ -67,37 +67,37 @@ export const fetchPostsByUserId = createAsyncThunk('post/fetchPostsByUserId', as
 })
 
 export const fetchPostsByClubId = createAsyncThunk('post/fetchPostsByClubId', async ({clubId} : {clubId: number}) => {
-    const response = await $api.get(`https://api-rubin.multfilm.tatar/api/club/posts/${clubId}`)
+    const response = await $api.get(`https://dnevnik-api.rubin-kazan.ru/api/club/posts/${clubId}`)
     //console.log('club id', response.data)
     return response.data.data as IPost[];
 })
 
 export const createPostInClub = createAsyncThunk('post/createPostInClub', async ({clubId, formData} : {clubId: number, formData: FormData}) => {
-    const response = await $api.post(`https://api-rubin.multfilm.tatar/api/club/${clubId}/posts`, formData)
+    const response = await $api.post(`https://dnevnik-api.rubin-kazan.ru/api/club/${clubId}/posts`, formData)
     return response.data as IPost[];
 })
 
 export const deletePostAsync = createAsyncThunk('post/deletePost', async ({postId}: {postId: number}) => {
-    const response = await $api.delete(`https://api-rubin.multfilm.tatar/api/posts/${postId}`)
+    const response = await $api.delete(`https://dnevnik-api.rubin-kazan.ru/api/posts/${postId}`)
 })
 
 export const editPostAsync = createAsyncThunk('post/editPostAsync', async ({postId, formData}: {postId: number, formData: FormData}) => {
-    const response = await $api.post(`https://api-rubin.multfilm.tatar/api/posts/${postId}`, formData)
+    const response = await $api.post(`https://dnevnik-api.rubin-kazan.ru/api/posts/${postId}`, formData)
 })
 
 export const createPost = createAsyncThunk('post/createPost', async (formData: FormData) => {
-    const response = await $api.post('https://api-rubin.multfilm.tatar/api/posts', formData);
+    const response = await $api.post('https://dnevnik-api.rubin-kazan.ru/api/posts', formData);
     return response.data;
 });
 
 export const createComment = createAsyncThunk('post/createComment', async ({formData, postId} : {formData: FormData, postId: number}) => {
   //  console.log(token)
-    const response = await $api.post(`https://api-rubin.multfilm.tatar/api/posts/${postId}/comments`, formData)
+    const response = await $api.post(`https://dnevnik-api.rubin-kazan.ru/api/posts/${postId}/comments`, formData)
     return response.data.comment;
 })
 
 export const deleteCommentAsync = createAsyncThunk('post/deleteCommentAsync', async ({commentId}: {commentId: number}) => {
-    const response = await $api.delete(`https://api-rubin.multfilm.tatar/api/comments/${commentId}`)
+    const response = await $api.delete(`https://dnevnik-api.rubin-kazan.ru/api/comments/${commentId}`)
 })
 
 export const commentLikeAsync = createAsyncThunk(
@@ -106,7 +106,7 @@ export const commentLikeAsync = createAsyncThunk(
         console.log(commentId);
         try {
             await axios.post(
-                `https://api-rubin.multfilm.tatar/api/comments/${commentId}/like`,
+                `https://dnevnik-api.rubin-kazan.ru/api/comments/${commentId}/like`,
                 {},
                 {
                     headers: {
@@ -125,7 +125,7 @@ export const toggleLikeAsync = createAsyncThunk(
     async ({ postId, userId }: { postId: number, userId: number }, { dispatch }) => {
         try {
             await axios.post(
-                `https://api-rubin.multfilm.tatar/api/posts/${postId}/like`,
+                `https://dnevnik-api.rubin-kazan.ru/api/posts/${postId}/like`,
                 {},
                 {
                     headers: {
@@ -145,7 +145,7 @@ export const toggleLikeAsync = createAsyncThunk(
 );
 
 export const fetchComplaintTypes = createAsyncThunk('post/fetchComplaintTypes', async () => {
-  const response = await axios.get<{id:number,title:string}[]>('https://api-rubin.multfilm.tatar/api/complaint_type');
+  const response = await axios.get<{id:number,title:string}[]>('https://dnevnik-api.rubin-kazan.ru/api/complaint_type');
   return response.data;
 })
 

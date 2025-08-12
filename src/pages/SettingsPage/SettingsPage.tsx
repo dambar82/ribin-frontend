@@ -50,7 +50,7 @@ const SettingsPage = () => {
 
     useEffect(() => {
         const fetchDistricts = async () => {
-            const response = await axios.get('https://api-rubin.multfilm.tatar/api/districts');
+            const response = await axios.get('https://dnevnik-api.rubin-kazan.ru/api/districts');
             setDistrictOptions([{id: 0, title: 'Не указан'}, ...response.data]);
         }
         fetchDistricts();
@@ -65,11 +65,11 @@ const SettingsPage = () => {
 
     const deleteUser = async () => {
         try {
-            const $api = axios.create({
-                baseURL: 'https://api-rubin.multfilm.tatar'
+            const api = axios.create({
+                baseURL: 'https://dnevnik-api.rubin-kazan.ru'
             });
 
-            $api.interceptors.request.use(config => {
+            api.interceptors.request.use(config => {
                 const token = JSON.parse(localStorage.getItem('token') || '0');
                 if (token) {
                     config.headers.Authorization = `Bearer ${token}`;
@@ -77,7 +77,7 @@ const SettingsPage = () => {
                 return config;
             });
 
-            const res = await $api.delete(`/api/clients/${user.id}`);
+            const res = await api.delete(`/api/clients/${user.id}`);
 
             // Проверка успешности удаления
             if (res.status === 200 || res.status === 204) {

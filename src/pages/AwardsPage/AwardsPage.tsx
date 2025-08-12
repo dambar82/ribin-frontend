@@ -19,7 +19,7 @@ const AwardsPage = () => {
     useEffect(() => {
         const fetchAwards = async () => {
             try {
-                const response = await axios.get('https://api-rubin.multfilm.tatar/api/request/achievements');
+                const response = await axios.get('https://dnevnik-api.rubin-kazan.ru/api/request/achievements');
                 setAwards(response.data);
             } catch (error) {
                 console.error('Ошибка при получении достижений', error);

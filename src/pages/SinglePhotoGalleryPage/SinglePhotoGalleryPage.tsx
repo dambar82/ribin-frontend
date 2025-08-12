@@ -34,7 +34,7 @@ const SinglePhotoGalleryPage = () => {
         dispatch(fetchPhotoGalleryById(id));
         if (Number(id) < 1000) {
             const fetchOurGallery = async () => {
-                const response = await axios.get(`https://api-rubin.multfilm.tatar/api/all_galleries/${id}`);
+                const response = await axios.get(`https://dnevnik-api.rubin-kazan.ru/api/all_galleries/${id}`);
                 console.log(response.data.data)
                 setOurGallery(response.data.data)
             }

@@ -316,7 +316,7 @@ const Wall = ({type, posts, editable = true, clubId, joined}: IWall) => {
                         } else {
                             dispatch(addPost(newPost));
                           //  setLoadedPosts([...loadedPosts, newPost])
-                            const response = await axios.get(`https://api-rubin.multfilm.tatar/api/messages/rubick_notification/more`, {headers: {Authorization: `Bearer ${token}`}});
+                            const response = await axios.get(`https://dnevnik-api.rubin-kazan.ru/api/messages/rubick_notification/more`, {headers: {Authorization: `Bearer ${token}`}});
                             if (response.data) {
                                 setNotification({visible: true, data: response.data})
                                 setTimeout(() => {
@@ -331,7 +331,7 @@ const Wall = ({type, posts, editable = true, clubId, joined}: IWall) => {
                             // @ts-ignore
                             dispatch(addPost(newPost));
 
-                            const response = await axios.get(`https://api-rubin.multfilm.tatar/api/messages/rubick_notification/more`, {headers: {Authorization: `Bearer ${token}`}});
+                            const response = await axios.get(`https://dnevnik-api.rubin-kazan.ru/api/messages/rubick_notification/more`, {headers: {Authorization: `Bearer ${token}`}});
                             if (response.data) {
                                 setNotification({visible: true, data: response.data})
                                 setTimeout(() => {

@@ -14,7 +14,7 @@ const initialState: ClubsState = {
 };
 
 const $api = axios.create({
-  baseURL: 'https://api-rubin.multfilm.tatar'
+  baseURL: 'https://dnevnik-api.rubin-kazan.ru/'
 })
 
 $api.interceptors.request.use(config => {

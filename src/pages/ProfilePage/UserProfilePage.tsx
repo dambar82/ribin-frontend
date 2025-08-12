@@ -95,7 +95,7 @@ const UserProfilePage = () => {
                     console.error('Ошибка при получении токена:', error);
                 }
 
-                await axios.delete(`https://api-rubin.multfilm.tatar/api/friends/request/${currentUser.id}`, {headers: {Authorization: `Bearer ${token}`}})
+                await axios.delete(`https://dnevnik-api.rubin-kazan.ru/api/friends/request/${currentUser.id}`, {headers: {Authorization: `Bearer ${token}`}})
             }
         } else {
             navigate('/login');
@@ -192,7 +192,7 @@ const UserProfilePage = () => {
                                         <ul className="big-card__users-list">
                                             {currentUser.friends.map(item => (
                                                 <li key={item.id} className="big-card__user">
-                                                    <img src={`https://api-rubin.multfilm.tatar/storage/${item.avatar}`} alt="" />
+                                                    <img src={`https://dnevnik-api.rubin-kazan.ru/storage/${item.avatar}`} alt="" />
                                                 </li>
                                             ))}
                                         </ul>

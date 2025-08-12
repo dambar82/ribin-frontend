@@ -101,7 +101,7 @@ const Comment = ({ id, liked_by, text, created_at, likes_count, name, avatar, cr
         formData.append('text', commentText);
         formData.set('_method', 'put');
 
-        const editComment = await axios.post(`https://api-rubin.multfilm.tatar/api/comments/${id}`, formData,
+        const editComment = await axios.post(`https://dnevnik-api.rubin-kazan.ru/api/comments/${id}`, formData,
             {
                 headers: {
                     'Authorization': `Bearer ${token}`

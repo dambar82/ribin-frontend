@@ -9,7 +9,7 @@ const token = JSON.parse(localStorage.getItem('token') || '0')
 
 export const buyAward = createAsyncThunk('award/buyAward', async (formData) => {
     console.log(formData)
-    const response = await axios.post('https://api-rubin.multfilm.tatar/api/gifts/promo_code', formData, {
+    const response = await axios.post('https://dnevnik-api.rubin-kazan.ru/api/gifts/promo_code', formData, {
         headers: {
             'Authorization': `Bearer ${token}`
         }

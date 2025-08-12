@@ -17,7 +17,7 @@ const initialState: ContestState = {
 const token = JSON.parse(localStorage.getItem('token') || '0')
 
 export const fetchContests = createAsyncThunk('contests/fetchContests', async () => {
-    const response = await axios.get('https://api-rubin.multfilm.tatar/api/contest');
+    const response = await axios.get('https://dnevnik-api.rubin-kazan.ru/api/contest');
     return response.data.data as Contest[];
 });
 
@@ -33,7 +33,7 @@ export const sendWorkForContest = createAsyncThunk('contests/sendWorkForContest'
             formData.append('contest_id', contest_id.toString());
             formData.append('client_id', client_id.toString());
 
-            const response = await axios.post(`https://api-rubin.multfilm.tatar/api/contest/${contest_id}/take_part`, formData, {
+            const response = await axios.post(`https://dnevnik-api.rubin-kazan.ru/api/contest/${contest_id}/take_part`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                     'Authorization': `Bearer ${token}`
@@ -57,7 +57,7 @@ export const sendWorkForContest = createAsyncThunk('contests/sendWorkForContest'
 //old version
 // export const sendWorkForContest = createAsyncThunk('contests/sendWorkForContest',
 //     async ({description, source, video, contest_id, client_id}: {description?: string, source: File, video: string, contest_id: number, client_id: number}) => {
-//         const response = await axios.post('https://api-rubin.multfilm.tatar/api/contest', {
+//         const response = await axios.post('https://dnevnik-api.rubin-kazan.ru/api/contest', {
 //         description: description,
 //             source: source,
 //             video: video,

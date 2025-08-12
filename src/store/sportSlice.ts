@@ -16,7 +16,7 @@ const initialState: SportState = {
 };
 
 export const fetchSport = createAsyncThunk('sport/fetchSport', async () => {
-    const response = await axios.get('https://api-rubin.multfilm.tatar/api/sport');
+    const response = await axios.get('https://dnevnik-api.rubin-kazan.ru/api/sport');
     return response.data as Sport;
 })
 

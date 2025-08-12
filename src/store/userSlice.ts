@@ -57,7 +57,7 @@ const initialState: UserState = {
 };
 
 const $api = axios.create({
-  baseURL: 'https://api-rubin.multfilm.tatar'
+  baseURL: 'https://dnevnik-api.rubin-kazan.ru/'
 })
 
 $api.interceptors.request.use(config => {
@@ -70,7 +70,7 @@ $api.interceptors.request.use(config => {
 
 export const loginUser = createAsyncThunk('user/loginUser', async ({ email, password }: { email: string; password: string }) => {
   try {
-    const response = await axios.post<TLoginUserResponse>('https://api-rubin.multfilm.tatar/api/login', { email, password });
+    const response = await axios.post<TLoginUserResponse>('https://dnevnik-api.rubin-kazan.ru/api/login', { email, password });
     return response.data
   } catch (error) {
     console.log(error);
@@ -99,7 +99,7 @@ export const resendConfirmEmail = createAsyncThunk('user/resendConfirmEmail', as
 
 export const registerUser = createAsyncThunk('user/registerUser', async (sendObj: TRegisterUserRequest) => {
   try {
-    const response = await axios.post<TRegisterUserResponse>('https://api-rubin.multfilm.tatar/api/clients', sendObj);
+    const response = await axios.post<TRegisterUserResponse>('https://dnevnik-api.rubin-kazan.ru/api/clients', sendObj);
     return response.data
   } catch (error) {
     console.log(error);

@@ -49,7 +49,7 @@ const UsersFilter = () => {
 
     useEffect(() => {
       const fetchDistricts = async () => {
-          const response = await axios.get('https://api-rubin.multfilm.tatar/api/districts');
+          const response = await axios.get('https://dnevnik-api.rubin-kazan.ru/api/districts');
           setDistrictOptions([{id: 0, title: 'Не указан'}, ...response.data]);
       }
       fetchDistricts();

@@ -27,7 +27,7 @@ const NotificationFriends = ({sender, friendship, onClose, onMouseEnter, onMouse
 
         onClose();
 
-        const friendsUrl = `https://api-rubin.multfilm.tatar/api/friends/accept/${friendship}`;
+        const friendsUrl = `https://dnevnik-api.rubin-kazan.ru/api/friends/accept/${friendship}`;
 
         const response = await axios.post(friendsUrl, {friendshipId: friendship}, {
             headers: {
@@ -40,7 +40,7 @@ const NotificationFriends = ({sender, friendship, onClose, onMouseEnter, onMouse
     const handleDeleteFriendship = async (event, receiverId: number) => {
         const token = JSON.parse(localStorage.getItem('token') || '')
 
-        const friendsUrl = `https://api-rubin.multfilm.tatar/api/friends/remove/${receiverId}`;
+        const friendsUrl = `https://dnevnik-api.rubin-kazan.ru/api/friends/remove/${receiverId}`;
 
         await axios.delete(friendsUrl, {headers: {Authorization: `Bearer ${token}`}});
 

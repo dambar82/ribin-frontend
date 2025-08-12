@@ -30,7 +30,7 @@ const Page = () => {
     useEffect(() => {
         const fetchPage = async () => {
             try {
-                const response = await axios.get(`https://api-rubin.multfilm.tatar/api/pages/${url}`);
+                const response = await axios.get(`https://dnevnik-api.rubin-kazan.ru/api/pages/${url}`);
                 setPage(response.data.data)
             } catch (error) {
                 console.error('Ошибка при получении страницы:', error);

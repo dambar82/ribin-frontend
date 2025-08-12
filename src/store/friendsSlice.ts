@@ -32,7 +32,7 @@ const initialState: StudentsState = {
 };
 
 const $api = axios.create({
-    baseURL: 'https://api-rubin.multfilm.tatar'
+    baseURL: 'https://dnevnik-api.rubin-kazan.ru/'
 })
 
 $api.interceptors.request.use(config => {
@@ -44,7 +44,7 @@ $api.interceptors.request.use(config => {
 })
 
 export const fetchFriends = createAsyncThunk('friends/fetchFriends', async () => {
-    const friendsUrl = `https://api-rubin.multfilm.tatar/api/friends`;
+    const friendsUrl = `https://dnevnik-api.rubin-kazan.ru/api/friends`;
 
     const response = await $api.get(friendsUrl);
 

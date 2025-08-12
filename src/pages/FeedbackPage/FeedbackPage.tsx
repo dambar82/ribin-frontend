@@ -61,7 +61,7 @@ const FeedbackPage = () => {
             if (text) formData.append('message', text);
             if (files.length === 1) formData.append('image', files[0]);
 
-            const response = await axios.post('https://api-rubin.multfilm.tatar/api/clients/feedback', formData, {
+            const response = await axios.post('https://dnevnik-api.rubin-kazan.ru/api/clients/feedback', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                     'Authorization': `Bearer ${token}`

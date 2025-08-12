@@ -15,7 +15,7 @@ const initialState: CoachesState = {
 };
 
 export const fetchCoaches = createAsyncThunk('coaches/fetchCoaches', async () => {
-    const studentsUrl = `https://api-rubin.multfilm.tatar/api/request/academy-coaches`;
+    const studentsUrl = `https://dnevnik-api.rubin-kazan.ru/api/request/academy-coaches`;
 
     const response = await axios.get(studentsUrl, {
         headers: {
@@ -27,7 +27,7 @@ export const fetchCoaches = createAsyncThunk('coaches/fetchCoaches', async () =>
 });
 
 // export const fetchCoachById = createAsyncThunk('coaches/fetchCoachById', async ({coachId}: {coachId: number}) => {
-//     const response = await axios.get(`https://api-rubin.multfilm.tatar/api/request/academy-coaches${coachId}`)
+//     const response = await axios.get(`https://dnevnik-api.rubin-kazan.ru/api/request/academy-coaches${coachId}`)
 //
 //     return response.data as Coach;
 // })

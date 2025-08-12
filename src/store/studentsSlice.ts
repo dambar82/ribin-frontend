@@ -17,7 +17,7 @@ const initialState: StudentsState = {
 };
 
 export const fetchStudents = createAsyncThunk('students/fetchStudents', async () => {
-    const studentsUrl = `https://api-rubin.multfilm.tatar/api/request/students`;
+    const studentsUrl = `https://dnevnik-api.rubin-kazan.ru/api/request/students`;
 
     const response = await axios.get(studentsUrl, {
         headers: {
